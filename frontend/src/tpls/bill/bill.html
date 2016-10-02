@@ -1,44 +1,61 @@
 <div ng-controller="BillCtrl" class="row">
-      <div class="one-third column main">
-        <h4>支付方式</h4>
+      <div class="one-third column">
+        <!-- <h4>支付方式</h4> -->
         <div class="pay">
-          <div class="pay-item">
-            <h5>会员识别</h5>
-            <div>
-              <table class="u-full-width">
-                <tbody>
-                  <tr>
-                    <td><h6>实体会员卡</h6><p>
-                      请将会员卡放入感应区
-                    </p></td>
-                    <td><button class="button button-primary">读卡</button></td>
-                  </tr>
-                  <tr>
-                    <td><h6>微信会员识别</h6><p>
-                      顾客微信扫码
-                    </p></td>
-                    <td><button class="button button-primary">扫码</button></td>
-                  </tr>
-                  <tr>
-                    <td><h6>会员支付码</h6><p>
-                      扫顾客的会员支付码
-                    </p></td>
-                    <td><button class="button button-primary">扫码</button></td>
-                  </tr>
-                  <tr>
-                    <td><h6>会员搜索</h6><p>
-                      姓名/手机/会员号
-                    </p></td>
-                    <td><button class="button button-primary">搜索</button></td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-          <div class="pay-item">
-            <h5>优惠券</h5>
-            <div>
-              <table class="u-full-width">
+
+		<div class="panel-group"  role="tablist" aria-multiselectable="true" bs-collapse>
+		  <div class="panel panel-default pay-item">
+		    <div class="panel-heading" role="tab">
+		      <h4 class="panel-title">
+		        <a bs-collapse-toggle>
+		          会员识别
+		        </a>
+		      </h4>
+		    </div>
+		    <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+		      <div class="panel-body">
+		        <table class="u-full-width">
+	                <tbody>
+	                  <tr>
+	                    <td><h6>实体会员卡</h6><p>
+	                      请将会员卡放入感应区
+	                    </p></td>
+	                    <td><button class="button button-primary">读卡</button></td>
+	                  </tr>
+	                  <tr>
+	                    <td><h6>微信会员识别</h6><p>
+	                      顾客微信扫码
+	                    </p></td>
+	                    <td><button class="button button-primary">扫码</button></td>
+	                  </tr>
+	                  <tr>
+	                    <td><h6>会员支付码</h6><p>
+	                      扫顾客的会员支付码
+	                    </p></td>
+	                    <td><button class="button button-primary">扫码</button></td>
+	                  </tr>
+	                  <tr>
+	                    <td><h6>会员搜索</h6><p>
+	                      姓名/手机/会员号
+	                    </p></td>
+	                    <td><button class="button button-primary">搜索</button></td>
+	                  </tr>
+	                </tbody>
+	              </table>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-default pay-item">
+		    <div class="panel-heading" role="tab">
+		      <h4 class="panel-title">
+		        <a bs-collapse-toggle>
+		          优惠券
+		        </a>
+		      </h4>
+		    </div>
+		    <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+		      <div class="panel-body">
+		        <table class="u-full-width">
                 <tbody>
                   <tr>
                     <td><h6>扫码验券</h6></td>
@@ -46,68 +63,95 @@
                   </tr>
                   <tr>
                     <td><input type="text" class="u-full-width" placeholder="手动输入优惠码"></td> 
-                    <td><button class="button button-primary u-full-width">确认</button></td>
+                    <td><button class="button button-primary">确认</button></td>
                   </tr>
                 </tbody>
               </table>
-            </div>
-          </div>
-          <div class="pay-item">
-            <h5>打折</h5>
-            <div>
-              <table class="u-full-width">
+		      </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-default pay-item">
+		    <div class="panel-heading" role="tab">
+		      <h4 class="panel-title">
+		        <a bs-collapse-toggle>
+		          打折
+		        </a>
+		      </h4>
+		    </div>
+		    <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+		      <div class="panel-body">
+		        <table class="u-full-width">
                 <tbody>
                   <tr>
                     <td><h6>折扣（1～99）</h6></td>
-                    <td><input type="text" ></td>
+                    <td><input type="text" ng-model="discount"></td>
                   </tr>
-                  <tr>
+             <!--      <tr>
                     <td>打折前：</td>
-                    <td>¥50.00</td>
-                  </tr>
+					<td ng-bind="totalReal | currency:'¥' "></td>
+                  </tr> -->
                   <tr>
                     <td>打折后：</td>
-                    <td>¥45.00</td>
+                    <td ng-bind="totalReal | currency:'¥' "></td>
                   </tr>
                   <tr>
                     <td></td>
-                    <td><button class="button button-primary u-full-width">确认</button></td>
+                    <td><button class="button button-primary" ng-click="discountFunc(discount)">确认</button></td>
                   </tr>
                 </tbody>
               </table>
-            </div>
-          </div>
-          <div class="pay-item">
-            <h5>减免</h5>
-            <div>
-              <table class="u-full-width">
+		      </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-default pay-item">
+		    <div class="panel-heading" role="tab">
+		      <h4 class="panel-title">
+		        <a bs-collapse-toggle>
+		          减免
+		        </a>
+		      </h4>
+		    </div>
+		    <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+		      <div class="panel-body">
+		        <table class="u-full-width">
                 <tbody>
                   <tr>
                     <td><h6>减免金额：</h6></td>
-                    <td><input type="text" ></td>
+                    <td><input type="text" ng-model="reduce"></td>
                   </tr>
-                  <tr>
+                 <!--  <tr>
                     <td>减免前：</td>
-                    <td>¥50.00</td>
-                  </tr>
+                    <td ng-bind="totalReal | currency:'¥' "></td>
+                  </tr> -->
                   <tr>
                     <td>减免后：</td>
-                    <td>¥45.00</td>
+                    <td ng-bind="totalReal | currency:'¥' "></td>
                   </tr>
                   <tr>
                     <td></td>
-                    <td><button class="button button-primary u-full-width">确认</button></td>
+                    <td><button class="button button-primary" ng-click="reduceFunc(reduce)">确认</button></td>
                   </tr>
                 </tbody>
               </table>
-            </div>
-          </div>
-          <div class="pay-item">
-            <h5>免单</h5>
-            <div>
-              <button class="button button-primary btn-free">确认免单</button>
-            </div>
-          </div>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="panel panel-default pay-item">
+		    <div class="panel-heading" role="tab">
+		      <h4 class="panel-title">
+		        <a bs-collapse-toggle>
+		          免单
+		        </a>
+		      </h4>
+		    </div>
+		    <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+		      <div class="panel-body">
+		        <button class="button button-primary btn-free" ng-click="freeFunc()">确认免单</button>
+		      </div>
+		    </div>
+		  </div>
+
+		</div>
         </div>
       </div>
       <div class="one-third column main">
@@ -136,14 +180,14 @@
              <tr ng-repeat="cc in cookCart">
               <td>{{$index+1}}</td>
               <td ng-bind="cc.name"></td>
-              <td>2 
+              <td>{{cc.number}}
               </td>
-              <td ng-bind="cc.price"></td>
+              <td ng-bind="cc.price | currency:'¥' "></td>
             </tr>
           </tbody>
         </table>
-        <div><h4>合计： ¥52.00</h4></div>
-        <button class="button button-primary btn-bill">结算</button>
+        <div><h4>合计： <span class="" ng-bind="totalReal | currency:'¥' "> </h4></div>
+        <button class="button button-primary btn-bill" ng-click="billing()">结算</button>
       </div>
       <div class="one-third column side">
         <h4 class="center" style="margin-bottom:0;">订单详情</h4>
@@ -202,20 +246,25 @@
                 <tr ng-repeat="cc in cookCart">
 	              <td>{{$index+1}}</td>
 	              <td ng-bind="cc.name"></td>
-	              <td>2 
+	              <td>{{cc.number}}
 	              </td>
-	              <td ng-bind="cc.price"></td>
+	              <td ng-bind="cc.price | currency:'¥' "></td>
 	            </tr>
               </tbody>
             </table>
           </div>
-          
+          <div class="detail-item">
+            <span class="">
+              减免金额：
+            </span>
+            <span class="" ng-bind="total-totalReal | currency:'¥' ">
+            </span>
+          </div>
           <div class="detail-item">
             <span class="">
               订单合计：
             </span>
-            <span class="">
-              ¥50.00
+            <span class="" ng-bind="totalReal | currency:'¥' ">
             </span>
           </div>
 

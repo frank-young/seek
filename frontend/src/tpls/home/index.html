@@ -1,7 +1,7 @@
 <div ng-controller="HomeCtrl">
 	<div class="row">
       <div class="center" style="margin-top: 20%">
-        <button ui-sref="web.select" class="button-primary radius btn-start">点餐</button>
+        <button ui-sref="web.select" class="button-primary radius btn-start" ng-click="start()" ng-disabled="status">点餐</button>
       </div>
     </div>
 </div>

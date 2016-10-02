@@ -1,15 +1,16 @@
 <div class="navbar" ng-controller="NavCtrl">
     <div class="row">
-    <div class="three columns">
+    <div class="two columns">
       <div class="logo">
-        SEEK CAFE 收银系统 
+        SEEK CAFE
       </div>
     </div>
-      <div class="three columns">
-        <button class="button-primary">开班</button>
-        <button class="button">结班</button>
+      <div class="four columns"><button onclick="window.history.go(-1)" class="button">返回</button></div>
+      <div class="two columns">
+        <button class="button-primary" ng-click="startDay()" ng-show="status">开班</button>
+        <button class="button" ng-click="" ng-show="!status" data-animation="am-fade-and-scale" placement="center" data-template-url="stopView.tpl.html" bs-modal>结班</button>
       </div>  
-      <div class="two columns"> &nbsp;</div>
+      
       <div class="four columns">
         <div class="row">
           <div class="one-half column">
@@ -25,3 +26,113 @@
     </div>
   </div>
   <div class="content" ui-view></div>
+
+ <script type="text/ng-template" id="stopView.tpl.html">
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="cancleSchedule();$hide()">&times;</button>
+                    <h4 class="modal-title">结班</h4>
+                </div>
+                <div class="modal-body" >
+                  <div class="detail">
+          <div class="detail-item">
+            <span class="">
+              订单编号：
+            </span>
+            <span class="">
+              B34067201610010001
+            </span>
+          </div>
+          <div class="detail-item">
+            <span class="">
+              下单时间：
+            </span>
+            <span class="">
+              2016-10-01 19:23:20
+            </span>
+          </div>
+          <div class="detail-item">
+            <span class="">
+              订单状态：
+            </span>
+            <span class="">
+              已确认
+            </span>
+          </div>
+          <div class="detail-item">
+            <span class="">
+              支付方式：
+            </span>
+            <span class="">
+              无
+            </span>
+          </div>
+          <div class="detail-item">
+            <span class="">
+              用餐人数：
+            </span>
+            <span class="">
+              2
+            </span>
+          </div>
+          <div class="detail-item">
+            <table class="u-full-width">
+              <thead>
+                <tr>
+                  <th>序号</th>
+                  <th>名称</th>
+                  <th>数量</th>
+                  <th>单价</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr ng-repeat="cc in cookCart">
+                <td>{{$index+1}}</td>
+                <td ng-bind="cc.name"></td>
+                <td>{{cc.number}}
+                </td>
+                <td ng-bind="cc.price | currency:'¥' "></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="detail-item">
+            <span class="">
+              减免金额：
+            </span>
+            <span class="" ng-bind="total-totalReal | currency:'¥' ">
+            </span>
+          </div>
+          <div class="detail-item">
+            <span class="">
+              订单合计：
+            </span>
+            <span class="" ng-bind="totalReal | currency:'¥' ">
+            </span>
+          </div>
+
+        </div>
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="button " ng-click="$hide()">关闭</button>
+                <button type="button" class="button button-primary" ng-click="stopDay();$hide()">打印</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+

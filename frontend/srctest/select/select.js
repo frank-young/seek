@@ -13,18 +13,25 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 			{"value":2,"name":"零食","checked":false},
 			{"value":3,"name":"特色菜品","checked":false}
 		]
-		$scope.cookAll = [
-			{"name":"拿铁咖啡","price":"32.00","cate":0,"checked":false},
-			{"name":"南山咖啡","price":"32.00","cate":0,"checked":false},
-			{"name":"雀巢咖啡","price":"32.00","cate":0,"checked":false},
-			{"name":"摩卡咖啡","price":"32.00","cate":0,"checked":false},
-			{"name":"卡布奇诺","price":"32.00","cate":0,"checked":false},
-			{"name":"焦糖玛奇朵","price":"32.00","cate":0,"checked":false},
-			{"name":"马卡龙","price":"32.00","cate":1,"checked":false},
-			{"name":"蛋糕","price":"32.00","cate":2,"checked":false},
-			{"name":"冰淇淋","price":"32.00","cate":1,"checked":false},
-			{"name":"冰糖雪梨","price":"32.00","cate":3,"checked":false},
-		]
+
+		if(localStorage.cookAll !=null){
+			$scope.cookAll = JSON.parse(localStorage.cookAll)
+		}else{
+
+			$scope.cookAll = [
+				{"name":"拿铁咖啡","price":"28.00","cate":0,"checked":false,"number":0,"search":"ntkf"},
+				{"name":"南山咖啡","price":"18.00","cate":0,"checked":false,"number":0,"search":"nskf"},
+				{"name":"雀巢咖啡","price":"16.00","cate":0,"checked":false,"number":0,"search":"qckf"},
+				{"name":"摩卡咖啡","price":"25.00","cate":0,"checked":false,"number":0,"search":"mkkf"},
+				{"name":"卡布奇诺","price":"28.00","cate":0,"checked":false,"number":0,"search":"kbqn"},
+				{"name":"焦糖玛奇朵","price":"32.00","cate":0,"checked":false,"number":0,"search":"jtmqd"},
+				{"name":"马卡龙","price":"12.00","cate":1,"checked":false,"number":0,"search":"mkl"},
+				{"name":"蛋糕","price":"56.00","cate":2,"checked":false,"number":0,"search":"dg"},
+				{"name":"冰淇淋","price":"6.00","cate":1,"checked":false,"number":0,"search":"bql"},
+				{"name":"冰糖雪梨","price":"6.00","cate":3,"checked":false,"number":0,"search":"btxl"}
+			]
+		}
+
 		$scope.cook = []	// 分类显示的菜品
 		function selectDefault(value){	
 			$scope.cookAll.forEach(function(ele,index){
@@ -45,15 +52,26 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 			value.checked = true
 		}
 
-		if(localStorage.cook!=""){
+		$scope.search = ""
+		$scope.searchFunc = function(value){	// 搜索
+			// $scope.cook = $scope.cookAll
+			$scope.cook = $scope.cookAll.filter(function(ele){
+				if(ele.search.indexOf($scope.search)>=0){
+					return ele
+				}
+			})
+		}
+
+		if(localStorage.cook!=null){
 			$scope.cookCart = JSON.parse(localStorage.cook)
 		}else{
 			$scope.cookCart = []	// 选中的菜品
 
 		}
-		$scope.selectCook = function(value){	//选择分类
+		$scope.selectCook = function(value){	//选择菜品
 			value.checked = !value.checked		//添加选中标示
-			
+			value.number = 1	// 设置选择的默认数量
+
 			$scope.cookCart = $scope.cookAll.filter(function(ele){	//使用 filter 过滤出 checked = true 的对象
 				if(ele.checked==true){
 					return ele
@@ -61,15 +79,37 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 			})
 		}
 
-		$scope.add = function(){
-
+		$scope.add = function(value){
+			value.number += 1
 		}
-		$scope.reduce = function(){
+		$scope.reduce = function(value){
+			value.number -= 1
+			console.log('reduce')
+			if(value.number <= 0){
+				$scope.cookCart = $scope.cookCart.filter(function(ele){
+					if(ele.number!=0){
+						return ele
+					}
+				})
+				$scope.cookAll.forEach(function(ele,index){
+					if(ele.number <= 0){ 
+						ele.checked = false
+						ele.number = 0
+						// console.log(ele)
+					}
+					if(value.name == ele.name&&value.number == 0){
+						ele.number = 0
+						ele.checked = false
+					}
+				})
+				// localStorage.cookAll = JSON.stringify($scope.cookAll)
 
+			}
 		}
 
 		$scope.save = function(){	// 保存菜品到localStorage
 			localStorage.cook = JSON.stringify($scope.cookCart)
+			localStorage.cookAll = JSON.stringify($scope.cookAll)
 		}
 
 	}

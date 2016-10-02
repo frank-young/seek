@@ -1,20 +1,18 @@
 <div ng-controller="SelectCtrl" class="row">
       <div class="two-thirds column main">
-        <form action="" class="">
-          <input type="text" placeholder="搜索...">
-          <button class="button button-primary">搜索</button>
-        </form>
+          <input type="text" placeholder="拼音首字母搜索菜品..." ng-model="search" ng-keypress="searchFunc(search)">
+          <button type="button" class="button button-primary" ng-click="searchFunc(search)">搜索</button>
         <div class="row">
-          <div class="two columns" ng-repeat="ca in cate">
-          	<button ng-click="selectCate(ca)" class="button" ng-bind="ca.name" ng-class="{true: 'button-primary', false: ''}[ca.checked]"></button>
-          </div>
+          	<div class="two columns" ng-repeat="ca in cate">
+          		<button ng-click="selectCate(ca)" class="button" ng-bind="ca.name" ng-class="{true: 'button-primary', false: ''}[ca.checked]"></button>
+          	</div>
         </div>
         <div class="row">
 
           <div class="three columns" ng-repeat="c in cook">
               <a href="" class="card" ng-click="selectCook(c)" ng-class="{true: 'active', false: ''}[c.checked]">
                 <h3 class="center" ng-bind="c.name"></h3>
-                <p class="center">¥<span ng-bind="c.price"></span></p>
+                <p class="center"><span ng-bind="c.price | currency:'¥' "></span></p>
               </a>
           </div>
 
@@ -35,16 +33,15 @@
             <tr ng-repeat="cc in cookCart">
               <td>{{$index+1}}</td>
               <td ng-bind="cc.name"></td>
-              <td>2 
+              <td>{{cc.number}}
                 <span class="ctrl">
-                  <button class="button">-</button>
-
-                  <button class="button button-primary">+</button>
+                  <button class="button" ng-click="reduce(cc)">-</button>
+                  <button class="button button-primary" ng-click="add(cc)">+</button>
                 </span>
               </td>
-              <td ng-bind="cc.price"></td>
+              <td ng-bind="cc.price | currency:'¥' "></td>
             </tr>
-
+	
           </tbody>
         </table>
         <button ui-sref="web.bill" class="button button-primary btn-bill" ng-click="save()" ng-show="cookCart.length!=0">结算</button>

@@ -20,4 +20,14 @@ app.filter('time', function(){
     }
   };
 
+})
+
+app.filter('search', function(){
+  return function(value){
+    if(value){
+        
+        return content;
+    }
+  };
+
 });
