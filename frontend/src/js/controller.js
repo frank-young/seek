@@ -32,9 +32,9 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$window',
 		}
 
 		$scope.billing = function(){
-			localStorage.removeItem('cook')
-			localStorage.removeItem('cookAll')
-			window.location.href="#/index"
+			// localStorage.removeItem('cook')
+			// localStorage.removeItem('cookAll')
+			// window.location.href="#/index"
 		}
 	}
 ])
@@ -116,6 +116,7 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 		}else{
 
 			$scope.cookAll = [
+				{"name":"拿铁咖啡","price":"28.00","cate":0,"checked":false,"number":0,"search":"ntkf"},
 				{"name":"拿铁咖啡","price":"28.00","cate":0,"checked":false,"number":0,"search":"ntkf"},
 				{"name":"南山咖啡","price":"18.00","cate":0,"checked":false,"number":0,"search":"nskf"},
 				{"name":"雀巢咖啡","price":"16.00","cate":0,"checked":false,"number":0,"search":"qckf"},

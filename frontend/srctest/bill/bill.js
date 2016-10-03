@@ -32,9 +32,9 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$window',
 		}
 
 		$scope.billing = function(){
-			localStorage.removeItem('cook')
-			localStorage.removeItem('cookAll')
-			window.location.href="#/index"
+			// localStorage.removeItem('cook')
+			// localStorage.removeItem('cookAll')
+			// window.location.href="#/index"
 		}
 	}
 ])

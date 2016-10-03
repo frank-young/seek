@@ -36,84 +36,160 @@
                     <h4 class="modal-title">结班</h4>
                 </div>
                 <div class="modal-body" >
-                  <div class="detail">
-          <div class="detail-item">
-            <span class="">
-              订单编号：
-            </span>
-            <span class="">
-              B34067201610010001
-            </span>
-          </div>
-          <div class="detail-item">
-            <span class="">
-              下单时间：
-            </span>
-            <span class="">
-              2016-10-01 19:23:20
-            </span>
-          </div>
-          <div class="detail-item">
-            <span class="">
-              订单状态：
-            </span>
-            <span class="">
-              已确认
-            </span>
-          </div>
-          <div class="detail-item">
-            <span class="">
-              支付方式：
-            </span>
-            <span class="">
-              无
-            </span>
-          </div>
-          <div class="detail-item">
-            <span class="">
-              用餐人数：
-            </span>
-            <span class="">
-              2
-            </span>
-          </div>
-          <div class="detail-item">
-            <table class="u-full-width">
-              <thead>
-                <tr>
-                  <th>序号</th>
-                  <th>名称</th>
-                  <th>数量</th>
-                  <th>单价</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="cc in cookCart">
-                <td>{{$index+1}}</td>
-                <td ng-bind="cc.name"></td>
-                <td>{{cc.number}}
-                </td>
-                <td ng-bind="cc.price | currency:'¥' "></td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="detail-item">
-            <span class="">
-              减免金额：
-            </span>
-            <span class="" ng-bind="total-totalReal | currency:'¥' ">
-            </span>
-          </div>
-          <div class="detail-item">
-            <span class="">
-              订单合计：
-            </span>
-            <span class="" ng-bind="totalReal | currency:'¥' ">
-            </span>
-          </div>
-
-        </div>
+                  <div class="detail one-half column">
+                    <div class="detail-item">
+                      <span class="">
+                        订单编号：
+                      </span>
+                      <span class="">
+                        B34067201610010001
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="">
+                        下单时间：
+                      </span>
+                      <span class="">
+                        2016-10-01 19:23:20
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="">
+                        订单状态：
+                      </span>
+                      <span class="">
+                        已确认
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="">
+                        支付方式：
+                      </span>
+                      <span class="">
+                        无
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="">
+                        用餐人数：
+                      </span>
+                      <span class="">
+                        2
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <table class="u-full-width">
+                        <thead>
+                          <tr>
+                            <th>序号</th>
+                            <th>名称</th>
+                            <th>数量</th>
+                            <th>单价</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="cc in cookCart">
+                          <td>{{$index+1}}</td>
+                          <td ng-bind="cc.name"></td>
+                          <td>{{cc.number}}
+                          </td>
+                          <td ng-bind="cc.price | currency:'¥' "></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="detail-item">
+                      <span class="">
+                        减免金额：
+                      </span>
+                      <span class="" ng-bind="total-totalReal | currency:'¥' ">
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="">
+                        订单合计：
+                      </span>
+                      <span class="" ng-bind="totalReal | currency:'¥' ">
+                      </span>
+                    </div>
+                  </div>
+                  <div class="detail one-half column">
+                    <div class="detail-item">
+                      <span class="">
+                        订单编号：
+                      </span>
+                      <span class="">
+                        B34067201610010001
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="">
+                        下单时间：
+                      </span>
+                      <span class="">
+                        2016-10-01 19:23:20
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="">
+                        订单状态：
+                      </span>
+                      <span class="">
+                        已确认
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="">
+                        支付方式：
+                      </span>
+                      <span class="">
+                        无
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="">
+                        用餐人数：
+                      </span>
+                      <span class="">
+                        2
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <table class="u-full-width">
+                        <thead>
+                          <tr>
+                            <th>序号</th>
+                            <th>名称</th>
+                            <th>数量</th>
+                            <th>单价</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="cc in cookCart">
+                          <td>{{$index+1}}</td>
+                          <td ng-bind="cc.name"></td>
+                          <td>{{cc.number}}
+                          </td>
+                          <td ng-bind="cc.price | currency:'¥' "></td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div class="detail-item">
+                      <span class="">
+                        减免金额：
+                      </span>
+                      <span class="" ng-bind="total-totalReal | currency:'¥' ">
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span class="">
+                        订单合计：
+                      </span>
+                      <span class="" ng-bind="totalReal | currency:'¥' ">
+                      </span>
+                    </div>
+                  </div>
                 </div>
             <div class="modal-footer">
                 <button type="button" class="button " ng-click="$hide()">关闭</button>
