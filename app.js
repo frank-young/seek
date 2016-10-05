@@ -38,5 +38,5 @@ require('./config/routes')(app)
 app.locals.moment = require('moment')
 var server = app.listen(port)	//监听这个端口
 
-console.log('nanacrm start on port '+port)
+console.log('SeekCafe start on port '+port)
 

@@ -2,6 +2,7 @@ var Index = require('../app/controllers/index'),
     User = require('../app/controllers/user'),
     Domain = require('../app/controllers/domain'),
     Setting = require('../app/controllers/setting'),
+    Wechat = require('../app/controllers/wechat/wechat'),
     multipart = require('connect-multiparty'),
     multipartMiddleware = multipart()
 
@@ -39,5 +40,10 @@ module.exports = function(app){
   //user setting
   app.get('/setting', Setting.data)
   app.post('/setting/update', Setting.update)
+
+  // 微信端接口
+  app.get('/wechat/init',Wechat.init)
+  app.get('/wechat/token',Wechat.token)
+  app.get('/wechat/addmenu',Wechat.addMenu)
 
 }
