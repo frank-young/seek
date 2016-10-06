@@ -1,0 +1,47 @@
+include ./includes/head
+
+.container
+  .face
+    img(src="#{headimgurl}")
+  .weui-cells.weui-cells_form
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 用户名             
+      .weui-cell__bd
+        input.weui-input(type='text', placeholder='用户名',value='#{username}')         
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 城市             
+      .weui-cell__bd
+        input.weui-input(type='text', placeholder='城市',value='#{province}-#{city}') 
+    .weui-cell.weui-cell_vcode
+      .weui-cell__hd
+        label.weui-label 手机号           
+      .weui-cell__bd
+        input.weui-input(type='tel', placeholder='请输入手机号')           
+      .weui-cell__ft
+        a.weui-vcode-btn(href='javascript:;') 获取验证码 
+    .weui-cell
+      .weui-cell__hd
+        label.weui-label 验证码             
+      .weui-cell__bd
+        input.weui-input(type='number', pattern='[0-9]*', placeholder='请输入验证码')          
+.page.tabbar.js_show
+  .page__bd(style='height: 100%;')
+    .weui-tab
+      .weui-tab__panel       
+      .weui-tabbar
+        a.weui-tabbar__item(href='./userinfo')
+          img.weui-tabbar__icon(src='../backend/wechat/images/icon/icon_tabbar.png', alt='')          
+          p.weui-tabbar__label 微信
+        a.weui-tabbar__item(href='javascript:;')
+          img.weui-tabbar__icon(src='../backend/wechat/images/icon/icon_tabbar.png', alt='')
+          p.weui-tabbar__label 通讯录
+        a.weui-tabbar__item(href='javascript:;')
+          img.weui-tabbar__icon(src='../backend/wechat/images/icon/icon_tabbar.png', alt='')
+          p.weui-tabbar__label 发现
+        a.weui-tabbar__item.weui-bar__item_on(href='javascript:;')
+          img.weui-tabbar__icon(src='../backend/wechat/images/icon/icon_tabbar.png', alt='')
+          p.weui-tabbar__label 我
+
+include ./includes/foot

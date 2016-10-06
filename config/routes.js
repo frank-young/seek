@@ -45,5 +45,8 @@ module.exports = function(app){
   app.get('/wechat/init',Wechat.init)
   app.get('/wechat/token',Wechat.token)
   app.get('/wechat/addmenu',Wechat.addMenu)
+  app.get('/wechat/login',Wechat.login)
+  app.get('/wechat/userinfo',Wechat.userinfo)
+  app.get('/wechat/member_appaly',Wechat.memberAppaly)
 
 }

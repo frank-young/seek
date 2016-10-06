@@ -1,0 +1,22 @@
+body{
+	background-color: #f8f8f8;
+}
+.container{
+	/*margin: 0.75em;*/
+	background-color: #f8f8f8;
+}
+.tabbar{
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+.face{
+	margin-top: .75em;
+	text-align: center; 
+}
+.face img{
+	width: 100px;
+	height: 100px;
+
+}

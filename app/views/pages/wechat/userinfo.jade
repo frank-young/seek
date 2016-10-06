@@ -1,0 +1,24 @@
+include ./includes/head
+
+.page.tabbar.js_show
+  .page__bd(style='height: 100%;')
+    .weui-tab
+      .weui-tab__panel       
+      .weui-tabbar
+        a.weui-tabbar__item.weui-bar__item_on(href='javascript:;')
+          img.weui-tabbar__icon(src='../backend/wechat/images/icon/icon_tabbar.png', alt='')          
+          p.weui-tabbar__label 微信
+        a.weui-tabbar__item(href='javascript:;')
+          img.weui-tabbar__icon(src='../backend/wechat/images/icon/icon_tabbar.png', alt='')
+          p.weui-tabbar__label 通讯录
+        a.weui-tabbar__item(href='javascript:;')
+          img.weui-tabbar__icon(src='../backend/wechat/images/icon/icon_tabbar.png', alt='')
+          p.weui-tabbar__label 发现
+        a.weui-tabbar__item(href='./member_appaly')
+          img.weui-tabbar__icon(src='../backend/wechat/images/icon/icon_tabbar.png', alt='')
+          p.weui-tabbar__label 我
+
+include ./includes/foot
+
+
+
