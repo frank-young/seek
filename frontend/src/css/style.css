@@ -31,15 +31,18 @@ button[disabled]:focus{
 	top: 0;
 	left: 0;
 	width: 100%;
-	z-index: 10;
+	/*z-index: 10;*/
 	border-radius: 0;
 }
 .navbar div,
-.navbar button{
+.navbar button,
+.modal button{
 	color: #fff;
 }
 .navbar button:hover,
-.navbar button:focus{
+.navbar button:focus,
+.modal button:hover,
+.modal button:focus{
 	color: #fff;
 }
 .navbar:after,
@@ -61,6 +64,12 @@ button[disabled]:focus{
 	overflow-y: auto;
 	height: 85%;
 }
+.bill-main{
+	width: 34.6666666667% !important;
+	padding-right: 4.5%;
+	position: relative;
+	right: -30px;
+}
 .side{
 	background-color: #fff;
 	height: 94%;
@@ -69,6 +78,10 @@ button[disabled]:focus{
 	right: -30px;
 	padding: 30px;
 	overflow-y: auto;
+
+}
+.bill-side {
+	margin-left: 0;
 }
 .content .three.columns{
 	margin-left: 0;
@@ -143,11 +156,19 @@ button[disabled]:focus{
 }
 .detail{
 	padding: 30px;
-	width:280px;
+	width:220px;
 	margin: 0 auto;
+	font-size: 14px;
 }
+.detail h5{
+	font-size: 18px;
+}
+
 .detail-item{
 	text-align: left;
+}
+.pay td{
+	border-bottom: 0;
 }
 .pay-item h6,
 .pay-item p,
@@ -226,6 +247,19 @@ button[disabled]:focus{
 .collapse.in {
     display: block;
 }
+/*搜索会员弹窗*/
+.modal-member{
+
+}
+.modal-member .search-content{
+	text-align: left;
+}
+.modal-member .search-content input.search{
+	    padding: 24px;
+    font-size: 18px;
+    width: 345px;
+    margin-right: 20px;
+}
 /* 模态弹窗 */
 .modal-open {
     overflow: hidden;
@@ -262,8 +296,8 @@ button[disabled]:focus{
     border: 1px solid rgba(0,0,0,.2);
     border-radius: 6px;
     outline: 0;
-    -webkit-box-shadow: 0 20px 30px 10px rgba(0,0,0,.3);
-    box-shadow: 0 20px 30px 10px rgba(0,0,0,.3);
+    -webkit-box-shadow: 0 0 10px rgba(0,0,0,.3);
+    box-shadow: 0 0 10px rgba(0,0,0,.3);
 
 }
 .modal-content h4{
@@ -280,7 +314,7 @@ button[disabled]:focus{
 }
 .modal-body {
     position: relative;
-    padding: 15px;
+    padding: 20px;
     overflow: auto;
     height: 460px;
 }
@@ -292,7 +326,7 @@ button[disabled]:focus{
 .close{
 	position: absolute;
     right: 0;
-    top: 0;
+    top: 12px;
     font-size: 30px;
     margin-bottom: 0;
     border: none;
@@ -301,12 +335,62 @@ button[disabled]:focus{
     position: fixed;
     top: 0;
     left: 0;
+    background-color: rgba(0,0,0,0.7) !important;
     z-index: 10 !important;
 }
 
+/* 结账单打印预览 */
+.print-view{
+	
+}
+.print-view hr {
+	margin-top: 1.8rem;
+    margin-bottom: 1.8rem;
+    border-top: 1px dashed #000;
+}
 
+.print-view th{
+	/*text-align: center;*/
+}
 
+.print-view td{
+	border-bottom: 0;
 
+}
+.print-view th:nth-of-type(2){
+	text-align: center;
+}	
+.print-view td:nth-of-type(2){
+	text-align: center;
+}	
+/**/
+.billlist button{
+	margin-bottom: 0;
+}
+/*打印部分样式*/
+@media print{
+	.no-print{
+		display: none;
+	}
+	.print-view{
+		display: block !important;
+	}
+	.detail{
+		padding: 0;
+		margin: 0;
+		width: 180px;
+		color: #000;
+		font-family: '微软雅黑';
+		font-weight: 300;
+		font-size: 12px;
+	}
+	.detail th{
+		font-weight: 300;
+	}
+}
+@page:first {
+  margin:10px;
+}
 
 
 

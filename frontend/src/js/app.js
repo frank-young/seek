@@ -7,7 +7,8 @@ var app = angular.module('app', [
         'navMoudle',
         'homeMoudle',
         'selectMoudle',
-        'billMoudle'
+        'billMoudle',
+        'billlistMoudle',
 
         ]);  
 
@@ -22,7 +23,6 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('web', {
             url: '',
             templateUrl: 'tpls/nav.html'
-
         })
         .state('web.home', {
             url: '/index',
@@ -41,6 +41,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('web.bill', {
             url: '/bill',
             templateUrl: 'tpls/bill/bill.html',
+            data:{
+                title:"点餐"
+            }
+        })
+        .state('web.billlist', {
+            url: '/billlist',
+            templateUrl: 'tpls/bill/billlist.html',
             data:{
                 title:"点餐"
             }
