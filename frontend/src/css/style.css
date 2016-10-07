@@ -251,11 +251,14 @@ button[disabled]:focus{
 .modal-member{
 
 }
+.modal-member .modal-body{
+	padding: 30px;
+}
 .modal-member .search-content{
 	text-align: left;
 }
 .modal-member .search-content input.search{
-	    padding: 24px;
+	padding: 24px;
     font-size: 18px;
     width: 345px;
     margin-right: 20px;

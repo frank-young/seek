@@ -44,7 +44,8 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 
 		selectDefault(0)	//默认选择第一个分类
 
-		$scope.selectCate = function(value){	//选择分类
+		//选择分类
+		$scope.selectCate = function(value){	
 			$scope.cook = [];
 			$scope.cate.forEach(function(ele,index){
 				ele.checked = false
@@ -52,9 +53,10 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 			selectDefault(value.value)
 			value.checked = true
 		}
-
+		
+		// 搜索
 		$scope.search = ""
-		$scope.searchFunc = function(value){	// 搜索
+		$scope.searchFunc = function(value){
 			// $scope.cook = $scope.cookAll
 			$scope.cook = $scope.cookAll.filter(function(ele){
 				if(ele.search.indexOf($scope.search)>=0){
@@ -63,13 +65,15 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 			})
 		}
 
+		// 从本地读取菜品，从确认订单页面返回时需要
 		if(localStorage.cook!=null){
 			$scope.cookCart = JSON.parse(localStorage.cook)
 		}else{
 			$scope.cookCart = []	// 选中的菜品
 
 		}
-		$scope.selectCook = function(value){	//选择菜品
+		//选择菜品
+		$scope.selectCook = function(value){	
 			value.checked = !value.checked		//添加选中标示
 			value.number = 1	// 设置选择的默认数量
 
@@ -80,9 +84,12 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 			})
 		}
 
+		// 增加菜品数量
 		$scope.add = function(value){
 			value.number += 1
 		}
+
+		// 减少菜品数量
 		$scope.reduce = function(value){
 			value.number -= 1
 			console.log('reduce')
@@ -98,7 +105,7 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 						ele.number = 0
 						// console.log(ele)
 					}
-					if(value.name == ele.name&&value.number == 0){
+					if(value.name == ele.name&&value.number == 0){	// 需要考虑从bill页面返回过来时的状态
 						ele.number = 0
 						ele.checked = false
 					}
@@ -108,6 +115,7 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 			}
 		}
 
+		// 选中菜品
 		$scope.save = function(){	// 保存菜品到localStorage
 			localStorage.cook = JSON.stringify($scope.cookCart)
 			localStorage.cookAll = JSON.stringify($scope.cookAll)

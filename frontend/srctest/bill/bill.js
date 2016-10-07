@@ -17,6 +17,52 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$window',
 			people:2
 		} 
 
+		$scope.memberAll = [
+			{
+				name:'徐奥林',
+				phone:'18694039343',
+				time:1492837482382
+
+			},
+			{
+				name:'杨军',
+				phone:'18608164404',
+				time:1492837482382
+
+			},
+			{
+				name:'刘洋',
+				phone:'18694033083',
+				time:1492837482382
+
+			},
+			{
+				name:'徐奥林',
+				phone:'18694039183',
+				time:1492837482382
+
+			},
+			{
+				name:'徐奥林',
+				phone:'18691239283',
+				time:1492837482382
+
+			},
+			{
+				name:'徐奥林',
+				phone:'1869445683',
+				time:1492837482382
+
+			},
+			{
+				name:'徐奥林',
+				phone:'1869384283',
+				time:1492837482382
+
+			},
+
+		]
+
 		$scope.total = 0
 		$scope.totalReal = 0
 
@@ -52,8 +98,26 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$window',
 			localStorage.removeItem('cookAll')
 			window.location.href="#/index"
 		}
+
+		// 搜索会员用户
+		$scope.search = ""
+		$scope.searchMember = function(value){
+			$scope.member = $scope.memberAll.filter(function(ele){
+				if(ele.phone.indexOf($scope.search)>=0){
+					console.log(ele.phone)
+					return ele
+				}
+			})
+		}
+
 	}
 ])
+
+
+
+
+
+
 
 
 

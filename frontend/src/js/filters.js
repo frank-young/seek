@@ -47,7 +47,6 @@ app.filter('datetime', function(){
 app.filter('search', function(){
   return function(value){
     if(value){
-        
         return content;
     }
   };
