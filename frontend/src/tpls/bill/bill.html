@@ -185,12 +185,16 @@
             </tr>
           </tbody>
         </table>
-        <div><h4>合计： <span class="" ng-bind="totalReal | currency:'¥' "> </h4></div>
+        <div><h4>合计： <span class="" ng-bind="totalReal | currency:'¥' "></span></h4></div>
         <button class="button button-primary btn-bill" ng-click="billing()">结算</button>
       </div>
       <div class="one-third column side print-view bill-side">
+        <!--startprintbill-->
+        <object  id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0
+               <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
+        </object>
         <div class="detail" id="print">
-        <h5 class="center" style="margin-bottom:20px;">SEEK CAFE 结账单</h5>
+          <h5 class="center" style="margin-bottom:20px;">SEEK CAFE 结账单</h5>
           <div class="detail-item">
             <span class="">
               店铺地址：
@@ -288,6 +292,7 @@
           </div>
           <hr>
         </div>
+        <!--endprintbill-->
         <!-- <button class="button  btn-bill">清空</button> -->
       </div>
     </div>

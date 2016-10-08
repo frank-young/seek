@@ -90,15 +90,29 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$window',
 
 		// 结算
 		$scope.billing = function(){
-			var ele = document.getElementById('print')
-			document.getElementsByTagName('body')[0].appendChild(ele)
-			window.print()
+			printFunc()
 
 			localStorage.removeItem('cook')
 			localStorage.removeItem('cookAll')
 			window.location.href="#/index"
 		}
 
+		function printFunc(){
+			var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
+			var ele = document.getElementById('print'),
+				content = document.getElementById('print-content')
+
+			// content.appendChild(ele)
+			// window.print()
+			// content.innerHTML = ""
+
+			LODOP.ADD_PRINT_HTM(10,10,220,ele.offsetHeight,ele.innerHTML)
+			LODOP.SET_PRINT_STYLE("FontSize",12)
+			// LODOP.SET_PRINT_PAGESIZE(1,580,intPageHeight,strPageName)
+			LODOP.PRINT()
+
+
+		} 
 		// 搜索会员用户
 		$scope.search = ""
 		$scope.searchMember = function(value){
