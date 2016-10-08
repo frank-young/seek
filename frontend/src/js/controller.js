@@ -14,48 +14,56 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$window',
 			number:'B34067201610010001',
 			time: new Date(),
 			status:'已确认',
-			people:2
-		} 
+			people:localStorage.peopleNumber
+		}
+
 
 		$scope.memberAll = [
 			{
 				name:'徐奥林',
+				card:'01232',
 				phone:'18694039343',
 				time:1492837482382
 
 			},
 			{
 				name:'杨军',
+				card:'01232',
 				phone:'18608164404',
 				time:1492837482382
 
 			},
 			{
 				name:'刘洋',
+				card:'01232',
 				phone:'18694033083',
 				time:1492837482382
 
 			},
 			{
 				name:'徐奥林',
+				card:'01232',
 				phone:'18694039183',
 				time:1492837482382
 
 			},
 			{
 				name:'徐奥林',
+				card:'01232',
 				phone:'18691239283',
 				time:1492837482382
 
 			},
 			{
 				name:'徐奥林',
+				card:'01232',
 				phone:'1869445683',
 				time:1492837482382
 
 			},
 			{
 				name:'徐奥林',
+				card:'01232',
 				phone:'1869384283',
 				time:1492837482382
 
@@ -94,9 +102,10 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$window',
 
 			localStorage.removeItem('cook')
 			localStorage.removeItem('cookAll')
+			localStorage.removeItem('peopleNumber')
 			window.location.href="#/index"
 		}
-
+		// 打印函数
 		function printFunc(){
 			var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
 			var ele = document.getElementById('print'),
@@ -115,10 +124,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$window',
 		} 
 		// 搜索会员用户
 		$scope.search = ""
+		$scope.member = $scope.memberAll
 		$scope.searchMember = function(value){
+			console.log(value)
 			$scope.member = $scope.memberAll.filter(function(ele){
-				if(ele.phone.indexOf($scope.search)>=0){
-					console.log(ele.phone)
+				if(ele.phone.indexOf(value)>=0){
 					return ele
 				}
 			})
@@ -178,18 +188,116 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
  *                                                     首页
  ********************************************************************************************************************/
 
-angular.module("homeMoudle", []).controller('HomeCtrl', 
-  ['$scope','$rootScope','$window',
-  function($scope,$rootScope,$window) {
+angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location',
+  	function($scope,$rootScope,$window,$location) {
 
-	  $window.document.title = "seek cafe";
+		$window.document.title = "seek cafe";
 
-	  $scope.start = function(){
-	  	localStorage.removeItem('cookAll')
-	  	localStorage.removeItem('cook')
-	  }
+		// 选择用餐人数
+		$scope.people = [1,2,3,4,5,6,7,8,9,10,11,12]
+		$scope.pNum = 1
+		$scope.showNumber = function(value){
+			$scope.pNum = value
+		}
+		//开始点餐，
+		$scope.start = function(){
+			//存储用餐人数
+			localStorage.peopleNumber = $scope.pNum
+			//删除已有的本地菜品纪录
+		  	localStorage.removeItem('cookAll')
+		  	localStorage.removeItem('cook')
+		  	$window.location.href="#/select"
+		}
+		
+	}
+])
 
-}])
+
+
+;/********************************************************************************************************************
+ *                                                     会员信息
+ ********************************************************************************************************************/
+
+angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScope','$window',
+  	function($scope,$rootScope,$window) {
+
+		$window.document.title = "会员信息"
+		$scope.memberAll = [
+			{
+				name:'徐奥林',
+				card:'01213',
+				phone:'18694039343',
+				time:1492837482382
+
+			},
+			{
+				name:'杨军',
+				card:'01213',
+				phone:'18608164404',
+				time:1492837482382
+
+			},
+			{
+				name:'刘洋',
+				card:'01213',
+				phone:'18694033083',
+				time:1492837482382
+
+			},
+			{
+				name:'徐奥林',
+				card:'01213',
+				phone:'18694039183',
+				time:1492837482382
+
+			},
+			{
+				name:'徐奥林',
+				card:'01213',
+				phone:'18691239283',
+				time:1492837482382
+
+			},
+			{
+				name:'徐奥林',
+				card:'01213',
+				phone:'1869445683',
+				time:1492837482382
+
+			},
+			{
+				name:'徐奥林',
+				card:'01213',
+				phone:'1869384283',
+				time:1492837482382
+
+			}
+
+		]
+		// 搜索会员用户
+		$scope.search = ""
+		$scope.member = $scope.memberAll
+		$scope.searchMember = function(value){
+			$scope.member = $scope.memberAll.filter(function(ele){
+				if(ele.phone.indexOf(value)>=0){
+					return ele
+				}
+			})
+		}
+
+		// 添加会员
+		$scope.addMember = function(){
+			// 直接向服务器发送信息，需要考虑微信会员的那块
+		}
+
+	}
+])
+
+
+
+
+
+
 
 
 
@@ -207,16 +315,24 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  	}, 1000)
 	  	setTime()
 
-	  	$rootScope.status = true;
-	  	$scope.startDay = function(){
-	  		$rootScope.status = false
+	  	
+	  	if(localStorage.starDay != null){
+  			$rootScope.status = false;
+  		}else{
+  			$rootScope.status = true;
+  		}
 
+	  	// 开班
+	  	$scope.startDay = function(){
+  			$rootScope.status = false
 	  		$scope.time = new Date()	// 开班时间
-	  		console.log($scope.time)
+  			console.log($scope.time)
+  			localStorage.starDay = 1
 	  	}
+	  	// 结班
 	  	$scope.stopDay = function(){
 	  		$rootScope.status = true
-	  		
+	  		localStorage.removeItem('starDay')
 	  		$scope.time = new Date()	// 结班时间
 	  		console.log($scope.time)
 

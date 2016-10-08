@@ -12,16 +12,24 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  	}, 1000)
 	  	setTime()
 
-	  	$rootScope.status = true;
-	  	$scope.startDay = function(){
-	  		$rootScope.status = false
+	  	
+	  	if(localStorage.starDay != null){
+  			$rootScope.status = false;
+  		}else{
+  			$rootScope.status = true;
+  		}
 
+	  	// 开班
+	  	$scope.startDay = function(){
+  			$rootScope.status = false
 	  		$scope.time = new Date()	// 开班时间
-	  		console.log($scope.time)
+  			console.log($scope.time)
+  			localStorage.starDay = 1
 	  	}
+	  	// 结班
 	  	$scope.stopDay = function(){
 	  		$rootScope.status = true
-	  		
+	  		localStorage.removeItem('starDay')
 	  		$scope.time = new Date()	// 结班时间
 	  		console.log($scope.time)
 

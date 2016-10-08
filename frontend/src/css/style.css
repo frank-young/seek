@@ -131,6 +131,10 @@ button[disabled]:focus{
 .center{
 	text-align: center;
 }
+.right{
+	text-align: right;
+}
+
 .radius{
 	border-radius: 50px;
 
@@ -395,10 +399,73 @@ button[disabled]:focus{
   margin:10px;
 }
 
+/*首页*/
+.modal-people .modal-body{
+	height: 240px;
+}
+.modal-people .modal-body>.row{
+	margin-left: 40px;
+    margin-top: 20px;
 
-
-
-
+}
+.modal-people .button.btn-p{
+	color: #333
+}
+.no-margin{
+	margin: 0 10px 20px 10px !important;
+}
+.p-radio{
+	width: 40px;
+	padding: 5px 30px;
+	height: 40px;
+	line-height: 40px;
+	font-size: 24px;
+	position: relative;
+	
+}
+.p-radio-i {
+	position: absolute;
+	left: 0;
+	top: 0;
+	display: block;
+	z-index: 10;
+	width: 102px !important;
+	height: 52px !important;
+	opacity: 0;
+	cursor: pointer;
+}
+.p-radio-i + span{
+	position: absolute;
+	left: 0;
+	top: 0;
+	line-height: 50px;
+	z-index: 0;
+	width: 102px;
+	height: 52px;
+	border: 1px solid #999;
+	border-radius: 5px;
+	
+}
+.p-radio-i:checked + span{
+	background-color: #33C3F0;
+	border: 1px solid #33C3F0;
+	color: #fff;
+}
+.p-sure{
+	padding: 10px 40px;
+	height: 50px;
+	line-height: 30px;
+	margin-top: 20px;
+}
+/*会员信息*/
+.member-i{
+	font-size: 18px;
+}
+.member-i input{
+	width: 280px;
+	font-size: 18px;
+	padding: 20px 15px !important;
+}
 
 
 

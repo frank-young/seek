@@ -14,48 +14,56 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$window',
 			number:'B34067201610010001',
 			time: new Date(),
 			status:'已确认',
-			people:2
-		} 
+			people:localStorage.peopleNumber
+		}
+
 
 		$scope.memberAll = [
 			{
 				name:'徐奥林',
+				card:'01232',
 				phone:'18694039343',
 				time:1492837482382
 
 			},
 			{
 				name:'杨军',
+				card:'01232',
 				phone:'18608164404',
 				time:1492837482382
 
 			},
 			{
 				name:'刘洋',
+				card:'01232',
 				phone:'18694033083',
 				time:1492837482382
 
 			},
 			{
 				name:'徐奥林',
+				card:'01232',
 				phone:'18694039183',
 				time:1492837482382
 
 			},
 			{
 				name:'徐奥林',
+				card:'01232',
 				phone:'18691239283',
 				time:1492837482382
 
 			},
 			{
 				name:'徐奥林',
+				card:'01232',
 				phone:'1869445683',
 				time:1492837482382
 
 			},
 			{
 				name:'徐奥林',
+				card:'01232',
 				phone:'1869384283',
 				time:1492837482382
 
@@ -94,9 +102,10 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$window',
 
 			localStorage.removeItem('cook')
 			localStorage.removeItem('cookAll')
+			localStorage.removeItem('peopleNumber')
 			window.location.href="#/index"
 		}
-
+		// 打印函数
 		function printFunc(){
 			var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
 			var ele = document.getElementById('print'),
@@ -115,10 +124,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$window',
 		} 
 		// 搜索会员用户
 		$scope.search = ""
+		$scope.member = $scope.memberAll
 		$scope.searchMember = function(value){
+			console.log(value)
 			$scope.member = $scope.memberAll.filter(function(ele){
-				if(ele.phone.indexOf($scope.search)>=0){
-					console.log(ele.phone)
+				if(ele.phone.indexOf(value)>=0){
 					return ele
 				}
 			})

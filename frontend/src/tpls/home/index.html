@@ -1,10 +1,46 @@
+<style>
+	.back{
+		display: none;
+	}
+</style>
 <div ng-controller="HomeCtrl">
 	<div class="row">
-      	<div class="center" style="margin-top: 20%">
-        	<button ui-sref="web.select" class="button-primary radius btn-start" ng-click="start()" ng-disabled="status">点餐</button>
-      	</div>
-      	<div class="center" style="margin-top: 10%">
+      	<div class="right one-third column" style="margin-top: 20%">
         	<button ui-sref="web.billlist" class="button radius btn-start" ng-disabled="status">订单列表</button>
+		</div>
+		<div class="center one-third column" style="margin-top: 20%">
+        	<button  class="button-primary radius btn-start" ng-disabled="status" data-animation="am-fade-and-scale" placement="center" data-template-url="people.tpl.html" bs-modal>点餐</button>
+      	</div>
+
+		<div class="one-third column" style="margin-top: 20%">
+        	<button ui-sref="web.member" class="button radius btn-start" ng-disabled="status">会员</button>
 		</div>
     </div>
 </div>
+
+ <script type="text/ng-template" id="people.tpl.html">
+    <div class="modal modal-people" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="cancleSchedule();$hide()">&times;</button>
+                    <h4 class="modal-title">选择用餐人数</h4>
+                </div>
+                <div class="modal-body" >
+					<div class="row">
+					    <div class="two columns no-margin" ng-repeat="p in people">
+							<div class="p-radio">
+								<input class="p-radio-i" type="radio" name="people" id="peopleLabel" ng-click="showNumber(p)" value="{{pNum}}"><span>{{p}}</span>
+								
+							</div>
+					    </div>
+					</div> 
+					<button class="button button-primary p-sure" ng-click="start()">确认</button>                
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="button " ng-click="$hide()">关闭</button>
+            </div>
+        </div>
+        </div>
+    </div>
+</script>

@@ -307,15 +307,15 @@
                 </div>
                 <div class="modal-body" >
                   <div class="search-content">
-                      <input class="search" autofocus type="text" placeholder="输入手机号查找..." ng-model="search" >
+                      <input class="search" autofocus type="text" placeholder="输入手机号查找..." ng-model="search" ng-keypress="searchMember(search)">
                        <!-- ng-keypress="searchMember()" -->
-                      <button type="button" class="button button-primary" ng-click="searchMember()">搜索</button>
+                      <button type="button" class="button button-primary" ng-click="searchMember(search)">搜索</button>
                   </div>
                   <table class="u-full-width">
                     <thead>
                       <tr>
-                        <th>序号</th>
                         <th>姓名</th>
+                        <th>卡号</th>
                         <th>手机号</th>
                         <th>开卡时间</th>
                         <th>操作</th>
@@ -323,8 +323,8 @@
                     </thead>
                     <tbody>
                        <tr ng-repeat="m in member">
-                        <td>{{$index+1}}</td>
                         <td ng-bind="m.name"></td>
+                        <td ng-bind="m.card"></td>
                         <td ng-bind="m.phone"></td>
                         <td ng-bind="m.time | datetime"></td>
                         <td> 

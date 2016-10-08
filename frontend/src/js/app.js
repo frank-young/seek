@@ -9,7 +9,7 @@ var app = angular.module('app', [
         'selectMoudle',
         'billMoudle',
         'billlistMoudle',
-
+        'memberMoudle'
         ]);  
 
 app.run(function($rootScope, $state, $stateParams) {
@@ -42,14 +42,21 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/bill',
             templateUrl: 'tpls/bill/bill.html',
             data:{
-                title:"点餐"
+                title:"订单"
             }
         })
         .state('web.billlist', {
             url: '/billlist',
             templateUrl: 'tpls/bill/billlist.html',
             data:{
-                title:"点餐"
+                title:"订单列表"
+            }
+        })
+        .state('web.member', {
+            url: '/member',
+            templateUrl: 'tpls/member/member.html',
+            data:{
+                title:"会员信息"
             }
         })
         
