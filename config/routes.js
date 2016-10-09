@@ -2,8 +2,8 @@ var Index = require('../app/controllers/index'),
     User = require('../app/controllers/user'),
     Domain = require('../app/controllers/domain'),
     Setting = require('../app/controllers/setting'),
-    // Dish = require('../app/controllers/dish/dish'),
-    // Cate = require('../app/controllers/dish/cate'),
+    Dish = require('../app/controllers/dish/dish'),
+    Cate = require('../app/controllers/dish/cate'),
     // Order = require('../app/controllers/order/order'),
     Wechat = require('../app/controllers/wechat/wechat'),
     multipart = require('connect-multiparty'),
@@ -42,23 +42,22 @@ module.exports = function(app){
   app.post('/domain/update', User.signinRequired,Domain.domainRequired, Domain.update)
   app.get('/domain/detail', User.signinRequired,Domain.domainRequired, Domain.detail)
 
-  //菜品信息
-  // app.get('/dish',User.signinRequired, Dish.list )
-  // app.post('/dish/add',User.signinRequired, Dish.add )
-  // app.post('/dish/update', User.signinRequired, Dish.update)
-  // app.get('/dish/detail/:id', User.signinRequired, Dish.detail)
-  // app.delete('/dish/delete',User.signinRequired, Dish.del)
+  // 菜品信息
+  app.get('/dish',User.signinRequired, Dish.list)
+  app.post('/dish/add',User.signinRequired, Dish.save)
+  app.post('/dish/update', User.signinRequired, Dish.update)
+  app.get('/dish/detail/:id', User.signinRequired, Dish.detail)
+  app.delete('/dish/delete',User.signinRequired, Dish.del)
 
   //菜品分类
-  // app.get('/cate',User.signinRequired, Cate.list )
-  // app.post('/cate/add',User.signinRequired, Cate.add )
-  // app.post('/cate/update', User.signinRequired, Cate.update)
-  // app.get('/cate/detail/:id', User.signinRequired, Cate.detail)
-  // app.delete('/cate/delete',User.signinRequired, Cate.del)
-  // 
+  app.get('/cate',User.signinRequired, Cate.list)
+  app.post('/cate/add',User.signinRequired, Cate.save)
+  app.post('/cate/update', User.signinRequired, Cate.update)
+  app.delete('/cate/delete',User.signinRequired, Cate.del)
+
   //订单信息
   // app.get('/order',User.signinRequired, Order.list )
-  // app.post('/order/add',User.signinRequired, Order.add )
+  // app.post('/order/add',User.signinRequired, Order.save )
   // app.post('/order/update', User.signinRequired, Order.update)
   // app.get('/order/detail/:id', User.signinRequired, Order.detail)
   // app.delete('/order/delete',User.signinRequired, Order.del)
