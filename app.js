@@ -10,7 +10,7 @@ var cookieSession = require('cookie-session')
 var port = process.env.PORT || 3000	//设置端口
 var app = express()		//启动一个web服务器
 var dbUrl = 'mongodb://127.0.0.1/nanadb'
-
+ 
 mongoose.connect(dbUrl)
 
 app.set('views','./app/views/pages')	//设置视图根目录
@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({extended: true}))	//这里转换后才能使用  
 app.use(bodyParser.json())
 
 app.use(express.static(path.join(__dirname,'frontend/src')))
+app.use('/admin',express.static(path.join(__dirname,'backend/src')))
 
 // app.use(multer())
 app.use(cookieParser())

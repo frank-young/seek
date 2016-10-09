@@ -2,15 +2,11 @@ doctype
 html
 html
   head
-      title SEEK CAFE收银系统-登录
+      title SEEK CAF 点餐系统-登录
       meta(charset='utf-8')
-      |     
       meta(name='viewport', content='width=device-width, initial-scale=1')
-      |     
       meta(http-equiv='x-ua-compatible', content='ie=edge')
-      |     
       link(rel='stylesheet', href='backend/libs/bootstrap/dist/css/bootstrap.min.css')
-      |     
       link(rel='stylesheet', href='backend/css/signup.css')
     body
       canvas#Mycanvas
@@ -18,20 +14,14 @@ html
         .row
           .sign-wrap
             form(id="f-signin")
-              h2 SEEK CAFE 收银系统
-              |                                         
+              h2 SEEK CAFE 点餐系统                                 
               .form-group
-                label.sr-only(for='inputEmail') 邮箱
-                |                         
-                input#inputEmail.form-control(name="user[email]",type='email', placeholder='邮箱地址', required='', autofocus='')
-                |                         
-                span.email
-              |                     
+                label.sr-only(for='inputEmail') 邮箱                  
+                input#inputEmail.form-control(name="user[email]",type='email', placeholder='邮箱地址', required='', autofocus='')                  
+                span.email              
               .form-group
-                label.sr-only(for='inputPassword') 密码
-                |                         
-                input#inputPassword.form-control(name="user[password]",type='password', placeholder='密码', required='')
-                |                         
+                label.sr-only(for='inputPassword') 密码                  
+                input#inputPassword.form-control(name="user[password]",type='password', placeholder='密码', required='')                 
                 span.password
               .form-group
                 .l-captcha(data-site-key="c49666894bc768a0d7c42957ccbad9f4",data-width="360",data-callback="getResponse")
@@ -40,11 +30,10 @@ html
                 div#f-alert.alert.alert-danger(role="alert")
               .form-group.mt-20
                 button#f-submit.btn.btn-lg.btn-primary.btn-block(type='submit') 登录
-              .form-group.mt-20.text-left
-                a(href="/register") 立即注册
-                a(href="/forgot",style="float:right") 忘记密码
+              .form-group.mt-20.text-center
+                a(href="/forgot") 忘记密码
         .footer
-          .text-center © 2016 呐呐科技 
+          .text-center © 2016 呐呐科技  
       script(src='backend/js/line.js')
       script(src="http://captcha.luosimao.com/static/js/api.js")
       script(src="backend/libs/jquery/dist/jquery.min.js")

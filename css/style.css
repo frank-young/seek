@@ -4,6 +4,10 @@ html,body{
 }
 body{
 	overflow: hidden;
+
+}
+div{
+	-webkit-font-smoothing: antialiased;
 }
 .button,
 .button-primary{

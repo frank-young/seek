@@ -1,15 +1,11 @@
-doctype html(lang='en')
+doctype
 html
   head
-      title SEEK CAFE 收银系统-添加域名
+      title SEEK CAFE 点餐系统-添加门店
       meta(charset='utf-8')
-      |     
       meta(name='viewport', content='width=device-width, initial-scale=1')
-      |     
       meta(http-equiv='x-ua-compatible', content='ie=edge')
-      |     
       link(rel='stylesheet', href='../backend/libs/bootstrap/dist/css/bootstrap.min.css')
-      |     
       link(rel='stylesheet', href='../backend/css/signup.css')
     body
       canvas#Mycanvas
@@ -18,11 +14,10 @@ html
           .sign-wrap
             form#f-domain
               //- method="POST", action="/domain/addctrl"
-              h2 添加域名
-              h3 您需要添加您的个性域名，在浏览器输入  yourdomain.nanacrm.com 就能访问了。                                   
-              .form-group.add-input                
-                input#inputEmail.form-control(name="domain[name]",type='text', placeholder='yourdomain', required='', autofocus='')                    
-                h3 .nanacrm.com
+              h2 添加门店
+              h3 输入门店名称或编号，添加门店
+              .form-group.add-input(style="margin-bottom:45px;")             
+                input#inputEmail.form-control(name="domain[name]",type='text', placeholder='门店编号', required='', autofocus='')                    
               .form-group
                 div#f-alert.alert.alert-danger(role="alert")            
               .form-group.mt-20

@@ -33,9 +33,11 @@ module.exports = function(app){
   app.get('/activation/:verify', User.signActivation)
   app.get('/admin/user/list', User.signinRequired,User.adminRequired, User.list)
   
-  // 域名信息设置
+  // 门店信息设置
   app.get('/domain/add',User.signinRequired,Domain.domainRequired, Domain.add )
   app.post('/domain/addctrl',User.signinRequired,Domain.domainRequired, Domain.addctrl )
+  app.post('/domain/update', User.signinRequired, Domain.update)
+  app.get('/domain/detail', User.signinRequired, Domain.detail)
 
   //user setting
   app.get('/setting', Setting.data)
