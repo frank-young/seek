@@ -8,7 +8,12 @@ var app = angular.module('app', [
         'angular-simditor',
         'homeMoudle',
         'navleftMoudle',
-        'navtopMoudle'
+        'navtopMoudle',
+        'serviceData',
+        'dishMoudle',
+        'dishAddMoudle',
+        'dishCateMoudle',
+        'dishDetailMoudle'
 
         ]);  
 
@@ -35,6 +40,22 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('web.clue', {
             url: '/clue',
             templateUrl: 'tpls/customer/clue.html'
+        })
+        .state('web.dish', {
+            url: '/dish',
+            templateUrl: 'tpls/dish/dish.html'
+        })
+        .state('web.dishCate', {
+            url: '/dishCate',
+            templateUrl: 'tpls/dish/dishcate.html'
+        })
+        .state('web.dishAdd', {
+            url: '/dishAdd',
+            templateUrl: 'tpls/dish/dishadd.html'
+        })
+        .state('web.dishDetail', {
+            url: '/dishDetail/:id',
+            templateUrl: 'tpls/dish/dishdetail.html'
         })
         
 });

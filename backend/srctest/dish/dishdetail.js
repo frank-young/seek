@@ -2,20 +2,20 @@
  *                                                      产品详情页面
  ********************************************************************************************************************/
 
-angular.module("productsDetailMoudle", []).controller('ProductsDetailCtrl', 
-    ['$scope','$window', '$http', '$stateParams','$alert','productData','cateData','Upload',
-    function($scope,$window, $http, $stateParams,$alert,productData,cateData, Upload) {
-	$window.document.title = "产品详情-呐呐CRM";
+angular.module("dishDetailMoudle", []).controller('DishDetailCtrl', 
+    ['$scope','$window', '$http', '$stateParams','$alert','dishData','cateData','Upload',
+    function($scope,$window, $http, $stateParams,$alert,dishData,cateData, Upload) {
+	$window.document.title = "菜品详情";
     /* 是否可编辑 */
 	$scope.isEdit = true;
 	/*产品分类*/
     cateData.getData().then(function(data){
         $scope.cate=data.cates;
-    })
+    }) 
     var date = new Date();
     /* 产品详情请求 */
-    productData.getIdData($stateParams.id).then(function (data) {
-       $scope.product=data.product; 
+    dishData.getIdData($stateParams.id).then(function (data) {
+       $scope.dish=data.dish; 
 
     });
     $scope.mulImages = [];
@@ -23,10 +23,10 @@ angular.module("productsDetailMoudle", []).controller('ProductsDetailCtrl',
         $scope.selectImage($scope.files);
     });
 
-    $scope.saveProduct = function(value){
-        productData.updateData(value).then(function(data){
+    $scope.saveDish = function(value){
+        dishData.updateData(value).then(function(data){
             $scope.changeAlert(data.msg);
-        });
+        })
     }
 
     //根据选择的图片来判断 是否为一下子选择了多张
@@ -57,10 +57,10 @@ angular.module("productsDetailMoudle", []).controller('ProductsDetailCtrl',
     $scope.deteleShowImage = function(value){
         var delconfirm = confirm('是否要删除这张图片？');
         if(delconfirm){
-            var index = $scope.product.path.indexOf(value);
+            var index = $scope.dish.path.indexOf(value);
 
-            productData.deleteImgData(value).then(function(data){
-                $scope.product.path.splice(index,1);
+            dishData.deleteImgData(value).then(function(data){
+                $scope.dish.path.splice(index,1);
             })
         }
 
@@ -74,7 +74,7 @@ angular.module("productsDetailMoudle", []).controller('ProductsDetailCtrl',
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
                 Upload.upload({
-                url: '/product/upload',   
+                url: '/dish/upload',   
                 file: file
                 }).progress(function (evt) {
                     var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
@@ -83,7 +83,7 @@ angular.module("productsDetailMoudle", []).controller('ProductsDetailCtrl',
                     console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
                     $scope.mulImages = [];
                     $scope.changeAlert(data.msg);
-                    $scope.product.path.push(data.path)
+                    $scope.dish.path.push(data.path)
                 }).error(function (data, status, headers, config) {
                     console.log('error status: ' + status);
             })
@@ -113,8 +113,8 @@ angular.module("productsDetailMoudle", []).controller('ProductsDetailCtrl',
     }
 
     $scope.clone = function(){
-        localStorage.product= JSON.stringify($scope.product);
-        localStorage.showImages= JSON.stringify($scope.product.path);
+        localStorage.dish= JSON.stringify($scope.dish);
+        localStorage.showImages= JSON.stringify($scope.dish.path);
     }
 
 }]);

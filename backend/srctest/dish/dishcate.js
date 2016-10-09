@@ -2,17 +2,17 @@
  *                                                      产品分类页面
  ********************************************************************************************************************/
 
-angular.module("productsCateMoudle", ['ng-sortable']).controller('ProductsCateCtrl', 
+angular.module("dishCateMoudle", ['ng-sortable']).controller('DishCateCtrl', 
     ['$scope','$window', '$http', '$alert','$state','cateData',
     function($scope,$window, $http,$alert, $state,cateData) {
-	$window.document.title = "产品分类-呐呐CRM";
+	$window.document.title = "菜品分类"
     /* 根据数组值找到索引*/
     function findIndex(current, obj){
         for(var i in obj){
             if (obj[i] == current) {
                 return i;
             }
-        }
+        } 
     } 
     /*产品分类*/
     cateData.getData().then(function(data){

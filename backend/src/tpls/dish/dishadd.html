@@ -1,0 +1,144 @@
+<div ng-controller="DishAddCtrl">
+	<form name="productForm">
+		<h2 class="page-header">新建产品
+			<a href="javascript:window.history.go(-1)" type="button" class="btn btn-primary ml-20"><i class="fa fa-angle-left"></i> 返回</a>
+			<button type="button" class="btn btn-success" ng-click="saveProduct(product)"><i class="fa fa-save"></i> 保存</button>
+		</h2>
+		<div class="pro-wrap">
+
+			<div class="row">
+				<div class="col-md-12">
+					<h4>
+						产品图片
+						<small>请上传格式为jpeg、jpg、png或者gif，大小不超过2M的图片，最多上传6张图片</small>
+					</h4>
+					<hr></div>
+
+				<div class="col-md-12">
+					<button class="btn btn-primary" ngf-select="selectImage($files)" ngf-pattern="'image/*'" ngf-multiple="true">
+					    选择图片
+					</button>
+					<button  class="btn btn-success" ng-click="upload()">上传</button>
+					<span> (支持多张图片拖拽上传)</span>
+					<div class="row cropArea" ngf-drop ngf-pattern="'image/*'" ng-model="files"
+					     ngf-multiple="true">
+					    <img-crop image="files || data.defaultImage" resule-image="files"></img-crop>
+					    <div ngf-no-file-drop>该浏览器不支持拖拽上传。</div>
+					    <div class="col col-xs-6 col-sm-4 col-md-3 col-lg-3 text-left img-item" ng-repeat="image in mulImages">
+					        <div ng-repeat="oneImage in image">
+					            <img ngf-src="oneImage || data.defaultImage" class="img-responsive" 
+					                />
+					        </div>
+					        <button type="button" ng-click="deteleImage(image)" class="btn btn-danger btn-sm">&times;</button>
+					    </div>
+					</div>
+					<div class="col-md-12 mb-40 mt-20">
+						<div class="col-md-3 " ng-repeat="path in product.path">
+							<div class="show-img">
+								<img src="{{path}}" alt="">
+					        	<button type="button" ng-click="deteleShowImage(path)" class="btn btn-danger btn-sm">&times;</button>
+							</div>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+			<h4>基本信息</h4>
+			<hr>
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">产品名称</label>
+						<div class="col-sm-10 " ng-class="{'has-danger': productForm.name.$invalid}" >
+							<input type="text" class="form-control " placeholder="请使用英文填写，如Lead acid battery" ng-model="product.name" name="name" required ng-trim="true" ng-maxlength="50"></div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">产品型号</label>
+						<div class="col-sm-10 " ng-class="{'has-danger': productForm.model.$invalid}" >
+							<input type="text" class="form-control " placeholder="请使用英文填写，如LA-88-P" ng-model="product.model" name="model" required ng-trim="true" ng-maxlength="50"></div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">产品分类</label>
+						<div class="col-sm-10" >
+							<button type="button" class="form-control form-select" name="cate" ng-model="product.cate" data-html="1"  data-toggle="true" bs-options="ca.value as ca.label for ca in cate" placeholder="请选择产品分类"   data-animation="am-flip-x" bs-select required>
+								<span class="caret"></span>
+							</button>
+							<a class="inl-add" href=""  data-animation="am-fade-and-scale" placement="center" data-template-url="addCate.tpl.html" bs-modal><i class="fa fa-plus fa-lg"  data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="添加"></i></a>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">产品描述</label>
+						<div class="col-sm-10" style="padding-left:15px;margin-top: 10px;">
+							<!-- <textarea name="" id="" cols="30" rows="5" class="form-control" ng-model="product.description" placeholder="请使用英文填写，如LA-88-P"></textarea> -->
+							<ng-simditor content="product.description"></ng-simditor>
+						</div>
+					</div>
+				</div>
+			</div>
+			<h4>包装信息</h4>
+			<hr>
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1">
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">包装尺寸</label>
+						<div class="col-sm-10 " ng-class="{'has-danger': productForm.size.$invalid}" >
+							<input type="text" class="form-control " placeholder="请使用英文填写，如 14*24*43cm" ng-model="product.size" name="size" ng-trim="true" ng-maxlength="50"></div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">每箱数量</label>
+						<div class="col-sm-10 " ng-class="{'has-danger': productForm.quantity.$invalid}" >
+							<input type="text" class="form-control " placeholder="请使用英文填写，如 2pcs" ng-model="product.quantity" name="quantity" ng-trim="true" ng-maxlength="50"></div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">每箱净重</label>
+						<div class="col-sm-10 " ng-class="{'has-danger': productForm.weight.$invalid}" >
+							<input type="text" class="form-control " placeholder="请使用英文填写，如 8.8kg" ng-model="product.weight" name="weight" ng-trim="true" ng-maxlength="50"></div>
+					</div>
+
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-10 col-md-offset-1" style="margin-top: 20px;margin-bottom: 10px;">
+					<button type="button" class="btn btn-success" ng-click="saveProduct(product)" ng-disabled="scheduleForm.$invalid">保存</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<!-- 添加分类 -->
+<script type="text/ng-template" id="addCate.tpl.html">
+    <div class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-md" style="margin-top: 100px;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="$hide()">&times;</button>
+                    <h4 class="modal-title">添加分类</h4>
+                </div>
+                <div class="modal-body" >
+                    <form name="cateModalForm">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label">分类名称</label>
+                                    <div class="col-sm-9" ng-class="{'has-danger': cateModalForm.text.$invalid}">
+                                        <input name="text" class="form-control" placeholder="请输入分类名称（必须填写）" ng-model="cateMsg" required>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" ng-click="$hide()">取消</button>
+                    <button type="button" class="btn btn-success" ng-click="saveCate(cateMsg);$hide()" ng-disabled="cateModalForm.$invalid">保存</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

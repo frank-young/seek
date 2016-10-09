@@ -2,24 +2,24 @@
  *                                                      新建产品页面
  ********************************************************************************************************************/
 
-angular.module("productsAddMoudle", ['ngFileUpload']).controller('ProductsAddCtrl', 
-    ['$scope','$window', '$http', '$state','$alert','productData','cateData','Upload',
-    function($scope,$window, $http, $state,$alert,productData,cateData,Upload) {
-	$window.document.title = "添加产品-呐呐CRM";
+angular.module("dishAddMoudle", ['ngFileUpload']).controller('DishAddCtrl', 
+    ['$scope','$window', '$http', '$state','$alert','dishData','cateData','Upload',
+    function($scope,$window, $http, $state,$alert,dishData,cateData,Upload) {
+	$window.document.title = "添加菜品"
     /*产品分类*/
     cateData.getData().then(function(data){
         $scope.cate=data.cates;
     })
     var date = new Date();
-    if(localStorage.product){
-        $scope.product = JSON.parse(localStorage.product)
+    if(localStorage.dish){
+        $scope.dish = JSON.parse(localStorage.dish)
     }else{
-        $scope.product ={   
+        $scope.dish ={   
             "isTop":false,
             "name":"",
             "model":"",
             "cate":"",
-            "people":"",
+            "people":"", 
             "editpeople":"",
             "description":"",
             "size":"",
@@ -29,15 +29,15 @@ angular.module("productsAddMoudle", ['ngFileUpload']).controller('ProductsAddCtr
             "img":""
         }
     }
-    $scope.product.path = [];
+    $scope.dish.path = [];
     $scope.mulImages = [];
     if(localStorage.showImages){
-        $scope.product.path = JSON.parse(localStorage.showImages)
+        $scope.dish.path = JSON.parse(localStorage.showImages)
     }
 
     /* 本地储存 */
     var time = setInterval(function(){
-        localStorage.product= JSON.stringify($scope.product);
+        localStorage.dish= JSON.stringify($scope.dish);
     }, 6000);
 
     $scope.$watch('files', function () {
@@ -70,11 +70,11 @@ angular.module("productsAddMoudle", ['ngFileUpload']).controller('ProductsAddCtr
     $scope.deteleShowImage = function(value){
         var delconfirm = confirm('是否要删除这张图片？');
         if(delconfirm){
-            var index = $scope.product.path.indexOf(value);
-            productData.deleteImgData(value).then(function(data){
+            var index = $scope.dish.path.indexOf(value);
+            dishData.deleteImgData(value).then(function(data){
                 $scope.changeAlert(data.msg);
-                $scope.product.path.splice(index,1);
-                localStorage.showImages = JSON.stringify($scope.product.path)
+                $scope.dish.path.splice(index,1);
+                localStorage.showImages = JSON.stringify($scope.dish.path)
             })
         }
 
@@ -89,7 +89,7 @@ angular.module("productsAddMoudle", ['ngFileUpload']).controller('ProductsAddCtr
         for (var i = 0; i < files.length; i++) {
             var file = files[i];
                 Upload.upload({
-                url: '/product/upload',   
+                url: '/dish/upload',   
                 // fields: {'username': $scope.username},
                 file: file
                 }).progress(function (evt) {
@@ -99,22 +99,22 @@ angular.module("productsAddMoudle", ['ngFileUpload']).controller('ProductsAddCtr
                     console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
                     $scope.mulImages = [];
                     $scope.changeAlert(data.msg);
-                    $scope.product.path.push(data.path)
-                    localStorage.showImages = JSON.stringify($scope.product.path)
+                    $scope.dish.path.push(data.path)
+                    localStorage.showImages = JSON.stringify($scope.dish.path)
                 }).error(function (data, status, headers, config) {
                     console.log('error status: ' + status);
             })
         }
     }
 
-    $scope.saveProduct = function(value){
+    $scope.saveDish = function(value){
         if(value.path!=[]){
             value.img = value.path[0]
         }
-        productData.addData(value).then(function(data){
+        dishData.addData(value).then(function(data){
             $scope.changeAlert(data.msg);
             window.history.go(-1);
-            localStorage.removeItem("product");
+            localStorage.removeItem("dish");
             clearInterval(time);
             localStorage.removeItem('showImages')
         });

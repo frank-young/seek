@@ -82,7 +82,7 @@ angular.module('serviceData', [])
             }
         }
     }])
-        .factory('dishData', ['$q','$http',function($q,$http){
+    .factory('dishData', ['$q','$http',function($q,$http){
         return {
             getData: function () {
                 var defer = $q.defer();
@@ -178,7 +178,89 @@ angular.module('serviceData', [])
             }
         }
     }])
-
+    .factory('cateData', ['$q','$http',function($q,$http){
+        return {
+            getData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/cate',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            updateData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    method: 'POST',
+                    url: '/cate/update',
+                    dataType: "json",
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        cate:value
+                    }
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            addData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    method: 'POST',
+                    url: '/cate/add',
+                    dataType: "json",
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        cate:value
+                    }
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            getIdData: function (id) {
+                var defer = $q.defer();
+                $http({
+                    url: '/cate/detail/'+id,
+                    method: 'get'
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            deleteData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    method: 'DELETE',
+                    url: '/cate/delete?id='+value._id,
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            }
+        }
+    }])
 
 
 
