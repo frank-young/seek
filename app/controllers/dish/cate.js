@@ -21,6 +21,7 @@ var _ = require('underscore')
 				isEdit: cateObj.isEdit,
 				value:cateObj.value,
 				label:cateObj.label,
+				checked:cateObj.checked,
 				userlocal:user.email,
 				domainlocal:user.domain
 			})

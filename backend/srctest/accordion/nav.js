@@ -7,9 +7,13 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 		$scope.menus = [
 		{
 			icon:'fa fa-file-pdf-o',
-			title:'报表',
+			title:'订单管理',
 			role:0,
 			subs:[
+				{
+					text:'订单列表',
+					link:'web.quotation'
+				},
 				{
 					text:'月报表',
 					link:'web.quotation'
@@ -17,7 +21,8 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 				{
 					text:'日报表',
 					link:'web.quotationAdd'
-				}			]
+				}
+			]
 		},
 		{
 			icon:'fa fa-diamond',
@@ -54,7 +59,6 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 				}
 			]
 		},
-		
 		{
 			icon:'fa fa-wechat',
 			title:'微信端',
@@ -69,7 +73,7 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 					link:'web.quotationAdd'
 				},
 				{
-					text:'报价单设置',
+					text:'其他',
 					link:'web.quotationSetting'
 				}
 			]

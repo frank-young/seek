@@ -61,10 +61,18 @@ module.exports = function(app){
   // app.post('/order/update', User.signinRequired, Order.update)
   // app.get('/order/detail/:id', User.signinRequired, Order.detail)
   // app.delete('/order/delete',User.signinRequired, Order.del)
-  // 
+
   //user setting
   app.get('/setting', User.signinRequired, Setting.data)
   app.post('/setting/update', User.signinRequired, Setting.update)
+  
+  //成员操作
+  app.get('/setting/list', Setting.placeAdminRequired,Setting.list)
+  app.post('/setting/add', Setting.placeAdminRequired,Setting.add)
+  app.delete('/setting/delete', Setting.placeAdminRequired,Setting.del)
+  app.get('/setting/detail/:id', Setting.placeAdminRequired,Setting.detail)
+  app.post('/setting/updatecopy', Setting.placeAdminRequired,Setting.updatecopy)
+  app.get('/setting/rbac', Setting.rbac)
 
   // 微信端接口
   app.get('/wechat/init',Wechat.init)

@@ -7,9 +7,13 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 		$scope.menus = [
 		{
 			icon:'fa fa-file-pdf-o',
-			title:'报表',
+			title:'订单管理',
 			role:0,
 			subs:[
+				{
+					text:'订单列表',
+					link:'web.quotation'
+				},
 				{
 					text:'月报表',
 					link:'web.quotation'
@@ -17,7 +21,8 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 				{
 					text:'日报表',
 					link:'web.quotationAdd'
-				}			]
+				}
+			]
 		},
 		{
 			icon:'fa fa-diamond',
@@ -54,7 +59,6 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 				}
 			]
 		},
-		
 		{
 			icon:'fa fa-wechat',
 			title:'微信端',
@@ -69,7 +73,7 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 					link:'web.quotationAdd'
 				},
 				{
-					text:'报价单设置',
+					text:'其他',
 					link:'web.quotationSetting'
 				}
 			]
@@ -152,7 +156,7 @@ angular.module("dishMoudle", []).controller('DishCtrl',
     $scope.currentPage = 1;
     /*产品*/
     dishData.getData().then(function(data){
-        $scope.dish=data.dish;
+        $scope.dish=data.dishs;
     })
     /*产品分类*/
     cateData.getData().then(function(data){
@@ -184,7 +188,7 @@ angular.module("dishMoudle", []).controller('DishCtrl',
         }
     }
     /* 删除单件产品 */
-    $scope.deletedish = function(value){
+    $scope.deleteDish = function(value){
         var deleteConfirm = confirm('您确定要删除这件产品吗？');
         if(deleteConfirm){
             var index = findIndex(value,$scope.dish);
@@ -241,40 +245,35 @@ angular.module("dishMoudle", []).controller('DishCtrl',
         }
     }
 }]);/********************************************************************************************************************
- *                                                      新建产品页面
+ *                                                      新建菜品页面
  ********************************************************************************************************************/
 
-angular.module("dishAddMoudle", ['ngFileUpload']).controller('DishAddCtrl', 
-    ['$scope','$window', '$http', '$state','$alert','dishData','cateData','Upload',
-    function($scope,$window, $http, $state,$alert,dishData,cateData,Upload) {
+angular.module("dishAddMoudle", []).controller('DishAddCtrl', 
+    ['$scope','$window', '$http', '$state','$alert','dishData','cateData',
+    function($scope,$window, $http, $state,$alert,dishData,cateData) {
 	$window.document.title = "添加菜品"
-    /*产品分类*/
+    /*菜品分类*/
     cateData.getData().then(function(data){
         $scope.cate=data.cates;
     })
-    var date = new Date();
+
     if(localStorage.dish){
         $scope.dish = JSON.parse(localStorage.dish)
     }else{
         $scope.dish ={   
             "isTop":false,
+            "checked":false,
+            "number":0,
             "name":"",
-            "model":"",
-            "cate":"",
-            "people":"", 
-            "editpeople":"",
+            "price":null,
+            "cate":"0",
+            "search":"",
+            "ishost":false,
+            "other1":"", 
+            "other2":"", 
             "description":"",
-            "size":"",
-            "quantity":"",
-            "weight":"",
-            "path":[],
-            "img":""
+            "history":'添加菜品'
         }
-    }
-    $scope.dish.path = [];
-    $scope.mulImages = [];
-    if(localStorage.showImages){
-        $scope.dish.path = JSON.parse(localStorage.showImages)
     }
 
     /* 本地储存 */
@@ -282,89 +281,18 @@ angular.module("dishAddMoudle", ['ngFileUpload']).controller('DishAddCtrl',
         localStorage.dish= JSON.stringify($scope.dish);
     }, 6000);
 
-    $scope.$watch('files', function () {
-        $scope.selectImage($scope.files);
-    });
-    //根据选择的图片来判断 是否为一下子选择了多张
-    //一下子选择多张的数据格式为一个数组中有多个对象，而一次只选择一张的数据格式为一个数组中有一个对象
-    $scope.selectImage = function (files) {
-        if (!files || !files.length) {
-            return;
-        }
-        if (files.length > 1) {
-            angular.forEach(files, function (item) {
-                var image = [];
-                image.push(item);
-                $scope.mulImages.push(image);
-            })
-        } else {
-            $scope.mulImages.push(files);
-        }
-    };
-    $scope.deteleImage = function(value){
-        var delconfirm = confirm('是否要删除这张图片？');
-        if(delconfirm){
-            var index = $scope.mulImages.indexOf(value);
-            $scope.mulImages.splice(index,1);
-        }
-
-    }
-    $scope.deteleShowImage = function(value){
-        var delconfirm = confirm('是否要删除这张图片？');
-        if(delconfirm){
-            var index = $scope.dish.path.indexOf(value);
-            dishData.deleteImgData(value).then(function(data){
-                $scope.changeAlert(data.msg);
-                $scope.dish.path.splice(index,1);
-                localStorage.showImages = JSON.stringify($scope.dish.path)
-            })
-        }
-
-    } 
-
-    $scope.upload = function () {
-        if (!$scope.mulImages.length) {
-            return; 
-        }
-
-        var files = $scope.mulImages;
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-                Upload.upload({
-                url: '/dish/upload',   
-                // fields: {'username': $scope.username},
-                file: file
-                }).progress(function (evt) {
-                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-                }).success(function (data, status, headers, config) {
-                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                    $scope.mulImages = [];
-                    $scope.changeAlert(data.msg);
-                    $scope.dish.path.push(data.path)
-                    localStorage.showImages = JSON.stringify($scope.dish.path)
-                }).error(function (data, status, headers, config) {
-                    console.log('error status: ' + status);
-            })
-        }
-    }
-
     $scope.saveDish = function(value){
-        if(value.path!=[]){
-            value.img = value.path[0]
-        }
         dishData.addData(value).then(function(data){
-            $scope.changeAlert(data.msg);
-            window.history.go(-1);
-            localStorage.removeItem("dish");
-            clearInterval(time);
-            localStorage.removeItem('showImages')
-        });
-    }
-
-    /*提示框*/
-    $scope.changeAlert = function(title,content){
-        $alert({title: title, content: content, type: "info", show: true,duration:3});
+            if(data.status==1){
+                $scope.changeAlert(data.msg)
+                window.history.go(-1)
+                localStorage.removeItem("dish") 
+                clearInterval(time)
+            }else{
+                $scope.changeAlert(data.msg)
+            }
+            
+        })
     }
 
     /* 添加分類 */
@@ -373,17 +301,17 @@ angular.module("dishAddMoudle", ['ngFileUpload']).controller('DishAddCtrl',
         var msgadd = {
             "value":val,
             "label":value,
-            "isEdit":true
+            "isEdit":true,
+            "checked":false
         }
-
         cateData.addData(msgadd).then(function(data){
             $scope.changeAlert(data.msg);
-        });
+        })
         cateData.getData().then(function (data) {
-            $scope.cate = data.cates;
-        });
+            $scope.cate = data.cates
+        })
     }
-}]);;/********************************************************************************************************************
+}]);/********************************************************************************************************************
  *                                                      产品分类页面
  ********************************************************************************************************************/
 
@@ -441,104 +369,34 @@ angular.module("dishCateMoudle", ['ng-sortable']).controller('DishCateCtrl',
     $scope.changeAlert = function(title,content){
         $alert({title: title, content: content, type: "info", show: true,duration:5});
     }
-    /* 监听items ，发送数据 */
-    // $scope.$watch('cate', function(newVal, oldVal) {
-    //     if (newVal !== oldVal) {
-    //        //向服务器发请求，顺序已改变
-    //        console.log(newVal)
-    //     }
-    // }, true);
+
 }]);;/********************************************************************************************************************
- *                                                      产品详情页面
+ *                                                      菜品详情页面
  ********************************************************************************************************************/
 
 angular.module("dishDetailMoudle", []).controller('DishDetailCtrl', 
-    ['$scope','$window', '$http', '$stateParams','$alert','dishData','cateData','Upload',
-    function($scope,$window, $http, $stateParams,$alert,dishData,cateData, Upload) {
+    ['$scope','$window', '$http', '$stateParams','$alert','dishData','cateData',
+    function($scope,$window, $http, $stateParams,$alert,dishData,cateData) {
 	$window.document.title = "菜品详情";
     /* 是否可编辑 */
 	$scope.isEdit = true;
-	/*产品分类*/
+	/*菜品分类*/
     cateData.getData().then(function(data){
         $scope.cate=data.cates;
     }) 
     var date = new Date();
-    /* 产品详情请求 */
+    /* 菜品详情请求 */
     dishData.getIdData($stateParams.id).then(function (data) {
        $scope.dish=data.dish; 
 
-    });
-    $scope.mulImages = [];
-    $scope.$watch('files', function () {
-        $scope.selectImage($scope.files);
-    });
+    })
 
     $scope.saveDish = function(value){
         dishData.updateData(value).then(function(data){
             $scope.changeAlert(data.msg);
         })
     }
-
-    //根据选择的图片来判断 是否为一下子选择了多张
-    //一下子选择多张的数据格式为一个数组中有多个对象，而一次只选择一张的数据格式为一个数组中有一个对象
-    $scope.selectImage = function (files) {
-        if (!files || !files.length) {
-            return;
-        }
-        if (files.length > 1) {
-            angular.forEach(files, function (item) {
-                var image = [];
-                image.push(item);
-                $scope.mulImages.push(image);
-            })
-        } else {
-            $scope.mulImages.push(files);
-        }
-    };
-    $scope.deteleImage = function(value){
-        var delconfirm = confirm('是否要删除这张图片？');
-        if(delconfirm){
-            var index = $scope.mulImages.indexOf(value);
-            $scope.mulImages.splice(index,1);
-
-        } 
-
-    }
-    $scope.deteleShowImage = function(value){
-        var delconfirm = confirm('是否要删除这张图片？');
-        if(delconfirm){
-            var index = $scope.dish.path.indexOf(value);
-
-            dishData.deleteImgData(value).then(function(data){
-                $scope.dish.path.splice(index,1);
-            })
-        }
-
-    } 
-    $scope.upload = function () {
-        if (!$scope.mulImages.length) {
-            return; 
-        }
-
-        var files = $scope.mulImages;
-        for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-                Upload.upload({
-                url: '/dish/upload',   
-                file: file
-                }).progress(function (evt) {
-                    var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                    console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-                }).success(function (data, status, headers, config) {
-                    console.log('file ' + config.file.name + 'uploaded. Response: ' + data);
-                    $scope.mulImages = [];
-                    $scope.changeAlert(data.msg);
-                    $scope.dish.path.push(data.path)
-                }).error(function (data, status, headers, config) {
-                    console.log('error status: ' + status);
-            })
-        }
-    }
+   
     /*提示框*/
     $scope.changeAlert = function(title,content){
         $alert({title: title, content: content, type: "info", show: true,duration:5});
@@ -550,7 +408,8 @@ angular.module("dishDetailMoudle", []).controller('DishDetailCtrl',
         var msgadd = {
             "value":val,
             "label":value,
-            "isEdit":true
+            "isEdit":true,
+            "checked":false
         }
 
         cateData.addData(msgadd).then(function(data){
@@ -580,4 +439,160 @@ angular.module("homeMoudle", []).controller('HomeCtrl',
 }])
 
 
+
+;/********************************************************************************************************************
+ *                                                      成员列表页面
+ ********************************************************************************************************************/
+
+angular.module("teamMoudle", []).controller('TeamCtrl', 
+    ['$scope','$window', '$http', '$state','$alert','settingData',
+    function($scope,$window, $http, $state,$alert,settingData) {
+        $window.document.title = "收银员管理";
+    /* 根据数组值找到索引*/
+    function findIndex(current, obj){
+        for(var i in obj){ 
+            if (obj[i] == current) {
+                return i;
+            }
+        }
+    }
+
+    settingData.getListData().then(function(data){
+    	$scope.user = data.users
+        // $scope.changeAlert(data.msg);
+    })
+
+    /*分页*/
+    $scope.itemsPerPage = 5;
+    // $scope.totalItems = 6;
+    $scope.currentPage = 1;
+
+    /***************************** 以下是顶部导航栏批量操作 **************************************/
+    /* 多选框选择 */
+    $scope.checkArr = [];
+    $scope.isChecked = function(value){
+        if(value.isChecked){        //通过判断是否选中
+            $scope.checkArr.push(value);
+        }else{
+            var index = findIndex(value,$scope.checkArr);
+            // var index = $scope.checkArr.indexOf(value);
+            if(index != -1){
+                $scope.checkArr.splice(index,1);
+            }
+        }
+        
+    }
+    /* 删除成员 */
+    $scope.deleteTeam = function(value){
+        var deleteConfirm = confirm('您确定要删除这位成员吗？');
+        if(deleteConfirm){
+            var index = findIndex(value,$scope.team);
+            $scope.team.splice(index,1);   //删除
+            customerData.updateData(value);
+        }
+    }
+    /* 返回按钮，也就是清空整个数组，并且将选框的标记位设为false */
+    $scope.isCheckedNo = function(){
+        $scope.checkArr.splice(0,$scope.checkArr.length);   //清空数组
+        for(var i in $scope.team){
+            $scope.team[i].isChecked = false;      //去掉标记位
+        }
+    }
+    /* 全选操作 */
+    $scope.isCheckedAll = function(cur,per){
+        $scope.checkArr.splice(0,$scope.checkArr.length);
+            for(var i in $scope.team){
+                $scope.checkArr.push($scope.team[i]);
+                $scope.team[i].isChecked = true;
+                
+            }
+    } 
+    /* 删除栏目 ----批量操作 */
+    $scope.deleteTeam = function(value){
+        var deleteConfirm = confirm('您确定要删除这位成员吗？');
+        if(deleteConfirm){
+            for(var i in value){
+                var index = findIndex(value[i],$scope.team);
+                $scope.team[index].isChecked = false;  //去掉标记位
+                $scope.team.splice(index,1);   //删除
+                customerData.updateData(value[i]);
+            }
+            $scope.checkArr.splice(0,$scope.checkArr.length);   
+        } 
+    } 
+    /*提示框*/
+    $scope.changeAlert = function(title,content){
+        $alert({title: title, content: content, type: "info", show: true,duration:5});
+    }
+}])
+
+
+;/********************************************************************************************************************
+ *                                                      添加成员页面
+ ********************************************************************************************************************/
+
+angular.module("teamAddMoudle", []).controller('TeamAddCtrl', 
+    ['$scope','$window', '$http', '$state','$alert','settingData',
+    function($scope,$window, $http, $state,$alert,settingData) {
+    $window.document.title = "添加收银员";
+    $scope.sexs = [
+        {"value":"0","label":"男"}, 
+        {"value":"1","label":"女"}
+    ];
+    $scope.user = {
+					name:"",
+					email:"",
+					password:"",
+					section:"",
+					position:"",
+					tel:"",
+					phone:"",
+					fax:"",
+					sex:"0",
+					class:"0",
+                    domain:"",
+                    birthday:0
+				}
+    $scope.saveUser = function(value){
+    	settingData.addData(value).then(function(data){
+                $scope.changeAlert(data.msg)
+                window.history.go(-1);
+        });
+    }
+
+    /*提示框*/
+    $scope.changeAlert = function(title,content){
+        $alert({title: title, content: content, type: "info", show: true,duration:3});
+    }
+}])
+
+
+;/********************************************************************************************************************
+ *                                                      成员详情页面
+ ********************************************************************************************************************/
+
+angular.module("teamDetailMoudle", []).controller('TeamDetailCtrl', 
+    ['$scope','$window', '$http', '$stateParams','$alert','settingData',
+    function($scope,$window, $http, $stateParams,$alert,settingData) {
+    $window.document.title = "收银员详情";
+    $scope.isEdit = true;
+    $scope.sexs = [
+        {"value":"0","label":"男"},
+        {"value":"1","label":"女"}
+    ];
+    settingData.getIdData($stateParams.id).then(function (data) {
+       $scope.user=data.user; 
+    });
+
+    $scope.saveUser = function(value){
+    	settingData.updatecopyData(value).then(function(data){
+			$scope.changeAlert(data.msg)
+        });
+    } 
+    /*提示框*/
+    $scope.changeAlert = function(title,content){
+        $alert({title: title, content: content, type: "info", show: true,duration:5});
+    }
+}]) 
+ 
 

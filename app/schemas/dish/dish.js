@@ -1,18 +1,21 @@
 var mongoose = require('mongoose')	
 var DishSchema = new mongoose.Schema({
 	isTop: Boolean,
-	isChecked: Boolean,
-	name: String,
-	model:String,
+	checked: Boolean,
+	name:{
+		unique:true,
+		type:String
+	},
+	price:Number,
+	number:Number,
 	cate: String,
-	people:String,
-	editpeople:String,
+	search:String,
+	ishost:Boolean,
+	other1:String,
+	other2:String,
 	description:String,
-	path:Array,
-	img:String,
-	size:String,
-	quantity:String,
-	weight:String,
+	people:String,
+	history:String,
 	meta:{
 		createAt:{
 			type:Number,

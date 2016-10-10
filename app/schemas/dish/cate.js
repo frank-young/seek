@@ -3,6 +3,7 @@ var CateSchema = new mongoose.Schema({
 	value:String,
 	label:String,
 	isEdit:Boolean,
+	checked:Boolean,
 	meta:{
 		createAt:{
 			type:Number,	

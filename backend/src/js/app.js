@@ -4,6 +4,7 @@ var app = angular.module('app', [
         'mgcrea.ngStrap',
         'ui.calendar',
         'ui.bootstrap',
+        'ngSanitize',
         'angular-loading-bar',
         'angular-simditor',
         'homeMoudle',
@@ -13,14 +14,21 @@ var app = angular.module('app', [
         'dishMoudle',
         'dishAddMoudle',
         'dishCateMoudle',
-        'dishDetailMoudle'
+        'dishDetailMoudle',
+        'teamMoudle',
+        'teamAddMoudle',
+        'teamDetailMoudle'
 
         ]);  
 
-app.run(function($rootScope, $state, $stateParams) {
+app.run(function($rootScope, $state, $stateParams,$alert) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
-});
+    /*提示框*/
+    $rootScope.changeAlert = function(title,content){
+        $alert({title: title, content: content, type: "info", show: true,duration:3});
+    }
+})
 
 app.config(function($stateProvider, $urlRouterProvider) {
     $urlRouterProvider.otherwise('/index');
@@ -56,6 +64,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('web.dishDetail', {
             url: '/dishDetail/:id',
             templateUrl: 'tpls/dish/dishdetail.html'
+        })
+        .state('web.team', {
+            url: '/team',
+            templateUrl: 'tpls/team/team.html'
+        })
+        .state('web.teamAdd', {
+            url: '/teamAdd',
+            templateUrl: 'tpls/team/teamAdd.html'
+        })
+        .state('web.teamDetail', {
+            url: '/teamDetail/:id',
+            templateUrl: 'tpls/team/teamDetail.html'
         })
         
 });

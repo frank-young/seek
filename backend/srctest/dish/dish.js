@@ -27,7 +27,7 @@ angular.module("dishMoudle", []).controller('DishCtrl',
     $scope.currentPage = 1;
     /*产品*/
     dishData.getData().then(function(data){
-        $scope.dish=data.dish;
+        $scope.dish=data.dishs;
     })
     /*产品分类*/
     cateData.getData().then(function(data){
@@ -59,7 +59,7 @@ angular.module("dishMoudle", []).controller('DishCtrl',
         }
     }
     /* 删除单件产品 */
-    $scope.deletedish = function(value){
+    $scope.deleteDish = function(value){
         var deleteConfirm = confirm('您确定要删除这件产品吗？');
         if(deleteConfirm){
             var index = findIndex(value,$scope.dish);
