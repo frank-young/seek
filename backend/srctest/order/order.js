@@ -58,6 +58,7 @@ angular.module("orderMoudle", []).controller('OrderCtrl',
     $scope.deleteOrder = function(value){
         var deleteConfirm = confirm('您确定要删除这件订单吗？');
         if(deleteConfirm){
+            console.log('12212')
             var index = findIndex(value,$scope.order);
             $scope.order.splice(index,1);   //删除
             orderData.deleteData(value);
@@ -99,7 +100,7 @@ angular.module("orderMoudle", []).controller('OrderCtrl',
         $scope.checkArr.splice(0,$scope.checkArr.length);   //清空数组，也就是关闭顶部选框
     }
     /* 删除栏目 ----批量操作 */
-    $scope.deleteOrder = function(value){
+    $scope.deleteOrderMore = function(value){
         var deleteConfirm = confirm('您确定要删除这些订单吗？');
         if(deleteConfirm){
             for(var i in value){

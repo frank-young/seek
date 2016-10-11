@@ -89,25 +89,35 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 生成订单
 		$scope.order = {}
+		$scope.payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
 
+		// 订单号  门店编号 年 月 日 时 分 秒  2016 10 11 + 0001
+		var date = new Date()
+		
 		//获取店铺信息	
 		domainData.getData().then(function(data){
-			$scope.shopinfo = data.domain
-				$scope.order = {
-				name: $scope.shopinfo.name,
-				address: $scope.shopinfo.address,
-				tel: $scope.shopinfo.tel,
-				orderNum: "B342301610010001",
-				orderStatus:  0,
-				peopleNum: localStorage.peopleNumber,
-				dish: $scope.cookCart,
-				payType: "$scope.shopinfo.payType",
-				payStatus: 1,
-				total: $scope.total,
-				reduce: $scope.total - $scope.totalReal,
-				reduceAfter: $scope.totalReal,
-				realToal: $scope.totalReal,
-				isMember: false
+			var shopinfo = data.domain
+			var orderNum = shopinfo.name +date.getFullYear()+(date.getMonth()+1)+date.getDate()+ '0001'
+			console.log(orderNum)
+
+			$scope.order = {
+				"isTop":false,
+            	"isChecked":false,
+				"name": shopinfo.name,
+				"address": shopinfo.address,
+				"tel": shopinfo.tel,
+				"orderNum": "B3423d031610010001",
+				// "orderStatus":  0,
+				"peopleNum": localStorage.peopleNumber,
+				"dish": $scope.cookCart,
+				"payType": 0,
+				"payStatus": 1,
+				"total": $scope.total,
+				"reduce": $scope.total - $scope.totalReal,
+				"reduceAfter": $scope.totalReal,
+				"realToal": $scope.totalReal,
+				"isMember": false,
+				"time":Date.now()
 			}
 		})
 

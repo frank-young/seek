@@ -103,7 +103,7 @@ angular.module("dishMoudle", []).controller('DishCtrl',
         $scope.checkArr.splice(0,$scope.checkArr.length);   //清空数组，也就是关闭顶部选框
     }
     /* 删除栏目 ----批量操作 */
-    $scope.deleteDish = function(value){
+    $scope.deleteDishMore = function(value){
         var deleteConfirm = confirm('您确定要删除这些菜品吗？');
         if(deleteConfirm){
             for(var i in value){

@@ -46,8 +46,8 @@ var path = require('path')
 						name: orderObj.name,
 						address: orderObj.address,
 						tel: orderObj.tel,
-						orderNum: user.orderNum,
-						orderStatus:  orderObj.orderStatus,
+						orderNum: orderObj.orderNum,
+						orderStatus: orderObj.orderStatus,
 						peopleNum: orderObj.peopleNum,
 						dish: orderObj.dish,
 						payType: orderObj.payType,
@@ -61,7 +61,7 @@ var path = require('path')
 						memberNum: orderObj.memberNum,
 						memberPhone: orderObj.memberPhone,
 						editPeople: user.name,
-						time: Date.now(),
+						time: orderObj.time,
 						userlocal:user.email,
 						domainlocal:user.domain
 					})

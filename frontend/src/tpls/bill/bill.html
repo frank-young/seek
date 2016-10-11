@@ -199,7 +199,7 @@
             <span class="">
               店铺地址：
             </span>
-            <span class="" ng-bind="info.address">
+            <span class="" ng-bind="order.address">
             </span>
           </div>
           <hr>
@@ -207,28 +207,28 @@
             <span class="">
               订单编号：
             </span>
-            <span class="" ng-bind="info.number">
+            <span class="" ng-bind="order.orderNum">
             </span>
           </div>
           <div class="detail-item">
             <span class="">
               下单时间：
             </span>
-            <span class="" ng-bind="info.time | datetime"></span>
+            <span class="" ng-bind="order.time | datetime"></span>
           </div>
-          <div class="detail-item">
+<!--           <div class="detail-item">
             <span class="">
               订单状态：
             </span>
-            <span class="" ng-bind="info.status">
+            <span class="" ng-bind="order.orderStatus">
             </span>
-          </div>
+          </div> -->
           
           <div class="detail-item">
             <span class="">
               用餐人数：
             </span>
-            <span class="" ng-bind="info.people">
+            <span class="" ng-bind="order.peopleNum">
             </span>
           </div>
           <hr>
@@ -256,8 +256,7 @@
             <span class="">
               支付方式：
             </span>
-            <span class="">
-              现金支付
+            <span class="" ng-bind="payTypeArr[order.payType]">              
             </span>
           </div>
           
@@ -290,7 +289,6 @@
             <span class="" ng-bind="totalReal | currency:'¥' ">
             </span>
           </div>
-          <hr>
         </div>
         <!--endprintbill-->
         <!-- <button class="button  btn-bill">清空</button> -->

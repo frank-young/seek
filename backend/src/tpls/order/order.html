@@ -46,7 +46,7 @@
                 <!-- /.col-xs-2 -->
                 <div class="col-xs-2">
                     <p>
-                        <a href="" ng-click="deleteorder(checkArr)" data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="删除">
+                        <a href="" ng-click="deleteOrderMore(checkArr)" data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="删除">
                             <i class="fa fa-trash fa-2x top-icon"></i>
                         </a>
                     </p>
@@ -72,15 +72,15 @@
                     </div>
 
                     <div class="col-xs-4">
-                            订单单价
+                            订单编号
                     </div>
                     <div class="col-xs-3" ng-click="col='price';desc=!desc">
                         <span class="h-sort" >
-                            订单名称
+                            订单总价
                             <i class="fa fa-sort"></i>
                         </span>
                     </div>
-                    <div class="col-xs-4">订单分类</div>
+                    <div class="col-xs-4">支付方式</div>
                 </div>
 
             </div>
@@ -95,8 +95,7 @@
 </div>
 <hr>
 
-<div class="row cus-item fade-pin" ng-repeat="d in order | orderBy:col:desc | filter: pinSort | offset: (currentPage-1)*itemsPerPage |  limitTo:itemsPerPage">
-    <!-- | offset: (currentPage-1)*itemsPerPage |  limitTo:itemsPerPage-->
+<div class="row cus-item fade-pin" ng-repeat="o in order | orderBy:col:desc | filter: pinSort | offset: (currentPage-1)*itemsPerPage |  limitTo:itemsPerPage">
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-6 col-xs-12">
@@ -104,36 +103,32 @@
                     <div class="col-xs-1">
                         <div class="checkbox">
                             <label>
-                                <input type="checkbox" ng-change="isChecked(d)" ng-model="d.isChecked">
+                                <input type="checkbox" ng-change="isChecked(o)" ng-model="o.isChecked">
                                 <span></span>
                             </label>
                         </div>
                     </div>
                     <!-- /.col-xs-2 -->
                     <div class="col-xs-4">
-                        <a href="" ui-sref="web.orderDetail({id:d._id})" ng-bind="d.name"></a>
+                        <a href="" ui-sref="web.orderDetail({id:o._id})" ng-bind="o.orderNum"></a>
                     </div>
                     <!-- /.col-xs-4 -->
                     <div class="col-xs-3">
-                        <p ng-bind="d.price | currency:'￥' "></p>
+                        <p ng-bind="o.total | currency:'￥' "></p>
                     </div>
                     <!-- /.col-xs-3 -->
                     <div class="col-xs-4">
-                        <p ng-bind="cate[d.cate].label"></p>
+                        <p ng-bind="o.payType"></p>
                     </div>
                 </div>
             </div>
 
             <div class="col-md-2 col-xs-12">
-                <p ng-bind="d.people"></p>
+                <p ng-bind="o.editPeople"></p>
             </div>
             <!-- /.col-md-2 -->
             <div class="col-md-2 col-xs-3">
-                <p ng-bind="d.meta.createAt | time"></p>
-            </div>
-            <!-- /.col-md-2 -->
-            <div class="col-md-2 col-xs-5">
-                <p ng-bind="d.editpeople"></p>
+                <p ng-bind="o.meta.createAt | time"></p>
             </div>
             <!-- /.col-md-2 -->
             <div class="col-md-2 col-xs-12 cus-ctrl">
@@ -141,14 +136,14 @@
                     <div class="col-xs-4">
                         <p>
                             <a href="" style="margin-right: 5px;" ng-click="pinItem(d)" data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="固定/取消">
-                                <i class="fa fa-thumb-tack fa-lg  top-icon" ng-class="{true: 'pin-icon', false: 'unpin-icon'}[d.isTop]"></i>
+                                <i class="fa fa-thumb-tack fa-lg  top-icon" ng-class="{true: 'pin-icon', false: 'unpin-icon'}[o.isTop]"></i>
                             </a>
                         </p>
                     </div>
                     <!-- /.col-xs-4 -->
                     <div class="col-xs-4">
                         <p>
-                            <a href="" ui-sref="web.orderDetail({id:d._id})" style="margin-right: 5px;" data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="编辑">
+                            <a href="" ui-sref="web.orderDetail({id:o._id})" style="margin-right: 5px;" data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="编辑">
                                 <i class="fa fa-edit fa-lg top-icon"></i>
                             </a>
                         </p>
@@ -156,7 +151,7 @@
                     <!-- /.col-xs-4 -->
                     <div class="col-xs-4">
                         <p>
-                            <a href="" ng-click="deleteOrder(d)" style="margin-right: 5px;" data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="删除">
+                            <a href="" ng-click="deleteOrder(o)" style="margin-right: 5px;" data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="删除">
                                 <i class="fa fa-trash fa-lg top-icon"></i>
                             </a>
                         </p>
