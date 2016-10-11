@@ -5,7 +5,7 @@
 angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','orderData','domainData',
   	function($scope,$alert,$window,orderData,domainData) {
 
-		$window.document.title = "结账"; 
+		$window.document.title = "结账" 
 		// 获取本地存储已点的菜品
 		$scope.cookCart = JSON.parse(localStorage.cook)
 		
@@ -93,12 +93,39 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 订单号  门店编号 年 月 日 时 分 秒  2016 10 11 + 0001
 		var date = new Date()
-		
+		// 设置流水号
+		function setSerial(){
+			var serial = localStorage.serial
+			var serialNum = ""
+			if(serial != null) {
+				switch(serial.length){
+					case 1:
+						serialNum = '00'+serial
+						break
+					case 2:
+						serialNum = '0'+serial
+					  	break
+					case 3:
+						serialNum = serial
+					  	break
+					default:
+						serialNum = serial
+						break
+				}
+				return serialNum
+			}
+		}
 		//获取店铺信息	
 		domainData.getData().then(function(data){
-			var shopinfo = data.domain
-			var orderNum = shopinfo.name +date.getFullYear()+(date.getMonth()+1)+date.getDate()+ '0001'
-			console.log(orderNum)
+			var shopinfo = data.domain,
+				serialNum = setSerial(),
+				Y = date.getFullYear(),	
+		        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+		        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()),
+		        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()),
+		        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()),
+		        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds()),
+				orderNum = shopinfo.name +Y + M + D + serialNum
 
 			$scope.order = {
 				"isTop":false,
@@ -106,7 +133,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				"name": shopinfo.name,
 				"address": shopinfo.address,
 				"tel": shopinfo.tel,
-				"orderNum": "B3423d031610010001",
+				"orderNum": orderNum,
 				// "orderStatus":  0,
 				"peopleNum": localStorage.peopleNumber,
 				"dish": $scope.cookCart,
@@ -128,9 +155,12 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				if(data.status == 1){
 					$scope.changeAlert(data.msg)
 					printFunc()
+					var serial = parseInt(localStorage.serial)
+					localStorage.serial = serial+1
 					localStorage.removeItem('cook')
 					localStorage.removeItem('cookAll')
 					localStorage.removeItem('peopleNumber')
+
 					window.location.href="#/index"
 				}else{
 					 $scope.changeAlert(data.msg)
@@ -361,11 +391,17 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  		$scope.time = new Date()	// 开班时间
   			console.log($scope.time)
   			localStorage.starDay = 1
+  			localStorage.serial = 1
+
 	  	}
 	  	// 结班
 	  	$scope.stopDay = function(){
 	  		$rootScope.status = true
 	  		localStorage.removeItem('starDay')
+	  		localStorage.removeItem('cook')
+			localStorage.removeItem('cookAll')
+			localStorage.removeItem('peopleNumber')
+			localStorage.removeItem('serial')
 	  		$scope.time = new Date()	// 结班时间
 	  		console.log($scope.time)
 

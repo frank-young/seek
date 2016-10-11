@@ -10,6 +10,7 @@ angular.module("orderMoudle", []).controller('OrderCtrl',
     $scope.pinShow = false;
     /* 栏目按钮显示隐藏 */
 	$scope.allShow = false;
+    $scope.payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
 	$scope.pinShowFunc = function(){
         $scope.pinShow = !$scope.pinShow
     }
