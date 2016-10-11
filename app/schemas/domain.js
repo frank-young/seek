@@ -5,7 +5,7 @@ var DomainSchema = new mongoose.Schema({
 		type:String
 	},
 	pname:String,
-	tel1:String,
+	tel:String,
 	tel2:String,
 	mobil:String,
 	address:String,

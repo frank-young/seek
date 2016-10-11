@@ -12,15 +12,15 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 			subs:[
 				{
 					text:'订单列表',
-					link:'web.quotation'
+					link:'web.order'
 				},
 				{
 					text:'月报表',
-					link:'web.quotation'
+					link:'web.orderAdd'
 				},
 				{
 					text:'日报表',
-					link:'web.quotationAdd'
+					link:'web.orderDetail'
 				}
 			]
 		},
@@ -32,7 +32,7 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 				{
 					text:'全部菜品',
 					link:'web.dish'
-				},
+				}, 
 				{
 					text:'菜品分类',
 					link:'web.dishCate'

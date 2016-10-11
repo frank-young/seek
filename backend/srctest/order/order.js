@@ -1,11 +1,11 @@
     /********************************************************************************************************************
- *                                                      全部菜品页面
+ *                                                      全部订单页面
  ********************************************************************************************************************/
 
-angular.module("dishMoudle", []).controller('DishCtrl', 
-    ['$scope','$window', '$http', '$state','$alert','dishData','cateData',
-    function($scope,$window, $http, $state,$alert,dishData,cateData) {
-	$window.document.title = "菜品列表"
+angular.module("orderMoudle", []).controller('OrderCtrl', 
+    ['$scope','$window', '$http', '$state','$alert','orderData',
+    function($scope,$window, $http, $state,$alert,orderData) {
+	$window.document.title = "订单列表"
     /* 顶部固定按钮 */
     $scope.pinShow = false;
     /* 栏目按钮显示隐藏 */
@@ -17,7 +17,7 @@ angular.module("dishMoudle", []).controller('DishCtrl',
     function findIndex(current, obj){
         for(var i in obj){
             if (obj[i] == current) {
-                return i;
+                return i; 
             }
         }  
     }    
@@ -25,18 +25,14 @@ angular.module("dishMoudle", []).controller('DishCtrl',
     $scope.itemsPerPage = 5;
     // $scope.totalItems = 6;
     $scope.currentPage = 1;
-    /*菜品*/
-    dishData.getData().then(function(data){
-        $scope.dish=data.dishs;
-    })
-    /*菜品分类*/
-    cateData.getData().then(function(data){
-        $scope.cate=data.cates;
+    /*订单*/
+    orderData.getData().then(function(data){
+        $scope.order=data.orders;
     })
     /* 固定/取消固定 位置  ----栏目位置*/
     $scope.pinItem = function(value){
         value.isTop = !value.isTop;
-        dishData.updateData(value);
+        orderData.updateData(value);
         
     }
     /* 选择查看固定位置 */
@@ -58,59 +54,59 @@ angular.module("dishMoudle", []).controller('DishCtrl',
             }
         }
     }
-    /* 删除单件菜品 */
-    $scope.deleteDish = function(value){
-        var deleteConfirm = confirm('您确定要删除这件菜品吗？');
+    /* 删除单件订单 */
+    $scope.deleteOrder = function(value){
+        var deleteConfirm = confirm('您确定要删除这件订单吗？');
         if(deleteConfirm){
-            var index = findIndex(value,$scope.dish);
-            $scope.dish.splice(index,1);   //删除
-            dishData.deleteData(value);
+            var index = findIndex(value,$scope.order);
+            $scope.order.splice(index,1);   //删除
+            orderData.deleteData(value);
         }
     }
     /* 返回按钮，也就是清空整个数组，并且将选框的标记位设为false */
     $scope.isCheckedNo = function(){
         $scope.checkArr.splice(0,$scope.checkArr.length);   //清空数组
-        for(var i in $scope.dish){
-            $scope.dish[i].isChecked = false;      //去掉标记位
+        for(var i in $scope.order){
+            $scope.order[i].isChecked = false;      //去掉标记位
         }
     }
     /* 全选操作 */
     $scope.isCheckedAll = function(cur,per){
         $scope.checkArr.splice(0,$scope.checkArr.length);
-            for(var i in $scope.dish){
-                $scope.checkArr.push($scope.dish[i]);
-                $scope.dish[i].isChecked = true;
+            for(var i in $scope.order){
+                $scope.checkArr.push($scope.order[i]);
+                $scope.order[i].isChecked = true;
             }
     }
     /* 固定 ----批量操作*/
     $scope.surePin = function(value){
         for(var i in value){
-            var index = findIndex(value[i],$scope.dish);
-            $scope.dish[index].isTop = true;      //固定
-            $scope.dish[index].isChecked = false;  //去掉标记位，也就是去掉勾
-            dishData.updateData(value[i]);
+            var index = findIndex(value[i],$scope.order);
+            $scope.order[index].isTop = true;      //固定
+            $scope.order[index].isChecked = false;  //去掉标记位，也就是去掉勾
+            orderData.updateData(value[i]);
         }
         $scope.checkArr.splice(0,$scope.checkArr.length);   //清空数组，也就是关闭顶部选框
     }
     /* 取消固定 ----批量操作*/
     $scope.cancelPin = function(value){
         for(var i in value){
-            var index = findIndex(value[i],$scope.dish);
-            $scope.dish[index].isTop = false;      //取消固定
-            $scope.dish[index].isChecked = false;  //去掉标记位，也就是去掉勾
-            dishData.updateData(value[i]);
+            var index = findIndex(value[i],$scope.order);
+            $scope.order[index].isTop = false;      //取消固定
+            $scope.order[index].isChecked = false;  //去掉标记位，也就是去掉勾
+            orderData.updateData(value[i]);
         }
         $scope.checkArr.splice(0,$scope.checkArr.length);   //清空数组，也就是关闭顶部选框
     }
     /* 删除栏目 ----批量操作 */
-    $scope.deleteDish = function(value){
-        var deleteConfirm = confirm('您确定要删除这些菜品吗？');
+    $scope.deleteOrder = function(value){
+        var deleteConfirm = confirm('您确定要删除这些订单吗？');
         if(deleteConfirm){
             for(var i in value){
-                var index = findIndex(value[i],$scope.dish);
-                $scope.dish[index].isChecked = false;  //去掉标记位
-                $scope.dish.splice(index,1);   //删除
-                dishData.deleteData(value[i]);
+                var index = findIndex(value[i],$scope.order);
+                $scope.order[index].isChecked = false;  //去掉标记位
+                $scope.order.splice(index,1);   //删除
+                orderData.deleteData(value[i]);
             }
             $scope.checkArr.splice(0,$scope.checkArr.length);   
         }

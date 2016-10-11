@@ -4,17 +4,23 @@ var app = angular.module('app', [
         'mgcrea.ngStrap',
         'ui.bootstrap',
         'angular-loading-bar',
+        'ngSanitize',
         'navMoudle',
         'homeMoudle',
+        'serviceData',
         'selectMoudle',
         'billMoudle',
         'billlistMoudle',
         'memberMoudle'
+
         ]);  
 
-app.run(function($rootScope, $state, $stateParams) {
+app.run(function($rootScope, $state, $stateParams,$alert) {
     $rootScope.$state = $state;
     $rootScope.$stateParams = $stateParams;
+    $rootScope.changeAlert = function(title,content){
+        $alert({title: title, content: content, type: "info", show: true,duration:3});
+    }
 });
 
 app.config(function($stateProvider, $urlRouterProvider) {

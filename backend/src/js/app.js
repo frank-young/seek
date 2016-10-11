@@ -17,7 +17,10 @@ var app = angular.module('app', [
         'dishDetailMoudle',
         'teamMoudle',
         'teamAddMoudle',
-        'teamDetailMoudle'
+        'teamDetailMoudle',
+        'orderMoudle',
+        'orderAddMoudle',
+        'orderDetailMoudle'
 
         ]);  
 
@@ -71,11 +74,23 @@ app.config(function($stateProvider, $urlRouterProvider) {
         })
         .state('web.teamAdd', {
             url: '/teamAdd',
-            templateUrl: 'tpls/team/teamAdd.html'
+            templateUrl: 'tpls/team/teamadd.html'
         })
         .state('web.teamDetail', {
             url: '/teamDetail/:id',
-            templateUrl: 'tpls/team/teamDetail.html'
+            templateUrl: 'tpls/team/teamdetail.html'
+        })
+        .state('web.order', {
+            url: '/order',
+            templateUrl: 'tpls/order/order.html'
+        })
+        .state('web.orderAdd', {
+            url: '/orderAdd',
+            templateUrl: 'tpls/order/orderadd.html'
+        })
+        .state('web.orderDetail', {
+            url: '/orderDetail/:id',
+            templateUrl: 'tpls/order/orderdetail.html'
         })
         
 });

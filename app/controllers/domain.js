@@ -96,7 +96,6 @@ var Domain = require('../models/domain'),
 			}
 			
 		})
-
 	}
 	//门店权限
 	exports.domainRequired = function(req,res,next){

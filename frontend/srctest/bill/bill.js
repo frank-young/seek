@@ -2,22 +2,13 @@
  *                                                     结账页面
  ********************************************************************************************************************/
 
-angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$window',
-  	function($scope,$window) {
+angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','orderData','domainData',
+  	function($scope,$alert,$window,orderData,domainData) {
 
 		$window.document.title = "结账"; 
 		// 获取本地存储已点的菜品
 		$scope.cookCart = JSON.parse(localStorage.cook)
-
-		$scope.info = {
-			address:'天津商业大学店',
-			number:'B34067201610010001',
-			time: new Date(),
-			status:'已确认',
-			people:localStorage.peopleNumber
-		}
-
-
+		
 		$scope.memberAll = [
 			{
 				name:'徐奥林',
@@ -96,14 +87,46 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$window',
 			$scope.totalReal = 0
 		}
 
+		// 生成订单
+		$scope.order = {}
+
+		//获取店铺信息	
+		domainData.getData().then(function(data){
+			$scope.shopinfo = data.domain
+				$scope.order = {
+				name: $scope.shopinfo.name,
+				address: $scope.shopinfo.address,
+				tel: $scope.shopinfo.tel,
+				orderNum: "B342301610010001",
+				orderStatus:  0,
+				peopleNum: localStorage.peopleNumber,
+				dish: $scope.cookCart,
+				payType: "$scope.shopinfo.payType",
+				payStatus: 1,
+				total: $scope.total,
+				reduce: $scope.total - $scope.totalReal,
+				reduceAfter: $scope.totalReal,
+				realToal: $scope.totalReal,
+				isMember: false
+			}
+		})
+
 		// 结算
 		$scope.billing = function(){
-			printFunc()
+			orderData.addData($scope.order).then(function(data){
 
-			localStorage.removeItem('cook')
-			localStorage.removeItem('cookAll')
-			localStorage.removeItem('peopleNumber')
-			window.location.href="#/index"
+				if(data.status == 1){
+					$scope.changeAlert(data.msg)
+					printFunc()
+					localStorage.removeItem('cook')
+					localStorage.removeItem('cookAll')
+					localStorage.removeItem('peopleNumber')
+					window.location.href="#/index"
+				}else{
+					 $scope.changeAlert(data.msg)
+				}
+			})
+			
 		}
 		// 打印函数
 		function printFunc(){

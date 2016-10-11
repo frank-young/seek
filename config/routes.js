@@ -4,7 +4,7 @@ var Index = require('../app/controllers/index'),
     Setting = require('../app/controllers/setting'),
     Dish = require('../app/controllers/dish/dish'),
     Cate = require('../app/controllers/dish/cate'),
-    // Order = require('../app/controllers/order/order'),
+    Order = require('../app/controllers/order/order'),
     Wechat = require('../app/controllers/wechat/wechat'),
     multipart = require('connect-multiparty'),
     multipartMiddleware = multipart()
@@ -39,8 +39,8 @@ module.exports = function(app){
   // 门店信息设置
   app.get('/domain/add',User.signinRequired,Domain.domainRequired, Domain.add )
   app.post('/domain/addctrl',User.signinRequired,Domain.domainRequired, Domain.addctrl )
-  app.post('/domain/update', User.signinRequired,Domain.domainRequired, Domain.update)
-  app.get('/domain/detail', User.signinRequired,Domain.domainRequired, Domain.detail)
+  app.post('/domain/update', User.signinRequired, Domain.update)
+  app.get('/domain/detail', User.signinRequired, Domain.detail)
 
   // 菜品信息
   app.get('/dish',User.signinRequired, Dish.list)
@@ -56,11 +56,11 @@ module.exports = function(app){
   app.delete('/cate/delete',User.signinRequired, Cate.del)
 
   //订单信息
-  // app.get('/order',User.signinRequired, Order.list )
-  // app.post('/order/add',User.signinRequired, Order.save )
-  // app.post('/order/update', User.signinRequired, Order.update)
-  // app.get('/order/detail/:id', User.signinRequired, Order.detail)
-  // app.delete('/order/delete',User.signinRequired, Order.del)
+  app.get('/order',User.signinRequired, Order.list)
+  app.post('/order/add',User.signinRequired, Order.save )
+  app.post('/order/update', User.signinRequired, Order.update)
+  app.get('/order/detail/:id', User.signinRequired, Order.detail)
+  app.delete('/order/delete',User.signinRequired, Order.del)
 
   //user setting
   app.get('/setting', User.signinRequired, Setting.data)

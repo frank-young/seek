@@ -3,7 +3,7 @@ var _ = require('underscore')
 var fs = require('fs')
 var path = require('path')
 
-	//产品列表页
+	//菜品列表页
 	exports.list = function(req,res){
 		var user = req.session.user
 		Dish.fetch({"domainlocal":user.domain},function(err,dishs){
@@ -14,7 +14,7 @@ var path = require('path')
 			})
 		})
 	}
-	//产品新建
+	//菜品新建
 	exports.save = function(req,res){
 		var dishObj = req.body.dish, 	//从路由传过来的 dish对象
 			user = req.session.user,
@@ -93,7 +93,7 @@ var path = require('path')
   		}
 			
 	}
-	//产品更新、新建
+	//菜品更新、新建
 	exports.update = function(req,res){
 		var id = req.body.dish._id,
 			dishObj = req.body.dish, 	//从路由传过来的 dish对象
@@ -151,7 +151,7 @@ var path = require('path')
   		}
 		
 	}
-	//产品详情页
+	//菜品详情页
 	exports.detail = function(req,res){
 		var id = req.params.id		//拿到id的值
 		Dish.findById(id,function(err,dish){
@@ -160,21 +160,10 @@ var path = require('path')
 			})
 		})
 	}
-	//删除产品
+	//删除菜品
 	exports.del = function(req,res){
 		var id = req.query.id
 		if(id){
-			
-			// Dish.findById(id,function(err,dish){
-			// 	console.log(dish.path)
-			// 	if(dish.path.length != 0){
-			// 		for(var i =0;i<dish.path.length;i++){
-			// 			fs.unlink('./frontend/src'+dish.path[i],function(err){
-			// 			})
-			// 		}
-			// 	}
-
-			// })
 			
 			Dish.remove({_id: id},function(err,dish){
 				if(err){
@@ -186,49 +175,6 @@ var path = require('path')
 		}
 	}
 
-	exports.saveImg = function(req,res,next){
-		var imgData = req.files.file[0],
-			filePath = imgData.path,
-			originalFilename = imgData.originalFilename,
-			selfDir = req.session.user.domain
-
-		fs.exists('./frontend/src/upload/'+selfDir, function (exists) {
-		  	if(!exists){
-		  		fs.mkdirSync('./frontend/src/upload/'+selfDir,0777, function (err) {
-					console.log('dir create success')
-				});
-		  	}
-		});
-		
-		if(originalFilename){
-			fs.readFile(filePath, function(err,data){
-				var timestamp = Date.now(),
-					type = imgData.type.split('/')[1],
-					img = timestamp + '.' +type,
-					newPath = path.join(__dirname,'../../../','/frontend/src/upload/'+selfDir+'/'+img)
-					fs.writeFile(newPath,data,function(err){
-						console.log('数据写入成功')
-						res.json({
-							status:1,
-							msg:'图片上传成功',
-							path: '/upload/'+selfDir+'/'+img
-						})
-					})
-
-			})
-		}
-
-	}
-
-	exports.deleteImg = function(req,res,next){
-		var path = req.query.path
-		fs.unlink('./frontend/src'+path,function(err){
-		    res.json({
-				status:1,
-				msg:'删除图片成功'
-			})
-		})
-	}
 
 
 
