@@ -12,13 +12,13 @@
             </tr>
           </thead>
           <tbody>
-             <tr ng-repeat="b in bills">
+             <tr ng-repeat="o in orders">
               <td>{{$index+1}}</td>
-              <td ng-bind="b.number"></td>
-              <td ng-bind="b.total | currency:'¥' "></td>
-              <td ng-bind="b.time | time"></td>
+              <td ng-bind="o.orderNum"></td>
+              <td ng-bind="o.total | currency:'¥' "></td>
+              <td ng-bind="o.time | time"></td>
               <td> 
-                <button class="button button-primary">查看详情</button>
+                <button class="button button-primary" ng-click="lookAll(o._id)">查看详情</button>
                 <button class="button ">重新打印</button>
               </td>
             </tr>
@@ -32,7 +32,7 @@
             <span class="">
               店铺地址：
             </span>
-            <span class="" ng-bind="info.address">
+            <span class="" ng-bind="order.address">
             </span>
           </div>
           <hr>
@@ -40,28 +40,21 @@
             <span class="">
               订单编号：
             </span>
-            <span class="" ng-bind="info.number">
+            <span class="" ng-bind="order.orderNum">
             </span>
           </div>
           <div class="detail-item">
             <span class="">
               下单时间：
             </span>
-            <span class="" ng-bind="info.time | datetime"></span>
-          </div>
-          <div class="detail-item">
-            <span class="">
-              订单状态：
-            </span>
-            <span class="" ng-bind="info.status">
-            </span>
+            <span class="" ng-bind="order.time | datetime"></span>
           </div>
           
           <div class="detail-item">
             <span class="">
               用餐人数：
             </span>
-            <span class="" ng-bind="info.people">
+            <span class="" ng-bind="order.peopleNum">
             </span>
           </div>
           <hr>
@@ -75,11 +68,11 @@
                 </tr>
               </thead>
               <tbody>
-                <tr ng-repeat="cc in cookCart">
-	              <td ng-bind="cc.name"></td>
-	              <td>{{cc.number}}
+                <tr ng-repeat="d in order.dish">
+	              <td ng-bind="d.name"></td>
+	              <td>{{d.number}}
 	              </td>
-	              <td ng-bind="cc.price*cc.number | currency:'¥' "></td>
+	              <td ng-bind="d.price*d.number | currency:'¥' "></td>
 	            </tr>
               </tbody>
             </table>
@@ -89,30 +82,28 @@
             <span class="">
               支付方式：
             </span>
-            <span class="">
-              现金支付
-            </span>
+            <span class="" ng-bind="payTypeArr[order.payType]">  
           </div>
           
           <div class="detail-item">
             <span class="">
               金额合计：
             </span>
-            <span class="" ng-bind="total | currency:'¥' ">
+            <span class="" ng-bind="order.total | currency:'¥' ">
             </span>
           </div>
           <div class="detail-item">
             <span class="">
               减免金额：
             </span>
-            <span class="" ng-bind="total-totalReal | currency:'¥' ">
+            <span class="" ng-bind=" order.reduce | currency:'¥' ">
             </span>
           </div>
           <div class="detail-item">
             <span class="">
               优惠后金额：
             </span>
-            <span class="" ng-bind="totalReal | currency:'¥' ">
+            <span class="" ng-bind="order.reduceAfter | currency:'¥' ">
             </span>
           </div>
 
@@ -120,7 +111,7 @@
             <span class="">
               实收合计：
             </span>
-            <span class="" ng-bind="totalReal | currency:'¥' ">
+            <span class="" ng-bind="order.realTotal | currency:'¥' ">
             </span>
           </div>
           <hr>

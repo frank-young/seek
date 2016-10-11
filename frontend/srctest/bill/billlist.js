@@ -2,36 +2,22 @@
  *                                                     订单列表
  ********************************************************************************************************************/
 
-angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window',
-  	function($scope,$window) {
+angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData',
+  	function($scope,$window,orderData) {
 
 		$window.document.title = "订单列表"; 
-		$scope.bills=[
-			{
-				number:'A001',
-				total:76,
-				time: new Date(),
+		orderData.getData().then(function(data){
+			$scope.orders = data.orders
+		})
+		$scope.payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
 
-			},
-			{
-				number:'A002',
-				total:106,
-				time: new Date(),
+		$scope.lookAll = function(id){
+			orderData.getIdData(id).then(function(data){
+				$scope.order = data.order
+			})
 
-			},
-			{
-				number:'A003',
-				total:28,
-				time: new Date(),
-
-			},
-			{
-				number:'A004',
-				total:32,
-				time: new Date(),
-
-			},
-		]
+		}
+		
 	}
 ])
 

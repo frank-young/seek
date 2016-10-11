@@ -126,7 +126,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()),
 		        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds()),
 				orderNum = shopinfo.name +Y + M + D + serialNum
-
+			console.log($scope.totalReal)
 			$scope.order = {
 				"isTop":false,
             	"isChecked":false,
@@ -142,7 +142,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				"total": $scope.total,
 				"reduce": $scope.total - $scope.totalReal,
 				"reduceAfter": $scope.totalReal,
-				"realToal": $scope.totalReal,
+				"realTotal": $scope.totalReal,
 				"isMember": false,
 				"time":Date.now()
 			}
