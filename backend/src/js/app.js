@@ -20,7 +20,8 @@ var app = angular.module('app', [
         'teamDetailMoudle',
         'orderMoudle',
         'orderAddMoudle',
-        'orderDetailMoudle'
+        'orderDetailMoudle',
+        'orderMonthMoudle'
 
         ]);  
 
@@ -92,6 +93,11 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/orderDetail/:id',
             templateUrl: 'tpls/order/orderdetail.html'
         })
+        .state('web.orderMonth', {
+            url: '/ordermonth',
+            templateUrl: 'tpls/order/ordermonth.html'
+        })
+
         
 });
 /* 加载进度条 */

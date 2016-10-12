@@ -435,7 +435,7 @@ input[type='checkbox']:checked+ span:after{
  */
 
 .main {
-
+  overflow-x: hidden;
   padding: 20px;
   background-color: #F5F7FA;
 

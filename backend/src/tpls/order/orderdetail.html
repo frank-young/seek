@@ -2,8 +2,8 @@
 	<form name="orderForm">
 		<h2 class="page-header">订单详情
 			<a href="javascript:window.history.go(-1)" type="button" class="btn btn-primary ml-20"><i class="fa fa-angle-left"></i> 返回</a>
-			<a ui-sref="web.orderAdd" ng-click="clone()" class="btn btn-primary"><i class="fa fa-copy"></i> 克隆</a>
-			<button type="button" class="btn btn-success" ng-click="saveOrder(order)"><i class="fa fa-save"></i> 保存</button>
+			<a ui-sref="web.orderAdd" ng-click="print()" class="btn btn-danger"><i class="fa fa-file-pdf-o"></i> 打印</a>
+			<!-- <button type="button" class="btn btn-success" ng-click="saveOrder(order)"><i class="fa fa-save"></i> 保存</button> -->
 
 		</h2>
 		<div class="pro-wrap">
@@ -11,34 +11,97 @@
 			<hr>
 			<div class="row">
 				<div class="col-md-10 col-md-offset-1">
-					<div class="form-group row">
-						<label class="col-sm-2 control-label">订单名称</label>
-						<div class="col-sm-10 " ng-class="{'has-danger': orderForm.name.$invalid}" >
-							<input type="text" class="form-control " placeholder="订单名称（必填）" ng-model="order.name" name="name" required ng-trim="true" ng-maxlength="50"></div>
-					</div>
-					<div class="form-group row">
-						<label class="col-sm-2 control-label">订单单价</label>
-						<div class="col-sm-10 " ng-class="{'has-danger': orderForm.price.$invalid}" >
-							<input type="text" class="form-control " placeholder="请填写订单单价（必填）" ng-model="order.price" name="price" required ng-trim="true" ng-maxlength="50"></div>
-					</div>
-					<div class="form-group row">
-						<label class="col-sm-2 control-label">订单拼音</label>
-						<div class="col-sm-10 " ng-class="{'has-danger': orderForm.search.$invalid}" >
-							<input type="text" class="form-control " placeholder="请填写订单拼音首字母小写，如拿铁咖啡填写 ntkf。（必填）" ng-model="order.search" name="search" required ng-trim="true" ng-maxlength="50"></div>
-					</div>
+					<div class="detail" id="print" style="width:300px;">
+			        <h5 class="text-center" style="margin-bottom:20px;">SEEK CAFE 结账单</h5>
+			          <div class="detail-item">
+			            <span class="">
+			              店铺地址：
+			            </span>
+			            <span class="" ng-bind="order.address">
+			            </span>
+			          </div>
+			          <hr>
+			          <div class="detail-item">
+			            <span class="">
+			              订单编号：
+			            </span>
+			            <span class="" ng-bind="order.orderNum">
+			            </span>
+			          </div>
+			          <div class="detail-item">
+			            <span class="">
+			              下单时间：
+			            </span>
+			            <span class="" ng-bind="order.time | datetime"></span>
+			          </div>
+			          
+			          <div class="detail-item">
+			            <span class="">
+			              用餐人数：
+			            </span>
+			            <span class="" ng-bind="order.peopleNum">
+			            </span>
+			          </div>
+			          <hr>
+			          <div class="detail-item">
+			            <table class="table">
+			              <thead>
+			                <tr>
+			                  <th>名称</th>
+			                  <th>数量</th>
+			                  <th>金额</th>
+			                </tr>
+			              </thead>
+			              <tbody>
+			                <tr ng-repeat="d in order.dish">
+				              <td ng-bind="d.name"></td>
+				              <td>{{d.number}}
+				              </td>
+				              <td ng-bind="d.price*d.number | currency:'¥' "></td>
+				            </tr>
+			              </tbody>
+			            </table>
+			          </div>
+			          <hr>
+			          <div class="detail-item">
+			            <span class="">
+			              支付方式：
+			            </span>
+			            <span class="" ng-bind="payTypeArr[order.payType]">  
+			          </div>
+			          
+			          <div class="detail-item">
+			            <span class="">
+			              金额合计：
+			            </span>
+			            <span class="" ng-bind="order.total | currency:'¥' ">
+			            </span>
+			          </div>
+			          <div class="detail-item">
+			            <span class="">
+			              减免金额：
+			            </span>
+			            <span class="" ng-bind=" order.reduce | currency:'¥' ">
+			            </span>
+			          </div>
+			          <div class="detail-item">
+			            <span class="">
+			              优惠后金额：
+			            </span>
+			            <span class="" ng-bind="order.reduceAfter | currency:'¥' ">
+			            </span>
+			          </div>
 
-					<div class="form-group row">
-						<label class="col-sm-2 control-label">订单描述</label>
-						<div class="col-sm-10" style="padding-left:15px;margin-top: 10px;">
-							<!-- <ng-simditor content="order.description"></ng-simditor> -->
-							<textarea name="" ng-model="order.description" id="" class="form-control" rows="6"></textarea>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-10 col-md-offset-3" style="margin-top: 20px;margin-bottom: 10px;">
-					<button type="button" class="btn btn-success" ng-click="saveOrder(order)" ng-disabled="orderForm.$invalid">保存</button>
+			          <div class="detail-item">
+			            <span class="">
+			              实收合计：
+			            </span>
+			            <span class="" ng-bind="order.realTotal | currency:'¥' ">
+			            </span>
+			          </div>
+			          <hr>
+			        </div>
+
 				</div>
 			</div>
 		</div>

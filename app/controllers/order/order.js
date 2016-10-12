@@ -15,6 +15,45 @@ var Order = require('../../models/order/order'),	//引入模型
 			})
 		})
 	}
+
+	//月报列表页
+	exports.monthList = function(req,res){
+		var user = req.session.user
+		Order.fetch({"domainlocal":user.domain},function(err,orders){
+			var arr =[] 
+			orders.forEach(function(order){
+				arr.push({
+					'year':order.year,
+					'month':order.month
+				})
+			})
+			
+			var month = distinct(arr)
+
+			res.json({
+				msg:"请求成功",
+				status: 1,
+				orders:month
+			})
+		})
+
+		// 去除重复元素
+		function distinct(arr) {
+		    var ret = [],
+		        length = arr.length;
+		    for(var i = 0;i < length; i++){
+		        for(j = i+1; j<length;j++){
+		            if(arr[i].year === arr[j].year && arr[i].month === arr[j].month){
+		                j = ++i;
+		            }
+		        }
+		        ret.push(arr[i]);
+		    }
+		    return ret;
+		}
+
+	}
+
 	//订单新建
 	exports.save = function(req,res){
 		var orderObj = req.body.order, 	//从路由传过来的 order对象
@@ -145,7 +184,9 @@ var Order = require('../../models/order/order'),	//引入模型
 
 	//下载月报表
 	exports.downloadMonth = function(req,res){
-		// var id = req.query.id
+		var year = req.query.year
+		var month = req.query.month
+
 		var user = req.session.user
 		var fields = ['订单编号', '支付类型','操作人', '总价','减免金额','实付款']
 		var payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
@@ -165,10 +206,19 @@ var Order = require('../../models/order/order'),	//引入模型
 				orderData.push(orderObj)
 			})
 			var csv = json2csv({ data: orderData, fields: fields })
+			
+			var file = year+'年'+month+'月度报表.csv'
+			var link = '/orderprint/'+file
 
-			fs.writeFile('frontend/src/orderprint/2016年10月度报表.csv', csv, function(err) {
+			fs.writeFile('frontend/src'+link, csv, function(err) {
 			  	console.log('file saved')
-			  	res.redirect('/orderprint')	//  /2016年10月度报表.csv
+			  	res.json({
+			  		status:1,
+			  		msg:"生成文件成功，即将下载！",
+			  		link:link,
+			  		file:file
+			  	})
+
 			})
 		})
 

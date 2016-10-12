@@ -57,6 +57,7 @@ module.exports = function(app){
 
   //订单信息
   app.get('/order',User.signinRequired, Order.list)
+  app.get('/order/month',User.signinRequired, Order.monthList)
   app.post('/order/add',User.signinRequired, Order.save )
   app.post('/order/update', User.signinRequired, Order.update)
   app.get('/order/detail/:id', User.signinRequired, Order.detail)

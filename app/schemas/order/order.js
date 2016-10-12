@@ -53,10 +53,10 @@ OrderSchema.pre('save',function(next){
 })
 
 OrderSchema.statics = {
-	fetch:function(rule,cb){	
+	fetch:function(rule,cb){
 		return this
 			.find(rule)
-			.sort('meta.createAt')
+			.sort({'meta.createAt':-1})
 			.exec(cb)
 	},
 	findById:function(id,cb){

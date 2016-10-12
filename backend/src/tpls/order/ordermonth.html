@@ -1,4 +1,4 @@
-<div ng-controller="OrderCtrl">
+<div ng-controller="OrderMonthCtrl">
     <h2 class="page-header">
         全部订单
         <button class="btn btn-primary ml-20" ng-click="pinSortFunc({isTop:true});pinShowFunc()" data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="选择固定位置" ng-class="{true: 'pro-show', false: 'pro-hide'}[!pinShow]"> <i class="fa fa-thumb-tack fa-lg" ></i>
@@ -107,15 +107,8 @@
                     </div>
                     <!-- /.col-xs-2 -->
                     <div class="col-xs-4">
-                        <a href="" ui-sref="web.orderDetail({id:o._id})" ng-bind="o.orderNum"></a>
-                    </div>
-                    <!-- /.col-xs-4 -->
-                    <div class="col-xs-3">
-                        <p ng-bind="o.total | currency:'￥' "></p>
-                    </div>
-                    <!-- /.col-xs-3 -->
-                    <div class="col-xs-4">
-                        <p ng-bind="payTypeArr[o.payType]"></p>
+                        <a  href="{{link}}" download="{{file}}" ng-bind="o.year+'年'+o.month+'月'" ></a>
+                        <a class="btn btn-primary" ng-click="send(o)">生成csv</a>
                     </div>
                 </div>
             </div>

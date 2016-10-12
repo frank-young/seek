@@ -16,11 +16,11 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 				},
 				{
 					text:'月报表',
-					link:'web.orderAdd'
+					link:'web.orderMonth'
 				},
 				{
 					text:'日报表',
-					link:'web.orderDetail'
+					link:'web.order'
 				}
 			]
 		},

@@ -309,6 +309,20 @@ angular.module('serviceData', [])
                 });
                 return defer.promise;
             },
+            getMonthData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/order/month',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+
             updateData: function (value) {
                 var defer = $q.defer();
                 $http({
@@ -353,6 +367,19 @@ angular.module('serviceData', [])
                 var defer = $q.defer();
                 $http({
                     url: '/order/detail/'+id,
+                    method: 'get'
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            downloadData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    url: '/order/download?year='+value.year+'&month='+value.month,
                     method: 'get'
                 })
                 .success(function (data, status, headers, config) {

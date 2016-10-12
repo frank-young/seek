@@ -10,6 +10,8 @@ angular.module("orderDetailMoudle", []).controller('OrderDetailCtrl',
 	$scope.isEdit = true;
 
     var date = new Date();
+    $scope.payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
+    
     /* 订单详情请求 */
     orderData.getIdData($stateParams.id).then(function (data) {
        $scope.order=data.order; 
@@ -22,11 +24,6 @@ angular.module("orderDetailMoudle", []).controller('OrderDetailCtrl',
         })
     }
    
-    /*提示框*/
-    $scope.changeAlert = function(title,content){
-        $alert({title: title, content: content, type: "info", show: true,duration:5});
-    }
-
     $scope.clone = function(){
         localStorage.order= JSON.stringify($scope.order);
         localStorage.showImages= JSON.stringify($scope.order.path);

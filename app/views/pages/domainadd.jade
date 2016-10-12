@@ -15,9 +15,14 @@ html
             form#f-domain
               //- method="POST", action="/domain/addctrl"
               h2 添加门店
-              h3 输入门店名称或编号，添加门店
-              .form-group.add-input(style="margin-bottom:45px;")             
-                input#inputEmail.form-control(name="domain[name]",type='text', placeholder='门店编号', required='', autofocus='')                    
+              .form-group.add-input(style="margin-bottom:25px;")             
+                input#inputEmail.form-control(name="domain[name]",type='text', placeholder='门店编号', required='', autofocus='')
+              .form-group.add-input(style="margin-bottom:25px;")             
+                input#inputEmail.form-control(name="domain[pname]",type='text', placeholder='门店名称', required='', autofocus='')
+              .form-group.add-input(style="margin-bottom:35px;")             
+                input#inputEmail.form-control(name="domain[address]",type='text', placeholder='门店地址', required='', autofocus='')
+              .form-group.add-input(style="margin-bottom:35px;")             
+                input#inputEmail.form-control(name="domain[tel]",type='text', placeholder='门店电话', required='', autofocus='')                    
               .form-group
                 div#f-alert.alert.alert-danger(role="alert")            
               .form-group.mt-20

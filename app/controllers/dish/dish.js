@@ -53,7 +53,7 @@ var path = require('path')
 				msg:"菜品拼音缩写格式不正确，必须为字母或数字！"
 			})
   		}else{
-  			Dish.findOne({name:dishObj.name},function(err,dish){
+  			Dish.findOne({"domainlocal":user.domain,name:dishObj.name},function(err,dish){
 				if(err){
 					res.json({
 						status:0,
