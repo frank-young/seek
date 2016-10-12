@@ -4,7 +4,7 @@
           <button type="button" class="button button-primary" ng-click="searchFunc(search)">搜索</button>
         <div class="row">
           	<div class="two columns" ng-repeat="ca in cate">
-          		<button ng-click="selectCate(ca)" class="button" ng-bind="ca.name" ng-class="{true: 'button-primary', false: ''}[ca.checked]"></button>
+          		<button ng-click="selectCate(ca)" class="button" ng-bind="ca.label" ng-class="{true: 'button-primary', false: ''}[ca.checked]"></button>
           	</div>
         </div>
         <div class="row">

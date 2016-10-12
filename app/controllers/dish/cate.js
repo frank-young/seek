@@ -18,6 +18,7 @@ var _ = require('underscore')
 		var user = req.session.user
 		var _cate
 			_cate = new Cate({
+				checked: cateObj.checked,
 				isEdit: cateObj.isEdit,
 				value:cateObj.value,
 				label:cateObj.label,

@@ -61,6 +61,8 @@ module.exports = function(app){
   app.post('/order/update', User.signinRequired, Order.update)
   app.get('/order/detail/:id', User.signinRequired, Order.detail)
   app.delete('/order/delete',User.signinRequired, Order.del)
+  app.get('/order/download',User.signinRequired, Order.downloadMonth)
+
 
   //user setting
   app.get('/setting', User.signinRequired, Setting.data)

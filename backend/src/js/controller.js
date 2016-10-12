@@ -263,6 +263,7 @@ angular.module("dishAddMoudle", []).controller('DishAddCtrl',
         $scope.dish ={   
             "isTop":false,
             "checked":false,
+            "isChecked":false,
             "number":0,
             "name":"",
             "price":null,
@@ -333,8 +334,14 @@ angular.module("dishCateMoudle", ['ng-sortable']).controller('DishCateCtrl',
     })
     /* 添加分类信息 */
     $scope.addCate= function(){
-        var value = $scope.cate.length;
-        cateData.addData({"value":value,"isEdit":true,"label":'默认分类'+(value+1)}).then(function(data){
+        var value = $scope.cate.length
+        var msgadd = {
+            checked: false,
+            isEdit: true,
+            value:value,
+            label:'默认分类'+(value+1)
+        }
+        cateData.addData(msgadd).then(function(data){
             $scope.changeAlert(data.msg);
         });
         cateData.getData().then(function (data) {
@@ -364,10 +371,6 @@ angular.module("dishCateMoudle", ['ng-sortable']).controller('DishCateCtrl',
                 cateData.updateData(element);
             });
         }
-    }
-    /*提示框*/
-    $scope.changeAlert = function(title,content){
-        $alert({title: title, content: content, type: "info", show: true,duration:5});
     }
 
 }]);;/********************************************************************************************************************
@@ -570,6 +573,7 @@ angular.module("orderAddMoudle", []).controller('OrderAddCtrl',
         $scope.order ={   
             "isTop":false,
             "checked":false,
+            "isChecked":false,
             "number":0,
             "name":"",
             "price":null,

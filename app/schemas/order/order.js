@@ -26,6 +26,9 @@ var OrderSchema = new mongoose.Schema({
 	other1:String,
 	other2:String,
 	time:Number,
+	year:Number,
+	month:Number,
+	day:Number,
 	meta:{
 		createAt:{
 			type:Number,

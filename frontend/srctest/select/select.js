@@ -2,44 +2,44 @@
  *                                                     点餐页面
  ********************************************************************************************************************/
 
-angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
-	function($scope,$window) {
+angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window','cateData','dishData',
+	function($scope,$window,cateData,dishData) {
 
-		$window.document.title = "点餐";
-
-		$scope.cate = [
-			{"value":0,"name":"咖啡","checked":true},
-			{"value":1,"name":"甜品","checked":false},
-			{"value":2,"name":"零食","checked":false},
-			{"value":3,"name":"特色菜品","checked":false}
-		]
+		$window.document.title = "点餐"
+		
+		if(localStorage.localCate !=null){
+			$scope.localCate = JSON.parse(localStorage.localCate)
+		}else{
+			$scope.cate = []
+			cateData.getData().then(function(data){
+				$scope.cate = data.cates
+				$scope.cate[0].checked = true
+			})
+		}
 
 		if(localStorage.cookAll !=null){
 			$scope.cookAll = JSON.parse(localStorage.cookAll)
-		}else{
 
-			$scope.cookAll = [
-				{"name":"拿铁咖啡","price":"28.00","cate":0,"checked":false,"number":0,"search":"ntkf"},
-				{"name":"拿铁咖啡","price":"28.00","cate":0,"checked":false,"number":0,"search":"ntkf"},
-				{"name":"南山咖啡","price":"18.00","cate":0,"checked":false,"number":0,"search":"nskf"},
-				{"name":"雀巢咖啡","price":"16.00","cate":0,"checked":false,"number":0,"search":"qckf"},
-				{"name":"摩卡咖啡","price":"25.00","cate":0,"checked":false,"number":0,"search":"mkkf"},
-				{"name":"卡布奇诺","price":"28.00","cate":0,"checked":false,"number":0,"search":"kbqn"},
-				{"name":"焦糖玛奇朵","price":"32.00","cate":0,"checked":false,"number":0,"search":"jtmqd"},
-				{"name":"马卡龙","price":"12.00","cate":1,"checked":false,"number":0,"search":"mkl"},
-				{"name":"蛋糕","price":"56.00","cate":2,"checked":false,"number":0,"search":"dg"},
-				{"name":"冰淇淋","price":"6.00","cate":1,"checked":false,"number":0,"search":"bql"},
-				{"name":"冰糖雪梨","price":"6.00","cate":3,"checked":false,"number":0,"search":"btxl"}
-			]
+		}else{
+			$scope.cookAll = []
+			$scope.cook = []
+			dishData.getData().then(function(data){
+				$scope.cookAll = data.dishs
+				// $scope.cook = angular.copy($scope.cookAll)
+				selectDefault(0)
+			})
 		}
 
-		$scope.cook = []	// 分类显示的菜品
+		$scope.cook = []
+		
+		//选择默认分类
 		function selectDefault(value){	
 			$scope.cookAll.forEach(function(ele,index){
 				if(ele.cate == value){
 					$scope.cook.push(ele)
 				}
 			})
+
 		}
 
 		selectDefault(0)	//默认选择第一个分类
@@ -53,7 +53,7 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 			selectDefault(value.value)
 			value.checked = true
 		}
-		
+		 
 		// 搜索
 		$scope.search = ""
 		$scope.searchFunc = function(value){
@@ -69,7 +69,7 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 		if(localStorage.cook!=null){
 			$scope.cookCart = JSON.parse(localStorage.cook)
 		}else{
-			$scope.cookCart = []	// 选中的菜品
+			$scope.cookCart = []
 
 		}
 		//选择菜品

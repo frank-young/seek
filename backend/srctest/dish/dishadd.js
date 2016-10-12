@@ -17,6 +17,7 @@ angular.module("dishAddMoudle", []).controller('DishAddCtrl',
         $scope.dish ={   
             "isTop":false,
             "checked":false,
+            "isChecked":false,
             "number":0,
             "name":"",
             "price":null,

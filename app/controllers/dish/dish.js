@@ -69,6 +69,7 @@ var path = require('path')
 					_dish = new Dish({
 						isTop: dishObj.isTop,
 						isChecked: dishObj.isChecked,
+						checked: dishObj.checked,
 						name: dishObj.name,
 						price: dishObj.price,
 						cate: dishObj.cate,

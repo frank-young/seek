@@ -13,6 +13,7 @@ angular.module("orderAddMoudle", []).controller('OrderAddCtrl',
         $scope.order ={   
             "isTop":false,
             "checked":false,
+            "isChecked":false,
             "number":0,
             "name":"",
             "price":null,

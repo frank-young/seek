@@ -1,7 +1,8 @@
-var Order = require('../../models/order/order')	//引入模型
-var _ = require('underscore')
-var fs = require('fs')
-var path = require('path')
+var Order = require('../../models/order/order'),	//引入模型
+	_ = require('underscore'),
+	json2csv = require('json2csv'),
+	fs = require('fs'),
+	path = require('path')
 
 	//订单列表页
 	exports.list = function(req,res){
@@ -60,8 +61,11 @@ var path = require('path')
 						memberName: orderObj.memberName,
 						memberNum: orderObj.memberNum,
 						memberPhone: orderObj.memberPhone,
-						editPeople: user.name,
 						time: orderObj.time,
+						year: orderObj.year,
+						month: orderObj.month,
+						day: orderObj.day,
+						editPeople: user.name,
 						userlocal:user.email,
 						domainlocal:user.domain
 					})
@@ -137,6 +141,36 @@ var path = require('path')
 				}
 			})
 		}
+	}
+
+	//下载月报表
+	exports.downloadMonth = function(req,res){
+		// var id = req.query.id
+		var user = req.session.user
+		var fields = ['订单编号', '支付类型','操作人', '总价','减免金额','实付款']
+		var payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
+		var orderData = []
+		Order.fetch({"domainlocal":user.domain,"year":2016,"month":10},function(err,orders){
+
+			orders.forEach(function(value,index){
+
+				var orderObj = {
+					"订单编号":value.orderNum,
+					"支付类型":payTypeArr[value.payType],
+					"操作人":value.editPeople,
+					"总价":value.total,
+					"减免金额":value.reduce,
+					"实付款":value.realTotal
+				}
+				orderData.push(orderObj)
+			})
+			var csv = json2csv({ data: orderData, fields: fields })
+
+			fs.writeFile('file.csv', csv, function(err) {
+			  	console.log('file saved')
+			})
+		})
+
 	}
 
 

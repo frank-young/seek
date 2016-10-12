@@ -9,7 +9,7 @@ var cookieParser = require('cookie-parser')
 var cookieSession = require('cookie-session')
 var port = process.env.PORT || 3000	//设置端口
 var app = express()		//启动一个web服务器
-var dbUrl = 'mongodb://127.0.0.1/nanadb'
+var dbUrl = 'mongodb://127.0.0.1/seekdb'
  
 mongoose.connect(dbUrl)
 
