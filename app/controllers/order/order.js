@@ -166,8 +166,9 @@ var Order = require('../../models/order/order'),	//引入模型
 			})
 			var csv = json2csv({ data: orderData, fields: fields })
 
-			fs.writeFile('file.csv', csv, function(err) {
+			fs.writeFile('frontend/src/orderprint/2016年10月度报表.csv', csv, function(err) {
 			  	console.log('file saved')
+			  	res.redirect('/orderprint')	//  /2016年10月度报表.csv
 			})
 		})
 
