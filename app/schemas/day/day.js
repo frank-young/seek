@@ -1,6 +1,9 @@
 var mongoose = require('mongoose')	
 var DaySchema = new mongoose.Schema({
-	date:String,
+	date:{
+		unique:true,
+		type:String
+	},
 	year:Number,
 	month:Number,
 	day:Number,

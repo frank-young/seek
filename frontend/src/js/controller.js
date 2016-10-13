@@ -246,16 +246,7 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location','dayData',
   	function($scope,$rootScope,$window,$location,dayData) {
 
-		$window.document.title = "seek cafe";
-		var date = new Date(),
-			Y = date.getFullYear(),	
-	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
-	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()),
-	        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()),
-	        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()),
-	        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds()),
-			today = Y + M + D
-
+		$window.document.title = "seek cafe"
 
 		// 选择用餐人数
 		$scope.people = [1,2,3,4,5,6,7,8,9,10,11,12]
@@ -369,8 +360,9 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
  *                                                     导航条
  ********************************************************************************************************************/
 
-angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval',
-  	function($scope,$rootScope,$interval) {
+angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData',
+  	function($scope,$rootScope,$interval,dayData) {
+  		// 设置时间
 	  	function setTime(){
 	  		return $scope.time = new Date()
 	  	}
@@ -379,7 +371,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  	}, 1000)
 	  	setTime()
 
-	  	
+	  	// 本地存储开班、结班
 	  	if(localStorage.starDay != null){
   			$rootScope.status = false;
   		}else{
@@ -389,10 +381,29 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  	// 开班
 	  	$scope.startDay = function(){
   			$rootScope.status = false
-	  		$scope.time = new Date()	// 开班时间
-  			console.log($scope.time)
+	
+	  		var date = new Date(),
+				Y = date.getFullYear(),	
+		        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+		        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()),
+		        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()),
+		        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()),
+		        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds()),
+		        now = date.getTime(),
+				today = Y + M + D
+
+	  		$scope.time = date 		// 开班时间
+  			// console.log($scope.time)
   			localStorage.starDay = 1
   			localStorage.serial = 1
+
+  			var dateobj = {
+  				"date":today,
+  				"year":Y,
+  				"month":M,
+  				"day":D,
+  				"start": now
+  			}
 
 	  	}
 	  	// 结班
