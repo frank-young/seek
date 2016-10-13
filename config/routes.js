@@ -5,6 +5,7 @@ var Index = require('../app/controllers/index'),
     Dish = require('../app/controllers/dish/dish'),
     Cate = require('../app/controllers/dish/cate'),
     Order = require('../app/controllers/order/order'),
+    Day = require('../app/controllers/day/day'),
     Wechat = require('../app/controllers/wechat/wechat'),
     multipart = require('connect-multiparty'),
     multipartMiddleware = multipart()
