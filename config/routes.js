@@ -68,6 +68,11 @@ module.exports = function(app){
   app.get('/order/downloadday',User.signinRequired, Order.downloadDay)
   app.get('/order/download/itemday',User.signinRequired, Order.downloadItemDay)
 
+  //开班、结班信息
+  app.get('/day',User.signinRequired, Day.list)
+  app.post('/day/add',User.signinRequired, Day.save)
+  app.post('/day/update', User.signinRequired, Day.update)
+  // app.delete('/day/delete',User.signinRequired, Day.del)
 
   //user setting
   app.get('/setting', User.signinRequired, Setting.data)

@@ -2,10 +2,19 @@
  *                                                     首页
  ********************************************************************************************************************/
 
-angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location',
-  	function($scope,$rootScope,$window,$location) {
+angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location','dayData',
+  	function($scope,$rootScope,$window,$location,dayData) {
 
 		$window.document.title = "seek cafe";
+		var date = new Date(),
+			Y = date.getFullYear(),	
+	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()),
+	        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()),
+	        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()),
+	        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds()),
+			today = Y + M + D
+
 
 		// 选择用餐人数
 		$scope.people = [1,2,3,4,5,6,7,8,9,10,11,12]

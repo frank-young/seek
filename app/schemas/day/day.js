@@ -1,9 +1,11 @@
 var mongoose = require('mongoose')	
-var CateSchema = new mongoose.Schema({
-	value:String,
-	label:String,
-	isEdit:Boolean,
-	checked:Boolean,
+var DaySchema = new mongoose.Schema({
+	date:String,
+	year:Number,
+	month:Number,
+	day:Number,
+	start:Number,
+	stop:Number,
 	meta:{
 		createAt:{
 			type:Number,	
@@ -18,7 +20,7 @@ var CateSchema = new mongoose.Schema({
 	domainlocal:String
 })
 
-CateSchema.pre('save',function(next){	//每次存数据之前都要调用这个方法
+DaySchema.pre('save',function(next){	//每次存数据之前都要调用这个方法
 	if(this.isNew){
 		//数据是否是新加的，创建的时间和更新时间设置为当前时间
 		this.meta.createAt = this.meta.updateAt = Date.now()
@@ -28,11 +30,11 @@ CateSchema.pre('save',function(next){	//每次存数据之前都要调用这个�
 	next()
 })
 
-CateSchema.statics = {
+DaySchema.statics = {
 	fetch:function(rule,cb){		//取出目前数据库所有的数据
 		return this
 			.find(rule)	//查找全部数据
-			.sort('value')		
+			.sort({'meta.createAt':-1})	
 			.exec(cb)
 	},
 	findById:function(id,cb){		//取出目前数据库所有的数据
@@ -42,4 +44,4 @@ CateSchema.statics = {
 	}
 }
 
-module.exports = CateSchema
+module.exports = DaySchema

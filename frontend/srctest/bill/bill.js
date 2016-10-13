@@ -90,7 +90,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		}
 
 		// 订单号  门店编号 年 月 日 时 分 秒  2016 10 11 + 0001
-		var date = new Date()
+		
 		// 设置流水号
 		function setSerial(){
 			var serial = localStorage.serial
@@ -118,6 +118,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			domainData.getData().then(function(data){
 				var shopinfo = data.domain,
 					serialNum = setSerial(),
+					date = new Date(),
 					Y = date.getFullYear(),	
 			        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
 			        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()),
