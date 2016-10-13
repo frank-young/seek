@@ -22,7 +22,7 @@ angular.module("dishMoudle", []).controller('DishCtrl',
         }  
     }    
 	/*分页*/
-    $scope.itemsPerPage = 5;
+    $scope.itemsPerPage = 8;
     // $scope.totalItems = 6;
     $scope.currentPage = 1;
     /*菜品*/

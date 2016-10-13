@@ -21,7 +21,9 @@ var app = angular.module('app', [
         'orderMoudle',
         'orderAddMoudle',
         'orderDetailMoudle',
-        'orderMonthMoudle'
+        'orderMonthMoudle',
+        'orderDayMoudle',
+        'itemDayMoudle',
 
         ]);  
 
@@ -96,6 +98,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('web.orderMonth', {
             url: '/ordermonth',
             templateUrl: 'tpls/order/ordermonth.html'
+        })
+        .state('web.orderDay', {
+            url: '/orderday',
+            templateUrl: 'tpls/order/orderday.html'
+        })
+        .state('web.itemDay', {
+            url: '/itemday',
+            templateUrl: 'tpls/order/itemday.html'
         })
 
         

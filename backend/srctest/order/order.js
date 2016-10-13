@@ -5,12 +5,12 @@
 angular.module("orderMoudle", []).controller('OrderCtrl', 
     ['$scope','$window', '$http', '$state','$alert','orderData',
     function($scope,$window, $http, $state,$alert,orderData) {
-	$window.document.title = "订单列表"
+	$window.document.title = "日报表"
     /* 顶部固定按钮 */
     $scope.pinShow = false;
     /* 栏目按钮显示隐藏 */
 	$scope.allShow = false;
-    $scope.payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
+    $scope.payTypeArr = ['现金','微信','支付宝','会员卡','次卡']
 	$scope.pinShowFunc = function(){
         $scope.pinShow = !$scope.pinShow
     }
@@ -23,8 +23,7 @@ angular.module("orderMoudle", []).controller('OrderCtrl',
         }  
     }    
 	/*分页*/
-    $scope.itemsPerPage = 5;
-    // $scope.totalItems = 6;
+    $scope.itemsPerPage = 8;
     $scope.currentPage = 1;
     /*订单*/
     orderData.getData().then(function(data){
@@ -33,7 +32,7 @@ angular.module("orderMoudle", []).controller('OrderCtrl',
     /* 固定/取消固定 位置  ----栏目位置*/
     $scope.pinItem = function(value){
         value.isTop = !value.isTop;
-        orderData.updateData(value);
+        orderData.updateData(value)
         
     }
     /* 选择查看固定位置 */

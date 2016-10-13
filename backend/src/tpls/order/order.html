@@ -105,15 +105,12 @@
                             </label>
                         </div>
                     </div>
-                    <!-- /.col-xs-2 -->
                     <div class="col-xs-4">
                         <a href="" ui-sref="web.orderDetail({id:o._id})" ng-bind="o.orderNum"></a>
                     </div>
-                    <!-- /.col-xs-4 -->
                     <div class="col-xs-3">
                         <p ng-bind="o.total | currency:'￥' "></p>
                     </div>
-                    <!-- /.col-xs-3 -->
                     <div class="col-xs-4">
                         <p ng-bind="payTypeArr[o.payType]"></p>
                     </div>
@@ -123,16 +120,14 @@
             <div class="col-md-2 col-xs-12">
                 <p ng-bind="o.editPeople"></p>
             </div>
-            <!-- /.col-md-2 -->
             <div class="col-md-2 col-xs-3">
                 <p ng-bind="o.meta.createAt | time"></p>
             </div>
-            <!-- /.col-md-2 -->
             <div class="col-md-2 col-xs-12 cus-ctrl">
                 <div class="row">
                     <div class="col-xs-4">
                         <p>
-                            <a href="" style="margin-right: 5px;" ng-click="pinItem(d)" data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="固定/取消">
+                            <a href="" style="margin-right: 5px;" ng-click="pinItem(o)" data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="固定/取消">
                                 <i class="fa fa-thumb-tack fa-lg  top-icon" ng-class="{true: 'pin-icon', false: 'unpin-icon'}[o.isTop]"></i>
                             </a>
                         </p>

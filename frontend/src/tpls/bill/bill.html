@@ -2,7 +2,7 @@
       <div class="one-third column">
         <div class="pay">
 		<div class="panel-group"  role="tablist" aria-multiselectable="true" bs-collapse>
-		  <div class="panel panel-default pay-item">
+		  <div class="panel panel-default pay-item" ng-show="order.payType==3">
 		    <div class="panel-heading" role="tab">
 		      <h4 class="panel-title">
 		        <a bs-collapse-toggle>
@@ -155,14 +155,11 @@
       <div class="one-third column main bill-main">
         <h4>支付方式</h4>
         <div class="row">
-          <div class="one-third column">
-            <button class="button button-primary">现金</button> 
-          </div>
-          <div class="one-third column">
-            <button class="button button-primary">会员</button> 
-          </div>
-          <div class="one-third column">
-            <button class="button button-primary">次卡</button> 
+          <div class="one-third column pay-type" ng-repeat="p in payTypeArr">
+              <div class="p-radio">
+                <input class="p-radio-i" type="radio" name="type" ng-click="selectType($index)" ><span>{{p}}</span>
+                
+              </div>
           </div>
         </div>
         <table class="u-full-width">
@@ -185,12 +182,22 @@
             </tr>
           </tbody>
         </table>
-        <div><h4>合计： <span class="" ng-bind="totalReal | currency:'¥' "></span></h4></div>
+        <div>
+          <h4>减免： 
+            <span class="" ng-bind="total-totalReal | currency:'¥' "></span>
+            <button ng-click="noReduceFunc()" class="button " style="padding: 0 10px;float:right">取消减免</button>
+          </h4>
+
+          <h4>合计： 
+            <span class="" ng-bind="totalReal | currency:'¥' "></span>
+            <button ng-click="roundFunc()" class="button " style="padding: 0 10px;float:right">抹零</button>
+          </h4>
+        </div>
         <button class="button button-primary btn-bill" ng-click="billing()">结算</button>
       </div>
       <div class="one-third column side print-view bill-side">
         <!--startprintbill-->
-        <object  id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0
+        <object  id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
                <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
         </object>
         <div class="detail" id="print">
@@ -259,26 +266,40 @@
             <span class="" ng-bind="payTypeArr[order.payType]">              
             </span>
           </div>
-          
+          <div class="detail-item" ng-show="order.isMember">
+            <span class="">
+              会员姓名：
+            </span>
+            <span class="" ng-bind="order.memberName">              
+            </span>
+          </div>
+          <div class="detail-item" ng-show="order.isMember">
+            <span class="">
+              会员手机：
+            </span>
+            <span class="" ng-bind="order.memberPhone">             
+            </span>
+          </div>
+
           <div class="detail-item">
             <span class="">
               金额合计：
             </span>
-            <span class="" ng-bind="total | currency:'¥' ">
+            <span class="" ng-bind="order.total | currency:'¥' ">
             </span>
           </div>
           <div class="detail-item">
             <span class="">
               减免金额：
             </span>
-            <span class="" ng-bind="total-totalReal | currency:'¥' ">
+            <span class="" ng-bind="order.reduce | currency:'¥' ">
             </span>
           </div>
           <div class="detail-item">
             <span class="">
               优惠后金额：
             </span>
-            <span class="" ng-bind="totalReal | currency:'¥' ">
+            <span class="" ng-bind="order.reduceAfter | currency:'¥' ">
             </span>
           </div>
 
@@ -286,7 +307,7 @@
             <span class="">
               实收合计：
             </span>
-            <span class="" ng-bind="totalReal | currency:'¥' ">
+            <span class="" ng-bind="order.realTotal | currency:'¥' ">
             </span>
           </div>
         </div>
@@ -307,7 +328,7 @@
                   <div class="search-content">
                       <input class="search" autofocus type="text" placeholder="输入手机号查找..." ng-model="search" ng-keypress="searchMember(search)">
                        <!-- ng-keypress="searchMember()" -->
-                      <button type="button" class="button button-primary" ng-click="searchMember(search)">搜索</button>
+                      <button type="button" class="button" ng-click="searchMember(search)" style="color:#333;">搜索</button>
                   </div>
                   <table class="u-full-width">
                     <thead>
@@ -315,18 +336,16 @@
                         <th>姓名</th>
                         <th>卡号</th>
                         <th>手机号</th>
-                        <th>开卡时间</th>
                         <th>操作</th>
                       </tr>
                     </thead>
                     <tbody>
                        <tr ng-repeat="m in member">
-                        <td ng-bind="m.name"></td>
-                        <td ng-bind="m.card"></td>
-                        <td ng-bind="m.phone"></td>
-                        <td ng-bind="m.time | datetime"></td>
+                        <td ng-bind="m.memberName"></td>
+                        <td ng-bind="m.memberNum"></td>
+                        <td ng-bind="m.memberPhone"></td>
                         <td> 
-                          <button class="button button-primary">选择</button>
+                          <button class="button button-primary" ng-click="selectMember(m);$hide()">选择</button>
                         </td>
                       </tr>
                     </tbody>

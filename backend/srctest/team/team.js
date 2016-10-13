@@ -21,8 +21,8 @@ angular.module("teamMoudle", []).controller('TeamCtrl',
     })
 
     /*分页*/
-    $scope.itemsPerPage = 5;
-    // $scope.totalItems = 6;
+    $scope.itemsPerPage = 8;
+
     $scope.currentPage = 1;
 
     /***************************** 以下是顶部导航栏批量操作 **************************************/

@@ -322,7 +322,32 @@ angular.module('serviceData', [])
                 });
                 return defer.promise;
             },
-
+            getDayData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/order/day',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            getItemDayData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/order/itemday',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
             updateData: function (value) {
                 var defer = $q.defer();
                 $http({
@@ -380,6 +405,32 @@ angular.module('serviceData', [])
                 var defer = $q.defer();
                 $http({
                     url: '/order/download?year='+value.year+'&month='+value.month,
+                    method: 'get'
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            downloadDayData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    url: '/order/downloadday?year='+value.year+'&month='+value.month+'&day='+value.day,
+                    method: 'get'
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            downloadItemDayData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    url: '/order/download/itemday?year='+value.year+'&month='+value.month+'&day='+value.day,
                     method: 'get'
                 })
                 .success(function (data, status, headers, config) {

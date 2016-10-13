@@ -1,7 +1,6 @@
-<div ng-controller="OrderMonthCtrl">
+<div ng-controller="ItemDayCtrl">
     <h2 class="page-header">
-        月报表
-        
+        每日品项报告
     </h2>
 
     <div class="row hidden-xs hidden-sm">
@@ -18,6 +17,9 @@
             <div class="col-md-2" ng-click="col='month';desc=!desc">
                     月份
             </div>
+            <div class="col-md-2">
+                    日
+            </div>
             <div class="col-md-2 text-center" >操作</div>
         </div>
     </div>
@@ -27,7 +29,7 @@
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-3 text-center">
-               <a href="{{o.link}}" ng-bind="o.year+'年'+o.month+'月报表' " download="{{o.file}}"></a>
+               <a href="{{o.link}}" ng-bind="o.year+'年'+o.month+'月'+o.day+'日品项报告' " download="{{o.file}}"></a>
             </div>
             <div class="col-md-2 ">
                 <p ng-bind="o.year"></p>
@@ -35,8 +37,11 @@
             <div class="col-md-2">
                 <p ng-bind="o.month"></p>
             </div>
+            <div class="col-md-2">
+                <p ng-bind="o.day"></p>
+            </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <a class="btn btn-primary" href="{{o.link}}" download="{{o.file}}">下载</a>
                 <a class="btn btn-success" href="{{o.link}}" style="margin-left:30px;">预览</a>
             </div>

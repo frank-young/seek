@@ -58,11 +58,15 @@ module.exports = function(app){
   //订单信息
   app.get('/order',User.signinRequired, Order.list)
   app.get('/order/month',User.signinRequired, Order.monthList)
+  app.get('/order/day',User.signinRequired, Order.dayList)
+  app.get('/order/itemday',User.signinRequired, Order.itemdayList)
   app.post('/order/add',User.signinRequired, Order.save )
   app.post('/order/update', User.signinRequired, Order.update)
   app.get('/order/detail/:id', User.signinRequired, Order.detail)
   app.delete('/order/delete',User.signinRequired, Order.del)
   app.get('/order/download',User.signinRequired, Order.downloadMonth)
+  app.get('/order/downloadday',User.signinRequired, Order.downloadDay)
+  app.get('/order/download/itemday',User.signinRequired, Order.downloadItemDay)
 
 
   //user setting

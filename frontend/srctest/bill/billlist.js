@@ -9,7 +9,7 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 		orderData.getData().then(function(data){
 			$scope.orders = data.orders
 		})
-		$scope.payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
+		$scope.payTypeArr = ['现金','微信','支付宝','会员卡','次卡']
 
 		$scope.lookAll = function(id){
 			orderData.getIdData(id).then(function(data){
