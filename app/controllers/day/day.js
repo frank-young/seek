@@ -1,7 +1,7 @@
 var Day = require('../../models/day/day')	//引入模型
 var _ = require('underscore')
 	
-	//分类列表页
+	//开班列表页
 	exports.list = function(req,res){
 		var user = req.session.user
 		Day.fetch({"userlocal":user.email},function(err,days){
@@ -13,52 +13,87 @@ var _ = require('underscore')
 		})
 	}
 
-	//分类更新、新建
+	//开班更新、新建
 	exports.save = function(req,res){
 		var dayObj = req.body.day 	//从路由传过来的 day对象
 		var user = req.session.user
 		var _day
-			_day = new Day({
-				date: dayObj.date,
-				year: dayObj.year,
-				month: dayObj.month,
-				day:dayObj.day,
-				start:dayObj.start,
-				stop:dayObj.stop,
-				userlocal:user.email,
-				domainlocal:user.domain
-			})
-			_day.save(function(err,day){
-				if(err){
-					console.log(err)
-				}
-				res.json({msg:"添加成功",status: 1})
-			})
+		Day.findOne({date:dayObj.date,domainlocal:user.domain},function(err,day){
+			if(err){
+				res.json({
+					status:0,
+					msg:"发生未知错误！"
+				})
+			}
+			if(day){
+				res.json({
+					status:0,
+					msg:"今日未结束！",
+					id:day._id
+				})	
+
+			}else{
+				_day = new Day({
+					date: dayObj.date,
+					year: dayObj.year,
+					month: dayObj.month,
+					day:dayObj.day,
+					start:dayObj.start,
+					stop:dayObj.stop,
+					status:dayObj.status,
+					serial:dayObj.serial,
+					userlocal:user.email,
+					domainlocal:user.domain
+				})
+				_day.save(function(err,value){
+					if(err){
+						console.log(err)
+					}
+					res.json(
+						{
+							msg:"开班成功！",
+							status: 1,
+							id:value._id
+						})
+				})
+			}
+		})
+			
 	}
-	//分类更新、新建
+	//开班更新、新建
 	exports.update = function(req,res){
 		var id = req.body.day._id
-		var dayObj = req.body.day 	//从路由传过来的 day对象
+		var dayObj = req.body.day 	
 		var _day
 		if(id !=="undefined"){
 			Day.findById(id,function(err,day){
 				if(err){
 					console.log(err)
 				}
-				_day = _.extend(day,dayObj)	//复制对象的所有属性到目标对象上，覆盖已有属性 ,用来覆盖以前的数据，起到更新作用
+				_day = _.extend(day,dayObj)	
 				_day.save(function(err,day){
 					if(err){
 						console.log(err)
 					}
 
-					res.json({msg:"更新成功",status: 1})
+					res.json({msg:"操作成功！",status: 1})
 				})
 			})
 		}
 		
 	}
 
-	//删除分类
+	//详情页
+	exports.detail = function(req,res){
+		var id = req.params.id		//拿到id的值
+		Day.findById(id,function(err,day){
+			res.json({
+				day:day
+			})
+		})
+	}
+
+	//删除
 	exports.del = function(req,res){
 		var id = req.query.id
 		if(id){

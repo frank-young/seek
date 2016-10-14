@@ -490,8 +490,26 @@ button[disabled]:focus{
 	padding: 20px 15px !important;
 }
 
+.dropdown-menu{
+	position: fixed;
+	left: 50% !important;
+	top: 35% !important;
+	list-style: none;
+	width: 240px;
+	background-color: #fff;
+	padding: 40px 20px 20px 20px;
+	margin-left: -100px;
+	border: 5px solid #33C3F0;
+	z-index: 100;
+}
 
-
+.dropdown-menu li{
+	display: inline-block;
+}
+.dropdown-menu li .button{
+	margin-right: 10px;
+	width: 70px;
+}
 
 
 

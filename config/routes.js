@@ -73,6 +73,7 @@ module.exports = function(app){
   app.get('/day',User.signinRequired, Day.list)
   app.post('/day/add',User.signinRequired, Day.save)
   app.post('/day/update', User.signinRequired, Day.update)
+  app.get('/day/detail/:id', User.signinRequired, Day.detail)
   // app.delete('/day/delete',User.signinRequired, Day.del)
 
   //user setting

@@ -2,8 +2,8 @@
  *                                                     首页
  ********************************************************************************************************************/
 
-angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location','dayData',
-  	function($scope,$rootScope,$window,$location,dayData) {
+angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location',
+  	function($scope,$rootScope,$window,$location) {
 
 		$window.document.title = "seek cafe"
 

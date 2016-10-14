@@ -24,28 +24,28 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  	$scope.startDay = function(){
   			$rootScope.status = false
 	
-	  		var date = new Date(),
-				Y = date.getFullYear(),	
-		        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
-		        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()),
-		        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()),
-		        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()),
-		        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds()),
-		        now = date.getTime(),
-				today = Y + M + D
+	  		var date = createTime()
 
-	  		$scope.time = date 		// 开班时间
+	  		$scope.time = date.now 		// 开班时间
   			// console.log($scope.time)
   			localStorage.starDay = 1
   			localStorage.serial = 1
 
-  			var dateobj = {
-  				"date":today,
-  				"year":Y,
-  				"month":M,
-  				"day":D,
-  				"start": now
+  			var dateObj = {
+  				"date":date.today,
+  				"year":date.y,
+  				"month":date.m,
+  				"day":date.d,
+  				"start": date.now,
+  				"status":1,
+  				"serial":1
   			}
+
+  			dayData.addData(dateObj).then(function(data){
+
+  				localStorage.dayid = data.id
+  			})
+
 
 	  	}
 	  	// 结班
@@ -56,10 +56,43 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 			localStorage.removeItem('cookAll')
 			localStorage.removeItem('peopleNumber')
 			localStorage.removeItem('serial')
-	  		$scope.time = new Date()	// 结班时间
-	  		console.log($scope.time)
+			localStorage.removeItem('dayid')
+
+			var date = createTime()
+	  		$scope.time = date.now	// 结班时间
+	  		// console.log($scope.time)
+
+	  		var dateObj = {
+	  			"_id":localStorage.dayid,
+  				"stop": date.now,
+  				"status":0
+  			}
+	  		dayData.updateData(dateObj).then(function(data){
+
+	  			localStorage.removeItem('dayid')
+	  		})
 
 	  		window.location.href="#/index"
+	  	}
+
+	  	// 生成时间，日期等
+	  	function createTime(){
+	  		var date = new Date(),
+				Y = date.getFullYear(),	
+		        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+		        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()),
+		        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()),
+		        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()),
+		        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds()),
+		        now = date.getTime(),
+				today = Y + "" + M + "" + D
+			return {
+				today:today,
+				y:Y,
+				m:M,
+				d:D,
+				now:now
+			}
 	  	}
 
 	}

@@ -9,6 +9,8 @@ var DaySchema = new mongoose.Schema({
 	day:Number,
 	start:Number,
 	stop:Number,
+	status:Number,
+	serial:Number,
 	meta:{
 		createAt:{
 			type:Number,	

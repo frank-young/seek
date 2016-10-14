@@ -84,6 +84,9 @@
                     <td><h6>折扣（1～99）</h6></td>
                     <td><input type="text" ng-model="discount"></td>
                   </tr>
+                  <tr>  
+                    <button style="padding: 0 10px;width:72px;font-size:16px;margin-right:30px;margin-bottom:20px;" type="button" class="button" ng-repeat="dd in discountDfault" ng-bind="dd+'折'" ng-click="discountFunc(dd)"></button>
+                  </tr>
              <!--      <tr>
                     <td>打折前：</td>
 					<td ng-bind="totalReal | currency:'¥' "></td>
@@ -165,20 +168,26 @@
         <table class="u-full-width">
           <thead>
             <tr>
-              <th>序号</th>
               <th>名称</th>
               <th>数量</th>
               <th>单价</th>
               <th>金额</th>
+              <th>支付方式</th>
             </tr>
           </thead>
           <tbody>
              <tr ng-repeat="cc in cookCart">
-              <td>{{$index+1}}</td>
               <td ng-bind="cc.name"></td>
               <td>{{cc.number}}</td>
               <td ng-bind="cc.price | currency:'¥' "></td>
               <td ng-bind="cc.price*cc.number | currency:'¥' "></td>
+              <td> <button style="padding: 0 10px;width:72px;font-size:16px" type="button" class="button" bs-dropdown aria-haspopup="true" aria-expanded="false" placement="bottom" >{{payTypeArr[cc.payType]}}</button>
+                    <ul class="dropdown-menu" role="menu">
+                        <li ng-repeat="p in payTypeArr">
+                            <button class="button" style="padding: 0 10px;"  ng-bind="p" ng-click="selectPay(cc,$index)"></button>
+                        </li>
+                    </ul>
+              </td>
             </tr>
           </tbody>
         </table>

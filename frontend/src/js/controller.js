@@ -2,8 +2,8 @@
  *                                                     结账页面
  ********************************************************************************************************************/
 
-angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','orderData','domainData',
-  	function($scope,$alert,$window,orderData,domainData) {
+angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','orderData','domainData','dayData',
+  	function($scope,$alert,$window,orderData,domainData,dayData) {
 
 		$window.document.title = "结账" 
 		// 获取本地存储已点的菜品
@@ -28,6 +28,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		// 总价格，实际价格
 		$scope.cookCart.forEach(function(ele){
 			$scope.total += ele.number*ele.price
+			ele.payType = 0
 		})
 
 		// 折后、减免、免单后的真实价格
@@ -38,6 +39,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$scope.totalReal = $scope.total*value*0.01
 			refresh()
 		}
+	
 
 		// 减价
 		$scope.reduceFunc = function(value){
@@ -73,12 +75,21 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		// 生成订单
 		$scope.order = {}
 		$scope.payTypeArr = ['现金','微信','支付宝','会员卡','次卡']
+		$scope.discountDfault = [95,90,85,80,75,70]
 		$scope.payType = 0
 
-		// 选择付款方式
+		// 选择付款方式 统一
 		$scope.selectType = function(value){
 			$scope.order.payType = value
-			
+			$scope.cookCart.forEach(function(ele,index){
+				ele.payType = value
+			})
+		}
+
+		// 选择付款方式 单项
+		$scope.selectPay = function(ele,index) {
+			ele.payType = index
+			console.log(ele.payType)
 		}
 
 		// 选择会员
@@ -93,7 +104,14 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		
 		// 设置流水号
 		function setSerial(){
+			
+			var dayid = localStorage.dayid
+			dayData.getIdData(dayid).then(function(data){
+				localStorage.serial = data.day.serial
+			})
+
 			var serial = localStorage.serial
+
 			var serialNum = ""
 			if(serial != null) {
 				switch(serial.length){
@@ -113,6 +131,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				return serialNum
 			}
 		}
+		setSerial()
 		//获取店铺信息	
 		function getShopInfo(){
 			domainData.getData().then(function(data){
@@ -161,8 +180,25 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				if(data.status == 1){
 					$scope.changeAlert(data.msg)
 					printFunc()
-					var serial = parseInt(localStorage.serial)
-					localStorage.serial = serial+1
+
+					var dayid = localStorage.dayid
+					dayData.getIdData(dayid).then(function(data){
+						serial = data.day.serial
+						localStorage.serial = serial+1
+						var dateObj = {
+				  			"_id": dayid,
+			  				"serial": serial+1
+			  			}
+			  			dayData.updateData(dateObj).then(function(data){
+				  			console.log(data)
+				  		})
+					})
+					// var serial = parseInt(localStorage.serial)
+					// localStorage.serial = serial+1
+					// 更新数据库的流水号 
+					
+			  		
+
 					localStorage.removeItem('cook')
 					localStorage.removeItem('cookAll')
 					localStorage.removeItem('peopleNumber')
@@ -243,8 +279,8 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
  *                                                     首页
  ********************************************************************************************************************/
 
-angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location','dayData',
-  	function($scope,$rootScope,$window,$location,dayData) {
+angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location',
+  	function($scope,$rootScope,$window,$location) {
 
 		$window.document.title = "seek cafe"
 
@@ -382,28 +418,28 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  	$scope.startDay = function(){
   			$rootScope.status = false
 	
-	  		var date = new Date(),
-				Y = date.getFullYear(),	
-		        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
-		        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()),
-		        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()),
-		        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()),
-		        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds()),
-		        now = date.getTime(),
-				today = Y + M + D
+	  		var date = createTime()
 
-	  		$scope.time = date 		// 开班时间
+	  		$scope.time = date.now 		// 开班时间
   			// console.log($scope.time)
   			localStorage.starDay = 1
   			localStorage.serial = 1
 
-  			var dateobj = {
-  				"date":today,
-  				"year":Y,
-  				"month":M,
-  				"day":D,
-  				"start": now
+  			var dateObj = {
+  				"date":date.today,
+  				"year":date.y,
+  				"month":date.m,
+  				"day":date.d,
+  				"start": date.now,
+  				"status":1,
+  				"serial":1
   			}
+
+  			dayData.addData(dateObj).then(function(data){
+
+  				localStorage.dayid = data.id
+  			})
+
 
 	  	}
 	  	// 结班
@@ -414,10 +450,43 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 			localStorage.removeItem('cookAll')
 			localStorage.removeItem('peopleNumber')
 			localStorage.removeItem('serial')
-	  		$scope.time = new Date()	// 结班时间
-	  		console.log($scope.time)
+			localStorage.removeItem('dayid')
+
+			var date = createTime()
+	  		$scope.time = date.now	// 结班时间
+	  		// console.log($scope.time)
+
+	  		var dateObj = {
+	  			"_id":localStorage.dayid,
+  				"stop": date.now,
+  				"status":0
+  			}
+	  		dayData.updateData(dateObj).then(function(data){
+
+	  			localStorage.removeItem('dayid')
+	  		})
 
 	  		window.location.href="#/index"
+	  	}
+
+	  	// 生成时间，日期等
+	  	function createTime(){
+	  		var date = new Date(),
+				Y = date.getFullYear(),	
+		        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+		        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()),
+		        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()),
+		        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()),
+		        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds()),
+		        now = date.getTime(),
+				today = Y + "" + M + "" + D
+			return {
+				today:today,
+				y:Y,
+				m:M,
+				d:D,
+				now:now
+			}
 	  	}
 
 	}

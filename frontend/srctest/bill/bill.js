@@ -2,8 +2,8 @@
  *                                                     结账页面
  ********************************************************************************************************************/
 
-angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','orderData','domainData',
-  	function($scope,$alert,$window,orderData,domainData) {
+angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','orderData','domainData','dayData',
+  	function($scope,$alert,$window,orderData,domainData,dayData) {
 
 		$window.document.title = "结账" 
 		// 获取本地存储已点的菜品
@@ -28,6 +28,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		// 总价格，实际价格
 		$scope.cookCart.forEach(function(ele){
 			$scope.total += ele.number*ele.price
+			ele.payType = 0
 		})
 
 		// 折后、减免、免单后的真实价格
@@ -38,6 +39,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$scope.totalReal = $scope.total*value*0.01
 			refresh()
 		}
+	
 
 		// 减价
 		$scope.reduceFunc = function(value){
@@ -73,12 +75,21 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		// 生成订单
 		$scope.order = {}
 		$scope.payTypeArr = ['现金','微信','支付宝','会员卡','次卡']
+		$scope.discountDfault = [95,90,85,80,75,70]
 		$scope.payType = 0
 
-		// 选择付款方式
+		// 选择付款方式 统一
 		$scope.selectType = function(value){
 			$scope.order.payType = value
-			
+			$scope.cookCart.forEach(function(ele,index){
+				ele.payType = value
+			})
+		}
+
+		// 选择付款方式 单项
+		$scope.selectPay = function(ele,index) {
+			ele.payType = index
+			console.log(ele.payType)
 		}
 
 		// 选择会员
@@ -93,7 +104,14 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		
 		// 设置流水号
 		function setSerial(){
+			
+			var dayid = localStorage.dayid
+			dayData.getIdData(dayid).then(function(data){
+				localStorage.serial = data.day.serial
+			})
+
 			var serial = localStorage.serial
+
 			var serialNum = ""
 			if(serial != null) {
 				switch(serial.length){
@@ -113,6 +131,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				return serialNum
 			}
 		}
+		setSerial()
 		//获取店铺信息	
 		function getShopInfo(){
 			domainData.getData().then(function(data){
@@ -161,8 +180,25 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				if(data.status == 1){
 					$scope.changeAlert(data.msg)
 					printFunc()
-					var serial = parseInt(localStorage.serial)
-					localStorage.serial = serial+1
+
+					var dayid = localStorage.dayid
+					dayData.getIdData(dayid).then(function(data){
+						serial = data.day.serial
+						localStorage.serial = serial+1
+						var dateObj = {
+				  			"_id": dayid,
+			  				"serial": serial+1
+			  			}
+			  			dayData.updateData(dateObj).then(function(data){
+				  			console.log(data)
+				  		})
+					})
+					// var serial = parseInt(localStorage.serial)
+					// localStorage.serial = serial+1
+					// 更新数据库的流水号 
+					
+			  		
+
 					localStorage.removeItem('cook')
 					localStorage.removeItem('cookAll')
 					localStorage.removeItem('peopleNumber')
