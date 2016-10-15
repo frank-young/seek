@@ -211,8 +211,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"isTop":false,
 	            	"isChecked":false,
 					"name": ele.name,
-					cate: ele.cate,
-					price:ele.price,
+					"cate": ele.cate,
+					"price":ele.price,
 					number:ele.number, 
 					total:ele.number * ele.price,
 					// comboPrice: ele.comboPrice,
@@ -278,6 +278,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 
 		} 
+
 		// 搜索会员用户
 		$scope.search = ""
 		$scope.member = $scope.memberAll

@@ -4,7 +4,7 @@ angular.module('serviceData', [])
             getData: function () {
                 var defer = $q.defer();
                 $http({
-                    url: '/order',
+                    url: '/ordertoday',
                     method: 'get' 
                 })
                 .success(function (data, status, headers, config) {

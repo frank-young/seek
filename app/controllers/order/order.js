@@ -7,7 +7,25 @@ var Order = require('../../models/order/order'),	//引入模型
 	//订单列表页
 	exports.list = function(req,res){
 		var user = req.session.user
+
 		Order.fetch({"domainlocal":user.domain},function(err,orders){
+			res.json({
+				msg:"请求成功",
+				status: 1,
+				orders:orders
+			})
+		})
+	}
+
+	// 今日订单
+	exports.listToday = function(req,res){
+		var user = req.session.user
+		var date = new Date(),
+			Y = date.getFullYear(),	
+	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
+
+		Order.fetch({"domainlocal":user.domain,"year":Y,"month":M,"day":D},function(err,orders){
 			res.json({
 				msg:"请求成功",
 				status: 1,
@@ -133,8 +151,8 @@ var Order = require('../../models/order/order'),	//引入模型
 						payStatus: orderObj.payStatus,
 						total: orderObj.total,
 						reduce: orderObj.reduce,
-						reduceAfter:orderObj.reduceAfter,
-						realTotal:orderObj.realTotal,
+						reduceAfter:to2(orderObj.reduceAfter),
+						realTotal:to2(orderObj.realTotal),
 						isMember: orderObj.isMember,
 						memberName: orderObj.memberName,
 						memberNum: orderObj.memberNum,
@@ -158,7 +176,23 @@ var Order = require('../../models/order/order'),	//引入模型
 				}
 			})
   		}
-			
+		function to2(x) { 
+			var f = parseFloat(x); 
+			if (isNaN(f)) { 
+				return false; 
+			} 
+			var f = Math.round(x*100)/100; 
+			var s = f.toString(); 
+			var rs = s.indexOf('.'); 
+			if (rs < 0) { 
+				rs = s.length; 
+				s += '.'; 
+			} 
+			while (s.length <= rs + 2) { 
+				s += '0'; 
+			} 
+			return s; 
+		} 
 	}
 	//订单更新、新建
 	exports.update = function(req,res){
