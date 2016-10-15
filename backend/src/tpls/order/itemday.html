@@ -25,7 +25,7 @@
     </div>
     <hr>
 
-<div class="row cus-item fade-pin" ng-repeat="o in order | orderBy:col:desc | filter: pinSort | offset: (currentPage-1)*itemsPerPage |  limitTo:itemsPerPage">
+<div class="row cus-item fade-pin" ng-repeat="o in item | orderBy:col:desc | filter: pinSort | offset: (currentPage-1)*itemsPerPage |  limitTo:itemsPerPage">
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-3 text-center">

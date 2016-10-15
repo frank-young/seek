@@ -1,26 +1,18 @@
 var mongoose = require('mongoose')	
-var DishSchema = new mongoose.Schema({
+var ItemSchema = new mongoose.Schema({
 	isTop: Boolean,
 	checked: Boolean,
-	name:{
-		unique:true,
-		type:String
-	},
+	name:String,
+	cate:String,
 	price:Number,
-	memberPrice:Number,
-	reducePrice:Number,
 	comboPrice:Number,
-	otherPrice:Number,
-	payType:Number,
 	number:Number,
-	cate: String,
-	search:String,
-	ishost:Boolean,
-	other1:String,
-	other2:String,
-	description:String,
-	people:String,
-	history:String,
+	total:Number,
+	time:Number,
+	year:Number,
+	month:Number,
+	day:Number,
+	other:String,
 	meta:{
 		createAt:{
 			type:Number,
@@ -35,7 +27,7 @@ var DishSchema = new mongoose.Schema({
 	domainlocal:String
 })
 
-DishSchema.pre('save',function(next){
+ItemSchema.pre('save',function(next){
 	if(this.isNew){
 		this.meta.createAt = this.meta.updateAt = Date.now()
 	}else{
@@ -44,11 +36,11 @@ DishSchema.pre('save',function(next){
 	next()
 })
 
-DishSchema.statics = {
-	fetch:function(rule,cb){	
+ItemSchema.statics = {
+	fetch:function(rule,cb){
 		return this
 			.find(rule)
-			.sort('meta.createAt')
+			.sort({'name':1})
 			.exec(cb)
 	},
 	findById:function(id,cb){
@@ -58,4 +50,4 @@ DishSchema.statics = {
 	}
 }
 
-module.exports = DishSchema
+module.exports = ItemSchema

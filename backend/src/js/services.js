@@ -335,19 +335,6 @@ angular.module('serviceData', [])
                 });
                 return defer.promise;
             },
-            getItemDayData: function () {
-                var defer = $q.defer();
-                $http({
-                    url: '/order/itemday',
-                    method: 'get' 
-                })
-                .success(function (data, status, headers, config) {
-                    defer.resolve(data);
-                }).error(function (msg) {
-                    defer.reject(msg);
-                });
-                return defer.promise;
-            },
             updateData: function (value) {
                 var defer = $q.defer();
                 $http({
@@ -427,19 +414,6 @@ angular.module('serviceData', [])
                 });
                 return defer.promise;
             },
-            downloadItemDayData: function (value) {
-                var defer = $q.defer();
-                $http({
-                    url: '/order/download/itemday?year='+value.year+'&month='+value.month+'&day='+value.day,
-                    method: 'get'
-                })
-                .success(function (data, status, headers, config) {
-                    defer.resolve(data);
-                }).error(function (msg) {
-                    defer.reject(msg);
-                });
-                return defer.promise;
-            },
             deleteData: function (value) {
                 var defer = $q.defer();
                 $http({
@@ -455,7 +429,75 @@ angular.module('serviceData', [])
             }
         }
     }])
-
+    .factory('itemData', ['$q','$http',function($q,$http){
+        return {
+            getData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/item',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            getItemDayData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/item/itemday',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            getIdData: function (id) {
+                var defer = $q.defer();
+                $http({
+                    url: '/item/detail/'+id,
+                    method: 'get'
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            downloadItemDayData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    url: '/item/download/itemday?year='+value.year+'&month='+value.month+'&day='+value.day,
+                    method: 'get'
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            deleteData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    method: 'DELETE',
+                    url: '/item/delete?id='+value._id,
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            }
+        }
+    }])
 
 
 

@@ -92,44 +92,6 @@ var Order = require('../../models/order/order'),	//引入模型
 		}
 
 	}
-	//品项报告列表页
-	exports.itemdayList = function(req,res){
-		var user = req.session.user
-		Order.fetch({"domainlocal":user.domain},function(err,orders){
-			var arr =[] 
-			orders.forEach(function(order){
-				arr.push({
-					'year':order.year,
-					'month':order.month,
-					'day':order.day
-				})
-			})
-			
-			var month = distinct(arr)
-
-			res.json({
-				msg:"请求成功",
-				status: 1,
-				orders:month
-			})
-		})
-
-		// 去除重复元素
-		function distinct(arr) {
-		    var ret = [],
-		        length = arr.length;
-		    for(var i = 0;i < length; i++){
-		        for(j = i+1; j<length;j++){
-		            if(arr[i].year === arr[j].year && arr[i].month === arr[j].month  && arr[i].day === arr[j].day){
-		                j = ++i;
-		            }
-		        }
-		        ret.push(arr[i]);
-		    }
-		    return ret;
-		}
-
-	}
 
 	//订单新建
 	exports.save = function(req,res){
@@ -326,47 +288,6 @@ var Order = require('../../models/order/order'),	//引入模型
 			var csv = json2csv({ data: orderData, fields: fields })
 			
 			var file = year+'年'+month+'月'+day+'日报表.csv'
-			var link = '/orderprint/'+file
-
-			fs.writeFile('frontend/src'+link, csv, function(err) {
-			  	res.json({
-			  		status:1,
-			  		msg:"生成文件成功！",
-			  		link:link,
-			  		file:file
-			  	})
-			})
-		})
-
-	}
-
-	//下载品项报告
-	exports.downloadItemDay = function(req,res){
-		var year = req.query.year
-		var month = req.query.month
-		var day = req.query.day
-
-		var user = req.session.user
-		var fields = ['订单编号', '支付类型','操作人', '总价','减免金额','实付款']
-		var payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
-		var orderData = []
-		Order.fetch({"domainlocal":user.domain,"year":year,"month":month,"day":day},function(err,orders){
-
-			orders.forEach(function(value,index){
-
-				var orderObj = {
-					"订单编号":value.orderNum,
-					"支付类型":payTypeArr[value.payType],
-					"操作人":value.editPeople,
-					"总价":value.total,
-					"减免金额":value.reduce,
-					"实付款":value.realTotal
-				}
-				orderData.push(orderObj)
-			})
-			var csv = json2csv({ data: orderData, fields: fields })
-			
-			var file = year+'年'+month+'月'+day+'日品项报告.csv'
 			var link = '/orderprint/'+file
 
 			fs.writeFile('frontend/src'+link, csv, function(err) {

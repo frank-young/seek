@@ -2,10 +2,19 @@
  *                                                     结账页面
  ********************************************************************************************************************/
 
-angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','orderData','domainData','dayData',
-  	function($scope,$alert,$window,orderData,domainData,dayData) {
+angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','orderData','domainData','dayData','itemData',
+  	function($scope,$alert,$window,orderData,domainData,dayData,itemData) {
 
 		$window.document.title = "结账" 
+		//时间日期
+		var date = new Date(),
+			Y = date.getFullYear(),	
+	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()),
+	        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()),
+	        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()),
+	        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds())
+
 		// 获取本地存储已点的菜品
 		$scope.cookCart = JSON.parse(localStorage.cook)
 		
@@ -29,6 +38,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.cookCart.forEach(function(ele){
 			$scope.total += ele.number*ele.price
 			ele.payType = 0
+			ele.memberPrice = 0
 		})
 
 		// 折后、减免、免单后的真实价格
@@ -39,7 +49,13 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$scope.totalReal = $scope.total*value*0.01
 			refresh()
 		}
-	
+		
+		// 打折 - 单品
+		$scope.discountItemFunc = function(value,discount){
+			value.price = value.price*discount*0.01
+			refreshItem($scope.order.dish)
+
+		}
 
 		// 减价
 		$scope.reduceFunc = function(value){
@@ -54,22 +70,43 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		}
 
 		//取消减免
-		$scope.noReduceFunc = function(){
-			$scope.totalReal = $scope.total
-			refresh()
+		$scope.noReduceFunc = function(value){
+			value.realTotal = value.total
+			value.reduce = value.total - value.realTotal
+			reset()
 		}
 
 		//抹零
-		$scope.roundFunc = function(){
-			$scope.totalReal = Math.floor($scope.totalReal)
-			refresh()
+		$scope.roundFunc = function(value){
+			value.realTotal = Math.floor(value.realTotal)
+			// value.reduce = value.total - value.realTotal
 		}
 
 		// 更新价格
 		function refresh(){
 			$scope.order.realTotal = $scope.totalReal
-			$scope.order.reduce = $scope.total - $scope.totalReal,
+			$scope.order.reduce = $scope.total - $scope.totalReal
 			$scope.order.reduceAfter = $scope.totalReal
+		}
+
+		// 更新单价
+		function refreshItem(value){
+			$scope.order.realTotal = 0
+			
+			value.forEach(function(ele){
+				$scope.order.realTotal += ele.number*ele.price
+			})
+
+			$scope.order.reduce = $scope.totalReal - $scope.order.realTotal
+			$scope.order.reduceAfter = $scope.order.realTotal
+			
+		}
+
+		//恢复原价
+		function reset(){
+			$scope.order.dish.forEach(function(ele,index){
+				ele.price = cookCart[index].price
+			})
 		}
 
 		// 生成订单
@@ -89,7 +126,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		// 选择付款方式 单项
 		$scope.selectPay = function(ele,index) {
 			ele.payType = index
-			console.log(ele.payType)
 		}
 
 		// 选择会员
@@ -137,13 +173,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			domainData.getData().then(function(data){
 				var shopinfo = data.domain,
 					serialNum = setSerial(),
-					date = new Date(),
-					Y = date.getFullYear(),	
-			        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
-			        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()),
-			        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()),
-			        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()),
-			        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds()),
 					orderNum = shopinfo.name +Y + M + D + serialNum
 
 				$scope.order = {
@@ -168,6 +197,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"month": M,
 					"day": D,
 				}
+
 			})
 		}
 
@@ -175,6 +205,29 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 结算
 		$scope.billing = function(){
+
+			$scope.order.dish.forEach(function(ele){
+				var item = {
+					"isTop":false,
+	            	"isChecked":false,
+					"name": ele.name,
+					cate: ele.cate,
+					price:ele.price,
+					number:ele.number, 
+					total:ele.number * ele.price,
+					// comboPrice: ele.comboPrice,
+					"time":Date.now(),
+					"year": Y,
+					"month": M,
+					"day": D,
+					other:""
+				}
+
+				itemData.addData(item).then(function(data){
+	
+				})
+			})
+
 			orderData.addData($scope.order).then(function(data){
 
 				if(data.status == 1){
@@ -190,14 +243,12 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			  				"serial": serial+1
 			  			}
 			  			dayData.updateData(dateObj).then(function(data){
-				  			console.log(data)
+				  			// console.log(data)
 				  		})
 					})
 					// var serial = parseInt(localStorage.serial)
 					// localStorage.serial = serial+1
-					// 更新数据库的流水号 
-					
-			  		
+					// 更新数据库的流水号 	
 
 					localStorage.removeItem('cook')
 					localStorage.removeItem('cookAll')
@@ -208,7 +259,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					 $scope.changeAlert(data.msg)
 				}
 			})
-			
+	
 		}
 		// 打印函数
 		function printFunc(){
@@ -588,7 +639,6 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 		// 减少菜品数量
 		$scope.reduce = function(value){
 			value.number -= 1
-			console.log('reduce')
 			if(value.number <= 0){
 				$scope.cookCart = $scope.cookCart.filter(function(ele){
 					if(ele.number!=0){

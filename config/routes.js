@@ -5,6 +5,7 @@ var Index = require('../app/controllers/index'),
     Dish = require('../app/controllers/dish/dish'),
     Cate = require('../app/controllers/dish/cate'),
     Order = require('../app/controllers/order/order'),
+    Item = require('../app/controllers/order/item'),
     Day = require('../app/controllers/day/day'),
     Wechat = require('../app/controllers/wechat/wechat'),
     multipart = require('connect-multiparty'),
@@ -60,14 +61,20 @@ module.exports = function(app){
   app.get('/order',User.signinRequired, Order.list)
   app.get('/order/month',User.signinRequired, Order.monthList)
   app.get('/order/day',User.signinRequired, Order.dayList)
-  app.get('/order/itemday',User.signinRequired, Order.itemdayList)
   app.post('/order/add',User.signinRequired, Order.save )
   app.post('/order/update', User.signinRequired, Order.update)
   app.get('/order/detail/:id', User.signinRequired, Order.detail)
   app.delete('/order/delete',User.signinRequired, Order.del)
   app.get('/order/download',User.signinRequired, Order.downloadMonth)
   app.get('/order/downloadday',User.signinRequired, Order.downloadDay)
-  app.get('/order/download/itemday',User.signinRequired, Order.downloadItemDay)
+
+  //品项报告
+  app.get('/item',User.signinRequired, Item.list)
+  app.post('/item/add',User.signinRequired, Item.save)
+  app.post('/item/update', User.signinRequired, Item.update)
+  app.get('/item/detail/:id', User.signinRequired, Item.detail)
+  app.get('/item/itemday',User.signinRequired, Item.itemdayList)
+  app.get('/item/download/itemday',User.signinRequired, Item.downloadItemDay)
 
   //开班、结班信息
   app.get('/day',User.signinRequired, Day.list)
@@ -87,6 +94,8 @@ module.exports = function(app){
   app.get('/setting/detail/:id', Setting.placeAdminRequired,Setting.detail)
   app.post('/setting/updatecopy', Setting.placeAdminRequired,Setting.updatecopy)
   app.get('/setting/rbac', Setting.rbac)
+
+
 
   // 微信端接口
   app.get('/wechat/init',Wechat.init)

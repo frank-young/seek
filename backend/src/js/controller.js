@@ -269,6 +269,10 @@ angular.module("dishAddMoudle", []).controller('DishAddCtrl',
             "checked":false,
             "isChecked":false,
             "number":0,
+            "memberPrice": 0,
+            "reducePrice": 0,
+            "comboPrice": 0,
+            "otherPrice": 0,
             "name":"",
             "price":null,
             "cate":"0",
@@ -465,22 +469,25 @@ angular.module("homeMoudle", []).controller('HomeCtrl',
  ********************************************************************************************************************/
 
 angular.module("itemDayMoudle", []).controller('ItemDayCtrl', 
-    ['$scope','$window', '$http', '$state','$alert','orderData',
-    function($scope,$window, $http, $state,$alert,orderData) {
+    ['$scope','$window', '$http', '$state','$alert','itemData',
+    function($scope,$window, $http, $state,$alert,itemData) {
     	$window.document.title = "品项报告"
         /*分页*/
         $scope.itemsPerPage = 8
         $scope.currentPage = 1
         /*生成所有报表，并且返回链接*/
-        orderData.getItemDayData().then(function(data){
-            $scope.order=data.orders
-            $scope.order.forEach(function(value,index){
-                
-                orderData.downloadItemDayData(value).then(function(data){
-                    value.link = data.link
-                    value.file = data.file
+        itemData.getItemDayData().then(function(data){
+            if(data.items != "undefined"){
+                $scope.item=data.items
+                $scope.item.forEach(function(value,index){
+                    
+                    itemData.downloadItemDayData(value).then(function(data){
+                        value.link = data.link
+                        value.file = data.file
+                    })
                 })
-            })
+            }
+            
 
         })
 

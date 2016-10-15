@@ -92,7 +92,6 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 		// 减少菜品数量
 		$scope.reduce = function(value){
 			value.number -= 1
-			console.log('reduce')
 			if(value.number <= 0){
 				$scope.cookCart = $scope.cookCart.filter(function(ele){
 					if(ele.number!=0){
