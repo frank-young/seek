@@ -112,7 +112,8 @@
                         <p ng-bind="o.total | currency:'￥' "></p>
                     </div>
                     <div class="col-xs-4">
-                        <p ng-bind="payTypeArr[o.payType]"></p>
+                        <p><span ng-repeat="pt in o.payType" ng-bind="payTypeArr[pt]+' ' "></span></p>
+                        
                     </div>
                 </div>
             </div>

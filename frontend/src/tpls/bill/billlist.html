@@ -58,6 +58,14 @@
             <span class="" ng-bind="order.peopleNum">
             </span>
           </div>
+          <div class="detail-item">
+            <span class="">
+              取餐编号：
+            </span>
+            <span class="" ng-bind="order.dishNum">
+            </span>
+          </div>
+
           <hr>
           <div class="detail-item">
             <table class="u-full-width">
@@ -126,7 +134,7 @@
         <div class="modal-dialog" style="width:500px;">
             <div class="modal-content" >
                 <div class="modal-header">
-                    <button type="button" class="close" ng-click="cancleSchedule();$hide()">&times;</button>
+                    <button type="button" class="close" ng-click="$hide()">&times;</button>
                     <h5 class="modal-title" style="color:#fff; margin-bottom: 0">提示框</h5>
                 </div>
                 <div class="modal-body" style="height:160px;padding-top: 50px;">

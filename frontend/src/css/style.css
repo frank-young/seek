@@ -16,8 +16,8 @@ div,p,span,button,input,h1,h2,h3,h4,h5,h6,b{
 	font-weight: normal;
 }
 button[disabled]{
-	background-color: #ddd;
-	border: 1px solid #ddd;
+	background-color: #ddd !important;
+	border: 1px solid #ddd !important;
 }
 button[disabled]:hover,
 button[disabled]:focus{
@@ -79,7 +79,7 @@ button[disabled]:focus{
 	background-color: #fff;
 	height: 94%;
 	position: relative;
-	top: -30px;
+	top: -29px;
 	right: -30px;
 	padding: 30px;
 	overflow-y: auto;
@@ -511,7 +511,20 @@ button[disabled]:focus{
 	width: 70px;
 }
 
+/*打折小提示*/
+.show-pill{
+	position: relative;
+}
 
+.show-pill .pill{
+	position: absolute;
+	right: -10px;
+	top: 0;
+	background-color: #f60;
+	color: #fff;
+	padding: 0px 10px;
+	font-size: 14px;
+}
 
 
 

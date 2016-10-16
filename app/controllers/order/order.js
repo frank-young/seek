@@ -147,6 +147,7 @@ var Order = require('../../models/order/order'),	//引入模型
 						orderStatus: orderObj.orderStatus,
 						peopleNum: orderObj.peopleNum,
 						dish: orderObj.dish,
+						dishNum: orderObj.dishNum,
 						payType: orderObj.payType,
 						payStatus: orderObj.payStatus,
 						total: orderObj.total,

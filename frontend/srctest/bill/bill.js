@@ -38,7 +38,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.cookCart.forEach(function(ele){
 			$scope.total += ele.number*ele.price
 			ele.payType = 0
-			ele.memberPrice = 0
+			// ele.memberPrice = 0
 		})
 
 		// 折后、减免、免单后的真实价格
@@ -46,14 +46,22 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 打折
 		$scope.discountFunc = function(value){
-			$scope.totalReal = $scope.total*value*0.01
+			$scope.totalReal = 0
+			$scope.cookCart.forEach(function(ele){
+				ele.reducePrice = ele.price*value*0.01
+				$scope.totalReal += ele.reducePrice
+				ele.reduceNum = value
+			})
+
 			refresh()
+
 		}
 		
 		// 打折 - 单品
 		$scope.discountItemFunc = function(value,discount){
-			value.price = value.price*discount*0.01
-			refreshItem($scope.order.dish)
+			value.reducePrice = value.price*discount*0.01
+			value.reduceNum = discount
+			refresh()
 
 		}
 
@@ -69,38 +77,24 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			refresh()
 		}
 
-		//取消减免
-		$scope.noReduceFunc = function(value){
-			value.realTotal = value.total
-			value.reduce = value.total - value.realTotal
-			reset()
-		}
-
 		//抹零
 		$scope.roundFunc = function(value){
-			value.realTotal = Math.floor(value.realTotal)
+			value.realTotal = Math.round(value.realTotal)
 			// value.reduce = value.total - value.realTotal
 		}
 
 		// 更新价格
 		function refresh(){
-			$scope.order.realTotal = $scope.totalReal
-			$scope.order.reduce = $scope.total - $scope.totalReal
-			$scope.order.reduceAfter = $scope.totalReal
-		}
 
-		// 更新单价
-		function refreshItem(value){
 			$scope.order.realTotal = 0
-			
-			value.forEach(function(ele){
-				$scope.order.realTotal += ele.number*ele.price
+			$scope.cookCart.forEach(function(ele){
+				$scope.order.realTotal += ele.number*ele.reducePrice
 			})
 
-			$scope.order.reduce = $scope.totalReal - $scope.order.realTotal
+			$scope.order.reduce = $scope.total - $scope.order.realTotal
 			$scope.order.reduceAfter = $scope.order.realTotal
-			
 		}
+
 
 		//恢复原价
 		function reset(){
@@ -111,21 +105,22 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 生成订单
 		$scope.order = {}
-		$scope.payTypeArr = ['现金','微信','支付宝','会员卡','次卡']
+		$scope.payTypeArr = ['现金','微信','支付宝','会员卡','次卡','一卡通']
 		$scope.discountDfault = [95,90,85,80,75,70]
-		$scope.payType = 0
+		$scope.payType = []
 
 		// 选择付款方式 统一
 		$scope.selectType = function(value){
-			$scope.order.payType = value
 			$scope.cookCart.forEach(function(ele,index){
 				ele.payType = value
 			})
+			payTypeFunc()
 		}
 
 		// 选择付款方式 单项
 		$scope.selectPay = function(ele,index) {
 			ele.payType = index
+			payTypeFunc()
 		}
 
 		// 选择会员
@@ -135,6 +130,17 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$scope.order.memberNum = value.memberNum
 			$scope.order.memberPhone = value.memberPhone.substr(0, 3) + '****' + value.memberPhone.substr(7, 11)
 		}
+		// 付款方式选择函数
+		function payTypeFunc(){
+			$scope.order.payType = []
+			$scope.cookCart.forEach(function(value,index){
+				if($scope.order.payType.indexOf(value.payType)<0 ){
+					$scope.order.payType.push(value.payType)
+				}
+			})
+			// console.log($scope.order.payType )
+		}
+		payTypeFunc()
 
 		// 订单号  门店编号 年 月 日 时 分 秒  2016 10 11 + 0001
 		
@@ -185,7 +191,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					// "orderStatus":  0,
 					"peopleNum": localStorage.peopleNumber,
 					"dish": $scope.cookCart,
-					"payType": $scope.payType,
+					// "payType": $scope.payType,
 					"payStatus": 1,
 					"total": $scope.total,
 					"reduce": $scope.total - $scope.totalReal,
@@ -204,8 +210,9 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		getShopInfo()
 
 		// 结算
-		$scope.billing = function(){
+		$scope.billing = function(value){
 
+			$scope.order.dishNum = angular.copy(value)	//取餐号
 			$scope.order.dish.forEach(function(ele){
 				var item = {
 					"isTop":false,

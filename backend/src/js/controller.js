@@ -269,10 +269,10 @@ angular.module("dishAddMoudle", []).controller('DishAddCtrl',
             "checked":false,
             "isChecked":false,
             "number":0,
-            "memberPrice": 0,
-            "reducePrice": 0,
-            "comboPrice": 0,
-            "otherPrice": 0,
+            // "memberPrice": 0,
+            "reducePrice": null,
+            // "comboPrice": 0,
+            // "otherPrice": 0,
             "name":"",
             "price":null,
             "cate":"0",
@@ -504,7 +504,7 @@ angular.module("orderMoudle", []).controller('OrderCtrl',
     $scope.pinShow = false;
     /* 栏目按钮显示隐藏 */
 	$scope.allShow = false;
-    $scope.payTypeArr = ['现金','微信','支付宝','会员卡','次卡']
+    $scope.payTypeArr = ['现金','微信','支付宝','会员卡','次卡','一卡通']
 	$scope.pinShowFunc = function(){
         $scope.pinShow = !$scope.pinShow
     }
