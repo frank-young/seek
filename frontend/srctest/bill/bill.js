@@ -113,13 +113,28 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.selectType = function(value){
 			$scope.cookCart.forEach(function(ele,index){
 				ele.payType = value
+				if(value == 4){
+					$scope.discountItemFunc(ele,0)
+
+				}else{
+					$scope.discountItemFunc(ele,100)
+				}
+				
 			})
+			$scope.order.noincome = $scope.order.reduce		//计入虚收
 			payTypeFunc()
+
 		}
 
 		// 选择付款方式 单项
 		$scope.selectPay = function(ele,index) {
 			ele.payType = index
+			if(index == 4){
+				$scope.discountItemFunc(ele,0)
+			}else{
+				$scope.discountItemFunc(ele,100)
+			}
+			$scope.order.noincome = $scope.order.reduce		//计入虚收
 			payTypeFunc()
 		}
 
@@ -193,6 +208,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"dish": $scope.cookCart,
 					// "payType": $scope.payType,
 					"payStatus": 1,
+					"noincome": 0,
 					"total": $scope.total,
 					"reduce": $scope.total - $scope.totalReal,
 					"reduceAfter": $scope.totalReal,

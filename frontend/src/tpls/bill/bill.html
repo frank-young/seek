@@ -181,7 +181,7 @@
                         </li>
                     </ul>
               </td>
-              <td class="show-pill"><span ng-bind="cc.reducePrice*cc.number | currency:'¥' "></span><span ng-show="cc.reduceNum != null && cc.reduceNum !=100" class="pill">{{cc.reduceNum}}折</span></td>
+              <td class="show-pill"><span ng-bind="cc.reducePrice*cc.number | currency:'¥' "></span><span ng-show="cc.reduceNum != null && cc.reduceNum !=100 && cc.reduceNum !=0" class="pill">{{cc.reduceNum}}折</span></td>
               <td> 
                   <button style="padding: 0 10px;width:72px;font-size:16px;margin-bottom:0" type="button" class="button" bs-dropdown aria-haspopup="true" aria-expanded="false" placement="bottom" >{{payTypeArr[cc.payType]}}</button>
                     <ul class="dropdown-menu" role="menu">
