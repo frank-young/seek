@@ -24,6 +24,8 @@ var app = angular.module('app', [
         'orderMonthMoudle',
         'orderDayMoudle',
         'itemDayMoudle',
+        'creditMoudle',
+        'paytypeMoudle'
 
         ]);  
 
@@ -107,6 +109,15 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/itemday',
             templateUrl: 'tpls/order/itemday.html'
         })
+        .state('web.credit', {
+            url: '/credit',
+            templateUrl: 'tpls/credit/credit.html'
+        })
+        .state('web.paytype', {
+            url: '/paytype',
+            templateUrl: 'tpls/credit/paytype.html'
+        })
+
 
         
 });

@@ -49,6 +49,21 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 			]
 		},
 		{
+			icon:'fa fa-credit-card',
+			title:'支付设置',
+			role:0,
+			subs:[ 
+				{
+					text:'支付方式',
+					link:'web.paytype'
+				},
+				{
+					text:'挂帐人员',
+					link:'web.credit'
+				}
+			]
+		},
+		{
 			icon:'fa fa-users',
 			title:'会员管理',
 			role:0,

@@ -2,8 +2,8 @@
  *                                                     结账页面
  ********************************************************************************************************************/
 
-angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','orderData','domainData','dayData','itemData',
-  	function($scope,$alert,$window,orderData,domainData,dayData,itemData) {
+angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','orderData','domainData','paytypeData','creditData','dayData','itemData',
+  	function($scope,$alert,$window,orderData,domainData,paytypeData,creditData,dayData,itemData) {
 
 		$window.document.title = "结账" 
 		//时间日期
@@ -105,9 +105,34 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 生成订单
 		$scope.order = {}
-		$scope.payTypeArr = ['现金','微信','支付宝','会员卡','次卡','一卡通']
+		$scope.payTypeArr = []
+		$scope.creditArr = []
 		$scope.discountDfault = [95,90,85,80,75,70]
 		$scope.payType = []
+
+		//获取支付方式
+		paytypeData.getData().then(function(data){
+			console.log(data)
+			$scope.payTypeArr = data.paytypes.map(function(value){
+				return value.label
+			})
+		})
+
+		// 获取挂帐人员
+		creditData.getData().then(function(data){
+			console.log(data)
+			$scope.creditArr = data.credits.map(function(value){
+				return value.label
+			})
+		})
+
+		// 挂帐
+		$scope.selectCredit = function(index){
+			$scope.discountFunc(0)
+			$scope.order.noincome = $scope.order.reduce		//计入虚收
+			$scope.order.redit = index	// 纪录编号
+
+		}
 
 		// 选择付款方式 统一
 		$scope.selectType = function(value){
@@ -209,6 +234,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					// "payType": $scope.payType,
 					"payStatus": 1,
 					"noincome": 0,
+					"credit":0,
 					"total": $scope.total,
 					"reduce": $scope.total - $scope.totalReal,
 					"reduceAfter": $scope.totalReal,
@@ -313,6 +339,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				}
 			})
 		}
+
 
 	}
 ])

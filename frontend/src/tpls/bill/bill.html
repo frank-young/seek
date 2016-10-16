@@ -140,7 +140,15 @@
 		    </div>
 		    <div class="panel-collapse" role="tabpanel" bs-collapse-target>
 		      <div class="panel-body">
-		        <button class="button button-primary btn-free" ng-click="freeFunc()">确认</button>
+            <div class="row">
+              <div class="one-third column pay-type" ng-repeat="p in creditArr">
+                  <div class="p-radio">
+                    <input class="p-radio-i" type="radio" name="type" ng-click="selectCredit($index)" ><span>{{p}}</span>
+                    
+                  </div>
+              </div>
+            </div>
+
 		      </div>
 		    </div>
 		  </div>

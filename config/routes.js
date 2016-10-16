@@ -7,6 +7,8 @@ var Index = require('../app/controllers/index'),
     Order = require('../app/controllers/order/order'),
     Item = require('../app/controllers/order/item'),
     Day = require('../app/controllers/day/day'),
+    Credit = require('../app/controllers/credit/credit'),
+    Paytype = require('../app/controllers/credit/paytype'),
     Wechat = require('../app/controllers/wechat/wechat'),
     multipart = require('connect-multiparty'),
     multipartMiddleware = multipart()
@@ -68,6 +70,19 @@ module.exports = function(app){
   app.delete('/order/delete',User.signinRequired, Order.del)
   app.get('/order/download',User.signinRequired, Order.downloadMonth)
   app.get('/order/downloadday',User.signinRequired, Order.downloadDay)
+
+  //支付方式
+  app.get('/credit',User.signinRequired, Credit.list)
+  app.post('/credit/add',User.signinRequired, Credit.save)
+  app.post('/credit/update', User.signinRequired, Credit.update)
+  app.delete('/credit/delete',User.signinRequired, Credit.del)
+
+  //挂帐人员
+  app.get('/paytype',User.signinRequired, Paytype.list)
+  app.post('/paytype/add',User.signinRequired, Paytype.save)
+  app.post('/paytype/update', User.signinRequired, Paytype.update)
+  app.delete('/paytype/delete',User.signinRequired, Paytype.del)
+
 
   //品项报告
   app.get('/item',User.signinRequired, Item.list)

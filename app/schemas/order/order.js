@@ -25,6 +25,7 @@ var OrderSchema = new mongoose.Schema({
 	editPeople:String,
 	dishNum:String,
 	noincome:Number,
+	credit:Number,
 	other1:String,
 	other2:String,
 	time:Number,
