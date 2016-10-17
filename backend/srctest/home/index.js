@@ -19,7 +19,11 @@ angular.module("homeMoudle", []).controller('HomeCtrl',
 	  		$scope.file = data.file
 	  	})
 	  	
-
+	  	//总业绩查询
+	  	orderData.getGradeAllData().then(function(data){
+	  		$scope.grade = data.grade
+			$scope.noincome = data.noincome
+	  	})
 	}
 ])
 

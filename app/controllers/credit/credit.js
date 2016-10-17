@@ -4,7 +4,7 @@ var _ = require('underscore')
 	//分类列表页
 	exports.list = function(req,res){
 		var user = req.session.user
-		Credit.fetch({"userlocal":user.email},function(err,credits){
+		Credit.fetch({"domainlocal":user.domain},function(err,credits){
 			res.json({
 				status:"1",
 				msg:"请求成功",

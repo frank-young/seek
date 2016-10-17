@@ -44,6 +44,25 @@ app.filter('datetime', function(){
 
 })
 
+app.filter('onlytime', function(){
+  return function(createtime){
+    if(createtime){
+      var nowdate = new Date(),
+        now=Date.parse(nowdate),
+        limit=now/1000-createtime/1000,
+        content="",
+        date = new Date(createtime),
+        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()) + ':',
+        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()) + ':',
+        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds())
+
+        content = h+m+s
+        return content
+    }
+  }
+
+})
+
 app.filter('search', function(){
   return function(value){
     if(value){

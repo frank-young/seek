@@ -43,10 +43,16 @@ $(document).ready(function() {
 
 			},
 			success: function(data) {
+				var link = "/#/index"
 				if(data.status == 1){
 					$('#f-alert').html(data.msg).slideDown(300)
+					if(data.role == 1 || data.role == 10){
+						var link = "/admin/#/index"
+					}else if(data.role == 0){
+						var link = "/#/index"
+					}
 					setTimeout(function(){
-						window.location.href = "/#/index"
+						window.location.href = link
 					},1000)
 				}else if(data.status == 2){
 					$('#f-alert').html(data.msg).slideDown(300)

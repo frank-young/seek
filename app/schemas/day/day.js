@@ -11,6 +11,8 @@ var DaySchema = new mongoose.Schema({
 	stop:Number,
 	status:Number,
 	serial:Number,
+	exchange:Array,
+	editpeople:String,
 	meta:{
 		createAt:{
 			type:Number,	

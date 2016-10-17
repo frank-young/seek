@@ -4,7 +4,7 @@ var _ = require('underscore')
 	//开班列表页
 	exports.list = function(req,res){
 		var user = req.session.user
-		Day.fetch({"userlocal":user.email},function(err,days){
+		Day.fetch({"domainlocal":user.domain},function(err,days){
 			res.json({
 				status:"1",
 				msg:"请求成功",
@@ -40,8 +40,10 @@ var _ = require('underscore')
 					day:dayObj.day,
 					start:dayObj.start,
 					stop:dayObj.stop,
+					exchange:dayObj.exchange,
 					status:dayObj.status,
 					serial:dayObj.serial,
+					editPeople:user.name,
 					userlocal:user.email,
 					domainlocal:user.domain
 				})
@@ -63,9 +65,9 @@ var _ = require('underscore')
 	//开班更新、新建
 	exports.update = function(req,res){
 		var id = req.body.day._id
-		var dayObj = req.body.day 	
+		var dayObj = req.body.day
 		var _day
-		if(id !=="undefined"){
+		if(id != "undefined"){
 			Day.findById(id,function(err,day){
 				if(err){
 					console.log(err)

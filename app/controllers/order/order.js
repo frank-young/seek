@@ -339,6 +339,58 @@ var Order = require('../../models/order/order'),	//引入模型
 
 	}
 
+	// 今日个人业绩
+	exports.gradeToday = function(req,res){
+		var user = req.session.user
+		var date = new Date(),
+			Y = date.getFullYear(),	
+	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
+
+		Order.fetch({"userlocal":user.email,"year":Y,"month":M,"day":D},function(err,orders){
+			var grade = 0,
+				noincome = 0
+			orders.forEach(function(ele){
+				grade += ele.realTotal
+				noincome += ele.noincome
+			})
+			
+ 			res.json({
+				msg:"请求成功",
+				status: 1,
+				orders:orders,
+				grade:grade,
+				username:user.name,
+				noincome:noincome
+			})
+		})
+	}
+
+	// 今日总业绩
+	exports.gradeAllToday = function(req,res){
+		var user = req.session.user
+		var date = new Date(),
+			Y = date.getFullYear(),	
+	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
+
+		Order.fetch({"domainlocal":user.domain,"year":Y,"month":M,"day":D},function(err,orders){
+			var grade = 0,
+				noincome = 0
+			orders.forEach(function(ele){
+				grade += ele.realTotal
+				noincome += ele.noincome
+			})
+			
+ 			res.json({
+				msg:"请求成功",
+				status: 1,
+				orders:orders,
+				grade:grade,
+				noincome:noincome
+			})
+		})
+	}
 
 
 

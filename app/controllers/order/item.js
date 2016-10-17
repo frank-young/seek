@@ -7,7 +7,7 @@ var _ = require('underscore'),
 	//品项列表页
 	exports.list = function(req,res){
 		var user = req.session.user
-		Item.fetch({"userlocal":user.email},function(err,items){
+		Item.fetch({"domainlocal":user.domain},function(err,items){
 			res.json({
 				status:"1",
 				msg:"请求成功",

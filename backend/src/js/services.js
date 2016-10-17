@@ -125,7 +125,7 @@ angular.module('serviceData', [])
                     defer.reject(msg);
                 });
                 return defer.promise;
-            },
+            }
         }
     }])
     .factory('dishData', ['$q','$http',function($q,$http){
@@ -426,6 +426,19 @@ angular.module('serviceData', [])
                     defer.reject(msg);
                 });
                 return defer.promise;
+            },
+             getGradeAllData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/order/gradeall',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
             }
         }
     }])
@@ -654,6 +667,43 @@ angular.module('serviceData', [])
                 $http({
                     method: 'DELETE',
                     url: '/paytype/delete?id='+value._id,
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            }
+        }
+    }])
+    .factory('domainData', ['$q','$http',function($q,$http){
+        return {
+            updateData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    method: 'POST',
+                    url: '/domain/update',
+                    dataType: "json",
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        domain:value
+                    }
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            getData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/domain/detail',
+                    method: 'get'
                 })
                 .success(function (data, status, headers, config) {
                     defer.resolve(data);

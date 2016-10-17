@@ -1,17 +1,36 @@
 <div ng-controller="HomeCtrl">
 	<h2 class="page-header">首页</h2>
-
-	<div class="row">
-		<div class="col-md-2">
-			<a class="btn btn-success btn-lg" href="{{link}}" download="{{file}}">
-				{{month}}月报表导出
-			</a>
+	<div class="w-wrap">
+		<h3>
+		今日收益
+		</h3>
+		<hr>
+		<div class="row">
+			<div class="col-md-3">
+				<h3>实收：{{grade | currency:'¥'}}</h3>
+			</div>
+			<div class="col-md-3">
+				<h3>虚收：{{noincome | currency:'¥'}}</h3>
+			</div>
 		</div>
-		<div class="col-md-2">
-			<a class="btn btn-primary btn-lg">
-				月度报表打印
-			</a>
-		</div>
+	</div>
+	<div class="w-wrap">
+		<h3>
+		本月报表
+		</h3>
+		<hr>
+		<div class="row">
+			<div class="col-md-2">
+				<a class="btn btn-success btn-lg" href="{{link}}" download="{{file}}">
+					{{month}}月报表导出
+				</a>
+			</div>
+			<div class="col-md-2">
+				<a class="btn btn-primary btn-lg">
+					月度报表打印
+				</a>
+			</div>
 
+		</div>
 	</div>
 </div>

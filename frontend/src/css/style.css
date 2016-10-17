@@ -511,7 +511,7 @@ button[disabled]:focus{
 	width: 70px;
 }
 
-/*打折小提示*/
+/* 打折小提示 */
 .show-pill{
 	position: relative;
 }
@@ -526,6 +526,13 @@ button[disabled]:focus{
 	font-size: 14px;
 }
 
+/* 订单列表 */
+.bl-panel{
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	padding: 15px 20px;
+	background-color: #fff;
+}
 
 
 

@@ -76,7 +76,25 @@ var Domain = require('../models/domain'),
 
 	}
 	exports.update = function(req, res) {
-		var domain = req.body.domain
+		var domainObj = req.body.domain
+		var user = req.session.user
+		var _domain
+
+		Domain.findOne({name:user.domain},function(err,domain){
+			if(err){
+				console.log(err)
+			}
+			_domain = _.extend(domain,domainObj)	//复制对象的所有属性到目标对象上，覆盖已有属性 ,用来覆盖以前的数据，起到更新作用
+			_domain.save(function(err,domain){
+				if(err){
+					console.log(err)
+				}
+
+				res.json({msg:"更新成功",status: 1})
+			})
+		})
+		
+
 	}
 	exports.detail = function(req, res) {
 		var domain = req.session.user.domain

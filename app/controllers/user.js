@@ -144,7 +144,7 @@ var smtpTransport = require('nodemailer-smtp-transport')
 		var rePassword = /^[\w\@\.\_]+$/
 
 		//验证
-		if(_user.email == ""){
+		if(_user.email == ""|| _user.email == null){
 			res.json({
 				status:0,
 				msg:"邮箱不能为空！"
@@ -154,7 +154,7 @@ var smtpTransport = require('nodemailer-smtp-transport')
 				status:0,
 				msg:"邮箱格式不正确！"
 			})
-		}else if(_user.phone == ""){
+		}else if(_user.phone == "" || _user.phone == null){
 			res.json({
 				status:0,
 				msg:"手机号不能为空！"
@@ -165,12 +165,12 @@ var smtpTransport = require('nodemailer-smtp-transport')
 				msg:"手机号格式不正确！"
 			})
 		}
-		else if(_user.name == ""){
+		else if(_user.name == "" || _user.name == null){
 			res.json({
 				status:0,
 				msg:"姓名不能为空！"
 			})
-		}else if(_user.password == ""){
+		}else if(_user.password == "" || _user.password == null){
 			res.json({
 				status:0,
 				msg:"密码不能为空！"
@@ -191,21 +191,21 @@ var smtpTransport = require('nodemailer-smtp-transport')
 				msg:"密码长度必须大于6位，小于20位！"
 			})
 		}else{
-			User.findOne({phone:_user.phone},function(err,user){
-				if(user){
+			User.findOne({phone:_user.phone},function(err,phone){
+				if(phone){
 					res.json({
 						status:0,
 						msg:"手机号已经被注册！"
 					})
 				}else{
-					User.findOne({email:_user.email},function(err,user){
+					User.findOne({email:_user.email},function(err,email){
 						if(err){
 							res.json({
 								status:0,
 								msg:"发生未知错误！"
 							})
 						}
-						if(user){
+						if(email){
 							res.json({
 								status:0,
 								msg:"邮箱已经被注册！"
@@ -215,7 +215,7 @@ var smtpTransport = require('nodemailer-smtp-transport')
 							_user.verify = uuid.v4() //添加激活 token
 							var user = new User(_user)
 
-							user.save(function(err,user){
+							user.save(function(err,userdata){
 								if(err){
 									res.json({
 										status:0,
@@ -311,7 +311,7 @@ var smtpTransport = require('nodemailer-smtp-transport')
 
 		console.log(verify)
 
-		if(_user.email == ""){
+		if(_user.email == "" || _user.email == null){
 			res.json({
 				status:0,
 				msg:"邮箱不能为空！"
@@ -321,7 +321,7 @@ var smtpTransport = require('nodemailer-smtp-transport')
 				status:0,
 				msg:"邮箱格式不正确！"
 			})
-		}else if(password == ""){
+		}else if(password == "" || _user.password == null){
 			res.json({
 				status:0,
 				msg:"密码不能为空！"
@@ -367,7 +367,8 @@ var smtpTransport = require('nodemailer-smtp-transport')
 							req.session.user = user
 							res.json({
 								status:1,
-								msg:"登录成功！"
+								msg:"登录成功！",
+								role:user.role
 							})
 						}else{
 							res.json({
@@ -423,6 +424,7 @@ var smtpTransport = require('nodemailer-smtp-transport')
 		}
 		next()
 	}
+
 	//管理员权限
 	exports.adminRequired = function(req,res,next){
 		var user = req.session.user
@@ -430,4 +432,15 @@ var smtpTransport = require('nodemailer-smtp-transport')
 			return res.redirect('/signin')
 		}
 		next()
+	}
+
+	//超级管理员权限
+	exports.superRequired = function(req,res,next){
+		var user = req.session.user
+		if(user.role < 10 ){
+			return res.json({status: 1,msg:"你没有操作权限！"})
+		}else{
+			next()
+		}
+		
 	}

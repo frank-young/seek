@@ -4,7 +4,7 @@ var _ = require('underscore')
 	//分类列表页
 	exports.list = function(req,res){
 		var user = req.session.user
-		Paytype.fetch({"userlocal":user.email},function(err,paytypes){
+		Paytype.fetch({"domainlocal":user.domain},function(err,paytypes){
 			res.json({
 				status:"1",
 				msg:"请求成功",

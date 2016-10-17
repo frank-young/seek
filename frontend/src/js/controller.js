@@ -356,8 +356,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
  *                                                     订单列表
  ********************************************************************************************************************/
 
-angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData',
-  	function($scope,$window,orderData,dishData) {
+angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData',
+  	function($scope,$window,orderData,dishData,settingData) {
 
 		$window.document.title = "订单列表"; 
 		orderData.getData().then(function(data){
@@ -369,17 +369,26 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 		dishData.getData().then(function(data){
 			$scope.cookAll = data.dishs
 		})
+		// 权限控制
+		settingData.getRbac().then(function(data){
+			$scope.role = data.rbac
+		})
+
+		// 业绩查询
+		orderData.getGradeData().then(function(data){
+			$scope.grade = data.grade
+			$scope.username = data.username
+			$scope.noincome = data.noincome
+		})
 
 		$scope.lookAll = function(id){
 			orderData.getIdData(id).then(function(data){
 				$scope.order = data.order
 			})
-
 		}
 		
 		// 反位结算，删除本单，重新下单
 		$scope.againAccount = function(value){
-			console.log(value)
 			localStorage.cook = JSON.stringify(value.dish)
 			localStorage.peopleNumber = value.peopleNum
 			value.dish.forEach(function(v1,i1){
@@ -564,10 +573,9 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			}
 
   			dayData.addData(dateObj).then(function(data){
-
+  				console.log(data.msg)
   				localStorage.dayid = data.id
   			})
-
 
 	  	}
 	  	// 结班
@@ -578,7 +586,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 			localStorage.removeItem('cookAll')
 			localStorage.removeItem('peopleNumber')
 			localStorage.removeItem('serial')
-			localStorage.removeItem('dayid')
 
 			var date = createTime()
 	  		$scope.time = date.now	// 结班时间
@@ -590,7 +597,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   				"status":0
   			}
 	  		dayData.updateData(dateObj).then(function(data){
-
+	  			console.log(data.msg)
 	  			localStorage.removeItem('dayid')
 	  		})
 

@@ -50,6 +50,17 @@
 
 					</div>
 
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">成员类型</label>
+							<div class="col-sm-9">
+								<button type="button" class="form-control form-select" ng-model="user.role" data-html="1" data-toggle="true" bs-options="role.value as role.label for role in roles" ng-disabled="isEdit" placeholder="请选择类型" bs-select>
+									<span class="caret"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>

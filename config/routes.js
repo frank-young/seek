@@ -21,7 +21,8 @@ module.exports = function(app){
   })
 
   //首页
-	app.get('/', Index.index)
+  app.get('/', Index.index)
+	app.get('/admin', Index.admin)
 
   // 用户信息
   app.post('/user/signup', User.signup)
@@ -48,10 +49,10 @@ module.exports = function(app){
 
   // 菜品信息
   app.get('/dish',User.signinRequired, Dish.list)
-  app.post('/dish/add',User.signinRequired, Dish.save)
-  app.post('/dish/update', User.signinRequired, Dish.update)
+  app.post('/dish/add',User.signinRequired, User.superRequired, Dish.save)
+  app.post('/dish/update', User.signinRequired, User.superRequired, Dish.update)
   app.get('/dish/detail/:id', User.signinRequired, Dish.detail)
-  app.delete('/dish/delete',User.signinRequired, Dish.del)
+  app.delete('/dish/delete',User.signinRequired, User.superRequired, Dish.del)
 
   //菜品分类
   app.get('/cate',User.signinRequired, Cate.list)
@@ -67,15 +68,17 @@ module.exports = function(app){
   app.post('/order/add',User.signinRequired, Order.save )
   app.post('/order/update', User.signinRequired, Order.update)
   app.get('/order/detail/:id', User.signinRequired, Order.detail)
-  app.delete('/order/delete',User.signinRequired, Order.del)
+  app.delete('/order/delete',User.signinRequired, User.superRequired, Order.del)
   app.get('/order/download',User.signinRequired, Order.downloadMonth)
   app.get('/order/downloadday',User.signinRequired, Order.downloadDay)
+  app.get('/order/grade',User.signinRequired, Order.gradeToday)
+  app.get('/order/gradeall',User.signinRequired, Order.gradeAllToday)
 
   //支付方式
   app.get('/credit',User.signinRequired, Credit.list)
-  app.post('/credit/add',User.signinRequired, Credit.save)
-  app.post('/credit/update', User.signinRequired, Credit.update)
-  app.delete('/credit/delete',User.signinRequired, Credit.del)
+  app.post('/credit/add',User.signinRequired, User.superRequired, Credit.save)
+  app.post('/credit/update', User.signinRequired, User.superRequired, Credit.update)
+  app.delete('/credit/delete',User.signinRequired, User.superRequired, Credit.del)
 
   //挂帐人员
   app.get('/paytype',User.signinRequired, Paytype.list)
@@ -104,14 +107,12 @@ module.exports = function(app){
   app.post('/setting/update', User.signinRequired, Setting.update)
   
   //成员操作
-  app.get('/setting/list', Setting.placeAdminRequired,Setting.list)
-  app.post('/setting/add', Setting.placeAdminRequired,Setting.add)
-  app.delete('/setting/delete', Setting.placeAdminRequired,Setting.del)
-  app.get('/setting/detail/:id', Setting.placeAdminRequired,Setting.detail)
-  app.post('/setting/updatecopy', Setting.placeAdminRequired,Setting.updatecopy)
-  app.get('/setting/rbac', Setting.rbac)
-
-
+  app.get('/setting/list',User.signinRequired, Setting.placeAdminRequired,Setting.list)
+  app.post('/setting/add',User.signinRequired, Setting.placeAdminRequired,Setting.add)
+  app.delete('/setting/delete',User.signinRequired, Setting.placeAdminRequired,Setting.del)
+  app.get('/setting/detail/:id',User.signinRequired, Setting.placeAdminRequired,Setting.detail)
+  app.post('/setting/updatecopy',User.signinRequired, Setting.placeAdminRequired,Setting.updatecopy)
+  app.get('/setting/rbac',User.signinRequired, Setting.rbac)
 
   // 微信端接口
   app.get('/wechat/init',Wechat.init)

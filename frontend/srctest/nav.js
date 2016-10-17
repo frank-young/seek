@@ -42,10 +42,9 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			}
 
   			dayData.addData(dateObj).then(function(data){
-
+  				console.log(data.msg)
   				localStorage.dayid = data.id
   			})
-
 
 	  	}
 	  	// 结班
@@ -56,7 +55,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 			localStorage.removeItem('cookAll')
 			localStorage.removeItem('peopleNumber')
 			localStorage.removeItem('serial')
-			localStorage.removeItem('dayid')
 
 			var date = createTime()
 	  		$scope.time = date.now	// 结班时间
@@ -68,7 +66,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   				"status":0
   			}
 	  		dayData.updateData(dateObj).then(function(data){
-
+	  			console.log(data.msg)
 	  			localStorage.removeItem('dayid')
 	  		})
 

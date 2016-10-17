@@ -13,6 +13,7 @@ var app = angular.module('app', [
         'serviceData',
         'dishMoudle',
         'dishAddMoudle',
+        'dishcomboAddMoudle',
         'dishCateMoudle',
         'dishDetailMoudle',
         'teamMoudle',
@@ -25,7 +26,8 @@ var app = angular.module('app', [
         'orderDayMoudle',
         'itemDayMoudle',
         'creditMoudle',
-        'paytypeMoudle'
+        'paytypeMoudle',
+        'setMoudle'
 
         ]);  
 
@@ -68,6 +70,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('web.dishAdd', {
             url: '/dishAdd',
             templateUrl: 'tpls/dish/dishadd.html'
+        })
+        .state('web.dishcomboAdd', {
+            url: '/dishcomboAdd',
+            templateUrl: 'tpls/dish/dishcomboadd.html'
         })
         .state('web.dishDetail', {
             url: '/dishDetail/:id',
@@ -116,6 +122,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('web.paytype', {
             url: '/paytype',
             templateUrl: 'tpls/credit/paytype.html'
+        })
+        .state('web.set', {
+            url: '/set',
+            templateUrl: 'tpls/set/set.html'
         })
 
 

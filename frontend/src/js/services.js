@@ -79,6 +79,19 @@ angular.module('serviceData', [])
                     defer.reject(msg);
                 });
                 return defer.promise;
+            },
+             getGradeData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/order/grade',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
             }
         }
     }])
@@ -263,6 +276,23 @@ angular.module('serviceData', [])
                 var defer = $q.defer();
                 $http({
                     url: '/paytype',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            }
+        }
+    }])
+    .factory('settingData', ['$q','$http',function($q,$http){
+        return {
+            getRbac: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/setting/rbac',
                     method: 'get' 
                 })
                 .success(function (data, status, headers, config) {

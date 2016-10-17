@@ -2,128 +2,145 @@
  * 左侧 menu 菜单
  */
 
-angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
-	function ($scope, $http) {
-		$scope.menus = [
-		{
-			icon:'fa fa-file-pdf-o',
-			title:'订单管理',
-			role:0,
-			subs:[
-				{
-					text:'订单列表',
-					link:'web.order'
-				},
-				{
-					text:'月报表',
-					link:'web.orderMonth'
-				},
-				{
-					text:'日报表',
-					link:'web.orderDay'
-				},
-				{
-					text:'日品项报告',
-					link:'web.itemDay'
-				}
-			]
-		},
-		{
-			icon:'fa fa-diamond',
-			title:'菜品管理',
-			role:0,
-			subs:[
-				{
-					text:'全部菜品',
-					link:'web.dish'
-				}, 
-				{
-					text:'菜品分类',
-					link:'web.dishCate'
-				},
-				{
-					text:'新建菜品',
-					link:'web.dishAdd'
-				}
+angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http','settingData',
+	function ($scope, $http,settingData) {
+		var menus = [
+			{
+				icon:'fa fa-file-pdf-o',
+				title:'订单管理',
+				role:1,
+				subs:[
+					{
+						text:'订单列表',
+						link:'web.order'
+					},
+					{
+						text:'月报表',
+						link:'web.orderMonth'
+					},
+					{
+						text:'日报表',
+						link:'web.orderDay'
+					},
+					{
+						text:'日品项报告',
+						link:'web.itemDay'
+					}
+				]
+			},
+			{
+				icon:'fa fa-diamond',
+				title:'菜品管理',
+				role:10,
+				subs:[
+					{
+						text:'全部菜品',
+						link:'web.dish'
+					}, 
+					{
+						text:'菜品分类',
+						link:'web.dishCate'
+					},
+					{
+						text:'新建菜品',
+						link:'web.dishAdd'
+					},
+					{
+						text:'新建套餐',
+						link:'web.dishcomboAdd'
+					}
 
-			]
-		},
-		{
-			icon:'fa fa-credit-card',
-			title:'支付设置',
-			role:0,
-			subs:[ 
-				{
-					text:'支付方式',
-					link:'web.paytype'
-				},
-				{
-					text:'挂帐人员',
-					link:'web.credit'
+				]
+			},
+			{
+				icon:'fa fa-credit-card',
+				title:'支付设置',
+				role:10,
+				subs:[ 
+					{
+						text:'支付方式',
+						link:'web.paytype'
+					},
+					{
+						text:'挂帐人员',
+						link:'web.credit'
+					}
+				]
+			},
+			{
+				icon:'fa fa-users',
+				title:'会员管理',
+				role:10,
+				subs:[ 
+					{
+						text:'会员列表',
+						link:'web.clue'
+					},
+					{
+						text:'添加会员',
+						link:'web.customer'
+					}
+				]
+			},
+			{
+				icon:'fa fa-wechat',
+				title:'微信端',
+				role:10,
+				subs:[
+					{
+						text:'会员卡',
+						link:'web.quotation'
+					},
+					{
+						text:'优惠券',
+						link:'web.quotationAdd'
+					},
+					{
+						text:'其他',
+						link:'web.quotationSetting'
+					}
+				]
+			},
+			{
+				icon:'fa fa-user',
+				title:'成员管理',
+				role:10,
+				subs:[
+					{
+						text:'成员列表',
+						link:'web.team'
+					},
+					{
+						text:'新建成员',
+						link:'web.teamAdd'
+					}
+				]
+			},
+			{
+				icon:'fa fa-coffee',
+				title:'门店设置',
+				role:10,
+				subs:[
+					{
+						text:'门店设置',
+						link:'web.set'
+					}
+				]
+			}		
+		]
+
+		// 权限控制
+		settingData.getRbac().then(function(data){
+			$scope.role = data.rbac
+			$scope.menus = []
+			menus.filter(function (menu) {
+				if(menu.role <= $scope.role){
+					$scope.menus.push(menu)
 				}
-			]
-		},
-		{
-			icon:'fa fa-users',
-			title:'会员管理',
-			role:0,
-			subs:[ 
-				{
-					text:'会员列表',
-					link:'web.clue'
-				},
-				{
-					text:'添加会员',
-					link:'web.customer'
-				}
-			]
-		},
-		{
-			icon:'fa fa-wechat',
-			title:'微信端',
-			role:0,
-			subs:[
-				{
-					text:'会员卡',
-					link:'web.quotation'
-				},
-				{
-					text:'优惠券',
-					link:'web.quotationAdd'
-				},
-				{
-					text:'其他',
-					link:'web.quotationSetting'
-				}
-			]
-		},
-		{
-			icon:'fa fa-user',
-			title:'收银员管理',
-			role:10,
-			subs:[
-				{
-					text:'收银列表',
-					link:'web.team'
-				},
-				{
-					text:'新建收银',
-					link:'web.teamAdd'
-				}
-			]
-		}
-	]
-	// settingData.getRbac().then(function(data){
-	// 	$scope.role = data.rbac
-	// 	$scope.menus = [];
-	// 	menus.map(function (menu) {
-	// 		if(menu.role <= $scope.role){
-	// 			$scope.menus.push(menu)
-	// 		}
-	// 	 	return $scope.menu; 
-	// 	});
-	// })
-}
+			 	return $scope.menu
+			})
+		})
+	}
 ])
 
 
@@ -519,6 +536,78 @@ angular.module("dishCateMoudle", ['ng-sortable']).controller('DishCateCtrl',
     }
 
 }]);;/********************************************************************************************************************
+ *                                                      新建套餐页面
+ ********************************************************************************************************************/
+
+angular.module("dishcomboAddMoudle", []).controller('DishcomboAddCtrl', 
+    ['$scope','$window', '$http', '$state','$alert','dishData','cateData',
+    function($scope,$window, $http, $state,$alert,dishData,cateData) {
+	$window.document.title = "添加套餐"
+    /*套餐分类*/
+    cateData.getData().then(function(data){
+        $scope.cate=data.cates;
+    })
+
+    if(localStorage.dish){
+        $scope.dish = JSON.parse(localStorage.dish)
+    }else{
+        $scope.dish ={   
+            "isTop":false,
+            "checked":false,
+            "isChecked":false,
+            "number":0,
+            // "memberPrice": 0,
+            "reducePrice": null,
+            // "comboPrice": 0,
+            // "otherPrice": 0,
+            "name":"",
+            "price":null,
+            "cate":"0",
+            "search":"",
+            "ishost":false,
+            "other1":"", 
+            "other2":"", 
+            "description":"",
+            "history":'添加套餐'
+        }
+    }
+
+    /* 本地储存 */
+    var time = setInterval(function(){
+        localStorage.dish= JSON.stringify($scope.dish);
+    }, 6000);
+
+    $scope.saveDish = function(value){
+        dishData.addData(value).then(function(data){
+            if(data.status==1){
+                $scope.changeAlert(data.msg)
+                window.history.go(-1)
+                localStorage.removeItem("dish") 
+                clearInterval(time)
+            }else{
+                $scope.changeAlert(data.msg)
+            }
+            
+        })
+    }
+
+    /* 添加分類 */
+    $scope.saveCate = function(value){
+        var val = $scope.cate.length;
+        var msgadd = {
+            "value":val,
+            "label":value,
+            "isEdit":true,
+            "checked":false
+        }
+        cateData.addData(msgadd).then(function(data){
+            $scope.changeAlert(data.msg);
+        })
+        cateData.getData().then(function (data) {
+            $scope.cate = data.cates
+        })
+    }
+}]);/********************************************************************************************************************
  *                                                      菜品详情页面
  ********************************************************************************************************************/
 
@@ -595,7 +684,11 @@ angular.module("homeMoudle", []).controller('HomeCtrl',
 	  		$scope.file = data.file
 	  	})
 	  	
-
+	  	//总业绩查询
+	  	orderData.getGradeAllData().then(function(data){
+	  		$scope.grade = data.grade
+			$scope.noincome = data.noincome
+	  	})
 	}
 ])
 
@@ -873,6 +966,29 @@ angular.module("orderMonthMoudle", []).controller('OrderMonthCtrl',
 
     }
 ]);/********************************************************************************************************************
+ *                                                      门店设置
+ ********************************************************************************************************************/
+
+angular.module("setMoudle", []).controller('SetCtrl', 
+    ['$scope','$window', '$http','$alert','domainData',
+    function($scope,$window, $http,$alert, domainData) {
+    $window.document.title = "门店设置";
+    $scope.isEdit = true
+    
+    domainData.getData().then(function(data){
+        $scope.domain = data.domain
+    })
+
+    $scope.saveDomain = function(value){
+        domainData.updateData(value).then(function(data){
+            $scope.changeAlert(data.msg)
+        })
+    }
+    
+}]) 
+ 
+
+ ;/********************************************************************************************************************
  *                                                      成员列表页面
  ********************************************************************************************************************/
 
@@ -880,6 +996,11 @@ angular.module("teamMoudle", []).controller('TeamCtrl',
     ['$scope','$window', '$http', '$state','$alert','settingData',
     function($scope,$window, $http, $state,$alert,settingData) {
         $window.document.title = "收银员管理";
+    $scope.roles = [
+        {"value":0,"label":"收银员"},
+        {"value":1,"label":"财务"},
+        {"value":2,"label":"其他"}
+    ]
     /* 根据数组值找到索引*/
     function findIndex(current, obj){
         for(var i in obj){ 
@@ -892,6 +1013,9 @@ angular.module("teamMoudle", []).controller('TeamCtrl',
     settingData.getListData().then(function(data){
     	$scope.user = data.users
         // $scope.changeAlert(data.msg);
+        $scope.user.forEach(function(ele){
+            ele.isChecked=false
+        })
     })
 
     /*分页*/
@@ -918,44 +1042,41 @@ angular.module("teamMoudle", []).controller('TeamCtrl',
     $scope.deleteTeam = function(value){
         var deleteConfirm = confirm('您确定要删除这位成员吗？');
         if(deleteConfirm){
-            var index = findIndex(value,$scope.team);
-            $scope.team.splice(index,1);   //删除
-            customerData.updateData(value);
+            var index = findIndex(value,$scope.user);
+            $scope.user.splice(index,1);   //删除
+            settingData.deleteData(value);
         }
     }
     /* 返回按钮，也就是清空整个数组，并且将选框的标记位设为false */
     $scope.isCheckedNo = function(){
         $scope.checkArr.splice(0,$scope.checkArr.length);   //清空数组
-        for(var i in $scope.team){
-            $scope.team[i].isChecked = false;      //去掉标记位
+        for(var i in $scope.user){
+            $scope.user[i].isChecked = false;      //去掉标记位
         }
     }
     /* 全选操作 */
     $scope.isCheckedAll = function(cur,per){
         $scope.checkArr.splice(0,$scope.checkArr.length);
-            for(var i in $scope.team){
-                $scope.checkArr.push($scope.team[i]);
-                $scope.team[i].isChecked = true;
+            for(var i in $scope.user){
+                $scope.checkArr.push($scope.user[i]);
+                $scope.user[i].isChecked = true;
                 
             }
     } 
     /* 删除栏目 ----批量操作 */
-    $scope.deleteTeam = function(value){
+    $scope.deleteTeamAll = function(value){
         var deleteConfirm = confirm('您确定要删除这位成员吗？');
         if(deleteConfirm){
             for(var i in value){
-                var index = findIndex(value[i],$scope.team);
-                $scope.team[index].isChecked = false;  //去掉标记位
-                $scope.team.splice(index,1);   //删除
-                customerData.updateData(value[i]);
+                var index = findIndex(value[i],$scope.user);
+                $scope.user[index].isChecked = false;  //去掉标记位
+                $scope.user.splice(index,1);   //删除
+                settingData.deleteData(value[i]);
             }
             $scope.checkArr.splice(0,$scope.checkArr.length);   
         } 
     } 
-    /*提示框*/
-    $scope.changeAlert = function(title,content){
-        $alert({title: title, content: content, type: "info", show: true,duration:5});
-    }
+
 }])
 
 
@@ -970,13 +1091,18 @@ angular.module("teamAddMoudle", []).controller('TeamAddCtrl',
     $scope.sexs = [
         {"value":"0","label":"男"}, 
         {"value":"1","label":"女"}
-    ];
+    ]
+    $scope.roles = [
+        {"value":0,"label":"收银员"},
+        {"value":1,"label":"财务"},
+        {"value":2,"label":"其他"}
+    ]
     $scope.user = {
 					name:"",
 					email:"",
 					password:"",
 					section:"",
-					position:"",
+					role:0,
 					tel:"",
 					phone:"",
 					fax:"",
@@ -988,14 +1114,13 @@ angular.module("teamAddMoudle", []).controller('TeamAddCtrl',
     $scope.saveUser = function(value){
     	settingData.addData(value).then(function(data){
                 $scope.changeAlert(data.msg)
-                window.history.go(-1);
+                if(data.status == 1){
+                    window.history.go(-1);
+                }
         });
     }
 
-    /*提示框*/
-    $scope.changeAlert = function(title,content){
-        $alert({title: title, content: content, type: "info", show: true,duration:3});
-    }
+
 }])
 
 
@@ -1011,20 +1136,22 @@ angular.module("teamDetailMoudle", []).controller('TeamDetailCtrl',
     $scope.sexs = [
         {"value":"0","label":"男"},
         {"value":"1","label":"女"}
-    ];
+    ]
+    $scope.roles = [
+        {"value":0,"label":"收银员"},
+        {"value":1,"label":"财务"},
+        {"value":2,"label":"其他"}
+    ]
     settingData.getIdData($stateParams.id).then(function (data) {
-       $scope.user=data.user; 
+       $scope.user=data.user
     });
 
     $scope.saveUser = function(value){
     	settingData.updatecopyData(value).then(function(data){
 			$scope.changeAlert(data.msg)
-        });
+        })
     } 
-    /*提示框*/
-    $scope.changeAlert = function(title,content){
-        $alert({title: title, content: content, type: "info", show: true,duration:5});
-    }
+
 }]) 
  
 

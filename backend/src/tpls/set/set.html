@@ -1,0 +1,52 @@
+<div ng-controller="SetCtrl">
+	<h2 class="page-header">门店设置
+		<button type="button" class="btn btn-danger" ng-class="{true: 'pro-show', false: 'pro-hide'}[isEdit]" ng-click="isEdit = !isEdit"><i class="fa fa-edit"></i> 编辑</button>
+		<button type="button" class="btn btn-success" ng-class="{true: 'pro-show', false: 'pro-hide'}[!isEdit]" ng-click="isEdit = !isEdit;saveDomain(domain)"><i class="fa fa-save"></i> 保存</button>
+	</h2>
+
+<div class="row cus-border">
+	<div class="col-md-12 cus-txt">
+		<h4>门店设置</h4>
+	</div>
+	<form name="domainFrom">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="cus-user">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">门店编号</label>
+							<div class="col-sm-9">
+								<div type="text" class="form-control"  ng-disabled="true"  ng-bind="domain.name"></div></div>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">门店名称</label>
+							<div class="col-sm-9">
+								<input type="text" name="pname" class="form-control" placeholder="店名称" ng-model="domain.pname" ng-disabled="isEdit" ng-maxlength="50"></div>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">门店地址</label>
+							<div class="col-sm-9">
+								<input type="text" name="address" class="form-control" placeholder="地址" ng-model="domain.address" ng-disabled="isEdit" ng-maxlength="50"></div>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">门店电话</label>
+							<div class="col-sm-9">
+								<input type="text" name="tel" class="form-control" placeholder="电话" ng-model="domain.tel" ng-disabled="isEdit" ng-maxlength="50"></div>
+						</div>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+</div>
+</div>

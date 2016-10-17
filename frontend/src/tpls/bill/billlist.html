@@ -1,10 +1,23 @@
 <div ng-controller="BilllistCtrl" class="row billlist">
       <div class="two-thirds column main">
         <h4>今日订单</h4>
+        <h5>
+          <div class="row bl-panel" ng-show="role==0">
+            <div class="one-third column">
+              <span>收银员：{{username}}</span>
+            </div>
+            <div class="one-third column">
+              <span>实收款：{{grade | currency:'¥'}}</span>
+            </div>
+            <div class="one-third column">
+              <span>虚收：{{noincome | currency:'¥'}}</span>
+            </div>
+          </div>
+        </h5>
         <table class="u-full-width">
           <thead>
             <tr>
-              <th>编号</th>
+              <th>订单编号</th>
               <th>金额</th>
               <th>时间</th>
               <th>操作人</th>
@@ -14,13 +27,13 @@
           <tbody>
              <tr ng-repeat="o in orders">
               <td ng-bind="o.orderNum"></td>
-              <td ng-bind="o.total | currency:'¥' "></td>
-              <td ng-bind="o.time | datetime"></td>
+              <td ng-bind="o.realTotal | currency:'¥' "></td>
+              <td ng-bind="o.time | onlytime"></td>
               <td ng-bind="o.editPeople"></td>
               <td> 
                 <button style="padding: 0 10px;" class="button button-primary" ng-click="lookAll(o._id)">查看详情</button>
                 <button style="padding: 0 10px;" class="button ">重新打印</button>
-                <button style="padding: 0 10px;" class="button " data-animation="am-fade-and-scale" placement="center" data-template-url="warning.tpl.html" bs-modal>反位结算</button>
+                <button ng-show="role == 10" style="padding: 0 10px;" class="button " data-animation="am-fade-and-scale" placement="center" data-template-url="warning.tpl.html" bs-modal>反位结算</button>
               </td>
             </tr>
           </tbody>
@@ -91,7 +104,7 @@
             <span class="">
               支付方式：
             </span>
-            <span class="" ng-bind="payTypeArr[order.payType]">  
+            <span class="" ng-bind="payTypeArr[order.payType]"> </span>
           </div>
           
           <div class="detail-item">
@@ -123,7 +136,7 @@
             <span class="" ng-bind="order.realTotal | currency:'¥' ">
             </span>
           </div>
-          <hr>
+
         </div>
         <!-- <button class="button  btn-bill">清空</button> -->
       </div>

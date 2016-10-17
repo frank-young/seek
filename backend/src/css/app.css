@@ -861,7 +861,13 @@ a.time-select:hover{
 
 }
 
-
+/* 首页 */
+.w-wrap{
+  background-color: #fff;
+  padding: 30px;
+  margin-bottom: 30px;
+  box-shadow: 0 0 12px #c5c5c5;
+}
 
 
 
