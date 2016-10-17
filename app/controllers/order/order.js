@@ -277,7 +277,7 @@ var Order = require('../../models/order/order'),	//引入模型
 					"操作人":value.editPeople,
 					"总价":value.total,
 					"减免金额":value.reduce,
-					"实付款":value.realTotal
+					"实付款":value.realTotal	
 				}
 				orderData.push(orderObj)
 			})
@@ -347,7 +347,7 @@ var Order = require('../../models/order/order'),	//引入模型
 	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
 	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
 
-		Order.fetch({"userlocal":user.email,"year":Y,"month":M,"day":D},function(err,orders){
+		Order.fetch({"domainlocal":user.domain,"year":Y,"month":M,"day":D},function(err,orders){
 			var grade = 0,
 				noincome = 0
 			orders.forEach(function(ele){

@@ -16,11 +16,12 @@ var DishSchema = new mongoose.Schema({
 	cate: String,
 	search:String,
 	ishost:Boolean,
-	other1:String,
+	other1:Number,
 	other2:String,
 	description:String,
 	people:String,
 	history:String,
+	dishArr:Array,
 	meta:{
 		createAt:{
 			type:Number,

@@ -84,6 +84,7 @@ var path = require('path')
 						search: dishObj.search,
 						other1: dishObj.other1,
 						other2: dishObj.other2,
+						dishArr: dishObj.dishArr,
 						history: dishObj.history,
 						userlocal:user.email,
 						domainlocal:user.domain

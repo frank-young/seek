@@ -545,36 +545,56 @@ angular.module("dishcomboAddMoudle", []).controller('DishcomboAddCtrl',
 	$window.document.title = "添加套餐"
     /*套餐分类*/
     cateData.getData().then(function(data){
-        $scope.cate=data.cates;
+        $scope.cate=data.cates
     })
 
-    if(localStorage.dish){
-        $scope.dish = JSON.parse(localStorage.dish)
+    // 所有菜品
+    $scope.dishAll = []
+    dishData.getData().then(function(data){
+
+        data.dishs.forEach(function(ele,index){
+            if(ele.other1 != 1){
+                var d = {
+                    value:ele._id,
+                    label:ele.name,
+                    price:ele.price
+                }
+                $scope.dishAll.push(d)
+            }
+           
+        })
+    })
+
+    if(localStorage.dishcombo){
+        $scope.dish = JSON.parse(localStorage.dishcombo)
     }else{
         $scope.dish ={   
             "isTop":false,
             "checked":false,
             "isChecked":false,
             "number":0,
-            // "memberPrice": 0,
             "reducePrice": null,
-            // "comboPrice": 0,
-            // "otherPrice": 0,
             "name":"",
+            "cate":0,
             "price":null,
-            "cate":"0",
             "search":"",
             "ishost":false,
-            "other1":"", 
+            "other1":1, 
             "other2":"", 
             "description":"",
             "history":'添加套餐'
         }
     }
 
+    $scope.dish.dishArr = [{dishSelect:"",dishPrice:null}]
+
+    $scope.addDish = function(){
+        $scope.dish.dishArr.push({dishSelect:"",dishPrice:null})
+    }
+
     /* 本地储存 */
     var time = setInterval(function(){
-        localStorage.dish= JSON.stringify($scope.dish);
+        localStorage.dishcombo= JSON.stringify($scope.dish);
     }, 6000);
 
     $scope.saveDish = function(value){
@@ -582,7 +602,7 @@ angular.module("dishcomboAddMoudle", []).controller('DishcomboAddCtrl',
             if(data.status==1){
                 $scope.changeAlert(data.msg)
                 window.history.go(-1)
-                localStorage.removeItem("dish") 
+                localStorage.removeItem("dishcombo") 
                 clearInterval(time)
             }else{
                 $scope.changeAlert(data.msg)

@@ -36,7 +36,29 @@
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-2 control-label">套餐描述</label>
+						<label class="col-sm-2 control-label">选择菜品</label>
+						<div class="col-sm-10">
+							<div class="row" ng-repeat="d in dish.dishArr" style="margin-bottom:15px;">
+								<div class="col-sm-6" >
+									<button type="button" class="form-control form-select" ng-model="d.dishSelect" data-html="1"  data-toggle="true" bs-options="da.value as da.label for da in dishAll" placeholder="请选择菜品"   bs-select >
+										<span class="caret"></span>
+									</button>
+
+								</div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control " placeholder="价格" ng-model="d.dishPrice" name="price" required ng-trim="true">
+									
+								</div>
+								
+							</div>
+							<a class="inl-add" href=""  ng-click="addDish()"><i class="fa fa-plus fa-lg"  data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="添加"></i></a>
+						</div>
+					</div>
+					
+
+
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">套餐描述 </label>
 						<div class="col-sm-10" style="padding-left:15px;margin-top: 10px;">
 							<!-- <ng-simditor content="dish.description"></ng-simditor> -->
 							<textarea name="" ng-model="dish.description" id="" class="form-control" rows="6"></textarea>
