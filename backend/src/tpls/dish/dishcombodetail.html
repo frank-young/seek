@@ -1,50 +1,68 @@
-<div ng-controller="DishAddCtrl">
+<div ng-controller="DishcomboDetailCtrl">
 	<form name="dishForm">
-		<h2 class="page-header">新建菜品
+
+		<h2 class="page-header">套餐详情
 			<a href="javascript:window.history.go(-1)" type="button" class="btn btn-primary ml-20"><i class="fa fa-angle-left"></i> 返回</a>
-			<button type="button" class="btn btn-success" ng-click="saveDish(dish)" ><i class="fa fa-save"></i> 保存</button>
+			<a ui-sref="web.dishcomboAdd" ng-click="cloneCombo()" class="btn btn-primary"><i class="fa fa-copy"></i> 克隆</a>
+			<button type="button" class="btn btn-success" ng-click="saveDish(dish)"><i class="fa fa-save"></i> 保存</button>
+
 		</h2>
-		<div class="pro-wrap">
+		<div class="pro-wrap" >
 			<h4>基本信息</h4>
 			<hr>
+			<!-- 套餐 -->
 			<div class="row">
 				<div class="col-md-10 col-md-offset-1">
 					<div class="form-group row">
-						<label class="col-sm-2 control-label">菜品名称</label>
+						<label class="col-sm-2 control-label">套餐名称</label>
 						<div class="col-sm-10 " ng-class="{'has-danger': dishForm.name.$invalid}" >
-							<input type="text" class="form-control " placeholder="菜品名称（必填）" ng-model="dish.name" name="name" required ng-trim="true" ng-maxlength="50"></div>
+							<input type="text" class="form-control " placeholder="套餐名称（必填）" ng-model="dish.name" name="name" required ng-trim="true" ng-maxlength="50"></div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 control-label">菜品单价</label>
+						<label class="col-sm-2 control-label">套餐单价</label>
 						<div class="col-sm-10 " ng-class="{'has-danger': dishForm.price.$invalid}" >
-							<input type="text" class="form-control " placeholder="请填写菜品单价（必填）" ng-model="dish.price" name="price" required ng-trim="true" ng-maxlength="50"></div>
+							<input type="text" class="form-control " placeholder="将会自动填充" ng-model="dish.price" name="price" ng-trim="true" ng-maxlength="50"></div>
 					</div>
 					<div class="form-group row">
-						<label class="col-sm-2 control-label">菜品拼音</label>
+						<label class="col-sm-2 control-label">套餐拼音</label>
 						<div class="col-sm-10 " ng-class="{'has-danger': dishForm.search.$invalid}" >
-							<input type="text" class="form-control " placeholder="请填写菜品拼音首字母小写，如拿铁咖啡填写 ntkf。（必填）" ng-model="dish.search" name="search" required ng-trim="true" ng-maxlength="50"></div>
+							<input type="text" class="form-control " placeholder="请填写套餐拼音首字母小写（必填）" ng-model="dish.search" name="search" required ng-trim="true" ng-maxlength="50"></div>
 					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-2 control-label">菜品分类</label>
+						<label class="col-sm-2 control-label">套餐分类</label>
 						<div class="col-sm-10" >
-							<button type="button" class="form-control form-select" name="cate" ng-model="dish.cate" data-html="1"  data-toggle="true" bs-options="ca.value as ca.label for ca in cate" placeholder="请选择菜品分类"   bs-select >
+							<button type="button" class="form-control form-select" name="cate" ng-model="dish.cate" data-html="1"  data-toggle="true" bs-options="ca.value as ca.label for ca in cate" placeholder="请选择套餐分类"   bs-select >
 								<span class="caret"></span>
 							</button>
 							<a class="inl-add" href=""  data-animation="am-fade-and-scale" placement="center" data-template-url="addCate.tpl.html" bs-modal><i class="fa fa-plus fa-lg"  data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="添加"></i></a>
 						</div>
 					</div>
-					<div class="form-group row">
-						<label class="col-sm-2 control-label">是否参与促销</label>
-						<div class="col-sm-10" >
-							<button type="button" class="form-control form-select" name="isSale" ng-model="dish.ishost" data-html="1"  data-toggle="true" bs-options="is.value as is.label for is in isSale" placeholder="请选择是否参与促销"   bs-select >
-								<span class="caret"></span>
-							</button>
-						</div>
-					</div>
 
 					<div class="form-group row">
-						<label class="col-sm-2 control-label">菜品描述</label>
+						<label class="col-sm-2 control-label">选择菜品</label>
+						<div class="col-sm-10">
+							<div class="row" ng-repeat="d in dish.dishArr" style="margin-bottom:15px;">
+								<div class="col-sm-6" >
+									<button type="button" class="form-control form-select" ng-model="d.dishSelect" data-html="1"  data-toggle="true" bs-options="da.value as da.label for da in dishAll" placeholder="请选择菜品"   bs-select >
+										<span class="caret"></span>
+									</button>
+
+								</div>
+								<div class="col-sm-6">
+									<input type="text" class="form-control " placeholder="价格" ng-model="d.dishPrice" required ng-trim="true">
+									
+								</div>
+								
+							</div>
+							<a class="inl-add" href=""  ng-click="addDish()"><i class="fa fa-plus fa-lg"  data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="添加"></i></a>
+						</div>
+					</div>
+					
+
+
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">套餐描述 </label>
 						<div class="col-sm-10" style="padding-left:15px;margin-top: 10px;">
 							<!-- <ng-simditor content="dish.description"></ng-simditor> -->
 							<textarea name="" ng-model="dish.description" id="" class="form-control" rows="6"></textarea>
@@ -54,7 +72,7 @@
 			</div>
 			<div class="row">
 				<div class="col-md-10 col-md-offset-3" style="margin-top: 20px;margin-bottom: 10px;">
-					<button type="button" class="btn btn-success" ng-click="saveDish(dish)" >保存</button>
+					<button type="button" class="btn btn-success" ng-click="saveDish(dish)" ng-disabled="dishForm.$invalid">保存</button>
 				</div>
 			</div>
 		</div>
@@ -86,7 +104,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" ng-click="$hide()">取消</button>
-                    <button type="button" class="btn btn-success" ng-click="saveCate(cateMsg);$hide()" ng-disabled="cateModalForm.$invalid">保存</button>
+                    <button type="button" class="btn btn-success" ng-click="saveCate(cateMsg);$hide()" >保存</button>
 
                 </div>
             </div>

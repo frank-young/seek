@@ -110,6 +110,7 @@ var path = require('path')
 			rePrice = /^\+?(?:[1-9]\d*(?:\.\d{1,2})?|0\.(?:\d[1-9]|[1-9]\d))$/ 
 
 		dishObj.people = user.name
+		dishObj.reducePrice = dishObj.price
 
 		if(dishObj.name==""||dishObj.name==null){
   			res.json({

@@ -146,7 +146,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				}
 				
 			})
-			$scope.order.noincome = $scope.order.reduce		//计入虚收
 			payTypeFunc()
 
 		}
@@ -159,7 +158,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			}else{
 				$scope.discountItemFunc(ele,100)
 			}
-			$scope.order.noincome = $scope.order.reduce		//计入虚收
 			payTypeFunc()
 		}
 
@@ -271,7 +269,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"day": D,
 					other:""
 				}
-
+				// 品项
 				itemData.addData(item).then(function(data){
 	
 				})
@@ -295,10 +293,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				  			// console.log(data)
 				  		})
 					})
-					// var serial = parseInt(localStorage.serial)
-					// localStorage.serial = serial+1
-					// 更新数据库的流水号 	
 
+					// 更新数据库的流水号 	
 					localStorage.removeItem('cook')
 					localStorage.removeItem('cookAll')
 					localStorage.removeItem('peopleNumber')
@@ -379,6 +375,7 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 			$scope.grade = data.grade
 			$scope.username = data.username
 			$scope.noincome = data.noincome
+
 		})
 
 		$scope.lookAll = function(id){
@@ -533,8 +530,8 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
  *                                                     导航条
  ********************************************************************************************************************/
 
-angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData',
-  	function($scope,$rootScope,$interval,dayData) {
+angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData',
+  	function($scope,$rootScope,$interval,dayData,orderData) {
   		// 设置时间
 	  	function setTime(){
 	  		return $scope.time = new Date()
@@ -550,7 +547,14 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   		}else{
   			$rootScope.status = true;
   		}
-
+  		// 业绩查询
+		orderData.getGradeData().then(function(data){
+			$scope.gradeData = {
+				grade:data.grade,
+				username:data.username,
+				noincome:data.noincome 
+			}
+		})
 	  	// 开班
 	  	$scope.startDay = function(){
   			$rootScope.status = false
@@ -638,6 +642,7 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 
 		$window.document.title = "点餐"
 		
+		//获取分类
 		if(localStorage.localCate !=null){
 			$scope.localCate = JSON.parse(localStorage.localCate)
 		}else{
@@ -648,6 +653,7 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 			})
 		}
 
+		//获取菜品
 		if(localStorage.cookAll !=null){
 			$scope.cookAll = JSON.parse(localStorage.cookAll)
 

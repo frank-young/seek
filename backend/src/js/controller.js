@@ -294,11 +294,15 @@ angular.module("dishMoudle", []).controller('DishCtrl',
     function($scope,$window, $http, $state,$alert,dishData,cateData) {
 	$window.document.title = "菜品列表"
     /* 顶部固定按钮 */
-    $scope.pinShow = false;
+    $scope.pinShow = false
+    $scope.comboShow = false
     /* 栏目按钮显示隐藏 */
-	$scope.allShow = false;
+	$scope.allShow = false
 	$scope.pinShowFunc = function(){
         $scope.pinShow = !$scope.pinShow
+    }
+    $scope.comboShowFunc = function(){
+        $scope.comboShow = !$scope.comboShow
     }
 	/* 根据数组值找到索引*/
     function findIndex(current, obj){
@@ -415,6 +419,11 @@ angular.module("dishAddMoudle", []).controller('DishAddCtrl',
         $scope.cate=data.cates;
     })
 
+    $scope.isSale = [
+        {value:0,label:"是"},
+        {value:1,label:"否"}
+    ]
+
     if(localStorage.dish){
         $scope.dish = JSON.parse(localStorage.dish)
     }else{
@@ -431,8 +440,8 @@ angular.module("dishAddMoudle", []).controller('DishAddCtrl',
             "price":null,
             "cate":"0",
             "search":"",
-            "ishost":false,
-            "other1":"", 
+            "ishost":"0",
+            "other1":2, 
             "other2":"", 
             "description":"",
             "history":'添加菜品'
@@ -540,8 +549,8 @@ angular.module("dishCateMoudle", ['ng-sortable']).controller('DishCateCtrl',
  ********************************************************************************************************************/
 
 angular.module("dishcomboAddMoudle", []).controller('DishcomboAddCtrl', 
-    ['$scope','$window', '$http', '$state','$alert','dishData','cateData',
-    function($scope,$window, $http, $state,$alert,dishData,cateData) {
+    ['$scope','$window', '$http', '$state','$alert','$filter','dishData','cateData',
+    function($scope,$window, $http, $state,$alert,$filter,dishData,cateData) {
 	$window.document.title = "添加套餐"
     /*套餐分类*/
     cateData.getData().then(function(data){
@@ -554,9 +563,10 @@ angular.module("dishcomboAddMoudle", []).controller('DishcomboAddCtrl',
 
         data.dishs.forEach(function(ele,index){
             if(ele.other1 != 1){
+               
                 var d = {
-                    value:ele._id,
-                    label:ele.name,
+                    value:ele.name,
+                    label:ele.name + ' （原价：' +  $filter('currency')(ele.price,'￥') +'）',
                     price:ele.price
                 }
                 $scope.dishAll.push(d)
@@ -576,10 +586,11 @@ angular.module("dishcomboAddMoudle", []).controller('DishcomboAddCtrl',
             "reducePrice": null,
             "name":"",
             "cate":0,
-            "price":null,
+            "price":0,
+            "dishArr":[],
             "search":"",
-            "ishost":false,
-            "other1":1, 
+            "ishost":"2",
+            "other1":1,     //标记是否是套餐
             "other2":"", 
             "description":"",
             "history":'添加套餐'
@@ -587,15 +598,28 @@ angular.module("dishcomboAddMoudle", []).controller('DishcomboAddCtrl',
     }
 
     $scope.dish.dishArr = [{dishSelect:"",dishPrice:null}]
-
+    
+    // 添加新菜品
     $scope.addDish = function(){
-        $scope.dish.dishArr.push({dishSelect:"",dishPrice:null})
+        $scope.dish.dishArr.push({dishSelect:"",dishPrice:0})
     }
+
+    // 监听价格，更新套餐总价
+    $scope.$watch('dish.dishArr', function(newValue, oldValue) {
+        if (newValue != oldValue) {
+            var sum = 0 
+            $scope.dish.dishArr.forEach(function(ele){
+                sum += parseFloat(ele.dishPrice)
+            })
+            $scope.dish.price = angular.copy(sum)
+        }
+       
+    },true)
 
     /* 本地储存 */
     var time = setInterval(function(){
-        localStorage.dishcombo= JSON.stringify($scope.dish);
-    }, 6000);
+        localStorage.dishcombo= JSON.stringify($scope.dish)
+    }, 6000)
 
     $scope.saveDish = function(value){
         dishData.addData(value).then(function(data){
@@ -631,9 +655,9 @@ angular.module("dishcomboAddMoudle", []).controller('DishcomboAddCtrl',
  *                                                      菜品详情页面
  ********************************************************************************************************************/
 
-angular.module("dishDetailMoudle", []).controller('DishDetailCtrl', 
-    ['$scope','$window', '$http', '$stateParams','$alert','dishData','cateData',
-    function($scope,$window, $http, $stateParams,$alert,dishData,cateData) {
+angular.module("dishcomboDetailMoudle", []).controller('DishcomboDetailCtrl', 
+    ['$scope','$window', '$http', '$stateParams','$alert','$filter','dishData','cateData',
+    function($scope,$window, $http, $stateParams,$alert,$filter,dishData,cateData) {
 	$window.document.title = "菜品详情";
     /* 是否可编辑 */
 	$scope.isEdit = true;
@@ -641,10 +665,98 @@ angular.module("dishDetailMoudle", []).controller('DishDetailCtrl',
     cateData.getData().then(function(data){
         $scope.cate=data.cates;
     }) 
-    var date = new Date();
+
+    var date = new Date()
     /* 菜品详情请求 */
     dishData.getIdData($stateParams.id).then(function (data) {
-       $scope.dish=data.dish; 
+       $scope.dish=data.dish
+
+    })
+    // 所有菜品
+    $scope.dishAll = []
+    dishData.getData().then(function(data){
+
+        data.dishs.forEach(function(ele,index){
+            if(ele.other1 != 1){
+               
+                var d = {
+                    value:ele.name,
+                    label:ele.name + ' （原价：' +  $filter('currency')(ele.price,'￥') +'）',
+                    price:ele.price
+                }
+                $scope.dishAll.push(d)
+            }
+           
+        })
+
+    })
+   
+    // 监听价格，更新套餐总价
+    $scope.$watch('dish.dishArr', function(newValue, oldValue) {
+        if (newValue != oldValue) {
+            var sum = 0 
+            $scope.dish.dishArr.forEach(function(ele){
+                sum += parseFloat(ele.dishPrice)
+            })
+            $scope.dish.price = angular.copy(sum)
+        }
+       
+    },true)
+
+    $scope.saveDish = function(value){
+        dishData.updateData(value).then(function(data){
+            $scope.changeAlert(data.msg);
+        })
+    }
+   
+    /* 添加分類 */
+    $scope.saveCate = function(value){
+         
+        var val = $scope.cate.length;
+        var msgadd = {
+            "value":val,
+            "label":value,
+            "isEdit":true,
+            "checked":false
+        }
+
+        cateData.addData(msgadd).then(function(data){
+            $scope.changeAlert(data.msg);
+        });
+        cateData.getData().then(function (data) {
+            $scope.cate = data.cates;
+
+        });
+    }
+
+    $scope.cloneCombo = function(){
+        localStorage.dishcombo= JSON.stringify($scope.dish);
+
+    }
+
+}]);;/********************************************************************************************************************
+ *                                                      菜品详情页面
+ ********************************************************************************************************************/
+
+angular.module("dishDetailMoudle", []).controller('DishDetailCtrl', 
+    ['$scope','$window', '$http', '$stateParams','$alert','$filter','dishData','cateData',
+    function($scope,$window, $http, $stateParams,$alert,$filter,dishData,cateData) {
+	$window.document.title = "菜品详情";
+    /* 是否可编辑 */
+	$scope.isEdit = true;
+	/*菜品分类*/
+    cateData.getData().then(function(data){
+        $scope.cate=data.cates;
+    }) 
+    $scope.isSale = [
+        {value:"0",label:"是"},
+        {value:"1",label:"否"}
+    ]
+
+    var date = new Date()
+    /* 菜品详情请求 */
+    dishData.getIdData($stateParams.id).then(function (data) {
+       $scope.dish=data.dish
 
     })
 
@@ -654,11 +766,7 @@ angular.module("dishDetailMoudle", []).controller('DishDetailCtrl',
         })
     }
    
-    /*提示框*/
-    $scope.changeAlert = function(title,content){
-        $alert({title: title, content: content, type: "info", show: true,duration:5});
-    }
-      /* 添加分類 */
+    /* 添加分類 */
     $scope.saveCate = function(value){
          
         var val = $scope.cate.length;
@@ -680,8 +788,8 @@ angular.module("dishDetailMoudle", []).controller('DishDetailCtrl',
 
     $scope.clone = function(){
         localStorage.dish= JSON.stringify($scope.dish);
-        localStorage.showImages= JSON.stringify($scope.dish.path);
     }
+
 
 }]);;/********************************************************************************************************************
  *                                                     首页

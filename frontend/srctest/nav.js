@@ -2,8 +2,8 @@
  *                                                     导航条
  ********************************************************************************************************************/
 
-angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData',
-  	function($scope,$rootScope,$interval,dayData) {
+angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData',
+  	function($scope,$rootScope,$interval,dayData,orderData) {
   		// 设置时间
 	  	function setTime(){
 	  		return $scope.time = new Date()
@@ -19,7 +19,14 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   		}else{
   			$rootScope.status = true;
   		}
-
+  		// 业绩查询
+		orderData.getGradeData().then(function(data){
+			$scope.gradeData = {
+				grade:data.grade,
+				username:data.username,
+				noincome:data.noincome 
+			}
+		})
 	  	// 开班
 	  	$scope.startDay = function(){
   			$rootScope.status = false

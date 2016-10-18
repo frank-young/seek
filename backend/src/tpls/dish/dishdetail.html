@@ -1,15 +1,15 @@
 <div ng-controller="DishDetailCtrl">
 	<form name="dishForm">
-		<h2 class="page-header">菜品详情
+		<h2 class="page-header" >菜品详情
 			<a href="javascript:window.history.go(-1)" type="button" class="btn btn-primary ml-20"><i class="fa fa-angle-left"></i> 返回</a>
 			<a ui-sref="web.dishAdd" ng-click="clone()" class="btn btn-primary"><i class="fa fa-copy"></i> 克隆</a>
 			<button type="button" class="btn btn-success" ng-click="saveDish(dish)"><i class="fa fa-save"></i> 保存</button>
 
 		</h2>
-		<div class="pro-wrap">
+		<div class="pro-wrap" >
 			<h4>基本信息</h4>
 			<hr>
-			<div class="row">
+			<div class="row" >
 				<div class="col-md-10 col-md-offset-1">
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">菜品名称</label>
@@ -36,7 +36,16 @@
 							<a class="inl-add" href=""  data-animation="am-fade-and-scale" placement="center" data-template-url="addCate.tpl.html" bs-modal><i class="fa fa-plus fa-lg"  data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="添加"></i></a>
 						</div>
 					</div>
-
+					
+					<div class="form-group row">
+						<label class="col-sm-2 control-label">是否参与促销</label>
+						<div class="col-sm-10" >
+							<button type="button" class="form-control form-select" name="isSale" ng-model="dish.ishost" data-html="1"  data-toggle="true" bs-options="is.value as is.label for is in isSale" placeholder="请选择是否参与促销"   bs-select >
+								<span class="caret"></span>
+							</button>
+						</div>
+					</div>
+					
 					<div class="form-group row">
 						<label class="col-sm-2 control-label">菜品描述</label>
 						<div class="col-sm-10" style="padding-left:15px;margin-top: 10px;">
@@ -46,6 +55,7 @@
 					</div>
 				</div>
 			</div>
+			
 			<div class="row">
 				<div class="col-md-10 col-md-offset-3" style="margin-top: 20px;margin-bottom: 10px;">
 					<button type="button" class="btn btn-success" ng-click="saveDish(dish)" ng-disabled="dishForm.$invalid">保存</button>

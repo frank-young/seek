@@ -9,6 +9,7 @@ div,p,span,button,input,h1,h2,h3,h4,h5,h6,b{
 	font-family: '微软雅黑',Helvetica;
 	font-weight: normal;
 }
+
 .button,
 .button-primary{
 	font-size: 16px;
@@ -24,12 +25,16 @@ button[disabled]:focus{
 	background-color: #ddd;
 	border: 1px solid #ddd;
 }
+.btn-p10{
+	padding: 0 10px;
+}
 .logo{
 	padding-left:30px; 
 	font-size: 16px;
 
 }
 .navbar{
+	// height: 60px;
 	line-height: 60px;
 	background-color: #333;
 	position: absolute;
@@ -102,6 +107,12 @@ button[disabled]:focus{
 	-moz-box-shadow: 0 0 10px rgba(0,0,0,0.1);
 	-ms-box-shadow: 0 0 10px rgba(0,0,0,0.1);
 	-o-box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.card small{
+	font-size: 14px;
+}
+.card.active small{
+	color: #fff;
 }
 .card.active{
 	background-color: #33C3F0;
@@ -525,6 +536,16 @@ button[disabled]:focus{
 	padding: 0px 10px;
 	font-size: 14px;
 }
+/*是否参与促销*/
+.show-pill .no-sale{
+	position: absolute;
+	top: 0;
+	right: 0;
+	background-color: #DD4E42;
+	color: #fff;
+	padding: 0px 5px;
+	font-size: 12px;
+}
 
 /* 订单列表 */
 .bl-panel{
@@ -533,6 +554,7 @@ button[disabled]:focus{
 	padding: 15px 20px;
 	background-color: #fff;
 }
+
 
 
 

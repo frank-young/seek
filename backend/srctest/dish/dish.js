@@ -7,11 +7,15 @@ angular.module("dishMoudle", []).controller('DishCtrl',
     function($scope,$window, $http, $state,$alert,dishData,cateData) {
 	$window.document.title = "菜品列表"
     /* 顶部固定按钮 */
-    $scope.pinShow = false;
+    $scope.pinShow = false
+    $scope.comboShow = false
     /* 栏目按钮显示隐藏 */
-	$scope.allShow = false;
+	$scope.allShow = false
 	$scope.pinShowFunc = function(){
         $scope.pinShow = !$scope.pinShow
+    }
+    $scope.comboShowFunc = function(){
+        $scope.comboShow = !$scope.comboShow
     }
 	/* 根据数组值找到索引*/
     function findIndex(current, obj){

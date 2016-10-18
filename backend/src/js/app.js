@@ -16,6 +16,7 @@ var app = angular.module('app', [
         'dishcomboAddMoudle',
         'dishCateMoudle',
         'dishDetailMoudle',
+        'dishcomboDetailMoudle',
         'teamMoudle',
         'teamAddMoudle',
         'teamDetailMoudle',
@@ -78,6 +79,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('web.dishDetail', {
             url: '/dishDetail/:id',
             templateUrl: 'tpls/dish/dishdetail.html'
+        })
+        .state('web.dishcomboDetail', {
+            url: '/dishcomboDetail/:id',
+            templateUrl: 'tpls/dish/dishcombodetail.html'
         })
         .state('web.team', {
             url: '/team',

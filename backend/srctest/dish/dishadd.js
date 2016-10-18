@@ -11,6 +11,11 @@ angular.module("dishAddMoudle", []).controller('DishAddCtrl',
         $scope.cate=data.cates;
     })
 
+    $scope.isSale = [
+        {value:0,label:"是"},
+        {value:1,label:"否"}
+    ]
+
     if(localStorage.dish){
         $scope.dish = JSON.parse(localStorage.dish)
     }else{
@@ -27,8 +32,8 @@ angular.module("dishAddMoudle", []).controller('DishAddCtrl',
             "price":null,
             "cate":"0",
             "search":"",
-            "ishost":false,
-            "other1":"", 
+            "ishost":"0",
+            "other1":2, 
             "other2":"", 
             "description":"",
             "history":'添加菜品'

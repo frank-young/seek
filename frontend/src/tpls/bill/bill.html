@@ -169,7 +169,7 @@
         <table class="u-full-width">
           <thead>
             <tr>
-              <th>名称</th>
+              <th style="width:50px">名称</th>
               <th>数量</th>
               <th>单价</th>
               <th>金额</th>
@@ -178,7 +178,7 @@
           </thead>
           <tbody>
              <tr ng-repeat="cc in order.dish">
-              <td ng-bind="cc.name"></td>
+             <td class="show-pill">{{cc.name}} <span class="no-sale" ng-show="cc.ishost=='1' ">NO</span></td>
               <td>{{cc.number}}</td>
               <td >
                 <a style="padding: 0 10px;width:72px;font-size:16px"  bs-dropdown aria-haspopup="true" aria-expanded="false" placement="bottom" ng-bind="cc.price | currency:'¥' "></a>
@@ -277,11 +277,18 @@
               </thead>
               <tbody>
                 <tr ng-repeat="cc in cookCart">
-	              <td ng-bind="cc.name"></td>
-	              <td>{{cc.number}}
-	              </td>
-	              <td ng-bind="cc.reducePrice*cc.number | currency:'¥' "></td>
-	            </tr>
+	                <td>
+                    {{cc.name}} <span ng-show="cc.other1==1">(套餐)</span>
+                    <div ng-show="cc.other1==1">
+                      <span ng-repeat="da in cc.dishArr" style="font-size: 12px;">
+                        {{da.dishSelect}}
+                      </span>
+                    </div>
+                  </td>
+	                <td>{{cc.number}}</td>
+  	              <td ng-bind="cc.reducePrice*cc.number | currency:'¥' "></td>    
+  	            </tr>
+                
               </tbody>
             </table>
           </div>

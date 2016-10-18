@@ -15,7 +15,7 @@ var DishSchema = new mongoose.Schema({
 	number:Number,
 	cate: String,
 	search:String,
-	ishost:Boolean,
+	ishost:String,
 	other1:Number,
 	other2:String,
 	description:String,

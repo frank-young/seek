@@ -146,7 +146,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				}
 				
 			})
-			$scope.order.noincome = $scope.order.reduce		//计入虚收
 			payTypeFunc()
 
 		}
@@ -159,7 +158,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			}else{
 				$scope.discountItemFunc(ele,100)
 			}
-			$scope.order.noincome = $scope.order.reduce		//计入虚收
 			payTypeFunc()
 		}
 
@@ -271,7 +269,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"day": D,
 					other:""
 				}
-
+				// 品项
 				itemData.addData(item).then(function(data){
 	
 				})
@@ -295,10 +293,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				  			// console.log(data)
 				  		})
 					})
-					// var serial = parseInt(localStorage.serial)
-					// localStorage.serial = serial+1
-					// 更新数据库的流水号 	
 
+					// 更新数据库的流水号 	
 					localStorage.removeItem('cook')
 					localStorage.removeItem('cookAll')
 					localStorage.removeItem('peopleNumber')

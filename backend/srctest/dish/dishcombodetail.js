@@ -2,7 +2,7 @@
  *                                                      菜品详情页面
  ********************************************************************************************************************/
 
-angular.module("dishDetailMoudle", []).controller('DishDetailCtrl', 
+angular.module("dishcomboDetailMoudle", []).controller('DishcomboDetailCtrl', 
     ['$scope','$window', '$http', '$stateParams','$alert','$filter','dishData','cateData',
     function($scope,$window, $http, $stateParams,$alert,$filter,dishData,cateData) {
 	$window.document.title = "菜品详情";
@@ -12,10 +12,6 @@ angular.module("dishDetailMoudle", []).controller('DishDetailCtrl',
     cateData.getData().then(function(data){
         $scope.cate=data.cates;
     }) 
-    $scope.isSale = [
-        {value:"0",label:"是"},
-        {value:"1",label:"否"}
-    ]
 
     var date = new Date()
     /* 菜品详情请求 */
@@ -23,6 +19,36 @@ angular.module("dishDetailMoudle", []).controller('DishDetailCtrl',
        $scope.dish=data.dish
 
     })
+    // 所有菜品
+    $scope.dishAll = []
+    dishData.getData().then(function(data){
+
+        data.dishs.forEach(function(ele,index){
+            if(ele.other1 != 1){
+               
+                var d = {
+                    value:ele.name,
+                    label:ele.name + ' （原价：' +  $filter('currency')(ele.price,'￥') +'）',
+                    price:ele.price
+                }
+                $scope.dishAll.push(d)
+            }
+           
+        })
+
+    })
+   
+    // 监听价格，更新套餐总价
+    $scope.$watch('dish.dishArr', function(newValue, oldValue) {
+        if (newValue != oldValue) {
+            var sum = 0 
+            $scope.dish.dishArr.forEach(function(ele){
+                sum += parseFloat(ele.dishPrice)
+            })
+            $scope.dish.price = angular.copy(sum)
+        }
+       
+    },true)
 
     $scope.saveDish = function(value){
         dishData.updateData(value).then(function(data){
@@ -50,9 +76,9 @@ angular.module("dishDetailMoudle", []).controller('DishDetailCtrl',
         });
     }
 
-    $scope.clone = function(){
-        localStorage.dish= JSON.stringify($scope.dish);
-    }
+    $scope.cloneCombo = function(){
+        localStorage.dishcombo= JSON.stringify($scope.dish);
 
+    }
 
 }]);

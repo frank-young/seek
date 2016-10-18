@@ -12,6 +12,7 @@
           <div class="three columns" ng-repeat="c in cook">
               <a href="" class="card" ng-click="selectCook(c)" ng-class="{true: 'active', false: ''}[c.checked]">
                 <h3 class="center" ng-bind="c.name"></h3>
+                <small ng-repeat="da in c.dishArr">{{da.dishSelect}} </small>
                 <p class="center"><span ng-bind="c.price | currency:'¥' "></span></p>
               </a>
           </div>

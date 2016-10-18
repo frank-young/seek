@@ -20,8 +20,9 @@
  -->        </div>
       </div>
       <div class="two columns">
-        <button class="button-primary" ng-click="startDay()" ng-show="status">开班</button>
-        <button class="button" ng-click="" ng-show="!status" data-animation="am-fade-and-scale" placement="center" data-template-url="stopView.tpl.html" bs-modal>结班</button>
+        <button class="button-primary btn-p10" ng-click="startDay()" ng-show="status">开班</button>
+        <button class="button btn-p10" ng-click="" ng-show="!status" data-animation="am-fade-and-scale" placement="center" data-template-url="stopView.tpl.html" bs-modal>结班</button>
+        <button style="margin-left:10px;" class="button btn-p10" ng-click="" ng-show="!status"  data-animation="am-fade-and-scale" placement="center" data-template-url="exchange.tpl.html" bs-modal="gradeData">交班</button>
       </div>  
     </div>
   </div>
@@ -199,6 +200,28 @@
         </div>
     </div>
   </script>
+
+   <script type="text/ng-template" id="exchange.tpl.html">
+    <div class="modal modal-warning" tabindex="-1" role="dialog">
+        <div class="modal-dialog" style="width:500px;">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="$hide()">&times;</button>
+                    <h5 class="modal-title" style="color:#fff; margin-bottom: 0">提示框</h5>
+                </div>
+                <div class="modal-body" style="height:320px;padding-top: 50px;">
+                    <h5 style="color:#333; font-size:22px;">请核对账款信息，再确认交班</h5>
+                    
+                    <h5 style="color:#333; font-size:20px;font-weight: normal;"> 收银员：{{gradeData.username}} </h5>
+                    <h5 style="color:#333; font-size:20px;font-weight: normal;"> 实收：{{gradeData.grade | currency:'¥'}} </h5>
+                    <h5 style="color:#333; font-size:20px;font-weight: normal;"> 虚收：{{gradeData.noincome | currency:'¥' }} </h5>
+                    <button class="button button p-sure" ng-click="$hide()" style="color:#333;margin-right:30px;">取消</button>     
+                    <a class="button button-primary p-sure" href="/logout" ng-click="$hide()" >确认</a>                
+                </div>
+        </div>
+        </div>
+    </div>
+</script>
 
 
 

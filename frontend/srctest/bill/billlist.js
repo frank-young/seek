@@ -25,6 +25,7 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 			$scope.grade = data.grade
 			$scope.username = data.username
 			$scope.noincome = data.noincome
+
 		})
 
 		$scope.lookAll = function(id){

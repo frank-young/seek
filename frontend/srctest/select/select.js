@@ -7,6 +7,7 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 
 		$window.document.title = "点餐"
 		
+		//获取分类
 		if(localStorage.localCate !=null){
 			$scope.localCate = JSON.parse(localStorage.localCate)
 		}else{
@@ -17,6 +18,7 @@ angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window',
 			})
 		}
 
+		//获取菜品
 		if(localStorage.cookAll !=null){
 			$scope.cookAll = JSON.parse(localStorage.cookAll)
 
