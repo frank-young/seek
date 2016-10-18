@@ -139,6 +139,7 @@ exports.addMenu = function(req,res){
 }
 
 // 微信授权登录
+// https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd95a4f3e82e0df64&redirect_uri=https://qd9qr.ngrok.natapp.cn/wechat/login&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
 exports.login = function(req,res){
 	var code = req.query.code
 	// 用获取code换取token
