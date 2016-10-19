@@ -124,5 +124,8 @@ module.exports = function(app){
   app.get('/wechat/upload/image',Wechat.uploadImage)
   app.get('/wechat/card/create',Wechat.cardCreate)
   app.get('/wechat/card/qrcode',Wechat.cardQrcode)
+  app.get('/wechat/card/testwhitelist',Wechat.cardTestwhitelist)
+  app.get('/wechat/card/delete',Wechat.cardDelete)
+  app.get('/wechat/card/update',Wechat.cardUpdate)
 
 }

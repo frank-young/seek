@@ -5,8 +5,8 @@ var fs = require('fs')
 
 var config = {
 	wechat:{
-		appID:'wxd95a4f3e82e0df64',
-		appSecret:'143d36866e792512dc76ea5d11e8df62',
+		appID:'wx782db8ee3e80c4aa',			//wxd95a4f3e82e0df64
+		appSecret:'07edc09a46dba2e8d0b1964b5aec3a46',		//143d36866e792512dc76ea5d11e8df62
 		token:'weixin'
 	}
 }
@@ -249,7 +249,7 @@ exports.cardCreate = function(req,res){
 	                "sku": {
 	                    "quantity": 100
 	                },
-	                "get_limit": 1,
+	                "get_limit": 20,
 	                "use_custom_code": false,
 	                "can_give_friend": true,
 	                "location_id_list": [
@@ -274,10 +274,11 @@ exports.cardCreate = function(req,res){
 	                "name_type": "FIELD_NAME_TYPE_DISCOUNT",
 	                "url": "http://www.qq.com"
 	            },
-	            "custom_field2": {
-	                "name_type": "FIELD_NAME_TYPE_LEVEL",
-	                "url": "http://www.qq.com"
-	            },
+				"supply_balance":true,
+	            // "custom_field2": {
+	            //     "name_type": "FIELD_NAME_TYPE_COUPON",
+	            //     "url": "http://www.qq.com"
+	            // },
 	            "activate_url": "http://www.qq.com",
 	            "custom_cell1": {
 	                "name": "使用入口2",
@@ -361,6 +362,110 @@ exports.cardQrcode = function(req,res){
 			//     "url": "http://weixin.qq.com/q/fjhb8J-laO4R83C7sROT",
 			//     "show_qrcode_url": "https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQHk8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL2ZqaGI4Si1sYU80UjgzQzdzUk9UAAIE%2FgUHWAMECAcAAA%3D%3D"
 			// }
+
+		}
+	})
+
+}
+
+
+// 测试白名单
+exports.cardTestwhitelist = function(req,res){
+	var access_token = fs.readFileSync('./config/token').toString();
+	var url = 'https://api.weixin.qq.com/card/testwhitelist/set?access_token='+access_token
+	var openid = fs.readFileSync('./config/openid').toString();
+
+	var data ={
+		  "openid": [
+		      "oV8Fpw9AZVRABxHNIovxIEew_znI",
+		      "oV8Fpwwyk7xPurO4t2Okz8b1Lyzc"
+		               ],
+		  "username": [
+		      "yangjunalns",
+		      "jessicaandJason"
+		                ]
+		 }
+
+	var options = {
+	    url: url,
+	    form: JSON.stringify(data),
+	    headers: {
+	      'Content-Type': 'application/x-www-form-urlencoded'
+	    }
+	}
+
+	request.post(options, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var data = JSON.parse(body)
+			res.json({
+				msg:'1',
+				data:data
+			})
+
+		}
+	})
+
+}
+
+// 测试白名单
+exports.cardDelete = function(req,res){
+	var access_token = fs.readFileSync('./config/token').toString();
+	var url = 'https://api.weixin.qq.com/card/delete?access_token='+access_token
+
+	var data ={
+ 			"card_id": "pV8Fpw8-qFZKbBEvHWPg6ETT1Q7I"
+		 }
+
+	var options = {
+	    url: url,
+	    form: JSON.stringify(data),
+	    headers: {
+	      'Content-Type': 'application/x-www-form-urlencoded'
+	    }
+	}
+
+	request.post(options, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var data = JSON.parse(body)
+			res.json({
+				msg:'1',
+				data:data
+			})
+
+		}
+	})
+
+}
+
+// 更新会员卡信息
+exports.cardUpdate = function(req,res){
+	var access_token = fs.readFileSync('./config/token').toString();
+	var url = 'https://api.weixin.qq.com/card/update?access_token='+access_token
+
+	var data ={
+ 			"card_id": "pQw7gv3-fLxpHzSpU1Yl21r1ukrE",
+ 			"member_card":{
+	 				"supply_balance":true
+
+ 			}
+ 			 			
+		 }
+
+	var options = {
+	    url: url,
+	    form: JSON.stringify(data),
+	    headers: {
+	      'Content-Type': 'application/x-www-form-urlencoded'
+	    }
+	}
+
+	request.post(options, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var data = JSON.parse(body)
+			res.json({
+				msg:'1',
+				data:data
+			})
 
 		}
 	})
