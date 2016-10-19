@@ -28,7 +28,8 @@ var app = angular.module('app', [
         'itemDayMoudle',
         'creditMoudle',
         'paytypeMoudle',
-        'setMoudle'
+        'setMoudle',
+        'wechatMoudle'
 
         ]);  
 
@@ -131,6 +132,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('web.set', {
             url: '/set',
             templateUrl: 'tpls/set/set.html'
+        })
+        .state('web.wechat', {
+            url: '/wechat',
+            templateUrl: 'tpls/wechat/wechat.html'
         })
 
 

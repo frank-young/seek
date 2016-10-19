@@ -5,6 +5,9 @@ body{
 	/*margin: 0.75em;*/
 	background-color: #f8f8f8;
 }
+.wrap{
+	margin: 0.75em;
+}
 .tabbar{
 	position: fixed;
 	bottom: 0;

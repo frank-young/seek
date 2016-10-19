@@ -121,5 +121,8 @@ module.exports = function(app){
   app.get('/wechat/login',Wechat.login)
   app.get('/wechat/userinfo',Wechat.userinfo)
   app.get('/wechat/member_appaly',Wechat.memberAppaly)
+  app.get('/wechat/upload/image',Wechat.uploadImage)
+  app.get('/wechat/card/create',Wechat.cardCreate)
+  app.get('/wechat/card/qrcode',Wechat.cardQrcode)
 
 }

@@ -89,15 +89,15 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 				subs:[
 					{
 						text:'会员卡',
-						link:'web.quotation'
+						link:'web.wechat'
 					},
 					{
 						text:'优惠券',
-						link:'web.quotationAdd'
+						link:'web.wechatAdd'
 					},
 					{
 						text:'其他',
-						link:'web.quotationSetting'
+						link:'web.wechat'
 					}
 				]
 			},
@@ -1282,4 +1282,19 @@ angular.module("teamDetailMoudle", []).controller('TeamDetailCtrl',
 
 }]) 
  
+
+;/********************************************************************************************************************
+ *                                                      成员列表页面
+ ********************************************************************************************************************/
+
+angular.module("wechatMoudle", []).controller('WechatCtrl', 
+    ['$scope','$window', '$http', '$state','$alert',
+    function($scope,$window, $http, $state,$alert) {
+        $window.document.title = "微信端管理";
+
+        $scope.saveWechat = function(){
+
+        }  
+}])
+
 
