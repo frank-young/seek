@@ -122,10 +122,19 @@ module.exports = function(app){
   app.get('/wechat/userinfo',Wechat.userinfo)
   app.get('/wechat/member_appaly',Wechat.memberAppaly)
   app.get('/wechat/upload/image',Wechat.uploadImage)
-  app.get('/wechat/card/create',Wechat.cardCreate)
-  app.get('/wechat/card/qrcode',Wechat.cardQrcode)
-  app.get('/wechat/card/testwhitelist',Wechat.cardTestwhitelist)
-  app.get('/wechat/card/delete',Wechat.cardDelete)
-  app.get('/wechat/card/update',Wechat.cardUpdate)
+
+  app.get('/wechat/card/create',Wechat.cardCreate)  //创建会员卡
+  app.get('/wechat/card/qrcode',Wechat.cardQrcode)  //生成二维码
+  app.get('/wechat/card/testwhitelist',Wechat.cardTestwhitelist)  //白名单测试
+  app.get('/wechat/card/delete',Wechat.cardDelete)  //删除会员卡
+  app.get('/wechat/card/update',Wechat.cardUpdate)  //更新会员卡
+  app.get('/wechat/card/memberinfo',Wechat.cardMemberinfo)  //设置会员开卡字段
+  app.get('/wechat/card/getcard',Wechat.cardGetcard)  //拉取会员卡数据
+
+  app.get('/wechat/card/membercard',Wechat.cardMembercard)  //拉取会员信息
+  app.get('/wechat/card/membercard/update',Wechat.cardMembercardUpdate)  //更新会员信息
+  
+  app.get('/wechat/card/user/getcardlist',Wechat.cardUserGetcard)  //获取用户已领卡券
+  // app.get('/wechat/card/code',Wechat.cardCode)  //查询code
 
 }

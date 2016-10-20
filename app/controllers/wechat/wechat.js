@@ -5,12 +5,13 @@ var fs = require('fs')
 
 var config = {
 	wechat:{
-		appID:'wx782db8ee3e80c4aa',			//wxd95a4f3e82e0df64
-		appSecret:'07edc09a46dba2e8d0b1964b5aec3a46',		//143d36866e792512dc76ea5d11e8df62
+		appID:'wxd95a4f3e82e0df64',			//    wx782db8ee3e80c4aa
+		appSecret:'143d36866e792512dc76ea5d11e8df62',		//   07edc09a46dba2e8d0b1964b5aec3a46
 		token:'weixin'
 	}
 }
 
+//微信端验证
 exports.init = function(req, res) {
     // var token="weixin"
     var signature = req.query.signature
@@ -43,6 +44,7 @@ exports.init = function(req, res) {
 
 }
 
+//获取token
 exports.token = function(req,res){
 
 	var url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='+config.wechat.appID+'&secret='+config.wechat.appSecret
@@ -74,7 +76,7 @@ exports.token = function(req,res){
 	refreshToken()
 }
 
-
+//添加菜单
 exports.addMenu = function(req,res){
 
 	//token，因为token是存在文件里的所以这里进行文件读取得到token
@@ -224,12 +226,13 @@ exports.uploadImage = function(req,res){
 
 }
 
+// 暂时用的第一张卡： pV8Fpwyw7-wnfqRIIIQjZwWrBhuU
 // 创建会员卡
 exports.cardCreate = function(req,res){
 	var access_token = fs.readFileSync('./config/token').toString();
 	var url = 'https://api.weixin.qq.com/card/create?access_token='+access_token
 
-	var data = {
+	var formdata = {
 		"card": {
 	        "card_type": "MEMBER_CARD",
 	        "member_card": {
@@ -271,15 +274,13 @@ exports.cardCreate = function(req,res){
 	            "prerogative": "test_prerogative",
 	            "wx_activate": true,
 	            "custom_field1": {
-	                "name_type": "FIELD_NAME_TYPE_DISCOUNT",
-	                "url": "http://www.qq.com"
+	                "name_type": "FIELD_NAME_TYPE_COUPON"
 	            },
 				"supply_balance":true,
 	            // "custom_field2": {
 	            //     "name_type": "FIELD_NAME_TYPE_COUPON",
 	            //     "url": "http://www.qq.com"
 	            // },
-	            "activate_url": "http://www.qq.com",
 	            "custom_cell1": {
 	                "name": "使用入口2",
 	                "tips": "激活后显示",
@@ -302,7 +303,7 @@ exports.cardCreate = function(req,res){
 
 	var options = {
 	    url: url,
-	    form: JSON.stringify(data),
+	    form: JSON.stringify(formdata),
 	    headers: {
 	      'Content-Type': 'application/x-www-form-urlencoded'
 	    }
@@ -320,19 +321,17 @@ exports.cardCreate = function(req,res){
 
 }
 
-
 // 创建二维码
 exports.cardQrcode = function(req,res){
 	var access_token = fs.readFileSync('./config/token').toString();
 	var url = 'https://api.weixin.qq.com/card/qrcode/create?access_token='+access_token
 
-	var data ={
+	var formdata ={
 			"action_name": "QR_CARD", 
 			"expire_seconds": 1800,
 			"action_info": {
 				"card": {
-					"card_id": "pV8Fpw6zJmvsJ0NYGysLFE2_Wt24", 
-					"code": "198374613512"
+					"card_id": "pV8Fpwyw7-wnfqRIIIQjZwWrBhuU", 
 					
 				 }
 			}
@@ -340,7 +339,7 @@ exports.cardQrcode = function(req,res){
 
 	var options = {
 	    url: url,
-	    form: JSON.stringify(data),
+	    form: JSON.stringify(formdata),
 	    headers: {
 	      'Content-Type': 'application/x-www-form-urlencoded'
 	    }
@@ -375,7 +374,7 @@ exports.cardTestwhitelist = function(req,res){
 	var url = 'https://api.weixin.qq.com/card/testwhitelist/set?access_token='+access_token
 	var openid = fs.readFileSync('./config/openid').toString();
 
-	var data ={
+	var formdata ={
 		  "openid": [
 		      "oV8Fpw9AZVRABxHNIovxIEew_znI",
 		      "oV8Fpwwyk7xPurO4t2Okz8b1Lyzc"
@@ -388,7 +387,7 @@ exports.cardTestwhitelist = function(req,res){
 
 	var options = {
 	    url: url,
-	    form: JSON.stringify(data),
+	    form: JSON.stringify(formdata),
 	    headers: {
 	      'Content-Type': 'application/x-www-form-urlencoded'
 	    }
@@ -407,18 +406,18 @@ exports.cardTestwhitelist = function(req,res){
 
 }
 
-// 测试白名单
+// 删除会员卡
 exports.cardDelete = function(req,res){
 	var access_token = fs.readFileSync('./config/token').toString();
 	var url = 'https://api.weixin.qq.com/card/delete?access_token='+access_token
 
-	var data ={
- 			"card_id": "pV8Fpw8-qFZKbBEvHWPg6ETT1Q7I"
+	var formdata ={
+ 			"card_id": "pV8Fpw363JY7bijGwMG7ojBCOa2Y"
 		 }
 
 	var options = {
 	    url: url,
-	    form: JSON.stringify(data),
+	    form: JSON.stringify(formdata),
 	    headers: {
 	      'Content-Type': 'application/x-www-form-urlencoded'
 	    }
@@ -442,18 +441,22 @@ exports.cardUpdate = function(req,res){
 	var access_token = fs.readFileSync('./config/token').toString();
 	var url = 'https://api.weixin.qq.com/card/update?access_token='+access_token
 
-	var data ={
- 			"card_id": "pQw7gv3-fLxpHzSpU1Yl21r1ukrE",
+	var formdata ={
+ 			"card_id": "pV8Fpwyw7-wnfqRIIIQjZwWrBhuU",
  			"member_card":{
-	 				"supply_balance":true
-
+	 				// "supply_balance":true
+	 				
+	 				 "base_info": {
+	 				 	"need_push_on_view ":true
+	 				 }
  			}
+ 			
  			 			
 		 }
 
 	var options = {
 	    url: url,
-	    form: JSON.stringify(data),
+	    form: JSON.stringify(formdata),
 	    headers: {
 	      'Content-Type': 'application/x-www-form-urlencoded'
 	    }
@@ -472,7 +475,184 @@ exports.cardUpdate = function(req,res){
 
 }
 
+// 设置会员开卡字段
+exports.cardMemberinfo = function(req,res){
+	var access_token = fs.readFileSync('./config/token').toString();
+	var url = 'https://api.weixin.qq.com/card/membercard/activateuserform/set?access_token='+access_token
 
+	var formdata ={
+ 			"card_id": "pV8Fpwyw7-wnfqRIIIQjZwWrBhuU",
+ 			"service_statement": {
+		        "name": "会员守则",
+		        "url": ""
+		    },
+		    "bind_old_card": {
+		        "name": "老会员绑定",
+		        "url": ""
+		    },
+ 			"required_form": {
+		       	"common_field_id_list": [
+		       		"USER_FORM_INFO_FLAG_NAME",
+		            "USER_FORM_INFO_FLAG_MOBILE",
+		            "USER_FORM_INFO_FLAG_BIRTHDAY"
+		    	]		
+			}
+		}
+
+	var options = {
+	    url: url,
+	    form: JSON.stringify(formdata),
+	    headers: {
+	      'Content-Type': 'application/x-www-form-urlencoded'
+	    }
+	}
+
+	request.post(options, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var data = JSON.parse(body)
+			res.json({
+				msg:'1',
+				data:data
+			})
+
+		}
+	})
+
+}
+
+// 拉取会员卡信息
+exports.cardGetcard = function(req,res){
+	var access_token = fs.readFileSync('./config/token').toString();
+	var url = 'https://api.weixin.qq.com/card/get?access_token='+access_token
+
+	var formdata = {
+			"card_id": "pV8Fpw2OoHA4HRUb5IxMTt0TJqaQ",
+		}
+
+	var options = {
+	    url: url,
+	    form: JSON.stringify(formdata),
+	    headers: {
+	      'Content-Type': 'application/x-www-form-urlencoded'
+	    }
+	}
+
+	request.post(options, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var data = JSON.parse(body)
+			res.json({
+				msg:'1',
+				data:data
+			})
+
+		}
+	})
+
+}
+
+// 我的会员信息：747522939375
+// 拉取会员信息---单个会员
+exports.cardMembercard = function(req,res){
+	var access_token = fs.readFileSync('./config/token').toString();
+	var url = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
+
+	var formdata ={
+ 			"card_id": "pV8Fpwyw7-wnfqRIIIQjZwWrBhuU",
+ 			"code": "747522939375"
+		 }
+
+	var options = {
+	    url: url,
+	    form: JSON.stringify(formdata),
+	    headers: {
+	      'Content-Type': 'application/x-www-form-urlencoded'
+	    }
+	}
+
+	request.post(options, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var data = JSON.parse(body)
+			res.json({
+				msg:'1',
+				data:data
+			})
+
+		}
+	})
+
+}
+
+// 更新会员信息
+exports.cardMembercardUpdate = function(req,res){
+	var access_token = fs.readFileSync('./config/token').toString();
+	var url = 'https://api.weixin.qq.com/card/membercard/updateuser?access_token='+access_token
+
+	var formdata ={
+ 			"code": "747522939375",
+ 			"card_id": "pV8Fpwyw7-wnfqRIIIQjZwWrBhuU",
+		    "record_bonus": "消费30元，获得3积分",
+		    "bonus":103,
+		    "balance":20002000,
+		    "record_balance": "购买摩卡一杯，扣除金额30元。",
+		    "notify_optional": {
+		        "is_notify_bonus": true,
+		        "is_notify_balance": true,
+		        "is_notify_custom_field1":true
+		    }
+		 }
+
+	var options = {
+	    url: url,
+	    form: JSON.stringify(formdata),
+	    headers: {
+	      'Content-Type': 'application/x-www-form-urlencoded'
+	    }
+	}
+
+	request.post(options, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var data = JSON.parse(body)
+			res.json({
+				msg:'1',
+				data:data
+			})
+
+		}
+	})
+
+}
+
+// 获取用户已领卡券
+exports.cardUserGetcard = function(req,res){
+	var access_token = fs.readFileSync('./config/token').toString();
+	var url = 'https://api.weixin.qq.com/card/membercard/activateuserform/set?access_token='+access_token
+
+	var formdata ={
+ 			"card_id": "pV8Fpw2OoHA4HRUb5IxMTt0TJqaQ",
+ 			"card_id": "oV8Fpw9AZVRABxHNIovxIEew_znI"
+ 			 			
+		 }
+
+	var options = {
+	    url: url,
+	    form: JSON.stringify(formdata),
+	    headers: {
+	      'Content-Type': 'application/x-www-form-urlencoded'
+	    }
+	}
+
+	request.post(options, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var data = JSON.parse(body)
+			res.json({
+				msg:'1',
+				data:data
+			})
+
+		}
+	})
+
+}
 
 
 
