@@ -11,7 +11,8 @@ var Index = require('../app/controllers/index'),
     Paytype = require('../app/controllers/credit/paytype'),
     Wechat = require('../app/controllers/wechat/wechat'),
     multipart = require('connect-multiparty'),
-    multipartMiddleware = multipart()
+    multipartMiddleware = multipart(),
+    xmlparser = require('express-xml-bodyparser')
 
 module.exports = function(app){
 	app.use(function(req, res, next) {
@@ -130,11 +131,12 @@ module.exports = function(app){
   app.get('/wechat/card/update',Wechat.cardUpdate)  //更新会员卡
   app.get('/wechat/card/memberinfo',Wechat.cardMemberinfo)  //设置会员开卡字段
   app.get('/wechat/card/getcard',Wechat.cardGetcard)  //拉取会员卡数据
-
   app.get('/wechat/card/membercard',Wechat.cardMembercard)  //拉取会员信息
   app.get('/wechat/card/membercard/update',Wechat.cardMembercardUpdate)  //更新会员信息
   
   app.get('/wechat/card/user/getcardlist',Wechat.cardUserGetcard)  //获取用户已领卡券
   // app.get('/wechat/card/code',Wechat.cardCode)  //查询code
+
+  app.post('/wechat/card/response',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse)  //微信推送信息接收url
 
 }

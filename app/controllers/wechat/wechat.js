@@ -1,14 +1,20 @@
-var jsSHA = require('jssha')
-var https = require('https')
-var request = require('request')
-var fs = require('fs')
+var jsSHA = require('jssha'),
+	https = require('https'),
+	request = require('request'),
+	fs = require('fs')
+	
 
+// 暂时用的第一张卡： pV8Fpwyw7-wnfqRIIIQjZwWrBhuU	-> 747522939375  
+// 第二张会员卡： pV8Fpw9Ma8psDpx_07EwvnmUulJc  -> 341233892893   ->047543802458
+// "pV8Fpw-srHIlmA1ZsDI0aO55X96M" -> 542105098925
 var config = {
 	wechat:{
 		appID:'wxd95a4f3e82e0df64',			//    wx782db8ee3e80c4aa
 		appSecret:'143d36866e792512dc76ea5d11e8df62',		//   07edc09a46dba2e8d0b1964b5aec3a46
 		token:'weixin'
-	}
+	},
+	card: "pV8Fpw-srHIlmA1ZsDI0aO55X96M",
+	code: "542105098925"
 }
 
 //微信端验证
@@ -208,6 +214,7 @@ exports.memberAppaly = function(req,res){
 			})
 		}
 	})
+
 }
 
 // 门店图片上传
@@ -226,7 +233,7 @@ exports.uploadImage = function(req,res){
 
 }
 
-// 暂时用的第一张卡： pV8Fpwyw7-wnfqRIIIQjZwWrBhuU
+
 // 创建会员卡
 exports.cardCreate = function(req,res){
 	var access_token = fs.readFileSync('./config/token').toString();
@@ -331,7 +338,7 @@ exports.cardQrcode = function(req,res){
 			"expire_seconds": 1800,
 			"action_info": {
 				"card": {
-					"card_id": "pV8Fpwyw7-wnfqRIIIQjZwWrBhuU", 
+					"card_id":config.card
 					
 				 }
 			}
@@ -412,7 +419,7 @@ exports.cardDelete = function(req,res){
 	var url = 'https://api.weixin.qq.com/card/delete?access_token='+access_token
 
 	var formdata ={
- 			"card_id": "pV8Fpw363JY7bijGwMG7ojBCOa2Y"
+					"card_id":config.card
 		 }
 
 	var options = {
@@ -442,7 +449,7 @@ exports.cardUpdate = function(req,res){
 	var url = 'https://api.weixin.qq.com/card/update?access_token='+access_token
 
 	var formdata ={
- 			"card_id": "pV8Fpwyw7-wnfqRIIIQjZwWrBhuU",
+					"card_id":config.card,
  			"member_card":{
 	 				// "supply_balance":true
 	 				
@@ -481,7 +488,7 @@ exports.cardMemberinfo = function(req,res){
 	var url = 'https://api.weixin.qq.com/card/membercard/activateuserform/set?access_token='+access_token
 
 	var formdata ={
- 			"card_id": "pV8Fpwyw7-wnfqRIIIQjZwWrBhuU",
+					"card_id":config.card,
  			"service_statement": {
 		        "name": "会员守则",
 		        "url": ""
@@ -526,7 +533,7 @@ exports.cardGetcard = function(req,res){
 	var url = 'https://api.weixin.qq.com/card/get?access_token='+access_token
 
 	var formdata = {
-			"card_id": "pV8Fpw2OoHA4HRUb5IxMTt0TJqaQ",
+					"card_id":config.card
 		}
 
 	var options = {
@@ -550,15 +557,15 @@ exports.cardGetcard = function(req,res){
 
 }
 
-// 我的会员信息：747522939375
+
 // 拉取会员信息---单个会员
 exports.cardMembercard = function(req,res){
 	var access_token = fs.readFileSync('./config/token').toString();
 	var url = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
 
 	var formdata ={
- 			"card_id": "pV8Fpwyw7-wnfqRIIIQjZwWrBhuU",
- 			"code": "747522939375"
+					"card_id":config.card,
+ 			"code": config.code
 		 }
 
 	var options = {
@@ -588,12 +595,12 @@ exports.cardMembercardUpdate = function(req,res){
 	var url = 'https://api.weixin.qq.com/card/membercard/updateuser?access_token='+access_token
 
 	var formdata ={
- 			"code": "747522939375",
- 			"card_id": "pV8Fpwyw7-wnfqRIIIQjZwWrBhuU",
+ 			"code": config.code,
+			"card_id":config.card,
 		    "record_bonus": "消费30元，获得3积分",
 		    "bonus":103,
-		    "balance":20002000,
-		    "record_balance": "购买摩卡一杯，扣除金额30元。",
+		    "balance":1,
+		    "record_balance": "购买叶小妞一枚，一生陪着她。",
 		    "notify_optional": {
 		        "is_notify_bonus": true,
 		        "is_notify_balance": true,
@@ -628,8 +635,7 @@ exports.cardUserGetcard = function(req,res){
 	var url = 'https://api.weixin.qq.com/card/membercard/activateuserform/set?access_token='+access_token
 
 	var formdata ={
- 			"card_id": "pV8Fpw2OoHA4HRUb5IxMTt0TJqaQ",
- 			"card_id": "oV8Fpw9AZVRABxHNIovxIEew_znI"
+					"card_id":config.card,
  			 			
 		 }
 
@@ -653,6 +659,30 @@ exports.cardUserGetcard = function(req,res){
 	})
 
 }
+
+// 微信推送信息接收url
+exports.cardResponse = function(req,res){
+	// user_get_card  领取事件推送
+	// user_del_card  删除事件推送
+	// user_consume_card 核销事件推送
+	// User_pay_from_pay_cell 买单事件推送
+	// update_member_card 会员卡内容更新事件
+	//  会员卡激活事件推送
+
+
+	var msg = req.body.xml
+	res.json({
+		status:1,
+		// msg:msg,
+		tousername:msg.tousername,
+		fromusername:msg.fromusername,
+		event:msg.event,
+		usercardcode:msg.usercardcode
+
+	})
+
+}
+
 
 
 
