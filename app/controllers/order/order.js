@@ -179,6 +179,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				}
 			})
   		}
+  		//转化两位小数
 		function to2(x) { 
 			var f = parseFloat(x); 
 			if (isNaN(f)) { 

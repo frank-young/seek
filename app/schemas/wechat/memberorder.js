@@ -1,15 +1,11 @@
 var mongoose = require('mongoose')
-var DomainSchema = new mongoose.Schema({
-	name:{
-		unique:true,
-		type:String
-	},
-	pname:String,
-	shopid:String,
-	tel:String,
-	tel2:String,
-	mobil:String,
-	address:String,
+var memberorderSchema = new mongoose.Schema({
+	cardid:String,
+	openid:String,
+	code:Number,
+	username:String,
+	phone:String,
+	status:Number,
 	meta:{
 		createAt:{
 			type:Date,
@@ -22,7 +18,7 @@ var DomainSchema = new mongoose.Schema({
 	}
 })
 
-DomainSchema.pre('save',function(next){
+memberorderSchema.pre('save',function(next){
 	if(this.isNew){
 		this.meta.createAt = this.meta.updateAt = Date.now()
 	}else{
@@ -32,7 +28,7 @@ DomainSchema.pre('save',function(next){
 })
 
 
-DomainSchema.statics = {
+memberorderSchema.statics = {
 	fetch:function(cb){
 		return this
 			.find({})
@@ -46,4 +42,4 @@ DomainSchema.statics = {
 	}
 }
 
-module.exports = DomainSchema
+module.exports = memberorderSchema

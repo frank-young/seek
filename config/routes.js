@@ -47,6 +47,7 @@ module.exports = function(app){
   app.post('/domain/addctrl',User.signinRequired,Domain.domainRequired, Domain.addctrl )
   app.post('/domain/update', User.signinRequired, Domain.update)
   app.get('/domain/detail', User.signinRequired, Domain.detail)
+  app.get('/domain/shopid', User.signinRequired, Domain.shopid)
 
   // 菜品信息
   app.get('/dish',User.signinRequired, Dish.list)

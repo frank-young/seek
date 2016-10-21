@@ -2,8 +2,8 @@
  *                                                     结账页面
  ********************************************************************************************************************/
 
-angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','orderData','domainData','paytypeData','creditData','dayData','itemData',
-  	function($scope,$alert,$window,orderData,domainData,paytypeData,creditData,dayData,itemData) {
+angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interva'l,'orderData','domainData','paytypeData','creditData','dayData','itemData',
+  	function($scope,$alert,$window,$interval,orderData,domainData,paytypeData,creditData,dayData,itemData) {
 
 		$window.document.title = "结账" 
 		//时间日期
@@ -336,7 +336,27 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			})
 		}
 
+		// 会员卡微信支付
+		$scope.wechatTag = false
+		$scope.wechatPay = function(){
+			$scope.wechatTag = true
+			// 取得shopid
+			domainData.getShopidData().then(function(data){
+				var shopid = data.shopid
+				console.log(shopid)
+				//连续向服务器发请求
+				var stop = $interval(function(){
 
+				},500)
+				
+				$interval.cancel(stop)
+
+			})
+
+			
+			
+
+		}
 	}
 ])
 

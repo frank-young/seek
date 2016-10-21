@@ -75,6 +75,7 @@ var Domain = require('../models/domain'),
   		}
 
 	}
+	
 	exports.update = function(req, res) {
 		var domainObj = req.body.domain
 		var user = req.session.user
@@ -97,8 +98,8 @@ var Domain = require('../models/domain'),
 
 	}
 	exports.detail = function(req, res) {
-		var domain = req.session.user.domain
-		Domain.findOne({name:domain},function(err,domain){
+		var _domain = req.session.user.domain
+		Domain.findOne({name:_domain},function(err,domain){
 			if(err){
 				res.json({
 					status:"0",
@@ -124,4 +125,25 @@ var Domain = require('../models/domain'),
 			return 
 		}
 		next()
+	}
+
+	//获取微信端shopid ,相当于客户端用户凭证
+	exports.shopid = function(req, res) {
+		var _domain = req.session.user.domain
+		Domain.findOne({name:_domain},function(err,domain){
+			if(err){
+				res.json({
+					status:"0",
+					msg:"发生错误!",
+					err:err
+				})
+			}else{
+				res.json({
+					status:"1",
+					msg:"读取成功",
+					shopid:domain.shopid
+				})
+			}
+			
+		})
 	}

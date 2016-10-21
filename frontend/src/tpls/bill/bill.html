@@ -14,7 +14,7 @@
 		      <div class="panel-body">
 		        <table class="u-full-width">
 	                <tbody>
-	                  <tr>
+	                  <!-- <tr>
 	                    <td><h6>实体会员卡</h6><p>
 	                      请将会员卡放入感应区
 	                    </p></td>
@@ -37,7 +37,23 @@
 	                      姓名/手机/会员号
 	                    </p></td>
 	                    <td><button type="button" ng-click="" class="button button-primary" data-animation="am-fade-and-scale" placement="center" data-template-url="member.tpl.html" bs-modal>搜索</button></td>
-	                  </tr>
+	                  </tr> -->
+                    <tr>
+                      <td><h6>微信买单</h6><p>
+                        系统将自动结算
+                      </p></td>
+                      <td>
+                        <button class="button button-primary" ng-hide="wechatTag" ng-click="wechatPay()">选择</button>
+                        <button class="button" ng-show="wechatTag" ng-click="wechatTag=false">取消</button>
+
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><h6>现金结账</h6><p>
+                        搜索会员手机号
+                      </p></td>
+                      <td><button type="button" ng-click="" class="button button-primary" data-animation="am-fade-and-scale" placement="center" data-template-url="member.tpl.html" bs-modal>选择</button></td>
+                    </tr>
 	                </tbody>
 	              </table>
 		      </div>
@@ -212,7 +228,7 @@
             <button ng-click="roundFunc(order)" class="button " style="padding: 0 10px;float:right">抹零</button>
           </h4>
         </div>
-        <button class="button button-primary btn-bill" data-animation="am-fade-and-scale" placement="center" data-template-url="setdish.tpl.html" bs-modal>结算</button>
+        <button ng-disabled="wechatTag" class="button button-primary btn-bill" data-animation="am-fade-and-scale" placement="center" data-template-url="setdish.tpl.html" bs-modal>结算</button>
       </div>
       <div class="one-third column side print-view bill-side">
         <!--startprintbill-->
