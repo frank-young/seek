@@ -1,35 +1,84 @@
-var Memberorder = require('../models/wechat/memberorder'),
+var Memberorder = require('../../models/wechat/memberorder'),
 	_ = require('underscore')
 
-	exports.add = function(req, res) {
-		var _memberorder = req.body.memberorder,
-			userObj = req.session.user
+	// 客户端查询会员用户付款信息
+	exports.getinfo = function(req, res) {
+		var _shopid = req.body.shopid
+		// 这里我需要去查询本店铺的用户付款信息，数据库中有的相应店铺的shopid值
+		Memberorder.findOne({shopid:_shopid,status:1},function(err,memberorder){
+			if(err){
+				res.json({
+					status:0,
+					msg:"发生错误!",
+					err:err
+				})
+			}
+			if(memberorder){
+				if(memberorder.billstatus==0){		// billstatus 判断是否有重复支付
+					memberorderObj = {
+						billstatus: 1
+					}
+					_memberorder = _.extend(memberorder,memberorderObj)	// 付款成功，更新此订单付款为完成状态
+					_memberorder.save(function(err,memberorderdata){
 
-  			Memberorder.findOne({name:_memberorder.name},function(err,memberorder){
-				if(err){
-					res.json({
-						status:0,
-						msg:"发生未知错误！"
 					})
-				}
-				if(memberorder){
 					res.json({
-						status:0,
-						msg:"已经存在！"
-					})	
+						status:1,
+						msg:"付款成功",
+						member:{
+							username: memberorder.username,
+							phone: memberorder.phone,
+							code: memberorder.code
+						}
+					})
 				}else{
-					var memberorder = new Memberorder(_memberorder)
-					memberorder.save(function(err,memberorderdata){
-						res.json({
-									status:1,
-									msg:"添加成功！"
-								})
+					res.json({
+						status:1,
+						msg:"已经付款成功，无需重复支付",
+						member:{
+							username: memberorder.username,
+							phone: memberorder.phone,
+							code: memberorder.code
+						}
+
 					})
+
 				}
+
+			}
+			else{
+				res.json({
+					status:0,
+					msg:"暂时未有付款成功消息"
+				})
+			}
+			
+		})
+
+	}
+
+	// 添加
+	exports.add = function(req, res) {
+		var memberorder = {
+				shopid:"123456",
+				username:'杨军',
+				code:234109834832,
+				phone:'18608164404',
+				status:1,
+				billstatus:0,
+			}
+
+			var _memberorder = new Memberorder(memberorder)
+			_memberorder.save(function(err,memberorderdata){
+				res.json({
+						status:1,
+						msg:"添加成功！"
+					})
 			})
 
 	}
 
+	// 更新
 	exports.update = function(req, res) {
 		var memberorderObj = req.body.memberorder
 		var user = req.session.user
@@ -51,18 +100,19 @@ var Memberorder = require('../models/wechat/memberorder'),
 
 	}
 
+	// 详情
 	exports.detail = function(req, res) {
 		var _memberorder = req.session.user.memberorder
 		Memberorder.findOne({name:_memberorder},function(err,memberorder){
 			if(err){
 				res.json({
-					status:"0",
+					status:0,
 					msg:"发生错误!",
 					err:err
 				})
 			}else{
 				res.json({
-					status:"1",
+					status:1,
 					msg:"读取成功",
 					memberorder:memberorder
 				})

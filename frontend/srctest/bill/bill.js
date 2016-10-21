@@ -2,8 +2,8 @@
  *                                                     结账页面
  ********************************************************************************************************************/
 
-angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interva'l,'orderData','domainData','paytypeData','creditData','dayData','itemData',
-  	function($scope,$alert,$window,$interval,orderData,domainData,paytypeData,creditData,dayData,itemData) {
+angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interval','orderData','memberorderData','domainData','paytypeData','creditData','dayData','itemData',
+  	function($scope,$alert,$window,$interval,orderData,memberorderData,domainData,paytypeData,creditData,dayData,itemData) {
 
 		$window.document.title = "结账" 
 		//时间日期
@@ -163,11 +163,19 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 选择会员
 		$scope.selectMember = function(value){
-			$scope.order.isMember = true
-			$scope.order.memberName = value.memberName
-			$scope.order.memberNum = value.memberNum
-			$scope.order.memberPhone = value.memberPhone.substr(0, 3) + '****' + value.memberPhone.substr(7, 11)
+			selectMemberFunc(true,value.memberName,value.memberNum,value.memberPhone)
 		}
+
+		// 选择会员更新数据函数
+		function selectMemberFunc(isMember,name,num,phone){
+			$scope.order.isMember = isMember
+			$scope.order.memberName = name
+			$scope.order.memberNum = num
+			$scope.order.memberPhone = phone.substr(0, 3) + '****' + phone.substr(7, 11)
+	
+		}
+
+
 		// 付款方式选择函数
 		function payTypeFunc(){
 			$scope.order.payType = []
@@ -328,7 +336,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.search = ""
 		$scope.member = $scope.memberAll
 		$scope.searchMember = function(value){
-			console.log(value)
 			$scope.member = $scope.memberAll.filter(function(ele){
 				if(ele.memberPhone.indexOf(value)>=0){
 					return ele
@@ -343,13 +350,21 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			// 取得shopid
 			domainData.getShopidData().then(function(data){
 				var shopid = data.shopid
-				console.log(shopid)
 				//连续向服务器发请求
 				var stop = $interval(function(){
-
+					// 如何去判断是谁提交了订单付款请求 
+					memberorderData.getInfo(shopid).then(function(data){
+						console.log(data)
+						if(data.status == 1){
+							$scope.wechatTag = false
+							$interval.cancel(stop)
+							selectMemberFunc(true,data.member.username,data.member.code,data.member.phone)
+							alert('付款成功！')
+						}
+					})
 				},500)
 				
-				$interval.cancel(stop)
+				// $interval.cancel(stop)
 
 			})
 

@@ -6,6 +6,7 @@ var memberorderSchema = new mongoose.Schema({
 	username:String,
 	phone:String,
 	status:Number,
+	billstatus:Number,	// 付款完成状态为1，避免重复付款
 	meta:{
 		createAt:{
 			type:Date,

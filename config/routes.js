@@ -10,6 +10,7 @@ var Index = require('../app/controllers/index'),
     Credit = require('../app/controllers/credit/credit'),
     Paytype = require('../app/controllers/credit/paytype'),
     Wechat = require('../app/controllers/wechat/wechat'),
+    Memberorder = require('../app/controllers/wechat/memberorder'),
     multipart = require('connect-multiparty'),
     multipartMiddleware = multipart(),
     xmlparser = require('express-xml-bodyparser')
@@ -115,6 +116,11 @@ module.exports = function(app){
   app.get('/setting/detail/:id',User.signinRequired, Setting.placeAdminRequired,Setting.detail)
   app.post('/setting/updatecopy',User.signinRequired, Setting.placeAdminRequired,Setting.updatecopy)
   app.get('/setting/rbac',User.signinRequired, Setting.rbac)
+
+  // 会员付款信息
+  app.post('/memberorder', User.signinRequired, Memberorder.getinfo)
+  app.get('/memberorder/add', User.signinRequired, Memberorder.add)  // 测试付款消息添加
+
 
   // 微信端接口
   app.get('/wechat/init',Wechat.init)
