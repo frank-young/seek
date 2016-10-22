@@ -329,7 +329,7 @@ angular.module('serviceData', [])
                         'Content-Type': 'application/json; charset=utf-8'
                     },
                     data: {
-                        order:value
+                        shopid:value
                     }
                 })
                 .success(function (data, status, headers, config) {

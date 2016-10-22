@@ -124,6 +124,7 @@ module.exports = function(app){
 
   // 微信端接口
   app.get('/wechat/init',Wechat.init)
+  app.post('/wechat/init',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse)  //微信推送信息接收url
   app.get('/wechat/token',Wechat.token)
   app.get('/wechat/addmenu',Wechat.addMenu)
   app.get('/wechat/login',Wechat.login)
@@ -144,6 +145,5 @@ module.exports = function(app){
   app.get('/wechat/card/user/getcardlist',Wechat.cardUserGetcard)  //获取用户已领卡券
   // app.get('/wechat/card/code',Wechat.cardCode)  //查询code
 
-  app.post('/wechat/card/response',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse)  //微信推送信息接收url
 
 }

@@ -163,15 +163,16 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 选择会员
 		$scope.selectMember = function(value){
-			selectMemberFunc(true,value.memberName,value.memberNum,value.memberPhone)
+			selectMemberFunc(true,value.memberName,value.memberNum,value.memberPhone,$scope.order.realTotal)
 		}
 
 		// 选择会员更新数据函数
-		function selectMemberFunc(isMember,name,num,phone){
+		function selectMemberFunc(isMember,name,num,phone,realtotal){
 			$scope.order.isMember = isMember
 			$scope.order.memberName = name
 			$scope.order.memberNum = num
 			$scope.order.memberPhone = phone.substr(0, 3) + '****' + phone.substr(7, 11)
+			$scope.order.realTotal = realtotal
 	
 		}
 
@@ -350,26 +351,29 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			// 取得shopid
 			domainData.getShopidData().then(function(data){
 				var shopid = data.shopid
+
 				//连续向服务器发请求
-				var stop = $interval(function(){
+				$scope.stop = $interval(function(){
 					// 如何去判断是谁提交了订单付款请求 
 					memberorderData.getInfo(shopid).then(function(data){
 						console.log(data)
 						if(data.status == 1){
 							$scope.wechatTag = false
-							$interval.cancel(stop)
-							selectMemberFunc(true,data.member.username,data.member.code,data.member.phone)
+							$interval.cancel($scope.stop)
+							selectMemberFunc(true,data.member.username,data.member.code,data.member.phone,data.member.fee/100)
 							alert('付款成功！')
 						}
 					})
 				},500)
 				
-				// $interval.cancel(stop)
 
 			})
 
-			
-			
+		}
+		$scope.wechatPayCancel = function(){
+			$scope.wechatTag=false
+			$interval.cancel($scope.stop)
+
 
 		}
 	}

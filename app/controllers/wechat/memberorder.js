@@ -5,7 +5,7 @@ var Memberorder = require('../../models/wechat/memberorder'),
 	exports.getinfo = function(req, res) {
 		var _shopid = req.body.shopid
 		// 这里我需要去查询本店铺的用户付款信息，数据库中有的相应店铺的shopid值
-		Memberorder.findOne({shopid:_shopid,status:1},function(err,memberorder){
+		Memberorder.findOne({shopid:_shopid,status:1,billstatus:0},function(err,memberorder){
 			if(err){
 				res.json({
 					status:0,
@@ -14,36 +14,23 @@ var Memberorder = require('../../models/wechat/memberorder'),
 				})
 			}
 			if(memberorder){
-				if(memberorder.billstatus==0){		// billstatus 判断是否有重复支付
-					memberorderObj = {
-						billstatus: 1
-					}
-					_memberorder = _.extend(memberorder,memberorderObj)	// 付款成功，更新此订单付款为完成状态
-					_memberorder.save(function(err,memberorderdata){
-
-					})
-					res.json({
-						status:1,
-						msg:"付款成功",
-						member:{
-							username: memberorder.username,
-							phone: memberorder.phone,
-							code: memberorder.code
-						}
-					})
-				}else{
-					res.json({
-						status:1,
-						msg:"已经付款成功，无需重复支付",
-						member:{
-							username: memberorder.username,
-							phone: memberorder.phone,
-							code: memberorder.code
-						}
-
-					})
-
+				memberorderObj = {
+					billstatus: 1
 				}
+				_memberorder = _.extend(memberorder,memberorderObj)	// 付款成功，更新此订单付款为完成状态
+				_memberorder.save(function(err,memberorderdata){
+
+				})
+				res.json({
+					status:1,
+					msg:"付款成功",
+					member:{
+						username: memberorder.username,
+						phone: memberorder.phone,
+						code: memberorder.code,
+						fee:memberorder.fee
+					}
+				})
 
 			}
 			else{
@@ -60,7 +47,7 @@ var Memberorder = require('../../models/wechat/memberorder'),
 	// 添加
 	exports.add = function(req, res) {
 		var memberorder = {
-				shopid:"123456",
+				shopid:"464041593",
 				username:'杨军',
 				code:234109834832,
 				phone:'18608164404',

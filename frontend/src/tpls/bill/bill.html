@@ -44,7 +44,7 @@
                       </p></td>
                       <td>
                         <button class="button button-primary" ng-hide="wechatTag" ng-click="wechatPay()">选择</button>
-                        <button class="button" ng-show="wechatTag" ng-click="wechatTag=false">取消</button>
+                        <button class="button" ng-click="wechatPayCancel()" ng-show="wechatTag">取消</button>
 
                       </td>
                     </tr>

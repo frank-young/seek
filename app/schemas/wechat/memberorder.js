@@ -1,12 +1,18 @@
 var mongoose = require('mongoose')
 var memberorderSchema = new mongoose.Schema({
 	cardid:String,
+	shopid:String,
 	openid:String,
 	code:Number,
 	username:String,
 	phone:String,
 	status:Number,
 	billstatus:Number,	// 付款完成状态为1，避免重复付款
+	fromusername:String,
+	originalfee:Number,
+	transid:String,
+	fee:Number,
+	createtime:Number,
 	meta:{
 		createAt:{
 			type:Date,

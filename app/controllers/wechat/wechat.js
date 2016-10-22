@@ -1,23 +1,26 @@
 var jsSHA = require('jssha'),
 	https = require('https'),
 	request = require('request'),
-	fs = require('fs')
+	fs = require('fs'),
+	Memberorder = require('../../models/wechat/memberorder')
 	
 
 // 暂时用的第一张卡： pV8Fpwyw7-wnfqRIIIQjZwWrBhuU	-> 747522939375  
 // 第二张会员卡： pV8Fpw9Ma8psDpx_07EwvnmUulJc  -> 341233892893   ->047543802458
 // "pV8Fpw-srHIlmA1ZsDI0aO55X96M" -> 542105098925
+// pV8Fpw_0Wt3USdpKKF_cj7yCX-nA
+//pV8Fpw4Ueri-rldrK83zQJW9NVkE
 var config = {
 	wechat:{
-		appID:'wxd95a4f3e82e0df64',			//    wx782db8ee3e80c4aa
-		appSecret:'143d36866e792512dc76ea5d11e8df62',		//   07edc09a46dba2e8d0b1964b5aec3a46
+		appID:'wx782db8ee3e80c4aa',			//      wxd95a4f3e82e0df64
+		appSecret:'07edc09a46dba2e8d0b1964b5aec3a46',		//       143d36866e792512dc76ea5d11e8df62
 		token:'weixin'
 	},
-	card: "pV8Fpw-srHIlmA1ZsDI0aO55X96M",
+	card: "pQw7gv-og6EJ4voO1fS31XLFFLL8",
 	code: "542105098925"
 }
 
-//微信端验证
+//微信端验证 以及推送事件
 exports.init = function(req, res) {
     // var token="weixin"
     var signature = req.query.signature
@@ -240,72 +243,89 @@ exports.cardCreate = function(req,res){
 	var url = 'https://api.weixin.qq.com/card/create?access_token='+access_token
 
 	var formdata = {
-		"card": {
-	        "card_type": "MEMBER_CARD",
-	        "member_card": {
-	            "background_pic_url": "",
-	            "base_info": {
-	                "logo_url": "http://y7gr8.ngrok.natapp.cn/img/logo.jpg",
-	                "brand_name": "Seek Cafe",
-	                "code_type": "CODE_TYPE_QRCODE",
-	                "title": "Seek Cafe会员卡",
-	                "color": "Color010",
-	                "notice": "使用时向服务员出示此券",
-	                "service_phone": "022-8365486",
-	                "description": "不可与其他优惠同享",
-	                "date_info": {
-	                    "type": "DATE_TYPE_PERMANENT"
-	                },
-	                "sku": {
-	                    "quantity": 100
-	                },
-	                "get_limit": 20,
-	                "use_custom_code": false,
-	                "can_give_friend": true,
-	                "location_id_list": [
-	                    123,
-	                    12321
-	                ],
-	                "use_all_locations": true,
-	                "center_title":"微信买单",
-	                "center_url":"http://weixin.qq.com",
-	                "custom_url_name": "立即使用",
-	                "custom_url": "http://weixin.qq.com",
-	                "custom_url_sub_title": "6个汉字tips",
-	                "promotion_url_name": "营销入口1",
-	                "promotion_url": "http://www.qq.com",
-	                "need_push_on_view": true
-	            },
-	            "supply_bonus": true,
-	            "supply_balance": false,
-	            "prerogative": "test_prerogative",
-	            "wx_activate": true,
-	            "custom_field1": {
-	                "name_type": "FIELD_NAME_TYPE_COUPON"
-	            },
-				"supply_balance":true,
-	            // "custom_field2": {
-	            //     "name_type": "FIELD_NAME_TYPE_COUPON",
-	            //     "url": "http://www.qq.com"
-	            // },
-	            "custom_cell1": {
-	                "name": "使用入口2",
-	                "tips": "激活后显示",
-	                "url": "http://www.xxx.com"
-	            },
-	            "bonus_rule": {
-	                "cost_money_unit": 100,
-	                "increase_bonus": 1,
-	                "max_increase_bonus": 200,
-	                "init_increase_bonus": 10,
-	                "cost_bonus_unit": 5,
-	                "reduce_money": 100,
-	                "least_money_to_use_bonus": 1000,
-	                "max_reduce_bonus": 50
-	            },
-	            "discount": 10
-	        }
-    	}
+		"card":{
+		    "card_type": "MEMBER_CARD",
+		    "member_card": {
+		        "base_info": {
+		            "id": "pQw7gv3-fLxpHzSpU1Yl21r1ukrE",
+		            "logo_url": "http://mmbiz.qpic.cn/mmbiz_jpg/mGo9xJx8oaCxW0ARn1PnZQz1onVdWAiaYqr9eO1q2icOlhHhd2XLcmUFic8NHjlpOfVGg0p9HRI5ueGLhIFhOEIQQ/0?wx_fmt=jpeg",
+		            "code_type": "CODE_TYPE_QRCODE",
+		            "brand_name": "Seek Cafe",
+		            "title": "普通会员",
+		            "sub_title": "",
+		            "date_info": {
+		                "type": "DATE_TYPE_PERMANENT"
+		            },
+		            "color": "Color010",
+		            "notice": "用户到店出示会员卡",
+		            "description": "",
+		            "location_id_list": [
+		                464002036,
+		                464041593
+		            ],
+		            "get_limit": 1,
+		            "can_share": true,
+		            "can_give_friend": false,
+		            "status": "CARD_STATUS_DISPATCH",
+		            "sku": {
+		                "quantity": 999999999,
+		                "total_quantity": 1000000000
+		            },
+		            "create_time": 1476862469,
+		            "update_time": 1476886471,
+		            "use_all_locations": true,
+		            "area_code_list": []
+		        },
+		        "supply_bonus": true,
+		        "supply_balance": true,
+		        "prerogative": "用卡可享受9.5折优惠\n10积分可兑换精美礼品；会员日可享受折上折优惠等",
+		        "discount": 5,
+		        "auto_activate": false,
+		        "wx_activate": true,
+		        "bonus_rule": {
+		            "cost_money_unit": 10000,
+		            "increase_bonus": 1,
+		            "cost_bonus_unit": 1,
+		            "reduce_money": 100
+		        },
+		        "background_pic_url": "",
+		        "advanced_info": {
+		            "time_limit": [
+		                {
+		                    "type": "MONDAY"
+		                },
+		                {
+		                    "type": "TUESDAY"
+		                },
+		                {
+		                    "type": "WEDNESDAY"
+		                },
+		                {
+		                    "type": "THURSDAY"
+		                },
+		                {
+		                    "type": "FRIDAY"
+		                },
+		                {
+		                    "type": "SATURDAY"
+		                },
+		                {
+		                    "type": "SUNDAY"
+		                }
+		            ],
+		            "text_image_list": [],
+		            "business_service": [
+		                "BIZ_SERVICE_FREE_WIFI"
+		            ],
+		            "consume_share_card_list": [],
+		            "use_condition": {
+		                "can_use_with_other_discount": false,
+		                "can_use_with_membercard": false
+		            },
+		            "share_friends": false
+		        }
+		    }
+		}
 	}
 
 	var options = {
@@ -663,23 +683,40 @@ exports.cardUserGetcard = function(req,res){
 // 微信推送信息接收url
 exports.cardResponse = function(req,res){
 	// user_get_card  领取事件推送
+	// user_view_card 查看会员卡
 	// user_del_card  删除事件推送
 	// user_consume_card 核销事件推送
 	// User_pay_from_pay_cell 买单事件推送
 	// update_member_card 会员卡内容更新事件
 	//  会员卡激活事件推送
 
-
 	var msg = req.body.xml
-	res.json({
-		status:1,
-		// msg:msg,
-		tousername:msg.tousername,
-		fromusername:msg.fromusername,
-		event:msg.event,
-		usercardcode:msg.usercardcode
+	console.log(msg)
+	if(msg.event == "user_pay_from_pay_cell"){	//买单事件推送
 
-	})
+		var memberorder = {
+				fromusername:msg.fromusername,
+				shopid:msg.locationid,
+				username:'杨军',
+				cardid:msg.cardid,
+				code:parseInt(msg.usercardcode),
+				phone:'18608164404',
+				originalfee:parseInt(msg.originalfee),
+				transid:msg.transid,
+				fee:parseInt(msg.fee),
+				createtime:parseInt(msg.createtime),
+				status:1,
+				billstatus:0,
+			}
+
+			var _memberorder = new Memberorder(memberorder)
+			_memberorder.save(function(err,memberorderdata){
+				res.json({
+						status:1,
+						msg:"添加成功！"
+					})
+			})
+	}
 
 }
 
