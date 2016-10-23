@@ -2,14 +2,21 @@
  *                                                     订单列表
  ********************************************************************************************************************/
 
-angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData',
-  	function($scope,$window,orderData,dishData,settingData) {
+angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData',
+  	function($scope,$window,orderData,dishData,settingData,paytypeData) {
 
 		$window.document.title = "订单列表"; 
 		orderData.getData().then(function(data){
 			$scope.orders = data.orders
 		})
-		$scope.payTypeArr = ['现金','微信','支付宝','会员卡','次卡']
+
+		$scope.payTypeArr = []
+		//获取支付方式
+		paytypeData.getData().then(function(data){
+			$scope.payTypeArr = data.paytypes.map(function(value){
+				return value.label
+			})
+		})
 
 		$scope.cookAll = []
 		dishData.getData().then(function(data){

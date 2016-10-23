@@ -11,7 +11,6 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
 
 		memberData.getData().then(function(data){
 			$scope.memberAll = data.members
-			console.log($scope.memberAll)
 			$scope.member = $scope.memberAll
 		})
 		
@@ -23,11 +22,14 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
 			})
 		}
 
-		// 添加会员
-		$scope.addMember = function(){
-			// 直接向服务器发送信息，需要考虑微信会员的那块
-		}
+		// 查看会员详情
+		$scope.memberDetail = function(id){
+			memberData.getIdData(id).then(function(data){
 
+				$scope.memberItem = data.member
+
+			})
+		}
 	}
 ])
 

@@ -494,6 +494,7 @@ button[disabled]:focus{
 /*会员信息*/
 .member-i{
 	font-size: 18px;
+	line-height: 1.8em;
 }
 .member-i input{
 	width: 280px;
@@ -553,6 +554,20 @@ button[disabled]:focus{
 	border-radius: 5px;
 	padding: 15px 20px;
 	background-color: #fff;
+}
+.alert{
+	position: fixed;
+    top: 61px;
+    right: 0;
+    height: 70px;
+    line-height: 70px;
+    background-color: rgba(252,102,33,0.9);
+    color: #fff;
+    font-size: 20px;
+    padding: 0 50px 0 30px;
+}
+.alert button{
+	color: #fff;
 }
 
 

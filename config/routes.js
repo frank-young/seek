@@ -121,6 +121,7 @@ module.exports = function(app){
   // 会员付款信息
   app.post('/memberorder', User.signinRequired, Memberorder.getinfo)
   app.get('/member', User.signinRequired, Member.list) 
+  app.get('/member/detail/:id', User.signinRequired, Member.detail) 
 
 
   // 微信端接口

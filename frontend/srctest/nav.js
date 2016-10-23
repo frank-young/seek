@@ -20,13 +20,17 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			$rootScope.status = true;
   		}
   		// 业绩查询
-		orderData.getGradeData().then(function(data){
-			$scope.gradeData = {
-				grade:data.grade,
-				username:data.username,
-				noincome:data.noincome 
-			}
-		})
+		$scope.exchangeFunc = function(){
+			orderData.getGradeData().then(function(data){
+				$scope.gradeData = {
+					grade:data.grade,
+					username:data.username,
+					noincome:data.noincome 
+				}
+			})
+
+		}
+
 	  	// 开班
 	  	$scope.startDay = function(){
   			$rootScope.status = false

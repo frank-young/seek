@@ -17,8 +17,8 @@ var config = {
 		appSecret:'07edc09a46dba2e8d0b1964b5aec3a46',		//       143d36866e792512dc76ea5d11e8df62
 		token:'weixin'
 	},
-	card: "pQw7gv57UVKz7yNQtItEpRnRJboY",
-	code: "283860707357"
+	card: "pQw7gv-4KHxAWZpHnMAhbghzIzkw",
+	code: "896051846601"
 }
 
 //微信端验证 以及推送事件
@@ -613,25 +613,27 @@ exports.cardMembercard = function(req,res){
 					name ="",
 					birthday ="",
 					location =""
+				if(data.user_info){
+					data.user_info.common_field_list.forEach(function(v,i){
+						if(v.name=="USER_FORM_INFO_FLAG_MOBILE"){
+							mobile =  v.value
+						}
+						else if(v.name=="USER_FORM_INFO_FLAG_BIRTHDAY"){
+							birthday =  v.value
+						}else if(v.name=="USER_FORM_INFO_FLAG_NAME"){
+							name =  v.value
+						}else if(v.name=="USER_FORM_INFO_FLAG_LOCATION"){
+							location =  v.value
+						}
 
-				data.user_info.common_field_list.forEach(function(v,i){
-					if(v.name=="USER_FORM_INFO_FLAG_MOBILE"){
-						mobile =  v.value
-					}
-					else if(v.name=="USER_FORM_INFO_FLAG_BIRTHDAY"){
-						birthday =  v.value
-					}else if(v.name=="USER_FORM_INFO_FLAG_NAME"){
-						name =  v.value
-					}else if(v.name=="USER_FORM_INFO_FLAG_LOCATION"){
-						location =  v.value
-					}
+					})
+					res.json({
+						msg:'1',
+						data:data
+					})
+				}
 
-				})
-				res.json({
-					msg:'1',
-					data:data
-				})
-
+				
 			}else if(data.errcode == 40056){
 				res.json({
 					status:0,
@@ -757,12 +759,7 @@ exports.cardResponse = function(req,res){
 				birthday ="",
 				location =""
 
-				// data.sex,
-				// data.nickname,
-				// data.bonus,
-				// data.balance,
-				// data.openid,
-
+				if(data.user_info){
 					data.user_info.common_field_list.forEach(function(v,i){
 						if(v.name=="USER_FORM_INFO_FLAG_MOBILE"){
 							mobile =  v.value
@@ -776,59 +773,111 @@ exports.cardResponse = function(req,res){
 						}
 
 					})
-
+				}
+					
 				//买单事件推送
 				if(msg.event == "user_pay_from_pay_cell"){	
-					var memberorder = {
-							openid:msg.fromusername,
-							shopid:msg.locationid,
-							username:name,
-							cardid:msg.cardid,
-							code:parseInt(msg.usercardcode),
-							phone:mobile,
-							originalfee:parseInt(msg.originalfee),
-							transid:msg.transid,
-							fee:parseInt(msg.fee),
-							createtime:parseInt(msg.createtime),
-							status:1,
-							billstatus:0,
+					var cardurl = 'https://api.weixin.qq.com/card/get?access_token='+access_token
+
+					var formdata = {
+							"card_id":msg.cardid
 						}
 
-						var _memberorder = new Memberorder(memberorder)
-						_memberorder.save(function(err,memberorderdata){
-							res.json({
-									status:1,
-									msg:"添加成功！"
-								})
-						})
-				
+					var cardoptions = {
+					    url: cardurl,
+					    form: JSON.stringify(formdata),
+					    headers: {
+					      'Content-Type': 'application/x-www-form-urlencoded'
+					    }
+					}
+
+					request.post(cardoptions, function (error, response, body) {
+						if (!error && response.statusCode == 200) {
+							var carddata = JSON.parse(body)
+							var memberorder = {
+								openid:msg.fromusername,
+								shopid:msg.locationid,
+								username:name,
+								cardid:msg.cardid,
+								code:parseInt(msg.usercardcode),
+								phone:mobile,
+								originalfee:parseInt(msg.originalfee),
+								transid:msg.transid,
+								fee:parseInt(msg.fee),
+								createtime:parseInt(msg.createtime),
+								discount:parseInt(carddata.card.member_card.discount),
+								status:1,
+								billstatus:0,
+							}
+
+							var _memberorder = new Memberorder(memberorder)
+							_memberorder.save(function(err,memberorderdata){
+								res.json({
+										status:1,
+										msg:"添加成功！"
+									})
+							})
+
+						}
+						
+					})
+
+									
 				}
 				// 激活会员卡,存入会员信息
 				else if(msg.event == "submit_membercard_user_info"){	
-					var member = {
-						cardid:msg.cardid,
-						openid:msg.fromusername,
-						code:data.code,
-						username:name,
-						nickname:data.nickname,
-						sex:data.sex,
-						phone:mobile,
-						birthday:birthday,
-						location:location,
-						user_card_status:data.user_card_status,
-						bonus:data.bonus,
-						fee:data.fee,
-						balance:data.balance,
-						createtime:msg.createtime
-					}
-					var _member = new Member(member)
-						_member.save(function(err,memberdata){
-							res.json({
-									status:1,
-									msg:"添加成功！"
-								})
-						})
+					var cardurl = 'https://api.weixin.qq.com/card/get?access_token='+access_token
 
+					var formdata = {
+							"card_id":msg.cardid
+						}
+
+					var cardoptions = {
+					    url: cardurl,
+					    form: JSON.stringify(formdata),
+					    headers: {
+					      'Content-Type': 'application/x-www-form-urlencoded'
+					    }
+					}
+
+					request.post(cardoptions, function (error, response, body) {
+						if (!error && response.statusCode == 200) {
+							var carddata = JSON.parse(body)
+							var member = {
+								cardid:msg.cardid,
+								title:carddata.card.member_card.base_info.title,
+								discount:parseInt(carddata.card.member_card.discount),
+								openid:msg.fromusername,
+								code:parseInt(msg.usercardcode),
+								username:name,
+								nickname:data.nickname,
+								sex:data.sex,
+								phone:mobile,
+								birthday:birthday,
+								location:location,
+								user_card_status:data.user_card_status,
+								has_active:data.has_active,
+								bonus:data.bonus,
+								fee:data.fee,
+								balance:data.balance,
+								createtime:msg.createtime
+							}
+							var _member = new Member(member)
+								_member.save(function(err,memberdata){
+									if(err){
+										console.log(err)
+									}
+									res.json({
+											status:1,
+											msg:"添加成功！"
+										})
+								})
+
+
+						}
+					})
+
+					
 				}
 
 			}

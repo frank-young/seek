@@ -10,6 +10,7 @@ var memberorderSchema = new mongoose.Schema({
 	billstatus:Number,	// 付款完成状态为1，避免重复付款
 	originalfee:Number,
 	transid:String,
+	discount:Number,
 	fee:Number,
 	createtime:Number,
 	meta:{

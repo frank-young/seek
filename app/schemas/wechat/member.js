@@ -2,6 +2,7 @@ var mongoose = require('mongoose')
 var memberSchema = new mongoose.Schema({
 	cardid:String,
 	openid:String,
+	title:String,
 	code:Number,
 	username:String,
 	nickname:String,
@@ -10,6 +11,8 @@ var memberSchema = new mongoose.Schema({
 	birthday:String,
 	location:String,
 	user_card_status:String,
+	has_active:Boolean,
+	discount:Number,
 	bonus:Number,
 	fee:Number,
 	balance:Number,

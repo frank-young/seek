@@ -111,7 +111,8 @@
             <span class="">
               支付方式：
             </span>
-            <span class="" ng-bind="payTypeArr[order.payType]"> </span>
+            <span ng-repeat="pt in order.payType" ng-bind="payTypeArr[pt]+' ' ">           
+            </span>
           </div>
           <div class="detail-item" ng-show="order.isMember">
             <span>

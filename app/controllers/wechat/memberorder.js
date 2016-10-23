@@ -28,7 +28,8 @@ var Memberorder = require('../../models/wechat/memberorder'),
 						username: memberorder.username,
 						phone: memberorder.phone,
 						code: memberorder.code,
-						fee:memberorder.fee
+						fee:memberorder.fee,
+						discount:memberorder.discount
 					}
 				})
 

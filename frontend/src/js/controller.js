@@ -21,6 +21,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		//会员信息
 		$scope.memberAll = []
 		memberData.getData().then(function(data){
+
 			$scope.memberAll = data.members
 			console.log($scope.memberAll)
 			// 搜索会员用户
@@ -106,6 +107,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$scope.order.dish.forEach(function(ele,index){
 				ele.price = cookCart[index].price
 			})
+
 		}
 
 		// 生成订单
@@ -189,7 +191,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					$scope.order.payType.push(value.payType)
 				}
 			})
-			// console.log($scope.order.payType )
 		}
 		payTypeFunc()
 
@@ -291,7 +292,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			orderData.addData($scope.order).then(function(data){
 
 				if(data.status == 1){
-					$scope.changeAlert(data.msg)
+					$scope.changeAlert("点餐成功！")
 					printFunc()
 
 					var dayid = localStorage.dayid
@@ -303,7 +304,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			  				"serial": serial+1
 			  			}
 			  			dayData.updateData(dateObj).then(function(data){
-				  			// console.log(data)
+
 				  		})
 					})
 
@@ -311,10 +312,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					localStorage.removeItem('cook')
 					localStorage.removeItem('cookAll')
 					localStorage.removeItem('peopleNumber')
+					localStorage.removeItem('member')
 
 					window.location.href="#/index"
 				}else{
-					 $scope.changeAlert(data.msg)
+					
 				}
 			})
 	
@@ -356,19 +358,31 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			domainData.getShopidData().then(function(data){
 				var shopid = data.shopid
 
-				//连续向服务器发请求
-				$scope.stop = $interval(function(){
-					// 如何去判断是谁提交了订单付款请求 
-					memberorderData.getInfo(shopid).then(function(data){
-						if(data.status == 1){
-							$scope.wechatTag = false
-							$interval.cancel($scope.stop)
-							selectMemberFunc(true,data.member.username,data.member.code,data.member.phone,data.member.fee/100)
-							alert('付款成功！')
-						}
-					})
-				},500)
-				
+				if(localStorage.member != null ){
+					var member = JSON.parse(localStorage.member)
+					var dis = 100 - parseInt(member.discount)
+					$scope.discountFunc(dis)
+					selectMemberFunc(true,member.username,member.code,member.phone,member.fee/100)
+
+				}else{
+					//连续向服务器发请求
+					$scope.stop = $interval(function(){
+						// 如何去判断是谁提交了订单付款请求 
+						memberorderData.getInfo(shopid).then(function(data){
+							if(data.status == 1){
+								$scope.wechatTag = false
+								$interval.cancel($scope.stop)
+								var dis = 100 - parseInt(data.member.discount)
+								$scope.discountFunc(dis)
+								selectMemberFunc(true,data.member.username,data.member.code,data.member.phone,data.member.fee/100)
+								$scope.changeAlert("付款成功！")
+								localStorage.member = JSON.stringify(data.member)
+							}
+						})
+					},500)
+
+				}
+								
 
 			})
 
@@ -394,14 +408,21 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
  *                                                     订单列表
  ********************************************************************************************************************/
 
-angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData',
-  	function($scope,$window,orderData,dishData,settingData) {
+angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData',
+  	function($scope,$window,orderData,dishData,settingData,paytypeData) {
 
 		$window.document.title = "订单列表"; 
 		orderData.getData().then(function(data){
 			$scope.orders = data.orders
 		})
-		$scope.payTypeArr = ['现金','微信','支付宝','会员卡','次卡']
+
+		$scope.payTypeArr = []
+		//获取支付方式
+		paytypeData.getData().then(function(data){
+			$scope.payTypeArr = data.paytypes.map(function(value){
+				return value.label
+			})
+		})
 
 		$scope.cookAll = []
 		dishData.getData().then(function(data){
@@ -494,7 +515,6 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
 
 		memberData.getData().then(function(data){
 			$scope.memberAll = data.members
-			console.log($scope.memberAll)
 			$scope.member = $scope.memberAll
 		})
 		
@@ -506,11 +526,14 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
 			})
 		}
 
-		// 添加会员
-		$scope.addMember = function(){
-			// 直接向服务器发送信息，需要考虑微信会员的那块
-		}
+		// 查看会员详情
+		$scope.memberDetail = function(id){
+			memberData.getIdData(id).then(function(data){
 
+				$scope.memberItem = data.member
+
+			})
+		}
 	}
 ])
 
@@ -544,13 +567,17 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			$rootScope.status = true;
   		}
   		// 业绩查询
-		orderData.getGradeData().then(function(data){
-			$scope.gradeData = {
-				grade:data.grade,
-				username:data.username,
-				noincome:data.noincome 
-			}
-		})
+		$scope.exchangeFunc = function(){
+			orderData.getGradeData().then(function(data){
+				$scope.gradeData = {
+					grade:data.grade,
+					username:data.username,
+					noincome:data.noincome 
+				}
+			})
+
+		}
+
 	  	// 开班
 	  	$scope.startDay = function(){
   			$rootScope.status = false
