@@ -86,7 +86,7 @@
                 <tr>
                   <th>名称</th>
                   <th>数量</th>
-                  <th>金额</th>
+                  <th>实付金额</th>
                 </tr>
               </thead>
               <tbody>
@@ -113,7 +113,27 @@
             </span>
             <span class="" ng-bind="payTypeArr[order.payType]"> </span>
           </div>
-          
+          <div class="detail-item" ng-show="order.isMember">
+            <span>
+              会员姓名：
+            </span>
+            <span ng-bind="order.memberName">              
+            </span>
+          </div>
+          <div class="detail-item" ng-show="order.isMember">
+            <span>
+              会员手机：
+            </span>
+            <span ng-bind="order.memberPhone">             
+            </span>
+          </div>
+          <div class="detail-item" ng-show="order.isMember">
+            <span>
+              会员卡号：
+            </span>
+            <span ng-bind="order.memberNum">             
+            </span>
+          </div>
           <div class="detail-item">
             <span class="">
               金额合计：

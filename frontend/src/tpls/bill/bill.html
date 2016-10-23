@@ -384,7 +384,7 @@
                 </div>
                 <div class="modal-body" >
                   <div class="search-content">
-                      <input class="search" autofocus type="text" placeholder="输入手机号查找..." ng-model="search" ng-keypress="searchMember(search)">
+                      <input class="search" autofocus type="text" placeholder="输入手机号查找..." ng-model="search" ng-change="searchMember(search)">
                        <!-- ng-keypress="searchMember()" -->
                       <button type="button" class="button" ng-click="searchMember(search)" style="color:#333;">搜索</button>
                   </div>
@@ -399,9 +399,9 @@
                     </thead>
                     <tbody>
                        <tr ng-repeat="m in member">
-                        <td ng-bind="m.memberName"></td>
-                        <td ng-bind="m.memberNum"></td>
-                        <td ng-bind="m.memberPhone"></td>
+                        <td ng-bind="m.username"></td>
+                        <td ng-bind="m.code"></td>
+                        <td ng-bind="m.phone"></td>
                         <td> 
                           <button class="button button-primary" ng-click="selectMember(m);$hide()">选择</button>
                         </td>

@@ -44,49 +44,6 @@ var Memberorder = require('../../models/wechat/memberorder'),
 
 	}
 
-	// 添加
-	exports.add = function(req, res) {
-		var memberorder = {
-				shopid:"464041593",
-				username:'杨军',
-				code:234109834832,
-				phone:'18608164404',
-				status:1,
-				billstatus:0,
-			}
-
-			var _memberorder = new Memberorder(memberorder)
-			_memberorder.save(function(err,memberorderdata){
-				res.json({
-						status:1,
-						msg:"添加成功！"
-					})
-			})
-
-	}
-
-	// 更新
-	exports.update = function(req, res) {
-		var memberorderObj = req.body.memberorder
-		var user = req.session.user
-		var _memberorder
-
-		Memberorder.findOne({name:user.memberorder},function(err,memberorder){
-			if(err){
-				console.log(err)
-			}
-			_memberorder = _.extend(memberorder,memberorderObj)	//复制对象的所有属性到目标对象上，覆盖已有属性 ,用来覆盖以前的数据，起到更新作用
-			_memberorder.save(function(err,memberorder){
-				if(err){
-					console.log(err)
-				}
-
-				res.json({msg:"更新成功",status: 1})
-			})
-		})
-
-	}
-
 	// 详情
 	exports.detail = function(req, res) {
 		var _memberorder = req.session.user.memberorder

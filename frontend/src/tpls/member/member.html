@@ -1,6 +1,6 @@
 <div ng-controller="MemberCtrl" class="row">
       <div class="two-thirds column main">
-        <input autofocus type="text" placeholder="输入手机号查找..." ng-model="search" ng-keypress="searchMember(search)">
+        <input autofocus type="text" placeholder="输入手机号查找..." ng-model="search" ng-change="searchMember(search)">
          <!-- ng-keypress="searchMember()" -->
         <button type="button" class="button button-primary" ng-click="searchMember(search)">搜索</button>
                   
@@ -18,12 +18,13 @@
           <tbody>
              <tr ng-repeat="m in member">
               <td ng-bind="$index+1"></td>
-              <td ng-bind="m.name"></td>
-              <td ng-bind="m.card"></td>
+              <td ng-bind="m.username"></td>
+              <td ng-bind="m.code"></td>
               <td ng-bind="m.phone"></td>
-              <td ng-bind="m.time | datetime"></td>
+              <td ng-bind="m.createtime*1000 | datetime"></td>
               <td> 
-                <button class="button button-primary">选择</button>
+                <button class="button button-primary" style="margin-bottom:0">选择</button>
+                <button class="button" style="margin-bottom:0">详情</button>
               </td>
             </tr>
           </tbody>
@@ -31,15 +32,15 @@
       </div>
       <div class="one-third column side">
 
-        <h4 class="center">添加会员</h4>
+        <h4 class="center">会员卡详情</h4>
         <div class="row">
           <div class="member-i">
-            姓名：<input type="text">
+            姓名：
           </div>
           <div class="member-i">
-            手机：<input type="text">
+            手机：
           </div>
-          <button class="button button-primary btn-bill" ng-click="addMember()">添加</button>
+          <button class="button button-primary btn-bill" ng-click="addMember()" >添加</button>
         </div>
       </div>
 </div>

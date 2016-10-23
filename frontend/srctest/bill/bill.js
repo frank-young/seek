@@ -2,8 +2,8 @@
  *                                                     结账页面
  ********************************************************************************************************************/
 
-angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interval','orderData','memberorderData','domainData','paytypeData','creditData','dayData','itemData',
-  	function($scope,$alert,$window,$interval,orderData,memberorderData,domainData,paytypeData,creditData,dayData,itemData) {
+angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interval','orderData','memberData','memberorderData','domainData','paytypeData','creditData','dayData','itemData',
+  	function($scope,$alert,$window,$interval,orderData,memberData,memberorderData,domainData,paytypeData,creditData,dayData,itemData) {
 
 		$window.document.title = "结账" 
 		//时间日期
@@ -18,18 +18,23 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		// 获取本地存储已点的菜品
 		$scope.cookCart = JSON.parse(localStorage.cook)
 		
-		$scope.memberAll = [
-			{
-				memberName:'徐奥林',
-				memberNum:'01232',
-				memberPhone:'18694039343',
-			},
-			{
-				memberName:'杨军',
-				memberNum:'01233',
-				memberPhone:'18608164404',
+		//会员信息
+		$scope.memberAll = []
+		memberData.getData().then(function(data){
+			$scope.memberAll = data.members
+			console.log($scope.memberAll)
+			// 搜索会员用户
+			$scope.search = ""
+			$scope.member = $scope.memberAll
+			$scope.searchMember = function(value){
+				$scope.member = $scope.memberAll.filter(function(ele){
+					if(ele.phone.indexOf(value)>=0){
+						return ele
+					}
+				})
 			}
-		]
+		})
+
 
 		$scope.total = 0
 		$scope.totalReal = 0
@@ -112,7 +117,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		//获取支付方式
 		paytypeData.getData().then(function(data){
-			console.log(data)
 			$scope.payTypeArr = data.paytypes.map(function(value){
 				return value.label
 			})
@@ -120,7 +124,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 获取挂帐人员
 		creditData.getData().then(function(data){
-			console.log(data)
+
 			$scope.creditArr = data.credits.map(function(value){
 				return value.label
 			})
@@ -163,7 +167,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 选择会员
 		$scope.selectMember = function(value){
-			selectMemberFunc(true,value.memberName,value.memberNum,value.memberPhone,$scope.order.realTotal)
+			selectMemberFunc(true,value.username,value.code,value.phone,$scope.order.realTotal)
 		}
 
 		// 选择会员更新数据函数
@@ -334,15 +338,15 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		} 
 
 		// 搜索会员用户
-		$scope.search = ""
-		$scope.member = $scope.memberAll
-		$scope.searchMember = function(value){
-			$scope.member = $scope.memberAll.filter(function(ele){
-				if(ele.memberPhone.indexOf(value)>=0){
-					return ele
-				}
-			})
-		}
+		// $scope.search = ""
+		// $scope.member = $scope.memberAll
+		// $scope.searchMember = function(value){
+		// 	$scope.member = $scope.memberAll.filter(function(ele){
+		// 		if(ele.memberPhone.indexOf(value)>=0){
+		// 			return ele
+		// 		}
+		// 	})
+		// }
 
 		// 会员卡微信支付
 		$scope.wechatTag = false
@@ -356,7 +360,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.stop = $interval(function(){
 					// 如何去判断是谁提交了订单付款请求 
 					memberorderData.getInfo(shopid).then(function(data){
-						console.log(data)
 						if(data.status == 1){
 							$scope.wechatTag = false
 							$interval.cancel($scope.stop)

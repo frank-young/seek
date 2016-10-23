@@ -11,6 +11,7 @@ var Index = require('../app/controllers/index'),
     Paytype = require('../app/controllers/credit/paytype'),
     Wechat = require('../app/controllers/wechat/wechat'),
     Memberorder = require('../app/controllers/wechat/memberorder'),
+    Member = require('../app/controllers/wechat/member'),
     multipart = require('connect-multiparty'),
     multipartMiddleware = multipart(),
     xmlparser = require('express-xml-bodyparser')
@@ -119,7 +120,7 @@ module.exports = function(app){
 
   // 会员付款信息
   app.post('/memberorder', User.signinRequired, Memberorder.getinfo)
-  app.get('/memberorder/add', User.signinRequired, Memberorder.add)  // 测试付款消息添加
+  app.get('/member', User.signinRequired, Member.list) 
 
 
   // 微信端接口

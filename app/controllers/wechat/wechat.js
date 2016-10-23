@@ -3,6 +3,7 @@ var jsSHA = require('jssha'),
 	request = require('request'),
 	fs = require('fs'),
 	Memberorder = require('../../models/wechat/memberorder')
+	Member = require('../../models/wechat/member')
 	
 
 // 暂时用的第一张卡： pV8Fpwyw7-wnfqRIIIQjZwWrBhuU	-> 747522939375  
@@ -16,8 +17,8 @@ var config = {
 		appSecret:'07edc09a46dba2e8d0b1964b5aec3a46',		//       143d36866e792512dc76ea5d11e8df62
 		token:'weixin'
 	},
-	card: "pQw7gv-og6EJ4voO1fS31XLFFLL8",
-	code: "542105098925"
+	card: "pQw7gv57UVKz7yNQtItEpRnRJboY",
+	code: "283860707357"
 }
 
 //微信端验证 以及推送事件
@@ -508,7 +509,7 @@ exports.cardMemberinfo = function(req,res){
 	var url = 'https://api.weixin.qq.com/card/membercard/activateuserform/set?access_token='+access_token
 
 	var formdata ={
-					"card_id":config.card,
+			"card_id":config.card,
  			"service_statement": {
 		        "name": "会员守则",
 		        "url": ""
@@ -520,9 +521,17 @@ exports.cardMemberinfo = function(req,res){
  			"required_form": {
 		       	"common_field_id_list": [
 		       		"USER_FORM_INFO_FLAG_NAME",
-		            "USER_FORM_INFO_FLAG_MOBILE",
-		            "USER_FORM_INFO_FLAG_BIRTHDAY"
+		            "USER_FORM_INFO_FLAG_MOBILE"
+		            
 		    	]		
+			},
+			"optional_form":{
+				"can_modify":false,
+		        "common_field_id_list": [
+		            "USER_FORM_INFO_FLAG_LOCATION",
+		            "USER_FORM_INFO_FLAG_BIRTHDAY"
+		        ]
+		        
 			}
 		}
 
@@ -584,7 +593,7 @@ exports.cardMembercard = function(req,res){
 	var url = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
 
 	var formdata ={
-					"card_id":config.card,
+			"card_id":config.card,
  			"code": config.code
 		 }
 
@@ -599,11 +608,43 @@ exports.cardMembercard = function(req,res){
 	request.post(options, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			var data = JSON.parse(body)
-			res.json({
-				msg:'1',
-				data:data
-			})
+			if(data.errcode ==0){
+				var mobile = "",
+					name ="",
+					birthday ="",
+					location =""
 
+				data.user_info.common_field_list.forEach(function(v,i){
+					if(v.name=="USER_FORM_INFO_FLAG_MOBILE"){
+						mobile =  v.value
+					}
+					else if(v.name=="USER_FORM_INFO_FLAG_BIRTHDAY"){
+						birthday =  v.value
+					}else if(v.name=="USER_FORM_INFO_FLAG_NAME"){
+						name =  v.value
+					}else if(v.name=="USER_FORM_INFO_FLAG_LOCATION"){
+						location =  v.value
+					}
+
+				})
+				res.json({
+					msg:'1',
+					data:data
+				})
+
+			}else if(data.errcode == 40056){
+				res.json({
+					status:0,
+					msg:'会员卡号不存在！'
+				})
+
+			}
+			else{
+				res.json({
+					status:0,
+					msg:'发生一些错误'
+				})
+			}
 		}
 	})
 
@@ -689,34 +730,126 @@ exports.cardResponse = function(req,res){
 	// User_pay_from_pay_cell 买单事件推送
 	// update_member_card 会员卡内容更新事件
 	//  会员卡激活事件推送
-
+	var access_token = fs.readFileSync('./config/token').toString();
+	var url = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
 	var msg = req.body.xml
 	console.log(msg)
-	if(msg.event == "user_pay_from_pay_cell"){	//买单事件推送
+	var formdata ={
+			"card_id":msg.cardid,
+ 			"code": parseInt(msg.usercardcode)
+		 }
 
-		var memberorder = {
-				fromusername:msg.fromusername,
-				shopid:msg.locationid,
-				username:'杨军',
-				cardid:msg.cardid,
-				code:parseInt(msg.usercardcode),
-				phone:'18608164404',
-				originalfee:parseInt(msg.originalfee),
-				transid:msg.transid,
-				fee:parseInt(msg.fee),
-				createtime:parseInt(msg.createtime),
-				status:1,
-				billstatus:0,
+	var options = {
+	    url: url,
+	    form: JSON.stringify(formdata),
+	    headers: {
+	      'Content-Type': 'application/x-www-form-urlencoded'
+	    }
+	}
+
+	request.post(options, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var data = JSON.parse(body)
+
+			if(data.errcode ==0){
+				var mobile = "",
+				name ="",
+				birthday ="",
+				location =""
+
+				// data.sex,
+				// data.nickname,
+				// data.bonus,
+				// data.balance,
+				// data.openid,
+
+					data.user_info.common_field_list.forEach(function(v,i){
+						if(v.name=="USER_FORM_INFO_FLAG_MOBILE"){
+							mobile =  v.value
+						}
+						else if(v.name=="USER_FORM_INFO_FLAG_BIRTHDAY"){
+							birthday =  v.value
+						}else if(v.name=="USER_FORM_INFO_FLAG_NAME"){
+							name =  v.value
+						}else if(v.name=="USER_FORM_INFO_FLAG_LOCATION"){
+							location =  v.value
+						}
+
+					})
+
+				//买单事件推送
+				if(msg.event == "user_pay_from_pay_cell"){	
+					var memberorder = {
+							openid:msg.fromusername,
+							shopid:msg.locationid,
+							username:name,
+							cardid:msg.cardid,
+							code:parseInt(msg.usercardcode),
+							phone:mobile,
+							originalfee:parseInt(msg.originalfee),
+							transid:msg.transid,
+							fee:parseInt(msg.fee),
+							createtime:parseInt(msg.createtime),
+							status:1,
+							billstatus:0,
+						}
+
+						var _memberorder = new Memberorder(memberorder)
+						_memberorder.save(function(err,memberorderdata){
+							res.json({
+									status:1,
+									msg:"添加成功！"
+								})
+						})
+				
+				}
+				// 激活会员卡,存入会员信息
+				else if(msg.event == "submit_membercard_user_info"){	
+					var member = {
+						cardid:msg.cardid,
+						openid:msg.fromusername,
+						code:data.code,
+						username:name,
+						nickname:data.nickname,
+						sex:data.sex,
+						phone:mobile,
+						birthday:birthday,
+						location:location,
+						user_card_status:data.user_card_status,
+						bonus:data.bonus,
+						fee:data.fee,
+						balance:data.balance,
+						createtime:msg.createtime
+					}
+					var _member = new Member(member)
+						_member.save(function(err,memberdata){
+							res.json({
+									status:1,
+									msg:"添加成功！"
+								})
+						})
+
+				}
+
+			}
+			else if(data.errcode == 40056){
+				res.json({
+					status:0,
+					msg:'会员卡号不存在！'
+				})
+
+			}
+			else{
+				res.json({
+					status:0,
+					msg:'发生一些错误'
+				})
 			}
 
-			var _memberorder = new Memberorder(memberorder)
-			_memberorder.save(function(err,memberorderdata){
-				res.json({
-						status:1,
-						msg:"添加成功！"
-					})
-			})
-	}
+		}
+	})
+
+
 
 }
 
