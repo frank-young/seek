@@ -6,7 +6,7 @@ var OverSchema = new mongoose.Schema({
 	stand:Number,
 	total:Number,
 	reduce:Number,	//优惠金额
-	once:Number,	//次卡
+	onceincome:Number,	//次卡
 	total:Number,	// 合计--总合计
 	totalNeed:Number,	// 应收
 	noincome:Number,	// 虚收
