@@ -148,7 +148,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					$scope.discountItemFunc(ele,0)
 					$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
 
-
 				}else{
 					$scope.discountItemFunc(ele,100)
 				}
