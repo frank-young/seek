@@ -1,10 +1,10 @@
-var submit = document.getElementById("f-submit")
-submit.disabled = true
+// var submit = document.getElementById("f-submit")
+// submit.disabled = true
 
-function getResponse(resp){
-    console.log(resp);
-    document.getElementById("f-submit").disabled = false
-}
+// function getResponse(resp){
+//     console.log(resp);
+//     document.getElementById("f-submit").disabled = false
+// }
 
 
 $(document).ready(function() {
@@ -70,5 +70,10 @@ $(document).ready(function() {
 		});
 		return false;
 	});
-	
+
+	$('input[type="password"]').attr('type', 'text').addClass('password-fix');
+	setTimeout(function(){
+	    $('input.password-fix').attr('type', 'password').removeClass('password-fix');
+	}, 500);
+
 });

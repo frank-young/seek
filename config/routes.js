@@ -77,6 +77,7 @@ module.exports = function(app){
   app.get('/order/downloadday',User.signinRequired, Order.downloadDay)
   app.get('/order/grade',User.signinRequired, Order.gradeToday)
   app.get('/order/gradeall',User.signinRequired, Order.gradeAllToday)
+  app.get('/order/print', Order.print)
 
   //支付方式
   app.get('/credit',User.signinRequired, Credit.list)

@@ -31,6 +31,8 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 
 		}
 
+		
+
 	  	// 开班
 	  	$scope.startDay = function(){
   			$rootScope.status = false
