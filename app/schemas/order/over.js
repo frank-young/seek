@@ -2,8 +2,8 @@ var mongoose = require('mongoose')
 var OverSchema = new mongoose.Schema({
 	isTop: Boolean,
 	checked: Boolean,
-	people:Number,
-	stand:Number,
+	people:Number,	//用餐人数
+	stand:Number,	//用餐台数
 	total:Number,
 	reduce:Number,	//优惠金额
 	onceincome:Number,	//次卡
