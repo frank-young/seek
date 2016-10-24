@@ -1,15 +1,17 @@
-﻿var express = require('express')
-var path = require('path')
-var mongoose = require('mongoose')	
-var session = require('express-session')
-var mongoStore = require('connect-mongo')(session)
-var bodyParser = require('body-parser')
-// var multer = require('multer')
-var cookieParser = require('cookie-parser')
-var cookieSession = require('cookie-session')
-var port = process.env.PORT || 3000	//设置端口
-var app = express()		//启动一个web服务器
-var dbUrl = 'mongodb://127.0.0.1/seekdb'
+﻿var express = require('express'),
+	path = require('path'),
+	mongoose = require('mongoose')	,
+	session = require('express-session'),
+	mongoStore = require('connect-mongo')(session),
+	bodyParser = require('body-parser'),
+	//multer = require('multer'),
+	cookieParser = require('cookie-parser'),
+	cookieSession = require('cookie-session'),
+	schedule = require('node-schedule'),
+	request = require('request'),
+	port = process.env.PORT || 3000,	//设置端口
+	app = express(),	//启动一个web服务器
+	dbUrl = 'mongodb://127.0.0.1/seekdb'
  
 mongoose.connect(dbUrl)
 
@@ -35,6 +37,25 @@ app.use(cookieSession({
 }))
 
 require('./config/routes')(app)
+
+
+function scheduleCancel(){
+
+    var j = schedule.scheduleJob('0 30 * * * *', function(){
+        var url = "http://127.0.0.1:3000/wechat/token"
+
+        request(url, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				console.log('获取access_token成功，时间：'+new Date())
+
+			}
+		})
+    })
+
+    
+}
+
+scheduleCancel()
 
 app.locals.moment = require('moment')
 var server = app.listen(port)	//监听这个端口

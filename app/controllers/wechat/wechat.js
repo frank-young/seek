@@ -76,14 +76,7 @@ exports.token = function(req,res){
 			}
 		})
 	}
-
-	var refreshToken = function () {
-	  saveToken()
-	  setInterval(function () {
-	    saveToken()
-	  }, 7000*1000)
-	}
-	refreshToken()
+	saveToken()
 }
 
 //添加菜单
