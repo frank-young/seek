@@ -144,8 +144,10 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.selectType = function(value){
 			$scope.cookCart.forEach(function(ele,index){
 				ele.payType = value
-				if(value == 4){
+				if(value == 4){		//等于4计入次卡，一定要注意顺序！
 					$scope.discountItemFunc(ele,0)
+					$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
+
 
 				}else{
 					$scope.discountItemFunc(ele,100)
@@ -161,6 +163,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			ele.payType = index
 			if(index == 4){
 				$scope.discountItemFunc(ele,0)
+				$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
+
 			}else{
 				$scope.discountItemFunc(ele,100)
 			}
@@ -169,6 +173,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 选择会员
 		$scope.selectMember = function(value){
+			$scope.discountFunc(100 - value.discount)
 			selectMemberFunc(true,value.username,value.code,value.phone,$scope.order.realTotal)
 		}
 
@@ -549,8 +554,8 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
  *                                                     导航条
  ********************************************************************************************************************/
 
-angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData',
-  	function($scope,$rootScope,$interval,dayData,orderData) {
+angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData','itemData',
+  	function($scope,$rootScope,$interval,dayData,orderData,itemData) {
   		// 设置时间
 	  	function setTime(){
 	  		return $scope.time = new Date()
@@ -577,8 +582,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 			})
 
 		}
-
-		
 
 	  	// 开班
 	  	$scope.startDay = function(){
@@ -651,10 +654,40 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 				d:D,
 				now:now
 			}
+	  	} 
+
+	  	$scope.todayData={
+	  		items:[],
+	  		over:[]
 	  	}
+	  	itemData.getTodayData().then(function(data){
+  			$scope.todayData.items = data.items
+  		})
+	  	$scope.printOver = function(){
+	  		
+	  	}
+
+		$scope.printItem = function(){
+
+		}
+
 
 	}
 ])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

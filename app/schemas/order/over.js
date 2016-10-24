@@ -1,38 +1,26 @@
 var mongoose = require('mongoose')	
-var OrderSchema = new mongoose.Schema({
+var OverSchema = new mongoose.Schema({
 	isTop: Boolean,
 	checked: Boolean,
-	name:String,
-	address:String,
-	tel:String,
-	orderNum:{
-		unique:true,
-		type:String
-	},
-	orderStatus:Number,
-	peopleNum: Number,
-	dish:Array,
-	payType:Array,
-	payStatus:Number,
+	people:Number,
+	stand:Number,
 	total:Number,
-	reduce:Number,
-	reduceAfter:Number,
-	realTotal:Number,
-	isMember:Boolean,
-	memberName:String,
-	memberNum:String,
-	memberPhone:String,
+	reduce:Number,	//优惠金额
+	once:Number,	//次卡
+	total:Number,	// 合计--总合计
+	totalNeed:Number,	// 应收
+	noincome:Number,	// 虚收
+	totalReal:Number,   // 实收
+	payType:Array, 
 	editPeople:String,
-	dishNum:String,
-	noincome:Number,
-	onceincome:Number,
-	credit:Number,
-	other1:String,
-	other2:String,
 	time:Number,
 	year:Number,
 	month:Number,
 	day:Number,
+	other:Array,
+	memberNum:Number,
+	start:Number,
+	stop:Number,
 	meta:{
 		createAt:{
 			type:Number,
@@ -47,7 +35,7 @@ var OrderSchema = new mongoose.Schema({
 	domainlocal:String
 })
 
-OrderSchema.pre('save',function(next){
+OverSchema.pre('save',function(next){
 	if(this.isNew){
 		this.meta.createAt = this.meta.updateAt = Date.now()
 	}else{
@@ -56,11 +44,11 @@ OrderSchema.pre('save',function(next){
 	next()
 })
 
-OrderSchema.statics = {
+OverSchema.statics = {
 	fetch:function(rule,cb){
 		return this
 			.find(rule)
-			.sort({'meta.createAt':-1})
+			.sort()
 			.exec(cb)
 	},
 	findById:function(id,cb){
@@ -70,4 +58,4 @@ OrderSchema.statics = {
 	}
 }
 
-module.exports = OrderSchema
+module.exports = OverSchema

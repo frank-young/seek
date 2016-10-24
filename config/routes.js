@@ -94,6 +94,7 @@ module.exports = function(app){
 
   //品项报告
   app.get('/item',User.signinRequired, Item.list)
+  app.get('/item/today',User.signinRequired, Item.todaylist)
   app.post('/item/add',User.signinRequired, Item.save)
   app.post('/item/update', User.signinRequired, Item.update)
   app.get('/item/detail/:id', User.signinRequired, Item.detail)

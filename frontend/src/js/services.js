@@ -231,6 +231,19 @@ angular.module('serviceData', [])
                 });
                 return defer.promise;
             },
+            getTodayData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/item/today',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
             addData: function (value) {
                 var defer = $q.defer();
                 $http({

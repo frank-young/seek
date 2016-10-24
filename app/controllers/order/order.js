@@ -155,6 +155,7 @@ var Order = require('../../models/order/order'),	//引入模型
 						reduceAfter:to2(orderObj.reduceAfter),
 						realTotal:to2(orderObj.realTotal),
 						noincome:to2(orderObj.noincome),
+						onceincome:to2(orderObj.onceincome),
 						credit:to2(orderObj.credit),
 						isMember: orderObj.isMember,
 						memberName: orderObj.memberName,

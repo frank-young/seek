@@ -2,8 +2,8 @@
  *                                                     导航条
  ********************************************************************************************************************/
 
-angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData',
-  	function($scope,$rootScope,$interval,dayData,orderData) {
+angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData','itemData',
+  	function($scope,$rootScope,$interval,dayData,orderData,itemData) {
   		// 设置时间
 	  	function setTime(){
 	  		return $scope.time = new Date()
@@ -30,8 +30,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 			})
 
 		}
-
-		
 
 	  	// 开班
 	  	$scope.startDay = function(){
@@ -104,10 +102,40 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 				d:D,
 				now:now
 			}
+	  	} 
+
+	  	$scope.todayData={
+	  		items:[],
+	  		over:[]
 	  	}
+	  	itemData.getTodayData().then(function(data){
+  			$scope.todayData.items = data.items
+  		})
+	  	$scope.printOver = function(){
+	  		
+	  	}
+
+		$scope.printItem = function(){
+
+		}
+
 
 	}
 ])
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -144,8 +144,10 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.selectType = function(value){
 			$scope.cookCart.forEach(function(ele,index){
 				ele.payType = value
-				if(value == 4){
+				if(value == 4){		//等于4计入次卡，一定要注意顺序！
 					$scope.discountItemFunc(ele,0)
+					$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
+
 
 				}else{
 					$scope.discountItemFunc(ele,100)
@@ -161,6 +163,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			ele.payType = index
 			if(index == 4){
 				$scope.discountItemFunc(ele,0)
+				$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
+
 			}else{
 				$scope.discountItemFunc(ele,100)
 			}
@@ -169,6 +173,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 选择会员
 		$scope.selectMember = function(value){
+			$scope.discountFunc(100 - value.discount)
 			selectMemberFunc(true,value.username,value.code,value.phone,$scope.order.realTotal)
 		}
 

@@ -21,7 +21,7 @@
       </div>
       <div class="two columns">
         <button class="button-primary btn-p10" ng-click="startDay()" ng-show="status">开班</button>
-        <button class="button btn-p10" ng-click="" ng-show="!status" data-animation="am-fade-and-scale" placement="center" data-template-url="stopView.tpl.html" bs-modal>结班</button>
+        <button class="button btn-p10" ng-click="" ng-show="!status" data-animation="am-fade-and-scale" placement="center" data-template-url="stopView.tpl.html" bs-modal="todayData">结班</button>
         <button style="margin-left:10px;" class="button btn-p10" ng-show="!status"  data-animation="am-fade-and-scale" placement="center" data-template-url="exchange.tpl.html" bs-modal="gradeData" ng-click="exchangeFunc()">交班</button>
       </div>  
     </div>
@@ -38,7 +38,7 @@
                 </div>
                 <div class="modal-body" >
                   <div class="detail one-half column"  style="width:280px;">
-                    <h5>账单流水</h5>
+                    <h5>结班报告</h5>
                     <div class="detail-item">
                       <span class="">
                         订单编号：
@@ -80,27 +80,6 @@
                       </span>
                     </div>
                     <div class="detail-item">
-                      <table class="u-full-width">
-                        <thead>
-                          <tr>
-                            <th>序号</th>
-                            <th>名称</th>
-                            <th>数量</th>
-                            <th>单价</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr ng-repeat="cc in cookCart">
-                          <td>{{$index+1}}</td>
-                          <td ng-bind="cc.name"></td>
-                          <td>{{cc.number}}
-                          </td>
-                          <td ng-bind="cc.price | currency:'¥' "></td>
-                        </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    <div class="detail-item">
                       <span class="">
                         减免金额：
                       </span>
@@ -120,19 +99,18 @@
                     <div class="detail-item">
                       <table class="u-full-width">
                         <thead>
-                          <tr>
+                          <tr >
                             <th>名称</th>
                             <th>数量</th>
                             <th>单价</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr ng-repeat="cc in cookCart">
-                          <td>{{$index+1}}</td>
-                          <td ng-bind="cc.name"></td>
-                          <td>{{cc.number}}
+                          <tr ng-repeat="it in items">
+                          <td ng-bind="it.name"></td>
+                          <td>{{it.number}}
                           </td>
-                          <td ng-bind="cc.price | currency:'¥' "></td>
+                          <td ng-bind="it.price | currency:'¥' "></td>
                         </tr>
                         </tbody>
                       </table>
@@ -141,8 +119,8 @@
                 </div>
             <div class="modal-footer">
                 
-                <button type="button" class="button button-primary" ng-click="$hide()" style="margin-right:10px;">打印账目</button>
-                <button type="button" class="button button-primary" ng-click="$hide()" style="margin-right:50px;">打印品项报告</button>
+                <button type="button" class="button button-primary" ng-click="printOver()" style="margin-right:10px;">打印结班报告</button>
+                <button type="button" class="button button-primary" ng-click="printItem()" style="margin-right:50px;">打印品项报告</button>
                 <button type="button" class="button" ng-click="stopDay();$hide()" style="margin-right:10px;">确认结班</button>
                 <button type="button" class="button " ng-click="$hide()">关闭</button>
             </div>

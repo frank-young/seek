@@ -1,22 +1,22 @@
-var Item = require('../../models/order/item')	//引入模型
+var Over = require('../../models/order/over')	//引入模型
 var _ = require('underscore'),
 	json2csv = require('json2csv'),
 	fs = require('fs')
 	path = require('path')
 
-	//品项列表页
+	//结班列表页
 	exports.list = function(req,res){
 		var user = req.session.user
-		Item.fetch({"domainlocal":user.domain},function(err,items){
+		Over.fetch({"domainlocal":user.domain},function(err,overs){
 			res.json({
 				status:"1",
 				msg:"请求成功",
-				items:items
+				overs:overs
 			})
 		})
 	}
 
-	// 今日品项列表
+	// 今日结班列表
 	exports.todaylist = function(req,res){
 		var user = req.session.user
 		var date = new Date(),
@@ -24,38 +24,25 @@ var _ = require('underscore'),
 	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
 	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
 
-		Item.fetch({"domainlocal":user.domain,"year":Y,"month":M,"day":D},function(err,items){
+		Over.fetch({"domainlocal":user.domain,"year":Y,"month":M,"day":D},function(err,overs){
 			res.json({
 				status:"1",
 				msg:"请求成功",
-				items:items
+				overs:overs
 			})
 		})
 	}
 
-	//品项更新、新建
+	//结班更新、新建
 	exports.save = function(req,res){
-		var itemObj = req.body.item 	//从路由传过来的 item对象
+		var overObj = req.body.over 	//从路由传过来的 over对象
 		var user = req.session.user
-		var _item
-			_item = new Item({
-				checked: itemObj.checked,
-				isEdit: itemObj.isEdit,
-				name:itemObj.name,
-				cate:itemObj.cate,
-				price:itemObj.price,
-				// comboPrice:itemObj.comboPrice,
-				number:itemObj.number,
-				total:itemObj.total,
-				time:itemObj.time,
-				year:itemObj.year,
-				month:itemObj.month,
-				day:itemObj.day,
-				other:itemObj.other,
-				userlocal:user.email,
-				domainlocal:user.domain
-			})
-			_item.save(function(err,item){
+		overObj.editPeople: user.name
+		overObj.userlocal:user.email
+		overObj.domainlocal:user.domain
+		
+		var _over = new Over(overObj)
+			_over.save(function(err,over){
 				if(err){
 					console.log(err)
 				}
@@ -63,18 +50,18 @@ var _ = require('underscore'),
 			})
 	}
 
-	//品项更新、新建
+	//结班更新、新建
 	exports.update = function(req,res){
-		var id = req.body.item._id
-		var itemObj = req.body.item 	//从路由传过来的 item对象
-		var _item
+		var id = req.body.over._id
+		var overObj = req.body.over 	//从路由传过来的 over对象
+		var _over
 		if(id !=="undefined"){
-			Item.findById(id,function(err,item){
+			Over.findById(id,function(err,over){
 				if(err){
 					console.log(err)
 				}
-				_item = _.extend(item,itemObj)	//复制对象的所有属性到目标对象上，覆盖已有属性 ,用来覆盖以前的数据，起到更新作用
-				_item.save(function(err,item){
+				_over = _.extend(over,overObj)	//复制对象的所有属性到目标对象上，覆盖已有属性 ,用来覆盖以前的数据，起到更新作用
+				_over.save(function(err,over){
 					if(err){
 						console.log(err)
 					}
@@ -86,11 +73,11 @@ var _ = require('underscore'),
 		
 	}
 
-	//删除品项
+	//删除结班
 	exports.del = function(req,res){
 		var id = req.query.id
 		if(id){
-			Item.remove({_id: id},function(err,item){
+			Over.remove({_id: id},function(err,over){
 				if(err){
 					console.log(err)
 				}else{
@@ -103,23 +90,23 @@ var _ = require('underscore'),
 	//订单详情页
 	exports.detail = function(req,res){
 		var id = req.params.id	
-		Item.findById(id,function(err,item){
+		Over.findById(id,function(err,over){
 			res.json({
-				item:item
+				over:over
 			})
 		})
 	}
 
-	//品项报告列表页
-	exports.itemdayList = function(req,res){
+	//结班报告列表页
+	exports.overdayList = function(req,res){
 		var user = req.session.user
-		Item.fetch({"domainlocal":user.domain},function(err,items){
+		Over.fetch({"domainlocal":user.domain},function(err,overs){
 			var arr =[] 
-			items.forEach(function(item){
+			overs.forEach(function(over){
 				arr.push({
-					'year':item.year,
-					'month':item.month,
-					'day':item.day
+					'year':over.year,
+					'month':over.month,
+					'day':over.day
 				})
 			})
 			
@@ -128,7 +115,7 @@ var _ = require('underscore'),
 			res.json({
 				msg:"请求成功",
 				status: 1,
-				items:month
+				overs:month
 			})
 		})
 
@@ -150,8 +137,8 @@ var _ = require('underscore'),
 	}
 
 
-	//下载品项报告
-	exports.downloadItemDay = function(req,res){
+	//下载结班报告
+	exports.downloadOverDay = function(req,res){
 		var year = req.query.year
 		var month = req.query.month
 		var day = req.query.day
@@ -159,22 +146,22 @@ var _ = require('underscore'),
 		var user = req.session.user
 		var fields = ['名称', '数量','小计']
 		var payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
-		var itemData = []
-		Item.fetch({"domainlocal":user.domain,"year":year,"month":month,"day":day},function(err,items){
+		var overData = []
+		Over.fetch({"domainlocal":user.domain,"year":year,"month":month,"day":day},function(err,overs){
 
-			items.forEach(function(value,index){
+			overs.forEach(function(value,index){
 
-				var itemObj = {
+				var overObj = {
 					"名称":value.name,
 					"数量":value.number,
 					"小计":value.total,
 				}
-				itemData.push(itemObj)
+				overData.push(overObj)
 			})
-			var csv = json2csv({ data: itemData, fields: fields })
+			var csv = json2csv({ data: overData, fields: fields })
 			
-			var file = year+'年'+month+'月'+day+'日品项报告.csv'
-			var link = '/orderprint/item/'+file
+			var file = year+'年'+month+'月'+day+'日结班报告.csv'
+			var link = '/orderprint/over/'+file
 
 			fs.writeFile('frontend/src'+link, csv, function(err) {
 				if(err){
