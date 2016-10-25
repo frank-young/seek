@@ -21,7 +21,7 @@
       </div>
       <div class="two columns">
         <button class="button-primary btn-p10" ng-click="startDay()" ng-show="status">开班</button>
-        <button class="button btn-p10" ng-click="" ng-show="!status" data-animation="am-fade-and-scale" placement="center" data-template-url="stopView.tpl.html" bs-modal="todayData">结班</button>
+        <button class="button btn-p10" ng-click="stopDayButton()" ng-show="!status" data-animation="am-fade-and-scale" placement="center" data-template-url="stopView.tpl.html" bs-modal="todayData">结班</button>
         <button style="margin-left:10px;" class="button btn-p10" ng-show="!status"  data-animation="am-fade-and-scale" placement="center" data-template-url="exchange.tpl.html" bs-modal="gradeData" ng-click="exchangeFunc()">交班</button>
       </div>  
     </div>

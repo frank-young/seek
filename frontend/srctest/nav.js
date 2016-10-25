@@ -53,21 +53,25 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  		overAll:[],
 	  		overs:[]
 	  	}
+	  	//获取所有的结班信息
+	  	function getAllInfo(){
+	  		// 获取品项报告
+		  	itemData.getTodayData().then(function(data){
+	  			$scope.todayData.items = data.items
+	  		})
 
-	  	// 获取品项报告
-	  	itemData.getTodayData().then(function(data){
-  			$scope.todayData.items = data.items
-  		})
+		  	// 获取结班报告
+	  		orderData.getGradeAllData().then(function(data){
+	  			$scope.todayData.overAll = data	
+	  		})
 
-	  	// 获取结班报告
-  		orderData.getGradeAllData().then(function(data){
-  			$scope.todayData.overAll = data	
-  		})
+	  		// 获取所有人的结班报告
+	  		overData.getTodayData().then(function(data){
+	  			$scope.todayData.overs = data.overs	
+	  		})
 
-  		// 获取所有人的结班报告
-  		overData.getTodayData().then(function(data){
-  			$scope.todayData.overs = data.overs	
-  		})
+	  	}
+	  	getAllInfo()
 
 	  	$scope.printOver = function(){
 	  		printFunc('print-over')
@@ -111,8 +115,14 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			})
 
 	  	}
+
+	  	// 结班按钮
+		$scope.stopDayButton = function(){
+			getAllInfo()
+		}
 	  	// 结班
 	  	$scope.stopDay = function(){
+
 	  		// 本班信息
 	  		$rootScope.status = true
 	  		localStorage.removeItem('starDay')
@@ -120,7 +130,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 			localStorage.removeItem('cookAll')
 			localStorage.removeItem('peopleNumber')
 			localStorage.removeItem('serial')
-
+ 
 			var date = createTime()
 	  		$scope.time = date.now	// 结班时间
 	  		// console.log($scope.time)

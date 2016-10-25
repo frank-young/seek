@@ -1,4 +1,4 @@
-var Dish = require('../../models/dish/dish')	//引入模型
+var Cook = require('../../models/dish/cook')	//引入模型
 var _ = require('underscore')
 var fs = require('fs')
 var path = require('path')
@@ -6,7 +6,7 @@ var path = require('path')
 	//菜品列表页
 	exports.list = function(req,res){
 		var user = req.session.user
-		Dish.fetch({"domainlocal":user.domain},function(err,dishs){
+		Cook.fetch({"domainlocal":user.domain},function(err,dishs){
 			res.json({
 				msg:"请求成功",
 				status: 1,
@@ -53,7 +53,7 @@ var path = require('path')
 				msg:"菜品拼音缩写格式不正确，必须为字母或数字！"
 			})
   		}else{
-  			Dish.findOne({"domainlocal":user.domain,name:dishObj.name},function(err,dish){
+  			Cook.findOne({"domainlocal":user.domain,name:dishObj.name},function(err,dish){
 				if(err){
 					res.json({
 						status:0,
@@ -66,16 +66,13 @@ var path = require('path')
 						msg:"菜品已经存在！"
 					})	
 				}else{
-					_dish = new Dish({
+					_dish = new Cook({
 						isTop: dishObj.isTop,
 						isChecked: dishObj.isChecked,
 						checked: dishObj.checked,
 						name: dishObj.name,
 						price: dishObj.price,
-						// memberPrice: dishObj.memberPrice,
 						reducePrice: dishObj.price,
-						// comboPrice: dishObj.comboPrice,
-						// otherPrice: dishObj.otherPrice,
 						payType:dishObj.payType,
 						cate: dishObj.cate,
 						people: user.name,
@@ -92,8 +89,12 @@ var path = require('path')
 					_dish.save(function(err,dish){
 						if(err){
 							console.log(err)
+							res.json({msg:"添加失败",status: 1})
+
+						}else{
+							res.json({msg:"添加成功",status: 1})
+
 						}
-						res.json({msg:"添加成功",status: 1})
 					})
 				}
 			})
@@ -144,7 +145,7 @@ var path = require('path')
 			})
   		}else{
   			if(id !=="undefined"){
-				Dish.findById(id,function(err,dish){
+				Cook.findById(id,function(err,dish){
 
 					_dish = _.extend(dish,dishObj)	//复制对象的所有属性到目标对象上，覆盖已有属性 ,用来覆盖以前的数据，起到更新作用
 					_dish.save(function(err,dish){
@@ -162,7 +163,7 @@ var path = require('path')
 	//菜品详情页
 	exports.detail = function(req,res){
 		var id = req.params.id		//拿到id的值
-		Dish.findById(id,function(err,dish){
+		Cook.findById(id,function(err,dish){
 			res.json({
 				dish:dish
 			})
@@ -173,7 +174,7 @@ var path = require('path')
 		var id = req.query.id
 		if(id){
 			
-			Dish.remove({_id: id},function(err,dish){
+			Cook.remove({_id: id},function(err,dish){
 				if(err){
 					console.log(err)
 				}else{

@@ -14,7 +14,7 @@ var Member = require('../../models/wechat/member'),
 			})
 		})
 	}
-
+	
 
 	// 详情
 	exports.detail = function(req, res) {

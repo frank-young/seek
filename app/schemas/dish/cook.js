@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')	
-var DishSchema = new mongoose.Schema({
+var CookSchema = new mongoose.Schema({
 	isTop: Boolean,
 	checked: Boolean,
 	name:String,
@@ -18,7 +18,7 @@ var DishSchema = new mongoose.Schema({
 	description:String,
 	people:String,
 	history:String,
-	dishArr:Array,
+	CookArr:Array,
 	meta:{
 		createAt:{
 			type:Number,
@@ -33,7 +33,7 @@ var DishSchema = new mongoose.Schema({
 	domainlocal:String
 })
 
-DishSchema.pre('save',function(next){
+CookSchema.pre('save',function(next){
 	if(this.isNew){
 		this.meta.createAt = this.meta.updateAt = Date.now()
 	}else{
@@ -42,7 +42,7 @@ DishSchema.pre('save',function(next){
 	next()
 })
 
-DishSchema.statics = {
+CookSchema.statics = {
 	fetch:function(rule,cb){	
 		return this
 			.find(rule)
@@ -56,4 +56,4 @@ DishSchema.statics = {
 	}
 }
 
-module.exports = DishSchema
+module.exports = CookSchema

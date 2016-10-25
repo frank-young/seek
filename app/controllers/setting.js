@@ -164,10 +164,10 @@ var User = require('../models/user')	//引入模型
 		})
 	}
 
-	/* 收银员列表 */
+	/* 成员列表 */
 	exports.list = function(req,res){
 		var user = req.session.user
-		User.fetch({'domain':user.domain,"role":0},function(err,users){
+		User.fetch({'domain':user.domain,"role":{$lt:10}},function(err,users){
 			res.json({
 				status:"1",
 				users:users

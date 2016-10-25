@@ -67,21 +67,22 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 					}
 				]
 			},
-			{
-				icon:'fa fa-users',
-				title:'会员管理',
-				role:10,
-				subs:[ 
-					{
-						text:'会员列表',
-						link:'web.clue'
-					},
-					{
-						text:'添加会员',
-						link:'web.customer'
-					}
-				]
-			},
+			// {
+			// 	icon:'fa fa-users',
+			// 	title:'会员管理',
+			// 	role:10,
+			// 	subs:[ 
+			// 		{
+			// 			text:'会员列表',
+			// 			link:'web.member'
+			// 		}
+			// 		,
+			// 		{
+			// 			text:'添加会员',
+			// 			link:'web.member'
+			// 		}
+			// 	]
+			// },
 			{
 				icon:'fa fa-wechat',
 				title:'微信端',
@@ -93,7 +94,7 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 					},
 					{
 						text:'优惠券',
-						link:'web.wechatAdd'
+						link:'web.wechat'
 					},
 					{
 						text:'其他',

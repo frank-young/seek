@@ -354,36 +354,38 @@ var smtpTransport = require('nodemailer-smtp-transport')
 						status:0,
 						msg:"用户不存在！"
 					})
-				}
-				if(user.status == 1){
-					user.comparePassword(password,function(err,isMatch){
-						if(err){
-							res.json({
-								status:0,
-								msg:"发生未知错误！"
-							})
-						}
-						if(isMatch){
-							req.session.user = user
-							req.session.loginTime = new Date().getTime()
-							res.json({
-								status:1,
-								msg:"登录成功！",
-								role:user.role
-							})
-						}else{
-							res.json({
-								status:0,
-								msg:"账号或密码错误！"
-							})
-						}
-					})
 				}else{
-					res.json({
-						status:2,
-						msg:"您需要激活您的账户！"
-					})
+					if(user.status == 1){
+						user.comparePassword(password,function(err,isMatch){
+							if(err){
+								res.json({
+									status:0,
+									msg:"发生未知错误！"
+								})
+							}
+							if(isMatch){
+								req.session.user = user
+								req.session.loginTime = new Date().getTime()
+								res.json({
+									status:1,
+									msg:"登录成功！",
+									role:user.role
+								})
+							}else{
+								res.json({
+									status:0,
+									msg:"账号或密码错误！"
+								})
+							}
+						})
+					}else{
+						res.json({
+							status:2,
+							msg:"您需要激活您的账户！"
+						})
+					}
 				}
+				
 				
 			})
 		}

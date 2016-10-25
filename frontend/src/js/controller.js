@@ -327,6 +327,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					localStorage.removeItem('cookAll')
 					localStorage.removeItem('peopleNumber')
 					localStorage.removeItem('member')
+					localStorage.removeItem('memberDiscount')
+					localStorage.removeItem('memberCash')
 
 					window.location.href="#/index"
 				}else{
@@ -401,12 +403,101 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			})
 
 		}
+
+		// 优惠券微信支付
+		$scope.wechatTag = false
+		$scope.wechatDiscountPay = function(){
+			$scope.wechatTag = true
+			// 取得shopid
+			domainData.getShopidData().then(function(data){
+				var shopid = data.shopid
+
+				if(localStorage.memberDiscount != null ){
+					var member = JSON.parse(localStorage.memberDiscount)
+					var dis = 100 - parseInt(member.discount)
+					$scope.discountFunc(dis)
+					$scope.order.realTotal = member.fee/100
+
+				}else{
+					//连续向服务器发请求
+					$scope.stop = $interval(function(){
+						// 如何去判断是谁提交了订单付款请求 
+						memberorderData.getInfo(shopid).then(function(data){
+							if(data.status == 1){
+								$scope.wechatTag = false
+								$interval.cancel($scope.stop)
+								var dis = 100 - parseInt(data.member.discount)
+								$scope.discountFunc(dis)
+								$scope.order.realTotal = data.member.fee/100
+								
+								$scope.changeAlert("付款成功！")
+								localStorage.memberDiscount = JSON.stringify(data.member)
+							}
+						})
+					},500)
+
+				}
+								
+			})
+		}
+
+		$scope.wechatCashPay = function(){
+			$scope.wechatTag = true
+			// 取得shopid
+			domainData.getShopidData().then(function(data){
+				var shopid = data.shopid
+
+				if(localStorage.memberCash != null ){
+					var member = JSON.parse(localStorage.memberCash)
+					var dis = parseInt(member.discount/100)
+					cashFunc(dis)
+					$scope.order.realTotal = member.fee/100
+
+				}else{
+					//连续向服务器发请求
+					$scope.stop = $interval(function(){
+						// 如何去判断是谁提交了订单付款请求 
+						memberorderData.getInfo(shopid).then(function(data){
+							if(data.status == 1){
+								$scope.wechatTag = false
+								$interval.cancel($scope.stop)
+								var dis = parseInt(data.member.discount/100)
+								cashFunc(dis)
+								$scope.order.realTotal = data.member.fee/100
+								
+								$scope.changeAlert("付款成功！")
+								localStorage.memberCash = JSON.stringify(data.member)
+							}
+						})
+					},500)
+
+				}
+								
+			})
+		}
+
+
 		$scope.wechatPayCancel = function(){
 			$scope.wechatTag=false
 			$interval.cancel($scope.stop)
 
+		}
+		// 按比例减免
+		function cashFunc(value){
+			$scope.totalReal = 0
+			$scope.cookCart.forEach(function(ele){
+				ele.reducePrice = ele.price - value/$scope.cookCart.length
+				$scope.totalReal += ele.reducePrice
+
+			})
+			if($scope.totalReal<=0){
+				$scope.totalReal = 0
+			}
+			refresh()
 
 		}
+
+
 	}
 ])
 
@@ -614,21 +705,25 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  		overAll:[],
 	  		overs:[]
 	  	}
+	  	//获取所有的结班信息
+	  	function getAllInfo(){
+	  		// 获取品项报告
+		  	itemData.getTodayData().then(function(data){
+	  			$scope.todayData.items = data.items
+	  		})
 
-	  	// 获取品项报告
-	  	itemData.getTodayData().then(function(data){
-  			$scope.todayData.items = data.items
-  		})
+		  	// 获取结班报告
+	  		orderData.getGradeAllData().then(function(data){
+	  			$scope.todayData.overAll = data	
+	  		})
 
-	  	// 获取结班报告
-  		orderData.getGradeAllData().then(function(data){
-  			$scope.todayData.overAll = data	
-  		})
+	  		// 获取所有人的结班报告
+	  		overData.getTodayData().then(function(data){
+	  			$scope.todayData.overs = data.overs	
+	  		})
 
-  		// 获取所有人的结班报告
-  		overData.getTodayData().then(function(data){
-  			$scope.todayData.overs = data.overs	
-  		})
+	  	}
+	  	getAllInfo()
 
 	  	$scope.printOver = function(){
 	  		printFunc('print-over')
@@ -672,8 +767,14 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			})
 
 	  	}
+
+	  	// 结班按钮
+		$scope.stopDayButton = function(){
+			getAllInfo()
+		}
 	  	// 结班
 	  	$scope.stopDay = function(){
+
 	  		// 本班信息
 	  		$rootScope.status = true
 	  		localStorage.removeItem('starDay')
@@ -681,7 +782,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 			localStorage.removeItem('cookAll')
 			localStorage.removeItem('peopleNumber')
 			localStorage.removeItem('serial')
-
+ 
 			var date = createTime()
 	  		$scope.time = date.now	// 结班时间
 	  		// console.log($scope.time)

@@ -327,6 +327,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					localStorage.removeItem('cookAll')
 					localStorage.removeItem('peopleNumber')
 					localStorage.removeItem('member')
+					localStorage.removeItem('memberDiscount')
+					localStorage.removeItem('memberCash')
 
 					window.location.href="#/index"
 				}else{
@@ -401,12 +403,101 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			})
 
 		}
+
+		// 优惠券微信支付
+		$scope.wechatTag = false
+		$scope.wechatDiscountPay = function(){
+			$scope.wechatTag = true
+			// 取得shopid
+			domainData.getShopidData().then(function(data){
+				var shopid = data.shopid
+
+				if(localStorage.memberDiscount != null ){
+					var member = JSON.parse(localStorage.memberDiscount)
+					var dis = 100 - parseInt(member.discount)
+					$scope.discountFunc(dis)
+					$scope.order.realTotal = member.fee/100
+
+				}else{
+					//连续向服务器发请求
+					$scope.stop = $interval(function(){
+						// 如何去判断是谁提交了订单付款请求 
+						memberorderData.getInfo(shopid).then(function(data){
+							if(data.status == 1){
+								$scope.wechatTag = false
+								$interval.cancel($scope.stop)
+								var dis = 100 - parseInt(data.member.discount)
+								$scope.discountFunc(dis)
+								$scope.order.realTotal = data.member.fee/100
+								
+								$scope.changeAlert("付款成功！")
+								localStorage.memberDiscount = JSON.stringify(data.member)
+							}
+						})
+					},500)
+
+				}
+								
+			})
+		}
+
+		$scope.wechatCashPay = function(){
+			$scope.wechatTag = true
+			// 取得shopid
+			domainData.getShopidData().then(function(data){
+				var shopid = data.shopid
+
+				if(localStorage.memberCash != null ){
+					var member = JSON.parse(localStorage.memberCash)
+					var dis = parseInt(member.discount/100)
+					cashFunc(dis)
+					$scope.order.realTotal = member.fee/100
+
+				}else{
+					//连续向服务器发请求
+					$scope.stop = $interval(function(){
+						// 如何去判断是谁提交了订单付款请求 
+						memberorderData.getInfo(shopid).then(function(data){
+							if(data.status == 1){
+								$scope.wechatTag = false
+								$interval.cancel($scope.stop)
+								var dis = parseInt(data.member.discount/100)
+								cashFunc(dis)
+								$scope.order.realTotal = data.member.fee/100
+								
+								$scope.changeAlert("付款成功！")
+								localStorage.memberCash = JSON.stringify(data.member)
+							}
+						})
+					},500)
+
+				}
+								
+			})
+		}
+
+
 		$scope.wechatPayCancel = function(){
 			$scope.wechatTag=false
 			$interval.cancel($scope.stop)
 
+		}
+		// 按比例减免
+		function cashFunc(value){
+			$scope.totalReal = 0
+			$scope.cookCart.forEach(function(ele){
+				ele.reducePrice = ele.price - value/$scope.cookCart.length
+				$scope.totalReal += ele.reducePrice
+
+			})
+			if($scope.totalReal<=0){
+				$scope.totalReal = 0
+			}
+			refresh()
 
 		}
+
+
 	}
 ])
 

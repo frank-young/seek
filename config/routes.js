@@ -139,7 +139,9 @@ module.exports = function(app){
   app.get('/wechat/token',Wechat.token)
   app.get('/wechat/addmenu',Wechat.addMenu)
   app.get('/wechat/login',Wechat.login)
+
   app.get('/wechat/userinfo',Wechat.userinfo)
+  
   app.get('/wechat/member_appaly',Wechat.memberAppaly)
   app.get('/wechat/upload/image',Wechat.uploadImage)
 
@@ -153,6 +155,8 @@ module.exports = function(app){
   app.get('/wechat/card/membercard',Wechat.cardMembercard)  //拉取会员信息
   app.get('/wechat/card/membercard/update',Wechat.cardMembercardUpdate)  //更新会员信息
   
+  app.get('/wechat/card/getdiscount',Wechat.cardGetDiscount)  //优惠券查询
+
   app.get('/wechat/card/user/getcardlist',Wechat.cardUserGetcard)  //获取用户已领卡券
   // app.get('/wechat/card/code',Wechat.cardCode)  //查询code
 

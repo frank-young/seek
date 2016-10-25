@@ -1,7 +1,7 @@
 <div ng-controller="BillCtrl" class="row ">
       <div class="one-third column">
         <div class="pay">
-		<div class="panel-group"  role="tablist" aria-multiselectable="true" bs-collapse>
+		<div class="panel-group" role="tablist" aria-multiselectable="true" bs-collapse>
 		  <div class="panel panel-default pay-item" ng-show="order.payType==3">
 		    <div class="panel-heading" role="tab">
 		      <h4 class="panel-title">
@@ -59,7 +59,7 @@
 		      </div>
 		    </div>
 		  </div>
-		  <div class="panel panel-default pay-item">
+		  <div class="panel panel-default pay-item" ng-show="order.payType==6">
 		    <div class="panel-heading" role="tab">
 		      <h4 class="panel-title">
 		        <a bs-collapse-toggle>
@@ -72,12 +72,24 @@
 		        <table class="u-full-width">
                 <tbody>
                   <tr>
-                    <td><h6>扫码验券</h6></td>
-                    <td><button class="button button-primary">扫码</button></td>
+                      <td><h6>打折券</h6><p>
+                        只能结算微信"打折券"买单
+                      </p></td>
+                      <td>
+                        <button class="button button-primary" ng-hide="wechatTag" ng-click="wechatDiscountPay()">选择</button>
+                        <button class="button" ng-click="wechatPayCancel()" ng-show="wechatTag">取消</button>
+
+                      </td>
                   </tr>
-                  <tr>
-                    <td><input type="text" class="u-full-width" placeholder="手动输入优惠码"></td> 
-                    <td><button class="button button-primary">确认</button></td>
+                   <tr>
+                      <td><h6>代金券</h6><p>
+                        只能结算微信"代金券"买单
+                      </p></td>
+                      <td>
+                        <button class="button button-primary" ng-hide="wechatTag" ng-click="wechatCashPay()">选择</button>
+                        <button class="button" ng-click="wechatPayCancel()" ng-show="wechatTag">取消</button>
+
+                      </td>
                   </tr>
                 </tbody>
               </table>

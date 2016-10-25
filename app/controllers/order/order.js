@@ -268,7 +268,8 @@ var Order = require('../../models/order/order'),	//引入模型
 
 		var user = req.session.user
 		var fields = ['订单编号', '支付类型','操作人', '总价','减免金额','实付款']
-		var payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
+		var payTypeArr = ['现金','微信','支付宝','会员卡','次卡','校园卡']
+
 		var orderData = []
 		Order.fetch({"domainlocal":user.domain,"year":year,"month":month},function(err,orders){
 
@@ -309,7 +310,7 @@ var Order = require('../../models/order/order'),	//引入模型
 
 		var user = req.session.user
 		var fields = ['订单编号', '支付类型','操作人', '总价','减免金额','实付款']
-		var payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
+		var payTypeArr = ['现金','微信','支付宝','会员卡','次卡','校园卡']
 		var orderData = []
 		Order.fetch({"domainlocal":user.domain,"year":year,"month":month,"day":day},function(err,orders){
 

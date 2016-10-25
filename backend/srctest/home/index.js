@@ -18,7 +18,8 @@ angular.module("homeMoudle", []).controller('HomeCtrl',
 	  		$scope.link = data.link
 	  		$scope.file = data.file
 	  	})
-	  	
+
+	  	// $scope.memberNum
 	  	//总业绩查询
 	  	orderData.getGradeAllData().then(function(data){
 	  		$scope.grade = data.grade
