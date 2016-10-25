@@ -40,58 +40,123 @@
                   <div class="detail one-half column"  style="width:280px;">
                     <h5>结班报告</h5>
                     <div class="detail-item">
-                      <span class="">
-                        订单编号：
-                      </span>
-                      <span class="">
-                        B34067201610010001
-                      </span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="">
-                        下单时间：
-                      </span>
-                      <span class="">
-                        2016-10-01 19:23:20
-                      </span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="">
-                        订单状态：
-                      </span>
-                      <span class="">
-                        已确认
-                      </span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="">
-                        支付方式：
-                      </span>
-                      <span class="">
-                        无
-                      </span>
-                    </div>
-                    <div class="detail-item">
-                      <span class="">
+                      <span >
                         用餐人数：
                       </span>
-                      <span class="">
-                        2
+                      <span ng-bind="todayData.overAll.people"></span>
+                    </div>
+                    <div class="detail-item">
+                      <span >
+                        开台数：
+                      </span>
+                      <span ng-bind="todayData.overAll.stand"></span>
+                    </div>
+                    <div class="detail-item">
+                      <span >
+                        赠单金额：
+                      </span>
+                      <span ng-bind="todayData.overAll.onceincome| currency:'¥'"></span>
+                    </div>
+                    <div class="detail-item">
+                      <span >
+                        优惠金额：
+                      </span>
+                      <span ng-bind="todayData.overAll.reduce - todayData.overAll.noincome - todayData.overAll.onceincome | currency:'¥'"></span>
+                    </div>
+                    <div class="detail-item">
+                      <span >
+                        品项消费：
+                      </span>
+                      <span ng-bind="todayData.overAll.total | currency:'¥'"></span>
+                    </div>
+                    <div class="detail-item">
+                      <span >
+                        应收合计：
+                      </span>
+                      <span  ng-bind="todayData.overAll.reduceAfter | currency:'¥' ">
                       </span>
                     </div>
                     <div class="detail-item">
-                      <span class="">
-                        减免金额：
+                      <span >
+                        实际收入合计：
                       </span>
-                      <span class="" ng-bind="total-totalReal | currency:'¥' ">
+                      <span  ng-bind="todayData.overAll.grade | currency:'¥' ">
                       </span>
                     </div>
                     <div class="detail-item">
-                      <span class="">
-                        订单合计：
+                      <span >
+                        挂账：
                       </span>
-                      <span class="" ng-bind="totalReal | currency:'¥' ">
+                      <span  ng-bind="todayData.overAll.noincome | currency:'¥' ">
                       </span>
+                    </div>
+                    <div class="detail-item">
+                      <span >
+                        合计：
+                      </span>
+                      <span  ng-bind="todayData.overAll.grade +todayData.overAll.noincome| currency:'¥' ">
+                      </span>
+                    </div>
+                    <div class="detail-box" ng-repeat="ov in todayData.overs">
+                        <h5>收银员：<span ng-bind="ov.editPeople"></span> </h5>
+                      <div class="detail-item">
+                        <span >
+                          用餐人数：
+                        </span>
+                        <span ng-bind="ov.people"></span>
+                      </div>
+                      <div class="detail-item">
+                        <span >
+                          开台数：
+                        </span>
+                        <span ng-bind="ov.stand"></span>
+                      </div>
+                      <div class="detail-item">
+                        <span >
+                          赠单金额：
+                        </span>
+                        <span ng-bind="ov.onceincome| currency:'¥'"></span>
+                      </div>
+                      <div class="detail-item">
+                        <span >
+                          优惠金额：
+                        </span>
+                        <span ng-bind="ov.reduce - ov.noincome - ov.onceincome | currency:'¥'"></span>
+                      </div>
+                      <div class="detail-item">
+                        <span >
+                          品项消费：
+                        </span>
+                        <span ng-bind="ov.total | currency:'¥'"></span>
+                      </div>
+                      <div class="detail-item">
+                        <span >
+                          应收合计：
+                        </span>
+                        <span  ng-bind="ov.reduceAfter | currency:'¥' ">
+                        </span>
+                      </div>
+                      <div class="detail-item">
+                        <span >
+                          实际收入合计：
+                        </span>
+                        <span  ng-bind="ov.grade | currency:'¥' ">
+                        </span>
+                      </div>
+                      <div class="detail-item">
+                        <span >
+                          挂账：
+                        </span>
+                        <span  ng-bind="ov.noincome | currency:'¥' ">
+                        </span>
+                      </div>
+                      <div class="detail-item">
+                        <span >
+                          合计：
+                        </span>
+                        <span  ng-bind="ov.grade +ov.noincome| currency:'¥' ">
+                        </span>
+                      </div>
                     </div>
                   </div>
                   <div class="detail one-half column" style="width:280px;">
@@ -106,7 +171,7 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr ng-repeat="it in items">
+                          <tr ng-repeat="it in todayData.items">
                           <td ng-bind="it.name"></td>
                           <td>{{it.number}}
                           </td>
@@ -137,21 +202,40 @@
                     <button type="button" class="close" ng-click="$hide()">&times;</button>
                     <h5 class="modal-title" style="color:#fff; margin-bottom: 0">提示框</h5>
                 </div>
-                <div class="modal-body" style="height:320px;padding-top: 50px;">
+                <div class="modal-body ex-box" style="height:420px;padding-top: 50px;">
                     <h5 style="color:#333; font-size:22px;">请核对账款信息，再确认交班</h5>
                     
-                    <h5 style="color:#333; font-size:20px;font-weight: normal;"> 收银员：{{gradeData.username}} </h5>
-                    <h5 style="color:#333; font-size:20px;font-weight: normal;"> 实收：{{gradeData.grade | currency:'¥'}} </h5>
-                    <h5 style="color:#333; font-size:20px;font-weight: normal;"> 虚收：{{gradeData.noincome | currency:'¥' }} </h5>
+                    <h5> 收银员：<span ng-bind="gradeData.editPeopl"></span> </h5>
+                    <h5> 实收：<span ng-bind="gradeData.totalReal | currency:'¥"></span> </h5>
+                    <h5> 虚收：<span ng-bind="gradeData.noincome | currency:'¥'"></span> </h5>
+                    <h5> 上班时间：<span ng-bind="gradeData.start | onlytime"></span> </h5>
+                    <h5> 交班时间：<span ng-bind="gradeData.stop | onlytime"></span> </h5>
+                   <!--  <h5> 共计：<span ng-bind=""></span> </h5> -->
                     <button class="button button p-sure" ng-click="$hide()" style="color:#333;margin-right:30px;">取消</button>     
-                    <a class="button button-primary p-sure" href="/logout" ng-click="$hide()" >确认</a>                
+                    <a class="button button-primary p-sure" href="/logout" ng-click="exchangeSure();$hide()" >确认</a>                
                 </div>
         </div>
         </div>
     </div>
 </script>
 
+<!-- 
+    本班开单人数
+    本班开台人数
+    本班已结台数
+    本班已结人数
+    本班赠单金额（使用减免（次卡）的金额）
+    优惠金额（使用打折，扣除的优惠部分）
+    品项消费（本班收入）
+    应收合计（=品项消费-本班赠单金额-优惠金额）
 
+
+    结算方式：校园一卡通、人民币、支付宝、微信、减免（次卡）
+    计入收入合计（=除减免之外的金额）
+    不计入收入合计（虚收即挂账）
+    合计
+    打印时间 
+-->
 
 
 

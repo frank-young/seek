@@ -2,8 +2,8 @@
  *                                                     导航条
  ********************************************************************************************************************/
 
-angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData','itemData',
-  	function($scope,$rootScope,$interval,dayData,orderData,itemData) {
+angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData','itemData','overData',
+  	function($scope,$rootScope,$interval,dayData,orderData,itemData,overData) {
   		// 设置时间
 	  	function setTime(){
 	  		return $scope.time = new Date()
@@ -19,16 +19,39 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   		}else{
   			$rootScope.status = true;
   		}
-  		// 业绩查询
+  		// 业绩查询-交班
 		$scope.exchangeFunc = function(){
+			var date = createTime()
 			orderData.getGradeData().then(function(data){
 				$scope.gradeData = {
-					grade:data.grade,
-					username:data.username,
-					noincome:data.noincome 
+					totalReal:data.grade,  	// 实收
+					editPeople:data.username,
+					noincome:data.noincome,		// 虚收
+					people:data.people,	//用餐人数
+					stand:data.stand,	//用餐台数
+					reduce:data.reduce,	//优惠金额
+					onceincome:data.onceincome,	//次卡
+					total:data.total,	// 合计--总合计
+					totalNeed:data.totalNeed,	// 应收
+					reduceAfter:data.reduceAfter,
+					// payType:Array, 
+					// time:Number,
+					year:data.year,
+					month:data.month,
+					day:data.day,
+					// memberNum:Number,
+					start:data.start,
+					stop:date.now
 				}
 			})
 
+		}
+
+		//确认交班
+		$scope.exchangeSure = function(){
+			overData.addData($scope.gradeData).then(function(data){
+				console.log(data)
+			})
 		}
 
 	  	// 开班
@@ -60,6 +83,11 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  	}
 	  	// 结班
 	  	$scope.stopDay = function(){
+	  		// 本班信息
+	  // 		overData.addData($scope.gradeData).then(function(data){
+			// 	console.log(data)
+			// })
+
 	  		$rootScope.status = true
 	  		localStorage.removeItem('starDay')
 	  		localStorage.removeItem('cook')
@@ -76,6 +104,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   				"stop": date.now,
   				"status":0
   			}
+
 	  		dayData.updateData(dateObj).then(function(data){
 	  			console.log(data.msg)
 	  			localStorage.removeItem('dayid')
@@ -106,11 +135,46 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 
 	  	$scope.todayData={
 	  		items:[],
-	  		over:[]
+	  		overAll:[],
+	  		overs:[]
 	  	}
+
 	  	itemData.getTodayData().then(function(data){
   			$scope.todayData.items = data.items
   		})
+
+  		orderData.getGradeAllData().then(function(data){
+  			$scope.todayData.overAll = data	
+  		})
+
+  		overData.getTodayData().then(function(data){
+  			$scope.todayData.overs = data.overs	
+  		})
+
+
+  		// 	var date = createTime()
+		// orderData.getGradeData().then(function(data){
+		// 	$scope.gradeData = {
+		// 		totalReal:data.grade,  	// 实收
+		// 		editPeople:data.username,
+		// 		noincome:data.noincome,		// 虚收
+		// 		people:data.people,	//用餐人数
+		// 		stand:data.stand,	//用餐台数
+		// 		reduce:data.reduce,	//优惠金额
+		// 		onceincome:data.onceincome,	//次卡
+		// 		total:data.total,	// 合计--总合计
+		// 		totalNeed:data.totalNeed,	// 应收
+		// 		// payType:Array, 
+		// 		// time:Number,
+		// 		year:date.y,
+		// 		month:date.m,
+		// 		day:date.d,
+		// 		// memberNum:Number,
+		// 		start:data.start,
+		// 		stop:date.now
+		// 	}
+		// })
+
 	  	$scope.printOver = function(){
 	  		
 	  	}
@@ -118,7 +182,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 		$scope.printItem = function(){
 
 		}
-
 
 	}
 ])

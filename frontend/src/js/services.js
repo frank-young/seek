@@ -92,6 +92,19 @@ angular.module('serviceData', [])
                     defer.reject(msg);
                 });
                 return defer.promise;
+            },
+             getGradeAllData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/order/gradeall',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
             }
         }
     }])
@@ -374,6 +387,69 @@ angular.module('serviceData', [])
                 var defer = $q.defer();
                 $http({
                     url: '/member/detail/'+id,
+                    method: 'get'
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            }
+        }
+    }])
+    .factory('overData', ['$q','$http',function($q,$http){
+        return {
+            getData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/over',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            getTodayData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/over/today',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            addData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    method: 'POST',
+                    url: '/over/add',
+                    dataType: "json",
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        over:value
+                    }
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            getIdData: function (id) {
+                var defer = $q.defer();
+                $http({
+                    url: '/over/detail/'+id,
                     method: 'get'
                 })
                 .success(function (data, status, headers, config) {

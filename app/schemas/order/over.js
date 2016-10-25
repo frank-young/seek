@@ -4,13 +4,13 @@ var OverSchema = new mongoose.Schema({
 	checked: Boolean,
 	people:Number,	//用餐人数
 	stand:Number,	//用餐台数
-	total:Number,
 	reduce:Number,	//优惠金额
 	onceincome:Number,	//次卡
 	total:Number,	// 合计--总合计
 	totalNeed:Number,	// 应收
 	noincome:Number,	// 虚收
 	totalReal:Number,   // 实收
+	reduceAfter:Number,
 	payType:Array, 
 	editPeople:String,
 	time:Number,

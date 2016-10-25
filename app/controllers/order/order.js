@@ -343,7 +343,9 @@ var Order = require('../../models/order/order'),	//引入模型
 
 	// 今日个人业绩
 	exports.gradeToday = function(req,res){
-		var user = req.session.user
+		var user = req.session.user,
+			loginTime = req.session.loginTime
+
 		var date = new Date(),
 			Y = date.getFullYear(),	
 	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
@@ -351,26 +353,56 @@ var Order = require('../../models/order/order'),	//引入模型
 
 		Order.fetch({"userlocal":user.email,"year":Y,"month":M,"day":D},function(err,orders){
 			var grade = 0,
-				noincome = 0
+				noincome = 0,
+				people = 0,
+				stand = 0,
+				reduce = 0,
+				onceincome = 0,
+				total = 0,
+				totalNeed = 0,
+				reduceAfter = 0
+
 			orders.forEach(function(ele){
 				grade += ele.realTotal
 				noincome += ele.noincome
+				people += ele.peopleNum
+				reduce += ele.reduce
+				onceincome += ele.onceincome
+				total += ele.total
+				reduceAfter += ele.reduceAfter
+
 			})
-			
+
+			stand = orders.length
+			totalNeed += noincome+total
+
  			res.json({
 				msg:"请求成功",
 				status: 1,
 				orders:orders,
 				grade:grade,
 				username:user.name,
-				noincome:noincome
+				noincome:noincome,
+				people: people,
+				reduce: reduce,
+				onceincome: onceincome,
+				total: total,
+				stand: stand,
+				start:loginTime,
+				totalNeed: totalNeed,
+				reduceAfter:reduceAfter,
+				year:Y,
+				month:M,
+				day:D
 			})
 		})
 	}
 
 	// 今日总业绩
 	exports.gradeAllToday = function(req,res){
-		var user = req.session.user
+		var user = req.session.user,
+			loginTime = req.session.loginTime
+
 		var date = new Date(),
 			Y = date.getFullYear(),	
 	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
@@ -378,18 +410,44 @@ var Order = require('../../models/order/order'),	//引入模型
 
 		Order.fetch({"domainlocal":user.domain,"year":Y,"month":M,"day":D},function(err,orders){
 			var grade = 0,
-				noincome = 0
+				noincome = 0,
+				people = 0,
+				stand = 0,
+				reduce = 0,
+				onceincome = 0,
+				total = 0,
+				totalNeed = 0,
+				reduceAfter = 0
+				
+
 			orders.forEach(function(ele){
 				grade += ele.realTotal
 				noincome += ele.noincome
+				people += ele.peopleNum
+				reduce += ele.reduce
+				onceincome += ele.onceincome
+				total += ele.total
+				reduceAfter += ele.reduceAfter
+				
 			})
+
+			stand = orders.length
+			totalNeed += noincome+total
 			
  			res.json({
 				msg:"请求成功",
 				status: 1,
-				orders:orders,
 				grade:grade,
-				noincome:noincome
+				noincome:noincome,
+				people: people,
+				reduce: reduce,
+				onceincome: onceincome,
+				total: total,
+				stand: stand,
+				start:loginTime,
+				totalNeed: totalNeed,
+				reduceAfter:reduceAfter,
+
 			})
 		})
 	}

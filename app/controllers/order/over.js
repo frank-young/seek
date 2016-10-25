@@ -4,7 +4,7 @@ var _ = require('underscore'),
 	fs = require('fs')
 	path = require('path')
 
-	//结班列表页
+	//交结班列表页
 	exports.list = function(req,res){
 		var user = req.session.user
 		Over.fetch({"domainlocal":user.domain},function(err,overs){
@@ -35,11 +35,11 @@ var _ = require('underscore'),
 
 	//结班更新、新建
 	exports.save = function(req,res){
-		var overObj = req.body.over 	//从路由传过来的 over对象
+		var overObj = req.body.over 
 		var user = req.session.user
-		overObj.editPeople: user.name
-		overObj.userlocal:user.email
-		overObj.domainlocal:user.domain
+
+		overObj.userlocal = user.email
+		overObj.domainlocal = user.domain
 		
 		var _over = new Over(overObj)
 			_over.save(function(err,over){
@@ -53,7 +53,7 @@ var _ = require('underscore'),
 	//结班更新、新建
 	exports.update = function(req,res){
 		var id = req.body.over._id
-		var overObj = req.body.over 	//从路由传过来的 over对象
+		var overObj = req.body.over 
 		var _over
 		if(id !=="undefined"){
 			Over.findById(id,function(err,over){

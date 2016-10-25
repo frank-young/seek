@@ -365,6 +365,7 @@ var smtpTransport = require('nodemailer-smtp-transport')
 						}
 						if(isMatch){
 							req.session.user = user
+							req.session.loginTime = new Date().getTime()
 							res.json({
 								status:1,
 								msg:"登录成功！",
@@ -391,6 +392,7 @@ var smtpTransport = require('nodemailer-smtp-transport')
 	//登出
 	exports.logout = function(req,res){
 		delete req.session.user
+		delete req.session.loginTime
 		// delete app.locals.user
 		res.redirect('/signin')
 	}

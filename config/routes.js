@@ -6,6 +6,7 @@ var Index = require('../app/controllers/index'),
     Cate = require('../app/controllers/dish/cate'),
     Order = require('../app/controllers/order/order'),
     Item = require('../app/controllers/order/item'),
+    Over = require('../app/controllers/order/over'),
     Day = require('../app/controllers/day/day'),
     Credit = require('../app/controllers/credit/credit'),
     Paytype = require('../app/controllers/credit/paytype'),
@@ -100,6 +101,12 @@ module.exports = function(app){
   app.get('/item/detail/:id', User.signinRequired, Item.detail)
   app.get('/item/itemday',User.signinRequired, Item.itemdayList)
   app.get('/item/download/itemday',User.signinRequired, Item.downloadItemDay)
+
+  // 结班报告
+  app.get('/over',User.signinRequired, Over.list)
+  app.get('/over/today',User.signinRequired, Over.todaylist)
+  app.post('/over/add',User.signinRequired, Over.save)
+  app.get('/over/detail/:id', User.signinRequired, Over.detail)
 
   //开班、结班信息
   app.get('/day',User.signinRequired, Day.list)
