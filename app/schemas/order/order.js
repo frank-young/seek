@@ -26,6 +26,7 @@ var OrderSchema = new mongoose.Schema({
 	dishNum:String,
 	noincome:Number,
 	onceincome:Number,
+	cashincome:Number,
 	credit:Number,
 	other1:String,
 	other2:String,

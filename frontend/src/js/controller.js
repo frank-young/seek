@@ -148,7 +148,12 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					$scope.discountItemFunc(ele,0)
 					$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
 
-				}else{
+				}
+				// else if(value == 0){
+				// 	$scope.order.cashincome = $scope.order.totalReal	// 计入现金收入
+
+				// }
+				else{
 					$scope.discountItemFunc(ele,100)
 				}
 				
@@ -164,7 +169,12 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.discountItemFunc(ele,0)
 				$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
 
-			}else{
+			}
+			// else if(value == 0){
+			// 	$scope.order.cashincome = $scope.order.totalReal	// 计入现金收入
+
+			// }
+			else{
 				$scope.discountItemFunc(ele,100)
 			}
 			payTypeFunc()
@@ -586,7 +596,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 					totalNeed:data.totalNeed,	// 应收
 					reduceAfter:data.reduceAfter,
 					// payType:Array, 
-					// time:Number,
+					// time:Number, 
 					year:data.year,
 					month:data.month,
 					day:data.day,
@@ -594,8 +604,38 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 					start:data.start,
 					stop:date.now
 				}
+
 			})
 
+		}
+
+		$scope.todayData={
+	  		items:[],
+	  		overAll:[],
+	  		overs:[]
+	  	}
+
+	  	// 获取品项报告
+	  	itemData.getTodayData().then(function(data){
+  			$scope.todayData.items = data.items
+  		})
+
+	  	// 获取结班报告
+  		orderData.getGradeAllData().then(function(data){
+  			$scope.todayData.overAll = data	
+  		})
+
+  		// 获取所有人的结班报告
+  		overData.getTodayData().then(function(data){
+  			$scope.todayData.overs = data.overs	
+  		})
+
+	  	$scope.printOver = function(){
+	  		printFunc('print-over')
+	  	}
+
+		$scope.printItem = function(){
+			printFunc('print-item')
 		}
 
 		//确认交班
@@ -635,10 +675,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  	// 结班
 	  	$scope.stopDay = function(){
 	  		// 本班信息
-	  // 		overData.addData($scope.gradeData).then(function(data){
-			// 	console.log(data)
-			// })
-
 	  		$rootScope.status = true
 	  		localStorage.removeItem('starDay')
 	  		localStorage.removeItem('cook')
@@ -684,55 +720,22 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 			}
 	  	} 
 
-	  	$scope.todayData={
-	  		items:[],
-	  		overAll:[],
-	  		overs:[]
-	  	}
+	  	// 打印函数
+		function printFunc(id){
+			var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
+			var ele = document.getElementById(id)
 
-	  	itemData.getTodayData().then(function(data){
-  			$scope.todayData.items = data.items
-  		})
+			// content.appendChild(ele)
+			// window.print()
+			// content.innerHTML = ""
 
-  		orderData.getGradeAllData().then(function(data){
-  			$scope.todayData.overAll = data	
-  		})
-
-  		overData.getTodayData().then(function(data){
-  			$scope.todayData.overs = data.overs	
-  		})
+			LODOP.ADD_PRINT_HTM(10,10,220,ele.offsetHeight,ele.innerHTML)
+			LODOP.SET_PRINT_STYLE("FontSize",12)
+			// LODOP.SET_PRINT_PAGESIZE(1,580,intPageHeight,strPageName)
+			LODOP.PRINT()
 
 
-  		// 	var date = createTime()
-		// orderData.getGradeData().then(function(data){
-		// 	$scope.gradeData = {
-		// 		totalReal:data.grade,  	// 实收
-		// 		editPeople:data.username,
-		// 		noincome:data.noincome,		// 虚收
-		// 		people:data.people,	//用餐人数
-		// 		stand:data.stand,	//用餐台数
-		// 		reduce:data.reduce,	//优惠金额
-		// 		onceincome:data.onceincome,	//次卡
-		// 		total:data.total,	// 合计--总合计
-		// 		totalNeed:data.totalNeed,	// 应收
-		// 		// payType:Array, 
-		// 		// time:Number,
-		// 		year:date.y,
-		// 		month:date.m,
-		// 		day:date.d,
-		// 		// memberNum:Number,
-		// 		start:data.start,
-		// 		stop:date.now
-		// 	}
-		// })
-
-	  	$scope.printOver = function(){
-	  		
-	  	}
-
-		$scope.printItem = function(){
-
-		}
+		} 
 
 	}
 ])

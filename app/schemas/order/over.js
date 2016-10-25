@@ -9,6 +9,7 @@ var OverSchema = new mongoose.Schema({
 	total:Number,	// 合计--总合计
 	totalNeed:Number,	// 应收
 	noincome:Number,	// 虚收
+	cashincome:Number,	// 现金收入
 	totalReal:Number,   // 实收
 	reduceAfter:Number,
 	payType:Array, 

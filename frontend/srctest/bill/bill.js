@@ -148,7 +148,12 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					$scope.discountItemFunc(ele,0)
 					$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
 
-				}else{
+				}
+				// else if(value == 0){
+				// 	$scope.order.cashincome = $scope.order.totalReal	// 计入现金收入
+
+				// }
+				else{
 					$scope.discountItemFunc(ele,100)
 				}
 				
@@ -164,7 +169,12 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.discountItemFunc(ele,0)
 				$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
 
-			}else{
+			}
+			// else if(value == 0){
+			// 	$scope.order.cashincome = $scope.order.totalReal	// 计入现金收入
+
+			// }
+			else{
 				$scope.discountItemFunc(ele,100)
 			}
 			payTypeFunc()

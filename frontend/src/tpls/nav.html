@@ -37,7 +37,7 @@
                     <h4 class="modal-title">结班</h4>
                 </div>
                 <div class="modal-body" >
-                  <div class="detail one-half column"  style="width:280px;">
+                  <div class="detail one-half column"  style="width:280px;" id="print-over">
                     <h5>结班报告</h5>
                     <div class="detail-item">
                       <span >
@@ -71,14 +71,14 @@
                     </div>
                     <div class="detail-item">
                       <span >
-                        应收合计：
+                        优惠后合计：
                       </span>
                       <span  ng-bind="todayData.overAll.reduceAfter | currency:'¥' ">
                       </span>
                     </div>
                     <div class="detail-item">
                       <span >
-                        实际收入合计：
+                        实收合计：
                       </span>
                       <span  ng-bind="todayData.overAll.grade | currency:'¥' ">
                       </span>
@@ -92,7 +92,7 @@
                     </div>
                     <div class="detail-item">
                       <span >
-                        合计：
+                        应收合计：
                       </span>
                       <span  ng-bind="todayData.overAll.grade +todayData.overAll.noincome| currency:'¥' ">
                       </span>
@@ -131,16 +131,16 @@
                       </div>
                       <div class="detail-item">
                         <span >
-                          应收合计：
+                          优惠后合计：
                         </span>
                         <span  ng-bind="ov.reduceAfter | currency:'¥' ">
                         </span>
                       </div>
                       <div class="detail-item">
                         <span >
-                          实际收入合计：
+                          实收合计：
                         </span>
-                        <span  ng-bind="ov.grade | currency:'¥' ">
+                        <span  ng-bind="ov.totalReal | currency:'¥' ">
                         </span>
                       </div>
                       <div class="detail-item">
@@ -152,14 +152,14 @@
                       </div>
                       <div class="detail-item">
                         <span >
-                          合计：
+                          应收合计：
                         </span>
-                        <span  ng-bind="ov.grade +ov.noincome| currency:'¥' ">
+                        <span  ng-bind="ov.totalReal +ov.noincome| currency:'¥' ">
                         </span>
                       </div>
                     </div>
                   </div>
-                  <div class="detail one-half column" style="width:280px;">
+                  <div class="detail one-half column" style="width:280px;" id="print-item">
                     <h5>品项报告</h5>
                     <div class="detail-item">
                       <table class="u-full-width">
@@ -205,8 +205,8 @@
                 <div class="modal-body ex-box" style="height:420px;padding-top: 50px;">
                     <h5 style="color:#333; font-size:22px;">请核对账款信息，再确认交班</h5>
                     
-                    <h5> 收银员：<span ng-bind="gradeData.editPeopl"></span> </h5>
-                    <h5> 实收：<span ng-bind="gradeData.totalReal | currency:'¥"></span> </h5>
+                    <h5> 收银员：<span ng-bind="gradeData.editPeople"></span> </h5>
+                    <h5> 实收：<span ng-bind="gradeData.totalReal | currency:'¥' "></span> </h5>
                     <h5> 虚收：<span ng-bind="gradeData.noincome | currency:'¥'"></span> </h5>
                     <h5> 上班时间：<span ng-bind="gradeData.start | onlytime"></span> </h5>
                     <h5> 交班时间：<span ng-bind="gradeData.stop | onlytime"></span> </h5>

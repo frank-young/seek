@@ -156,6 +156,7 @@ var Order = require('../../models/order/order'),	//引入模型
 						realTotal:to2(orderObj.realTotal),
 						noincome:to2(orderObj.noincome),
 						onceincome:to2(orderObj.onceincome),
+						cashincome:to2(orderObj.cashincome),
 						credit:to2(orderObj.credit),
 						isMember: orderObj.isMember,
 						memberName: orderObj.memberName,
@@ -358,9 +359,11 @@ var Order = require('../../models/order/order'),	//引入模型
 				stand = 0,
 				reduce = 0,
 				onceincome = 0,
+				cashincome = 0,
 				total = 0,
 				totalNeed = 0,
 				reduceAfter = 0
+
 
 			orders.forEach(function(ele){
 				grade += ele.realTotal
@@ -368,6 +371,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				people += ele.peopleNum
 				reduce += ele.reduce
 				onceincome += ele.onceincome
+				cashincome += ele.cashincome
 				total += ele.total
 				reduceAfter += ele.reduceAfter
 
@@ -386,6 +390,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				people: people,
 				reduce: reduce,
 				onceincome: onceincome,
+				cashincome:cashincome,
 				total: total,
 				stand: stand,
 				start:loginTime,
@@ -415,17 +420,18 @@ var Order = require('../../models/order/order'),	//引入模型
 				stand = 0,
 				reduce = 0,
 				onceincome = 0,
+				cashincome = 0,
 				total = 0,
 				totalNeed = 0,
 				reduceAfter = 0
 				
-
 			orders.forEach(function(ele){
 				grade += ele.realTotal
 				noincome += ele.noincome
 				people += ele.peopleNum
 				reduce += ele.reduce
 				onceincome += ele.onceincome
+				cashincome += ele.cashincome
 				total += ele.total
 				reduceAfter += ele.reduceAfter
 				
@@ -442,6 +448,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				people: people,
 				reduce: reduce,
 				onceincome: onceincome,
+				cashincome:cashincome,
 				total: total,
 				stand: stand,
 				start:loginTime,
