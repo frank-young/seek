@@ -97,6 +97,15 @@
                       <span  ng-bind="todayData.overAll.grade +todayData.overAll.noincome| currency:'¥' ">
                       </span>
                     </div>
+                    <hr>
+                    <div class="detail-item">
+                      <span >
+                        微信会员金额合计：
+                      </span>
+                      <span  ng-bind="wxpay| currency:'¥' ">
+                      </span>
+                    </div>
+                    <hr>
                     <div class="detail-box" ng-repeat="ov in todayData.overs">
                         <h5>收银员：<span ng-bind="ov.editPeople"></span> </h5>
                       <div class="detail-item">
@@ -157,6 +166,7 @@
                         <span  ng-bind="ov.totalReal +ov.noincome| currency:'¥' ">
                         </span>
                       </div>
+                      <hr>
                     </div>
                   </div>
                   <div class="detail one-half column" style="width:280px;" id="print-item">
@@ -186,7 +196,7 @@
                 
                 <button type="button" class="button button-primary" ng-click="printOver()" style="margin-right:10px;">打印结班报告</button>
                 <button type="button" class="button button-primary" ng-click="printItem()" style="margin-right:50px;">打印品项报告</button>
-                <button type="button" class="button" ng-click="stopDay();$hide()" style="margin-right:10px;">确认结班</button>
+                <a type="button" class="button" href="/logout" ng-click="stopDay();$hide()" style="margin-right:10px;">确认结班</a>
                 <button type="button" class="button " ng-click="$hide()">关闭</button>
             </div>
         </div>
@@ -202,9 +212,10 @@
                     <button type="button" class="close" ng-click="$hide()">&times;</button>
                     <h5 class="modal-title" style="color:#fff; margin-bottom: 0">提示框</h5>
                 </div>
-                <div class="modal-body ex-box" style="height:420px;padding-top: 50px;">
+                <div class="modal-body ex-box" style="height:470px;padding-top: 50px;">
                     <h5 style="color:#333; font-size:22px;">请核对账款信息，再确认交班</h5>
                     
+                    <h5> 备用金：<span ng-bind="gradeData.cash | currency:'¥' "></span> </h5>
                     <h5> 收银员：<span ng-bind="gradeData.editPeople"></span> </h5>
                     <h5> 实收：<span ng-bind="gradeData.totalReal | currency:'¥' "></span> </h5>
                     <h5> 虚收：<span ng-bind="gradeData.noincome | currency:'¥'"></span> </h5>

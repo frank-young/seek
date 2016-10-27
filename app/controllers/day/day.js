@@ -1,4 +1,4 @@
-var Day = require('../../models/day/day')	//引入模型
+var Day = require('../../models/day/dayother')	//引入模型
 var _ = require('underscore')
 	
 	//开班列表页
@@ -51,12 +51,14 @@ var _ = require('underscore')
 					if(err){
 						console.log(err)
 					}
-					res.json(
+					else{
+						res.json(
 						{
 							msg:"开班成功！",
 							status: 1,
 							id:value._id
 						})
+					}
 				})
 			}
 		})

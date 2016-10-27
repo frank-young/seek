@@ -1,0 +1,23 @@
+*{
+	margin:0;
+	padding: 0;
+}
+body{
+	font-size: '微软雅黑';
+	line-height: 1.8em;
+	background-color: #eee;
+}
+.wrap{
+	width: 300px;
+	margin: 100px auto;
+	box-shadow: 0 0 10px #aaa;
+	padding: 50px 20px;
+}
+.wrap h1{
+	font-size: 26px;
+}
+.content {
+	margin-top: 30px;
+	width: 150px;
+	margin: 30px auto;
+}

@@ -10,6 +10,7 @@ var DomainSchema = new mongoose.Schema({
 	tel2:String,
 	mobil:String,
 	address:String,
+	cash:Number,
 	meta:{
 		createAt:{
 			type:Date,

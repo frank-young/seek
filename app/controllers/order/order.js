@@ -181,7 +181,9 @@ var Order = require('../../models/order/order'),	//引入模型
 				}
 			})
   		}
-  		//转化两位小数
+  		
+	}
+	//转化两位小数
 		function to2(x) { 
 			var f = parseFloat(x); 
 			if (isNaN(f)) { 
@@ -199,7 +201,6 @@ var Order = require('../../models/order/order'),	//引入模型
 			} 
 			return s; 
 		} 
-	}
 	//订单更新、新建
 	exports.update = function(req,res){
 		var id = req.body.order._id,
@@ -267,21 +268,21 @@ var Order = require('../../models/order/order'),	//引入模型
 		var month = req.query.month
 
 		var user = req.session.user
-		var fields = ['订单编号', '支付类型','操作人', '总价','减免金额','实付款']
-		var payTypeArr = ['现金','微信','支付宝','会员卡','次卡','校园卡']
+		var fields = ['时间','订单编号', '总价','应收','次卡','挂帐金额','实收']
 
 		var orderData = []
 		Order.fetch({"domainlocal":user.domain,"year":year,"month":month},function(err,orders){
 
 			orders.forEach(function(value,index){
-
 				var orderObj = {
+					"时间":value.year+'年'+value.month+'月'+value.day+'日',
 					"订单编号":value.orderNum,
-					"支付类型":payTypeArr[value.payType],
-					"操作人":value.editPeople,
 					"总价":value.total,
-					"减免金额":value.reduce,
-					"实付款":value.realTotal	
+					"应收":value.reduceAfter,
+					"次卡":value.onceincome,
+					'挂帐金额':value.noincome,
+					"实收":value.realTotal
+
 				}
 				orderData.push(orderObj)
 			})
@@ -310,7 +311,7 @@ var Order = require('../../models/order/order'),	//引入模型
 
 		var user = req.session.user
 		var fields = ['订单编号', '支付类型','操作人', '总价','减免金额','实付款']
-		var payTypeArr = ['现金','微信','支付宝','会员卡','次卡','校园卡']
+		var payTypeArr = ['现金','微信','支付宝','会员卡','次卡','校园卡','优惠券']
 		var orderData = []
 		Order.fetch({"domainlocal":user.domain,"year":year,"month":month,"day":day},function(err,orders){
 
@@ -458,6 +459,40 @@ var Order = require('../../models/order/order'),	//引入模型
 
 			})
 		})
+	}
+
+	// 今日总业绩
+	exports.api = function(req,res){
+		var domain = req.params.id
+
+		var date = new Date(),
+			Y = date.getFullYear(),	
+	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
+
+			Order.fetch({"domainlocal":domain,"year":Y,"month":M,"day":D},function(err,orders){
+				var realTotal = 0,
+					noincome = 0
+					
+				orders.forEach(function(ele){
+					realTotal += ele.realTotal
+					noincome += ele.noincome
+				})
+
+				res.json({
+					msg:"请求成功",
+					status: 1,
+					realTotal:realTotal,
+					noincome:noincome
+				})
+
+			})
+	}
+	exports.apiview = function(req,res){
+		res.render('apiview',{
+			title:'实时数据'
+		})
+
 	}
 
 	// 打印模块

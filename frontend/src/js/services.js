@@ -365,6 +365,19 @@ angular.module('serviceData', [])
                 });
                 return defer.promise;
             },
+            getWxpay: function (id) {
+                var defer = $q.defer();
+                $http({
+                    url: '/memberorder/wxpay/'+id,
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            }
 
         }
     }])

@@ -80,6 +80,10 @@ module.exports = function(app){
   app.get('/order/gradeall',User.signinRequired, Order.gradeAllToday)
   app.get('/order/print', Order.print)
 
+  app.get('/order/api/:id', Order.api)
+  app.get('/order/apiview', Order.apiview)
+
+
   //支付方式
   app.get('/credit',User.signinRequired, Credit.list)
   app.post('/credit/add',User.signinRequired, User.superRequired, Credit.save)
@@ -129,6 +133,7 @@ module.exports = function(app){
 
   // 会员付款信息
   app.post('/memberorder', User.signinRequired, Memberorder.getinfo)
+  app.get('/memberorder/wxpay/:id', User.signinRequired, Memberorder.todayMemberPay)
   app.get('/member', User.signinRequired, Member.list) 
   app.get('/member/detail/:id', User.signinRequired, Member.detail) 
 
@@ -141,7 +146,7 @@ module.exports = function(app){
   app.get('/wechat/login',Wechat.login)
 
   app.get('/wechat/userinfo',Wechat.userinfo)
-  
+
   app.get('/wechat/member_appaly',Wechat.memberAppaly)
   app.get('/wechat/upload/image',Wechat.uploadImage)
 

@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-var memberorderSchema = new mongoose.Schema({
+var MemberorderSchema = new mongoose.Schema({
 	cardid:String,
 	shopid:String,
 	openid:String,
@@ -13,6 +13,9 @@ var memberorderSchema = new mongoose.Schema({
 	discount:Number,
 	fee:Number,
 	createtime:Number,
+	year:Number,
+	month:Number,
+	day:Number,
 	meta:{
 		createAt:{
 			type:Number,
@@ -25,7 +28,7 @@ var memberorderSchema = new mongoose.Schema({
 	}
 })
 
-memberorderSchema.pre('save',function(next){
+MemberorderSchema.pre('save',function(next){
 	if(this.isNew){
 		this.meta.createAt = this.meta.updateAt = Date.now()
 	}else{
@@ -35,10 +38,10 @@ memberorderSchema.pre('save',function(next){
 })
 
 
-memberorderSchema.statics = {
-	fetch:function(cb){
+MemberorderSchema.statics = {
+	fetch:function(rule,cb){
 		return this
-			.find({})
+			.find(rule)
 			.sort('meta.updateAt')
 			.exec(cb)
 	},
@@ -49,4 +52,4 @@ memberorderSchema.statics = {
 	}
 }
 
-module.exports = memberorderSchema
+module.exports = MemberorderSchema

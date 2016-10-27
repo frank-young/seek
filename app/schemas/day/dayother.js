@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')	
-var DaySchema = new mongoose.Schema({
+var DayotherSchema = new mongoose.Schema({
 	date:String,
 	year:Number,
 	month:Number,
@@ -24,7 +24,7 @@ var DaySchema = new mongoose.Schema({
 	domainlocal:String
 })
 
-DaySchema.pre('save',function(next){	//每次存数据之前都要调用这个方法
+DayotherSchema.pre('save',function(next){	//每次存数据之前都要调用这个方法
 	if(this.isNew){
 		//数据是否是新加的，创建的时间和更新时间设置为当前时间
 		this.meta.createAt = this.meta.updateAt = Date.now()
@@ -34,7 +34,7 @@ DaySchema.pre('save',function(next){	//每次存数据之前都要调用这个�
 	next()
 })
 
-DaySchema.statics = {
+DayotherSchema.statics = {
 	fetch:function(rule,cb){		//取出目前数据库所有的数据
 		return this
 			.find(rule)	//查找全部数据
@@ -48,4 +48,4 @@ DaySchema.statics = {
 	}
 }
 
-module.exports = DaySchema
+module.exports = DayotherSchema

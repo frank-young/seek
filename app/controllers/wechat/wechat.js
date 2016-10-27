@@ -465,7 +465,7 @@ exports.cardUpdate = function(req,res){
 	var formdata ={
 			"card_id":config.card,
  			"member_card":{
-	 				"supply_balance":false
+	 				"supply_balance":false,
 	 				
 	 				 "wx_activate_after_submit" : true,
  					"wx_activate_after_submit_url" : "http://frankyoung.s1.natapp.link/wechat/info"  			
@@ -772,6 +772,11 @@ exports.cardResponse = function(req,res){
 	      'Content-Type': 'application/x-www-form-urlencoded'
 	    }
 	}
+	var date = new Date(),
+		Y = date.getFullYear(),
+        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
+
 	
 	request.post(options, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
@@ -790,6 +795,9 @@ exports.cardResponse = function(req,res){
 								fee:parseInt(msg.fee),
 								createtime:parseInt(msg.createtime),
 								discount:parseInt(carddata.card.discount.discount),
+								year:Y,
+								month:M,
+								day:D,
 								status:1,
 								billstatus:0
 							}
@@ -857,6 +865,9 @@ exports.cardResponse = function(req,res){
 								fee:parseInt(msg.fee),
 								createtime:parseInt(msg.createtime),
 								discount:parseInt(carddata.card.member_card.discount),
+								year:Y,
+								month:M,
+								day:D,
 								status:1,
 								billstatus:0
 							}
@@ -963,6 +974,9 @@ exports.cardResponse = function(req,res){
 								fee:parseInt(msg.fee),
 								createtime:parseInt(msg.createtime),
 								discount:parseInt(carddata.card.cash.reduce_cost),
+								year:Y,
+								month:M,
+								day:D,
 								status:1,
 								billstatus:0
 							}
@@ -977,7 +991,7 @@ exports.cardResponse = function(req,res){
 					}
 				}
 			}
-			else if(data.errcode == 40056){
+			else if(carddata.errcode == 40056){
 				res.json({
 					status:0,
 					msg:'会员卡号不存在！'

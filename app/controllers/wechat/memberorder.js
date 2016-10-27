@@ -66,3 +66,33 @@ var Memberorder = require('../../models/wechat/memberorder'),
 		})
 	}
 
+	exports.todayMemberPay = function(req, res) {
+		var shopid = req.params.id
+		var date = new Date(),
+			Y = date.getFullYear(),
+        	M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+        	D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
+
+		Memberorder.fetch({"shopid":shopid,"year":Y,"month":M,"day":D},function(err,orders){
+			var wxpay = 0
+			orders.forEach(function(ele){
+				wxpay += ele.fee/100 
+			})
+			res.json({
+					status:1,
+					msg:"读取成功",
+					wxpay:wxpay
+				})
+
+		})
+	}
+
+
+
+
+
+
+
+
+
+

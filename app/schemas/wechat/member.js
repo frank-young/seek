@@ -1,5 +1,5 @@
 var mongoose = require('mongoose')
-var memberSchema = new mongoose.Schema({
+var MemberSchema = new mongoose.Schema({
 	cardid:String,
 	openid:String,
 	title:String,
@@ -29,7 +29,7 @@ var memberSchema = new mongoose.Schema({
 	}
 })
 
-memberSchema.pre('save',function(next){
+MemberSchema.pre('save',function(next){
 	if(this.isNew){
 		this.meta.createAt = this.meta.updateAt = Date.now()
 	}else{
@@ -39,10 +39,10 @@ memberSchema.pre('save',function(next){
 })
 
 
-memberSchema.statics = {
-	fetch:function(cb){
+MemberSchema.statics = {
+	fetch:function(rule,cb){
 		return this
-			.find({})
+			.find(rule)
 			.sort('meta.updateAt')
 			.exec(cb)
 	},
@@ -53,4 +53,4 @@ memberSchema.statics = {
 	}
 }
 
-module.exports = memberSchema
+module.exports = MemberSchema

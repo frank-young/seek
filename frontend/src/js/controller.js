@@ -571,7 +571,27 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 			})
 		}
 
-		
+		$scope.printRec = function(value){
+			printFunc(value)
+		}
+
+		// 打印函数
+		function printFunc(value){
+			var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
+			var ele = document.getElementById(value)
+
+			// content.appendChild(ele)
+			// window.print()
+			// content.innerHTML = ""
+
+			LODOP.ADD_PRINT_HTM(10,10,220,ele.offsetHeight,ele.innerHTML)
+			LODOP.SET_PRINT_STYLE("FontSize",12)
+			// LODOP.SET_PRINT_PAGESIZE(1,580,intPageHeight,strPageName)
+			LODOP.PRINT()
+
+
+		} 
+
 	}
 ])
 
@@ -654,8 +674,8 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
  *                                                     导航条
  ********************************************************************************************************************/
 
-angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData','itemData','overData',
-  	function($scope,$rootScope,$interval,dayData,orderData,itemData,overData) {
+angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData','itemData','overData','domainData','memberorderData',
+  	function($scope,$rootScope,$interval,dayData,orderData,itemData,overData,domainData,memberorderData) {
   		// 设置时间
 	  	function setTime(){
 	  		return $scope.time = new Date()
@@ -671,8 +691,11 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   		}else{
   			$rootScope.status = true;
   		}
+  		
+  		
   		// 业绩查询-交班
 		$scope.exchangeFunc = function(){
+
 			var date = createTime()
 			orderData.getGradeData().then(function(data){
 				$scope.gradeData = {
@@ -695,6 +718,10 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 					start:data.start,
 					stop:date.now
 				}
+				// 备用金查询
+				domainData.getData().then(function(d){
+		  			$scope.gradeData.cash = d.domain.cash
+		  		})
 
 			})
 
@@ -703,7 +730,8 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 		$scope.todayData={
 	  		items:[],
 	  		overAll:[],
-	  		overs:[]
+	  		overs:[],
+	  		wxpay:0,
 	  	}
 	  	//获取所有的结班信息
 	  	function getAllInfo(){
@@ -722,6 +750,15 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  			$scope.todayData.overs = data.overs	
 	  		})
 
+	  		// 获取会员微信支付金额
+	  		domainData.getShopidData().then(function(data){
+	  			memberorderData.getWxpay(data.shopid).then(function(data){
+	  				$scope.todayData.wxpay = data.wxpay	
+	  			})
+
+	  		})
+			
+	  		
 	  	}
 	  	getAllInfo()
 
