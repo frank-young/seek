@@ -386,13 +386,27 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 						// 如何去判断是谁提交了订单付款请求 
 						memberorderData.getInfo(shopid).then(function(data){
 							if(data.status == 1){
-								$scope.wechatTag = false
-								$interval.cancel($scope.stop)
+								if(localStorage.localcash == null){
+									localStorage.localcash = 0
+								}
 								var dis = 100 - parseInt(data.member.discount)
 								$scope.discountFunc(dis)
 								selectMemberFunc(true,data.member.username,data.member.code,data.member.phone,data.member.fee/100)
-								$scope.changeAlert("付款成功！")
-								localStorage.member = JSON.stringify(data.member)
+								
+								if($scope.reduceAfter - data.member.fee/100 - localStorage.localcash/100 ==0){
+									$interval.cancel($scope.stop)
+									$scope.wechatTag = false
+									$scope.changeAlert("付款成功！")
+									localStorage.member = JSON.stringify(data.member)
+									localStorage.removeItem('localcash')
+								}else{
+									var now = localStorage.getItem('localcash')
+									localStorage.setItem('localcash',parseInt(data.member.fee)+parseInt(now))
+									$scope.order.realTotal = localStorage.localcash/100
+									$scope.changeAlert("付款金额不正确！")
+									
+								}
+
 							}
 						})
 					},500)
@@ -441,6 +455,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			})
 		}
 
+		//微信代金券支付
 		$scope.wechatCashPay = function(){
 			$scope.wechatTag = true
 			// 取得shopid

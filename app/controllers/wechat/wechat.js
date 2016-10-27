@@ -781,7 +781,8 @@ exports.cardResponse = function(req,res){
 	request.post(options, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			var carddata = JSON.parse(body)
-			if(carddata.errcode ==0){	
+			if(carddata.errcode ==0){
+				
 				// 打折券
 				if(carddata.card.card_type == "DISCOUNT"){
 					if(msg.event == "user_pay_from_pay_cell"){	
@@ -815,74 +816,78 @@ exports.cardResponse = function(req,res){
 				else if(carddata.card.card_type == "MEMBER_CARD"){
 					//买单事件推送
 					if(msg.event == "user_pay_from_pay_cell"){	
-					var cardurl = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
 
-					var formdata = {
-							"card_id":msg.cardid,
-							"code": parseInt(msg.usercardcode)
+						var cardurl = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
+
+						var formdata = {
+								"card_id":msg.cardid,
+								"code": parseInt(msg.usercardcode)
+							}
+
+						var cardoptions = {
+						    url: cardurl,
+						    form: JSON.stringify(formdata),
+						    headers: {
+						      'Content-Type': 'application/x-www-form-urlencoded'
+						    }
 						}
 
-					var cardoptions = {
-					    url: cardurl,
-					    form: JSON.stringify(formdata),
-					    headers: {
-					      'Content-Type': 'application/x-www-form-urlencoded'
-					    }
-					}
+						request.post(cardoptions, function (error, response, body) {
+							if (!error && response.statusCode == 200) {
+								var data = JSON.parse(body)
+								var mobile = "",
+									name ="",
+									birthday ="",
+									location =""
 
-					request.post(cardoptions, function (error, response, body) {
-						if (!error && response.statusCode == 200) {
-							var data = JSON.parse(body)
-							var mobile = "",
-								name ="",
-								birthday ="",
-								location =""
+									if(data.user_info){
+										data.user_info.common_field_list.forEach(function(v,i){
+											if(v.name=="USER_FORM_INFO_FLAG_MOBILE"){
+												mobile =  v.value
+											}
+											else if(v.name=="USER_FORM_INFO_FLAG_BIRTHDAY"){
+												birthday =  v.value
+											}else if(v.name=="USER_FORM_INFO_FLAG_NAME"){
+												name =  v.value
+											}else if(v.name=="USER_FORM_INFO_FLAG_LOCATION"){
+												location =  v.value
+											}
 
-								if(data.user_info){
-									data.user_info.common_field_list.forEach(function(v,i){
-										if(v.name=="USER_FORM_INFO_FLAG_MOBILE"){
-											mobile =  v.value
-										}
-										else if(v.name=="USER_FORM_INFO_FLAG_BIRTHDAY"){
-											birthday =  v.value
-										}else if(v.name=="USER_FORM_INFO_FLAG_NAME"){
-											name =  v.value
-										}else if(v.name=="USER_FORM_INFO_FLAG_LOCATION"){
-											location =  v.value
-										}
-
-									})
+										})
+									}
+								var memberorder = {
+									openid:msg.fromusername,
+									shopid:msg.locationid,
+									username:name,
+									cardid:msg.cardid,
+									code:parseInt(msg.usercardcode),
+									phone:mobile,
+									originalfee:parseInt(msg.originalfee),
+									transid:msg.transid,
+									fee:parseInt(msg.fee),
+									createtime:parseInt(msg.createtime),
+									discount:parseInt(carddata.card.member_card.discount),
+									year:Y,
+									month:M,
+									day:D,
+									status:1,
+									billstatus:0
 								}
-							var memberorder = {
-								openid:msg.fromusername,
-								shopid:msg.locationid,
-								username:name,
-								cardid:msg.cardid,
-								code:parseInt(msg.usercardcode),
-								phone:mobile,
-								originalfee:parseInt(msg.originalfee),
-								transid:msg.transid,
-								fee:parseInt(msg.fee),
-								createtime:parseInt(msg.createtime),
-								discount:parseInt(carddata.card.member_card.discount),
-								year:Y,
-								month:M,
-								day:D,
-								status:1,
-								billstatus:0
+								
+								var _memberorder = new Memberorder(memberorder)
+								_memberorder.save(function(err,memberorderdata){
+									if(err){
+										console.log(err)
+									}
+									res.json({
+											status:1,
+											msg:"添加成功！"
+										})
+								})
+
 							}
 							
-							var _memberorder = new Memberorder(memberorder)
-							_memberorder.save(function(err,memberorderdata){
-								res.json({
-										status:1,
-										msg:"添加成功！"
-									})
-							})
-
-						}
-						
-					})
+						})
 				
 					}
 					// 激活会员卡,存入会员信息
