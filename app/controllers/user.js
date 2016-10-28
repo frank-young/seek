@@ -303,20 +303,20 @@ var smtpTransport = require('nodemailer-smtp-transport')
 	//登录
 	exports.signin = function(req,res){
 		var _user = req.body.user,
-		 	email = _user.email,
+		 	phone = _user.phone,
 		 	password = _user.password,
 		 	verify = _user.luotest_response
- 		var reEmail=/\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/
+ 		var rePhone = /^1[3|5|7|8]\d{9}$/
  		var rePassword = /^[\w\@\.\_]+$/
 
 		console.log(verify)
 
-		if(_user.email == "" || _user.email == null){
+		if(_user.phone == "" || _user.phone == null){
 			res.json({
 				status:0,
 				msg:"邮箱不能为空！"
 			})
-		}else if(reEmail.test(email) == false){
+		}else if(rePhone.test(phone) == false){
 			res.json({
 				status:0,
 				msg:"邮箱格式不正确！"
@@ -342,7 +342,7 @@ var smtpTransport = require('nodemailer-smtp-transport')
 				msg:"密码长度必须大于6位，小于20位！"
 			})
 		}else{
-			User.findOne({email: email},function(err,user){
+			User.findOne({phone: phone},function(err,user){
 				if(err){
 					res.json({
 						status:0,
@@ -385,8 +385,6 @@ var smtpTransport = require('nodemailer-smtp-transport')
 						})
 					}
 				}
-				
-				
 			})
 		}
 		
