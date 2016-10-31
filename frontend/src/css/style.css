@@ -588,8 +588,11 @@ button[disabled]:focus{
 	color: #ccc;
 }
 
-
-
+/* 找零 */
+.p-cash {
+	display: inline-block;
+	margin: 10px 20px;
+}
 
 
 

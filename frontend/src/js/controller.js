@@ -277,6 +277,13 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		getShopInfo()
 
+		// 找零
+		$scope.cashInfo = [10,15,20,30,50,100]
+
+		$scope.selectCash = function(value){
+			$scope.cashTotal = value - $scope.order.realTotal
+		}
+
 		// 结算
 		$scope.billing = function(value){
 
