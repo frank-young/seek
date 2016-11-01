@@ -404,7 +404,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 									localStorage.setItem('localcash',parseInt(data.member.fee)+parseInt(now))
 									$scope.order.realTotal = localStorage.localcash/100
 									$scope.changeAlert("付款金额不正确！")
-
 									
 								}
 
