@@ -277,6 +277,13 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		getShopInfo()
 
+		// 找零
+		$scope.cashInfo = [10,15,20,30,50,100]
+
+		$scope.selectCash = function(value){
+			$scope.cashTotal = value - $scope.order.realTotal
+		}
+
 		// 结算
 		$scope.billing = function(value){
 
@@ -386,7 +393,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 						// 如何去判断是谁提交了订单付款请求 
 						memberorderData.getInfo(shopid).then(function(data){
 							if(data.status == 1){
-								if(localStorage.localcash === null){
+								if(localStorage.localcash == null){
 									localStorage.localcash = 0
 								}
 								var dis = 100 - parseInt(data.member.discount)
@@ -403,7 +410,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 									var now = localStorage.getItem('localcash')
 									localStorage.setItem('localcash',parseInt(data.member.fee)+parseInt(now))
 									$scope.order.realTotal = localStorage.localcash/100
+<<<<<<< HEAD
 									$scope.changeAlert("付款金额不正确！")
+=======
+									$scope.changeAlert("付款金额不正确！" )
+>>>>>>> origin/master
 									
 								}
 
