@@ -283,7 +283,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.selectCash = function(value){
 			$scope.cashTotal = value - $scope.order.realTotal
 		}
-
+ 
 		// 结算
 		$scope.billing = function(value){
 
@@ -410,11 +410,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 									var now = localStorage.getItem('localcash')
 									localStorage.setItem('localcash',parseInt(data.member.fee)+parseInt(now))
 									$scope.order.realTotal = localStorage.localcash/100
-<<<<<<< HEAD
+
 									$scope.changeAlert("付款金额不正确！")
-=======
+
 									$scope.changeAlert("付款金额不正确！" )
->>>>>>> origin/master
+
 									
 								}
 
