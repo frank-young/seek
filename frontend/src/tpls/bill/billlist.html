@@ -41,7 +41,8 @@
       </div>
       <div class="one-third column side print-view">
         <div class="detail" id="print-rec">
-        <h5 class="center" style="margin-bottom:20px;">SEEK CAFE 结账单</h5>
+          <div class="print-wrap">
+             <h5 class="center" style="margin-bottom:20px;">SEEK CAFE 结账单</h5>
           <div class="detail-item">
             <span class="">
               店铺地址：
@@ -91,7 +92,7 @@
               </thead>
               <tbody>
                 <tr ng-repeat="d in order.dish">
-	              <td>
+                <td>
                   {{d.name}} <span ng-show="d.other1==1">(套餐)</span>
                   <div ng-show="d.other1==1">
                     <span ng-repeat="da in d.dishArr" style="font-size: 12px;">
@@ -99,10 +100,10 @@
                     </span>
                   </div>
                 </td>
-	              <td>{{d.number}}
-	              </td>
-	              <td ng-bind="d.price*d.number | currency:'¥' "></td>
-	            </tr>
+                <td>{{d.number}}
+                </td>
+                <td ng-bind="d.price*d.number | currency:'¥' "></td>
+              </tr>
               </tbody>
             </table>
           </div>
@@ -165,6 +166,8 @@
             </span>
           </div>
 
+            
+          </div>
         </div>
         <!-- <button class="button  btn-bill">清空</button> -->
       </div>

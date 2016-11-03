@@ -420,18 +420,31 @@ button[disabled]:focus{
 		display: block !important;
 	}
 	.detail{
+		display: block !important;
+		/*position: absolute;*/
 		padding: 0;
 		margin: 0;
 		width: 180px;
+		height: 100%;
 		color: #000;
 		font-family: '微软雅黑';
 		font-weight: 300;
 		font-size: 12px;
 	}
+	.detail h3{
+		
+	}
 	.detail th{
 		font-weight: 300;
 	}
+	#print-content{
+		display: block !important;
+		/*width: 180px;*/
+		position: relative;
+	}
+
 }
+
 @page:first {
   margin:10px;
 }

@@ -29,7 +29,7 @@
   <div class="content" ui-view></div>
 
   <script type="text/ng-template" id="stopView.tpl.html">
-    <div class="modal" tabindex="-1" role="dialog">
+    <div class="modal" tabindex="-1" role="dialog" >
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -37,7 +37,9 @@
                     <h4 class="modal-title">结班</h4>
                 </div>
                 <div class="modal-body" >
-                  <div class="detail one-half column"  style="width:280px;" id="print-over">
+                  <div class="one-half column"  style="width:280px;">
+                    <div class="detail" id="print-over">
+                      
                     <h5>结班报告</h5>
                     <div class="detail-item">
                       <span >
@@ -168,8 +170,11 @@
                       </div>
                       <hr>
                     </div>
+                    </div>
                   </div>
-                  <div class="detail one-half column" style="width:280px;" id="print-item">
+                  <div class=" one-half column" style="width:280px;" >
+                    <div class="detail" id="print-item">
+                      
                     <h5>品项报告</h5>
                     <div class="detail-item">
                       <table class="u-full-width">
@@ -189,6 +194,7 @@
                         </tr>
                         </tbody>
                       </table>
+                    </div>
                     </div>
                   </div>
                 </div>

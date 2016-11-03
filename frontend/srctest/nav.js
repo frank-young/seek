@@ -188,18 +188,15 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 
 	  	// 打印函数
 		function printFunc(id){
-			var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
 			var ele = document.getElementById(id)
-
-			// content.appendChild(ele)
-			// window.print()
-			// content.innerHTML = ""
-
-			LODOP.ADD_PRINT_HTM(10,10,220,ele.offsetHeight,ele.innerHTML)
-			LODOP.SET_PRINT_STYLE("FontSize",12)
-			// LODOP.SET_PRINT_PAGESIZE(1,580,intPageHeight,strPageName)
-			LODOP.PRINT()
-
+			var content = document.getElementById('print-content')
+			
+			var newObj=ele.cloneNode(true)
+			content.innerHTML = ""
+			console.log(newObj)
+			content.appendChild(newObj)
+			window.print()
+			content.innerHTML = ""
 
 		} 
 
