@@ -466,7 +466,7 @@ button[disabled]:focus{
 	top: 0;
 	display: block;
 	z-index: 10;
-	width: 102px !important;
+	width: 80px !important;
 	height: 52px !important;
 	opacity: 0;
 	cursor: pointer;
@@ -477,7 +477,7 @@ button[disabled]:focus{
 	top: 0;
 	line-height: 50px;
 	z-index: 0;
-	width: 102px;
+	width: 80px;
 	height: 52px;
 	border: 1px solid #999;
 	border-radius: 5px;

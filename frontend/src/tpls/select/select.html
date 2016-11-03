@@ -26,7 +26,7 @@
             <tr>
               <!-- <th>序号</th> -->
               <th>名称</th>
-              <th>数量</th>
+              <th style="text-align:center">数量</th>
               <th>单价</th>
             </tr>
           </thead>
@@ -34,9 +34,10 @@
             <tr ng-repeat="cc in cookCart">
               <!-- <td>{{$index+1}}</td> -->
               <td ng-bind="cc.name"></td>
-              <td>{{cc.number}}
+              <td>
                 <span class="ctrl">
                   <button class="button" ng-click="reduce(cc)">-</button>
+                  {{cc.number}}
                   <button class="button button-primary" ng-click="add(cc)">+</button>
                 </span>
               </td>
