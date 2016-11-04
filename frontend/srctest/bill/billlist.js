@@ -65,19 +65,17 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 		}
 
 		// 打印函数
-		function printFunc(value){
-			var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
-			var ele = document.getElementById(value)
+		function printFunc(id){
 
-			// content.appendChild(ele)
-			// window.print()
-			// content.innerHTML = ""
-
-			LODOP.ADD_PRINT_HTM(10,10,220,ele.offsetHeight,ele.innerHTML)
-			LODOP.SET_PRINT_STYLE("FontSize",12)
-			// LODOP.SET_PRINT_PAGESIZE(1,580,intPageHeight,strPageName)
-			LODOP.PRINT()
-
+			// var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
+			var ele = document.getElementById(id)
+			var content = document.getElementById('print-content')
+			
+			var newObj=ele.cloneNode(true)
+			content.innerHTML = ""
+			content.appendChild(newObj)
+			window.print()
+			content.innerHTML = ""
 
 		} 
 
