@@ -41,6 +41,7 @@
                     <div class="detail" id="print-over">
                       
                     <h5>结班报告</h5>
+                    <h5>{{todayData.overAll.year}}年{{todayData.overAll.month}}月{{todayData.overAll.day}}日</h5>
                     <div class="detail-item">
                       <span >
                         用餐人数：
@@ -99,15 +100,17 @@
                       <span  ng-bind="todayData.overAll.grade +todayData.overAll.noincome| currency:'¥' ">
                       </span>
                     </div>
-                    <hr>
+                    <div class="hr">------------------------------------------------------------------------------</div>
+  
                     <div class="detail-item">
                       <span >
-                        微信会员金额合计：
+                        微信支付金额合计：
                       </span>
                       <span  ng-bind="wxpay| currency:'¥' ">
                       </span>
                     </div>
-                    <hr>
+                    <div class="hr">------------------------------------------------------------------------------</div>
+  
                     <div class="detail-box" ng-repeat="ov in todayData.overs">
                         <h5>收银员：<span ng-bind="ov.editPeople"></span> </h5>
                       <div class="detail-item">
@@ -168,14 +171,52 @@
                         <span  ng-bind="ov.totalReal +ov.noincome| currency:'¥' ">
                         </span>
                       </div>
-                      <hr>
+                      <div class="detail-item">
+                        <span >
+                          上班时间：
+                        </span>
+                        <span  ng-bind="ov.start | datetime ">
+                        </span>
+                      </div>
+                      <div class="detail-item">
+                        <span >
+                          交班时间：
+                        </span>
+                        <span  ng-bind="ov.stop | datetime ">
+                        </span>
+                      </div>
+                      
+                      <div class="detail-item">
+                        <span >
+                          工时统计：
+                        </span>
+                        <span>
+                          {{(ov.stop - ov.start)/3600000 | floor}}小时
+                        </span>
+                        <span>
+                          {{((ov.stop - ov.start)/60000)%60 | floor}}分
+                        </span>
+                      </div>
+
+                      <div class="hr">------------------------------------------------------------------------------</div>
+                      
                     </div>
+                    <div class="detail-item now-time">
+                      <span>
+                        打印时间：
+                      </span>
+                      <span ng-bind="nowtime | datetime">
+                      </span>
+                    </div>
+
                     </div>
                   </div>
                   <div class=" one-half column" style="width:280px;" >
                     <div class="detail" id="print-item">
                       
                     <h5>品项报告</h5>
+                    <h5>{{todayData.overAll.year}}年{{todayData.overAll.month}}月{{todayData.overAll.day}}日</h5>
+                    
                     <div class="detail-item">
                       <table class="u-full-width">
                         <thead>
@@ -194,7 +235,16 @@
                         </tr>
                         </tbody>
                       </table>
+
                     </div>
+                    <div class="detail-item now-time">
+                      <span>
+                        打印时间：
+                      </span>
+                      <span ng-bind="nowtime | datetime">
+                      </span>
+                    </div>
+
                     </div>
                   </div>
                 </div>

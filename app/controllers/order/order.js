@@ -456,7 +456,9 @@ var Order = require('../../models/order/order'),	//引入模型
 				start:loginTime,
 				totalNeed: totalNeed,
 				reduceAfter:reduceAfter,
-
+				year:Y,
+				month:M,
+				day:D
 			})
 		})
 	}

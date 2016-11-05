@@ -66,8 +66,26 @@ app.filter('onlytime', function(){
 app.filter('search', function(){
   return function(value){
     if(value){
-        return content;
+        return value;
     }
   };
 
 });
+
+app.filter('floor', function(){
+  return function(value){
+    if(value){
+        return parseInt(Math.floor(value))
+    }
+  }
+
+})
+
+
+
+
+
+
+
+
+
