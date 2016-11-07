@@ -132,7 +132,8 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			})
 
 	  	}
-
+			$scope.nowtime = new Date().getTime()
+	  	
 	  	// 结班按钮
 		$scope.stopDayButton = function(){
 			getAllInfo()
@@ -192,6 +193,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 			var content = document.getElementById('print-content')
 			
 			var newObj=ele.cloneNode(true)
+			$scope.nowtime = new Date().getTime()
 			content.innerHTML = ""
 			console.log(newObj)
 			content.appendChild(newObj)

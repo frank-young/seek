@@ -59,14 +59,16 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 				console.log(data)
 			})
 		}
+		$scope.nowtime = new Date().getTime()
 
 		$scope.printRec = function(value){
+
 			printFunc(value)
 		}
 
 		// 打印函数
 		function printFunc(id){
-
+			$scope.nowtime = new Date().getTime()
 			// var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
 			var ele = document.getElementById(id)
 			var content = document.getElementById('print-content')

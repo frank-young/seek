@@ -411,6 +411,15 @@ button[disabled]:focus{
 .billlist button{
 	margin-bottom: 0;
 }
+.hr	{
+	white-space: nowrap;
+	overflow: hidden;
+}
+.now-time {
+	display: none;
+	
+	margin-top: 20px;
+}
 /*打印部分样式*/
 @media print{
 	.no-print{
@@ -421,7 +430,7 @@ button[disabled]:focus{
 	}
 	.detail{
 		display: block !important;
-		/*position: absolute;*/
+
 		padding: 0;
 		margin: 0;
 		width: 180px;
@@ -429,24 +438,35 @@ button[disabled]:focus{
 		color: #000;
 		font-family: '微软雅黑';
 		font-weight: 300;
-		font-size: 12px;
+		font-size: 13px;
 	}
-	.detail h3{
-		
+	.detail h5{
+		text-align: center;
 	}
 	.detail th{
 		font-weight: 300;
 	}
 	#print-content{
 		display: block !important;
-		/*width: 180px;*/
-		position: relative;
+		position: absolute;
+		top: 0;
+		z-index: 100;
 	}
-
+	.now-time {
+		display: block;
+		font-size: 12px;
+	}
+	.now-time span {
+		font-size: 10px;
+	}
+	.f12{
+		font-size: 12px !important;
+	}
+	
 }
 
 @page:first {
-  margin:10px;
+  margin: 0;
 }
 
 /*首页*/

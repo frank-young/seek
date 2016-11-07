@@ -1014,6 +1014,41 @@ exports.cardResponse = function(req,res){
 	})
 
 
+}
+
+// 查询门店信息
+exports.cardGetShop = function(req,res){
+	var access_token = fs.readFileSync('./config/token').toString();
+	var url = 'https://api.weixin.qq.com/cgi-bin/poi/getpoilist?access_token='+access_token
+
+	var formdata = {
+				"begin":0,
+				"limit":10
+				}
+
+	var options = {
+	    url: url,
+	    form: JSON.stringify(formdata),
+	    headers: {
+	      'Content-Type': 'application/x-www-form-urlencoded'
+	    }
+	}
+
+	request.post(options, function (error, response, body) {
+		if (!error && response.statusCode == 200) {
+			var data = JSON.parse(body)
+			res.json({
+				msg:'1',
+				data:data
+			})
+
+		}
+	})
+
+	//津京互联店   464246789
+	//晋滨国际店   279080129
+	//天软微吧店   464250970
+	//天商微渡店   464041593
 
 }
 

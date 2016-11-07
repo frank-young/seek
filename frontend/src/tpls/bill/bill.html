@@ -197,7 +197,7 @@
         <table class="u-full-width">
           <thead>
             <tr>
-              <th style="width:50px">名称</th>
+              <th style="width:30%">名称</th>
               <th>数量</th>
               <th>单价</th>
               <th>金额</th>
@@ -244,10 +244,6 @@
       </div>
       <div class="one-third column side print-view bill-side">
         <!--startprintbill-->
-        <!-- <object  id="LODOP_OB" classid="clsid:2105C259-1E0C-4534-8141-A753534CB4CA" width=0 height=0>
-               <embed id="LODOP_EM" type="application/x-print-lodop" width=0 height=0></embed>
-        </object>
- -->        
         <div class="detail" id="print">
           <h5 class="center" style="margin-bottom:20px;">SEEK CAFE 结账单</h5>
           <div class="detail-item">
@@ -257,19 +253,19 @@
             <span ng-bind="order.address">
             </span>
           </div>
-          <hr>
+          <div class="hr">------------------------------------------------------------------------------</div>
           <div class="detail-item">
             <span>
               订单编号：
             </span>
-            <span ng-bind="order.orderNum">
+            <span ng-bind="order.orderNum" class="f12">
             </span>
           </div>
           <div class="detail-item">
             <span>
               下单时间：
             </span>
-            <span ng-bind="order.time | datetime"></span>
+            <span ng-bind="order.time | datetime" class="f12"></span>
           </div>
 <!--           <div class="detail-item">
             <span>
@@ -294,7 +290,8 @@
             </span>
           </div>
 
-          <hr>
+         <div class="hr">------------------------------------------------------------------------------</div>
+  
           <div class="detail-item">
             <table class="u-full-width">
               <thead>
@@ -321,7 +318,8 @@
               </tbody>
             </table>
           </div>
-          <hr>
+          <div class="hr">------------------------------------------------------------------------------</div>
+  
           <div class="detail-item">
             <span>
               支付方式：
@@ -373,13 +371,21 @@
             </span>
           </div>
 
-          <div class="detail-item">
+          <div class="detail-item" >
             <span>
               实收合计：
             </span>
             <span ng-bind="order.realTotal | currency:'¥' ">
             </span>
           </div>
+          <div class="detail-item now-time">
+            <span>
+              打印时间：
+            </span>
+            <span ng-bind="nowtime | datetime">
+            </span>
+          </div>
+
         </div>
         <!--endprintbill-->
         <!-- <button class="button  btn-bill">清空</button> -->

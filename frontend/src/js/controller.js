@@ -282,7 +282,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.selectCash = function(value){
 			$scope.cashTotal = value - $scope.order.realTotal
 		}
- 
+			$scope.nowtime = new Date().getTime()
+
 		// 结算
 		$scope.billing = function(value){
 
@@ -313,6 +314,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 				if(data.status == 1){
 					$scope.changeAlert("点餐成功！")
+
 					printFunc()
 
 					var dayid = localStorage.dayid
@@ -345,12 +347,14 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		}
 		// 打印函数
 		function printFunc(){
+			$scope.nowtime = new Date().getTime()
 			// var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
 			var ele = document.getElementById('print')
 			var content = document.getElementById('print-content')
+
 			content.innerHTML = ""
 			content.appendChild(ele)
-			window.print()
+			window.print() 
 			content.innerHTML = ""
 
 			// LODOP.ADD_PRINT_HTM(10,10,220,ele.offsetHeight,ele.innerHTML)
@@ -595,14 +599,16 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 				console.log(data)
 			})
 		}
+		$scope.nowtime = new Date().getTime()
 
 		$scope.printRec = function(value){
+
 			printFunc(value)
 		}
 
 		// 打印函数
 		function printFunc(id){
-
+			$scope.nowtime = new Date().getTime()
 			// var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
 			var ele = document.getElementById(id)
 			var content = document.getElementById('print-content')
@@ -827,7 +833,8 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			})
 
 	  	}
-
+			$scope.nowtime = new Date().getTime()
+	  	
 	  	// 结班按钮
 		$scope.stopDayButton = function(){
 			getAllInfo()
@@ -887,6 +894,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 			var content = document.getElementById('print-content')
 			
 			var newObj=ele.cloneNode(true)
+			$scope.nowtime = new Date().getTime()
 			content.innerHTML = ""
 			console.log(newObj)
 			content.appendChild(newObj)
