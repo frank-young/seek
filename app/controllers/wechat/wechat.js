@@ -1057,25 +1057,34 @@ exports.cardGetShop = function(req,res){
 exports.pay = function(req,res){
 	var access_token = fs.readFileSync('./config/token').toString()
 	var url = 'https://api.mch.weixin.qq.com/pay/micropay'
-	
+	var sales = req.body.sales
+
 	var appid = config.wechat.appID
-	var mch_id = '1295261101'
-	var total_fee = '1'
-	var auth_code = '130434423027820684'
+	var mch_id = '1295261101'	
+	var key = 'seekbrandseekcafe521521521521521'
+	var total_fee = '1'	// -- 传递  sales.total_fee
+	var auth_code = sales.auth_code  // -- 传递
 	var body_info = 'seekcafe'
-	var device_info = '12300123'
+	var device_info = sales.device_info	// -- 传递  门店id
 	var nonce_str = 'ibuaiVcKdpRxkhJA'
-	var attach = 'seekcafe'
-	var out_trade_no = '1415757673'
-	var ip = '14.17.22.52'
-	var sign = '0F38072A948D438518CCC57424C457EC'
+	var out_trade_no = sales.out_trade_no		// -- 传递
+	var spbill_create_ip = '60.205.157.200'
+	var sign = paysignjsapi(appid,auth_code,body_info,device_info,mch_id,nonce_str,out_trade_no,spbill_create_ip,total_fee,key)  //'0F38072A948D438518CCC57424C457EC'
 
 	//签名
-	// stringA="appid=wx782db8ee3e80c4aa&body=test&device_info=1000&mch_id=10000100&nonce_str=ibuaiVcKdpRxkhJA";
+	var formdata = "<xml>"
+	formdata += "<appid>"+appid+"</appid>"
+	formdata += "<auth_code>"+auth_code+"</auth_code>"
+	formdata += "<body>"+body_info+"</body>"
+	formdata += "<device_info>"+device_info+"</device_info>"
+	formdata += "<mch_id>"+mch_id+"</mch_id>"
+	formdata += "<nonce_str>"+nonce_str+"</nonce_str>"
+	formdata += "<out_trade_no>"+out_trade_no+"</out_trade_no>"
+	formdata += "<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>"
+	formdata += "<total_fee>"+total_fee+"</total_fee>"
+	formdata += "<sign>"+sign+"</sign>"
+	formdata += "</xml>"
 
-
-	// var formdata = "<xml><appid>"+config.wechat.appID+"</appid><attach>"+attach+"</attach><auth_code>"+auth_code+"</auth_code><body>"+body_info+"</body><device_info>"+device_info+"</device_info><mch_id>"+mch_id+"</mch_id><nonce_str>"+nonce_str+"</nonce_str><out_trade_no>"+out_trade_no+"</out_trade_no><spbill_create_ip>"+ip+"</spbill_create_ip><total_fee>"+total_fee+"</total_fee><sign>"+sign+"</sign></xml>"
-	var formdata = "<xml><appid>wx782db8ee3e80c4aa</appid><auth_code>130434423027820684</auth_code><body>seekcafe</body><device_info>12300123</device_info><mch_id>1295261101</mch_id><nonce_str>ibuaiVcKdpRxkhJA</nonce_str><out_trade_no>1415757673</out_trade_no><spbill_create_ip>14.17.22.52</spbill_create_ip><total_fee>1</total_fee><sign>E7009F9057FD705621C0A867735CBDE0</sign></xml>"
 	var options = {
 	    url: url,
 	    body: formdata,
@@ -1085,10 +1094,46 @@ exports.pay = function(req,res){
 	request.post(options, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			console.log(body)
-
+			var msg = body
+			console.log(msg)
+			res.json({
+					status:1,
+					msg:"付款成功!"
+				})
 		}
 	})
 
+	function paysignjsapi(appid,auth_code,body,device_info,mch_id,nonce_str,out_trade_no,spbill_create_ip,total_fee,key) {
+	    var ret = {
+	        appid: appid,
+	        auth_code:auth_code,
+	        body: body,
+	        device_info: device_info,
+	        mch_id: mch_id,
+	        nonce_str: nonce_str,
+	        out_trade_no:out_trade_no,
+	        spbill_create_ip:spbill_create_ip,
+	        total_fee:total_fee
+	    }
+	    var string = raw1(ret)
+	    string = string + '&key='+key
+	    var crypto = require('crypto')
+	    return crypto.createHash('md5').update(string,'utf8').digest('hex').toUpperCase()
+	}
+	function raw1(args) {
+	  var keys = Object.keys(args);
+	  keys = keys.sort()
+	  var newArgs = {}
+	  keys.forEach(function (key) {
+	    newArgs[key] = args[key]
+	  })
+	  var string = ''
+	  for (var k in newArgs) {
+	    string += '&' + k + '=' + newArgs[k];
+	  }
+	  string = string.substr(1)
+	  return string
+	}
 
 }
 

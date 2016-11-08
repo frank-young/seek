@@ -180,7 +180,21 @@
 		      </div>
 		    </div>
 		  </div>
-
+      <div class="panel panel-default pay-item">
+        <div class="panel-heading" role="tab">
+          <h4 class="panel-title">
+            <a bs-collapse-toggle>
+              微信支付
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+          <div class="panel-body">
+              <input type="text" ng-model="auth_code">
+              <button ng-click="wechatPosPay(auth_code)" class="button button-primary">确认</button>
+          </div>
+        </div>
+      </div>
 		</div>
         </div>
       </div>

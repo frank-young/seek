@@ -474,7 +474,30 @@ angular.module('serviceData', [])
             }
         }
     }])
-
+    .factory('pospayData', ['$q','$http',function($q,$http){
+        return {
+            setData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    method: 'POST',
+                    url: '/wechat/pay',
+                    dataType: "json",
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        sales:value
+                    }
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+        }
+    }])
 
 
 

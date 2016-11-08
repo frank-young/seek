@@ -2,8 +2,8 @@
  *                                                     结账页面
  ********************************************************************************************************************/
 
-angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interval','orderData','memberData','memberorderData','domainData','paytypeData','creditData','dayData','itemData',
-  	function($scope,$alert,$window,$interval,orderData,memberData,memberorderData,domainData,paytypeData,creditData,dayData,itemData) {
+angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interval','orderData','memberData','memberorderData','domainData','paytypeData','creditData','dayData','itemData','pospayData',
+  	function($scope,$alert,$window,$interval,orderData,memberData,memberorderData,domainData,paytypeData,creditData,dayData,itemData,pospayData) {
 
 		$window.document.title = "结账" 
 		//时间日期
@@ -72,8 +72,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 减价
 		$scope.reduceFunc = function(value){
-			$scope.totalReal = $scope.total - value
-			refresh()
+			cashFunc(value)
 		}
 
 		// 免单
@@ -214,36 +213,51 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			
 			var dayid = localStorage.dayid
 			dayData.getIdData(dayid).then(function(data){
-				localStorage.serial = data.day.serial
-			})
-
-			var serial = localStorage.serial
-
-			var serialNum = ""
-			if(serial != null) {
-				switch(serial.length){
-					case 1:
-						serialNum = '00'+serial
-						break
-					case 2:
-						serialNum = '0'+serial
-					  	break
-					case 3:
-						serialNum = serial
-					  	break
-					default:
-						serialNum = serial
-						break
+				var serial = data.day.serial+""
+				var serialNum = ""
+				if(serial != null) {
+					switch(serial.length){
+						case 1:
+							serialNum = '00'+serial
+							break
+						case 2:
+							serialNum = '0'+serial
+						  	break
+						case 3:
+							serialNum = serial
+						  	break
+						default:
+							serialNum = serial
+							break
+					}
+					
 				}
-				return serialNum
-			}
+				localStorage.serialNum = serialNum
+			})
+			
+			
 		}
 		setSerial()
+
+		//存入本地店id
+		domainData.getShopidData().then(function(data){
+			var shopid = data.shopid 
+			localStorage.shopid = shopid
+		})
+
+		//存入本地当前订单号
+		domainData.getData().then(function(data){
+			var shopinfo = data.domain,
+				serialNum = localStorage.serialNum,
+				orderNum = shopinfo.name +Y + M + D + serialNum
+				localStorage.orderNum = orderNum
+		})
+
 		//获取店铺信息	
 		function getShopInfo(){
 			domainData.getData().then(function(data){
 				var shopinfo = data.domain,
-					serialNum = setSerial(),
+					serialNum = localStorage.serialNum,
 					orderNum = shopinfo.name +Y + M + D + serialNum
 
 				$scope.order = {
@@ -511,6 +525,23 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$interval.cancel($scope.stop)
 
 		}
+
+		
+		//微信刷卡支付
+		$scope.wechatPosPay =function(code){
+
+			var value = {
+				total_fee:$scope.order.realTotal,
+				auth_code:code,
+				device_info:localStorage.shopid,
+				out_trade_no:localStorage.orderNum
+			}
+
+			pospayData.setData(value).then(function(data){
+				$scope.changeAlert(data.msg)
+			})
+		}
+
 		// 按比例减免
 		function cashFunc(value){
 			$scope.totalReal = 0
