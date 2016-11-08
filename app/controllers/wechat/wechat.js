@@ -1094,12 +1094,24 @@ exports.pay = function(req,res){
 	request.post(options, function (error, response, body) {
 		if (!error && response.statusCode == 200) {
 			console.log(body)
-			var msg = body
-			console.log(msg)
-			res.json({
-					status:1,
-					msg:"付款成功!"
-				})
+			var return_code = getXMLNodeValue('return_code',body.toString("utf-8")),
+				result_code = getXMLNodeValue('result_code',body.toString("utf-8"))
+
+			if(return_code === "SUCCESS" ){
+				if(result_code === "SUCCESS"){
+					res.json({
+						status:1,
+						msg:"付款成功!"
+					})
+				}else{
+					var err_code_des = getXMLNodeValue('err_code_des',body.toString("utf-8"))
+					res.json({
+						status:0,
+						msg:err_code_des
+					})
+				}
+			}
+				
 		}
 	})
 
@@ -1133,6 +1145,12 @@ exports.pay = function(req,res){
 	  }
 	  string = string.substr(1)
 	  return string
+	}
+
+	function getXMLNodeValue(node_name,xml){
+	    var tmp = xml.split("<"+node_name+"><![CDATA[");
+	    var _tmp = tmp[1].split("]]></"+node_name+">");
+	    return _tmp[0];
 	}
 
 }
