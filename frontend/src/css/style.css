@@ -627,6 +627,10 @@ button[disabled]:focus{
 	margin: 10px 20px;
 }
 
+/* 微信支付 */
+.wechat{
+	opacity: 0;
+}
 
 
 

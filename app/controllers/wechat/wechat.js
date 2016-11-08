@@ -1055,8 +1055,6 @@ exports.cardGetShop = function(req,res){
 
 // 刷卡支付
 exports.pay = function(req,res){
-	var access_token = fs.readFileSync('./config/token').toString()
-	var url = 'https://api.mch.weixin.qq.com/pay/micropay'
 	var sales = req.body.sales
 
 	var appid = config.wechat.appID
@@ -1069,51 +1067,73 @@ exports.pay = function(req,res){
 	var nonce_str = 'ibuaiVcKdpRxkhJA'
 	var out_trade_no = sales.out_trade_no		// -- 传递
 	var spbill_create_ip = '60.205.157.200'
-	var sign = paysignjsapi(appid,auth_code,body_info,device_info,mch_id,nonce_str,out_trade_no,spbill_create_ip,total_fee,key)  //'0F38072A948D438518CCC57424C457EC'
 
-	//签名
-	var formdata = "<xml>"
-	formdata += "<appid>"+appid+"</appid>"
-	formdata += "<auth_code>"+auth_code+"</auth_code>"
-	formdata += "<body>"+body_info+"</body>"
-	formdata += "<device_info>"+device_info+"</device_info>"
-	formdata += "<mch_id>"+mch_id+"</mch_id>"
-	formdata += "<nonce_str>"+nonce_str+"</nonce_str>"
-	formdata += "<out_trade_no>"+out_trade_no+"</out_trade_no>"
-	formdata += "<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>"
-	formdata += "<total_fee>"+total_fee+"</total_fee>"
-	formdata += "<sign>"+sign+"</sign>"
-	formdata += "</xml>"
+	wechatpospay()
+	//刷卡支付
+	function wechatpospay(){
+		//签名
+		var sign = paysignjsapi(appid,auth_code,body_info,device_info,mch_id,nonce_str,out_trade_no,spbill_create_ip,total_fee,key)  //'0F38072A948D438518CCC57424C457EC'
+		var url = 'https://api.mch.weixin.qq.com/pay/micropay'
 
-	var options = {
-	    url: url,
-	    body: formdata,
-	    headers: {'Content-Type': 'text/xml'}
-	}
+		var formdata = "<xml>"
+		formdata += "<appid>"+appid+"</appid>"
+		formdata += "<auth_code>"+auth_code+"</auth_code>"
+		formdata += "<body>"+body_info+"</body>"
+		formdata += "<device_info>"+device_info+"</device_info>"
+		formdata += "<mch_id>"+mch_id+"</mch_id>"
+		formdata += "<nonce_str>"+nonce_str+"</nonce_str>"
+		formdata += "<out_trade_no>"+out_trade_no+"</out_trade_no>"
+		formdata += "<spbill_create_ip>"+spbill_create_ip+"</spbill_create_ip>"
+		formdata += "<total_fee>"+total_fee+"</total_fee>"
+		formdata += "<sign>"+sign+"</sign>"
+		formdata += "</xml>"
 
-	request.post(options, function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-			console.log(body)
-			var return_code = getXMLNodeValue('return_code',body.toString("utf-8")),
-				result_code = getXMLNodeValue('result_code',body.toString("utf-8"))
+		var options = {
+		    url: url,
+		    body: formdata,
+		    headers: {'Content-Type': 'text/xml'}
+		}
 
-			if(return_code === "SUCCESS" ){
-				if(result_code === "SUCCESS"){
-					res.json({
-						status:1,
-						msg:"付款成功!"
-					})
-				}else{
-					var err_code_des = getXMLNodeValue('err_code_des',body.toString("utf-8"))
+		request.post(options, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				console.log(body)
+				var return_code = getXMLNodeValue('return_code',body.toString("utf-8"))	
+				var return_msg = getXMLNodeValue('return_msg',body.toString("utf-8"))	
+
+				if(return_code === "SUCCESS" ){
+					var result_code = getXMLNodeValue('result_code',body.toString("utf-8"))
+					if(result_code === "SUCCESS"){
+						res.json({
+							status:1,
+							msg:"付款成功!"
+						})
+					}else{
+						var err_code_des = getXMLNodeValue('err_code_des',body.toString("utf-8"))
+						var err_code = getXMLNodeValue('err_code',body.toString("utf-8"))
+						if(err_code === 'USERPAYING'){	//需要输入支付密码
+							res.json({
+								status:2,
+								msg:err_code_des
+							})
+						}else{
+							res.json({
+								status:0,
+								msg:err_code_des
+							})
+
+						}
+					}
+				}
+				else{
 					res.json({
 						status:0,
-						msg:err_code_des
+						msg:return_msg
 					})
-				}
+				} 	
 			}
-				
-		}
-	})
+		})
+	}
+
 
 	function paysignjsapi(appid,auth_code,body,device_info,mch_id,nonce_str,out_trade_no,spbill_create_ip,total_fee,key) {
 	    var ret = {
@@ -1148,14 +1168,142 @@ exports.pay = function(req,res){
 	}
 
 	function getXMLNodeValue(node_name,xml){
-	    var tmp = xml.split("<"+node_name+"><![CDATA[");
-	    var _tmp = tmp[1].split("]]></"+node_name+">");
-	    return _tmp[0];
+	    if(node_name !==""||node_name !==null){
+	    	var tmp = xml.split("<"+node_name+"><![CDATA[");
+	    	var _tmp = tmp[1].split("]]></"+node_name+">");
+	    	return _tmp[0];
+	    }
 	}
 
 }
 
+exports.orderquery = function(req,res){
+	var sales = req.body.sales
 
+	var appid = config.wechat.appID
+	var mch_id = '1295261101'	
+	var key = 'seekbrandseekcafe521521521521521'
+	var nonce_str = 'ibuaiVcKdpRxkhJA'
+	var out_trade_no = sales.out_trade_no		// -- 传递
+
+	wechatorderquery()
+
+	// 查询订单，用于需要支付密码的用户
+	function wechatorderquery(){
+		//签名
+		var sign = ordersignjsapi(appid,mch_id,nonce_str,out_trade_no)
+		var url = 'https://api.mch.weixin.qq.com/pay/orderquery'
+
+		var formdata = "<xml>"
+		formdata += "<appid>"+appid+"</appid>"
+		formdata += "<mch_id>"+mch_id+"</mch_id>"
+		formdata += "<nonce_str>"+nonce_str+"</nonce_str>"
+		formdata += "<out_trade_no>"+out_trade_no+"</out_trade_no>"
+		formdata += "<sign>"+sign+"</sign>"
+		formdata += "</xml>"
+
+		var options = {
+		    url: url,
+		    body: formdata,
+		    headers: {'Content-Type': 'text/xml'}
+		}
+
+		request.post(options, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				console.log(body)
+				var return_code = getXMLNodeValue('return_code',body.toString("utf-8"))	
+				var return_msg = getXMLNodeValue('return_msg',body.toString("utf-8"))	
+
+				if(return_code === "SUCCESS" ){
+					var result_code = getXMLNodeValue('result_code',body.toString("utf-8"))
+					if(result_code === "SUCCESS"){
+						var trade_state = getXMLNodeValue('trade_state',body.toString("utf-8"))	
+
+						if(trade_state === "SUCCESS"){
+							res.json({
+								status:1,
+								msg:"付款成功!"
+							})
+						}else if(trade_state === "NOTPAY"){
+							res.json({
+								status:0,
+								msg:"未支付!"
+							})
+
+						}else if(trade_state === "USERPAYING"){
+							res.json({
+								status:0,
+								msg:"用户支付中!"
+							})
+						}else if(trade_state === "PAYERROR"){
+							res.json({
+								status:0,
+								msg:"支付失败!"
+							})
+						}else if(trade_state === "REVOKED"){
+							res.json({
+								status:0,
+								msg:"已撤销!"
+							})
+						}
+
+
+					}else{
+						var err_code_des = getXMLNodeValue('err_code_des',body.toString("utf-8"))
+						res.json({
+							status:0,
+							msg:err_code_des
+						})
+						
+					}
+				}
+				else{
+					res.json({
+						status:0,
+						msg:return_msg
+					})
+				} 	
+			}
+		})
+	}
+	function ordersignjsapi(appid,mch_id,nonce_str,out_trade_no) {
+	    var ret = {
+	        appid: appid,
+	        mch_id: mch_id,
+	        nonce_str: nonce_str,
+	        out_trade_no:out_trade_no
+	    }
+	    var string = raw1(ret)
+	    string = string + '&key='+key
+	    var crypto = require('crypto')
+	    return crypto.createHash('md5').update(string,'utf8').digest('hex').toUpperCase()
+	}
+
+	function raw1(args) {
+	  var keys = Object.keys(args);
+	  keys = keys.sort()
+	  var newArgs = {}
+	  keys.forEach(function (key) {
+	    newArgs[key] = args[key]
+	  })
+	  var string = ''
+	  for (var k in newArgs) {
+	    string += '&' + k + '=' + newArgs[k];
+	  }
+	  string = string.substr(1)
+	  return string
+	}
+
+	function getXMLNodeValue(node_name,xml){
+	    if(node_name !==""||node_name !==null){
+	    	var tmp = xml.split("<"+node_name+"><![CDATA[");
+	    	var _tmp = tmp[1].split("]]></"+node_name+">");
+	    	return _tmp[0];
+	    }
+	}
+
+
+}
 
 
 

@@ -140,6 +140,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 选择付款方式 统一
 		$scope.selectType = function(value){
+			$scope.wechatHide = false
+			$scope.auth_code = ""
 			$scope.cookCart.forEach(function(ele,index){
 				ele.payType = value
 				if(value == 4){		//等于4计入次卡，一定要注意顺序！
@@ -157,7 +159,12 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				
 			})
 			payTypeFunc()
-
+			if(value == 1){
+				//禁止手动结账
+				$scope.wechatHide = true
+				//聚焦使用扫码枪
+				document.getElementById("wechat").focus()
+			}
 		}
 
 		// 选择付款方式 单项
@@ -539,6 +546,23 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 			pospayData.setData(value).then(function(data){
 				$scope.changeAlert(data.msg)
+				if(data.status === 1){
+
+					$scope.wechatHide = false
+					//模拟点击，还是采用了dom的方式
+					document.getElementById('bill').click()
+				}else if(data.status === 2){ //需要输入密码，这时去查询订单的状态
+					var interval = setInterval(function(){
+						pospayData.orderData(value).then(function(orderdata){
+							$scope.changeAlert(orderdata.msg)
+							if(orderdata.status === 1){
+								clearInterval(interval)
+								$scope.wechatHide = false
+								document.getElementById('bill').click()
+							}
+						})
+					},5000)
+				}
 			})
 		}
 

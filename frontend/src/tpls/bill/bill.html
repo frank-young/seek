@@ -180,21 +180,12 @@
 		      </div>
 		    </div>
 		  </div>
-      <div class="panel panel-default pay-item">
-        <div class="panel-heading" role="tab">
-          <h4 class="panel-title">
-            <a bs-collapse-toggle>
-              微信支付
-            </a>
-          </h4>
-        </div>
-        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
-          <div class="panel-body">
-              <input type="text" ng-model="auth_code">
-              <button ng-click="wechatPosPay(auth_code)" class="button button-primary">确认</button>
-          </div>
-        </div>
+      <div class="wechat">
+        <form ng-submit="wechatPosPay(auth_code)">
+          <input id="wechat" type="text" ng-model="auth_code">
+        </form>
       </div>
+
 		</div>
         </div>
       </div>
@@ -254,7 +245,7 @@
             <button ng-click="roundFunc(order)" class="button " style="padding: 0 10px;float:right">抹零</button>
           </h4>
         </div>
-        <button ng-disabled="wechatTag" class="button button-primary btn-bill" data-animation="am-fade-and-scale" placement="center" data-template-url="setdish.tpl.html" bs-modal="cashInfo">结算</button>
+        <button ng-disabled="wechatTag" class="button button-primary btn-bill" data-animation="am-fade-and-scale" placement="center" data-template-url="setdish.tpl.html" bs-modal="cashInfo" id="bill" data-backdrop="static" ng-hide="wechatHide">结算</button>
       </div>
       <div class="one-third column side print-view bill-side">
         <!--startprintbill-->
@@ -455,14 +446,15 @@
         <div class="modal-dialog" style="width:500px;">
             <div class="modal-content" >
                 <div class="modal-header">
-                    <button type="button" class="close" ng-click="$hide()">&times;</button>
+                    <!-- <button type="button" class="close" ng-click="$hide()">&times;</button> -->
                     <h5 class="modal-title" style="color:#fff; margin-bottom: 0">设置取餐号</h5>
                 </div>
                 <div class="modal-body" style="height:480px;padding-top: 50px;">
-                   <form name="dishnumForm">
+                  <h5>结账已经成功，请设置取餐号！</h5>
+                   <form name="dishnumForm" ng-submit="billing(dishNum)">
                       
                       <input type="number" name="dishnum" ng-model="dishNum" autofocus style="padding:24px 10px;width:120px;font-size:24px;margin-right:20px;vertical-align: sub;" >
-                      <button class="button button-primary p-sure" ng-disabled="dishnumForm.dishnum.$invalid" ng-click="billing(dishNum);$hide()" >确认</button>
+                      <button class="button button-primary p-sure" ng-disabled="dishnumForm.dishnum.$invalid" ng-click="billing(dishNum)" >确认</button>
                    </form>
                   <div ng-show="order.payType==0">
                     

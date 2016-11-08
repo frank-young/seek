@@ -164,8 +164,9 @@ module.exports = function(app){
 
   app.get('/wechat/card/user/getcardlist',Wechat.cardUserGetcard)  //获取用户已领卡券
   // app.get('/wechat/card/code',Wechat.cardCode)  //查询code
-  app.get('/wechat/shop',Wechat.cardGetShop)  //查询code
-  app.post('/wechat/pay',Wechat.pay)  //查询code
+  app.get('/wechat/shop',Wechat.cardGetShop)  //查询店铺
+  app.post('/wechat/pay',Wechat.pay)  //刷卡支付
+  app.post('/wechat/orderquery',Wechat.orderquery)  //查询支付订单
 
 
 }
