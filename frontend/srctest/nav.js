@@ -2,8 +2,8 @@
  *                                                     导航条
  ********************************************************************************************************************/
 
-angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData','itemData','overData','domainData','memberorderData',
-  	function($scope,$rootScope,$interval,dayData,orderData,itemData,overData,domainData,memberorderData) {
+angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData','itemData','overData','domainData','memberorderData','payorderData',
+  	function($scope,$rootScope,$interval,dayData,orderData,itemData,overData,domainData,memberorderData,payorderData) {
   		// 设置时间
 	  	function setTime(){
 	  		return $scope.time = new Date()
@@ -60,6 +60,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  		overAll:[],
 	  		overs:[],
 	  		wxpay:0,
+	  		wxpospay:0
 	  	}
 	  	//获取所有的结班信息
 	  	function getAllInfo(){
@@ -80,11 +81,19 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 
 	  		// 获取会员微信支付金额
 	  		domainData.getShopidData().then(function(data){
-	  			memberorderData.getWxpay(data.shopid).then(function(data){
-	  				$scope.todayData.wxpay = data.wxpay	
+	  			memberorderData.getWxpay(data.shopid).then(function(wxdata){
+	  				$scope.todayData.wxpay = wxdata.wxpay
 	  			})
 
 	  		})
+
+	  		//获取微信支付金额
+	  		domainData.getShopidData().then(function(data){
+	  			payorderData.getData(data.shopid).then(function(wxdata){
+		  			$scope.todayData.wxpospay = wxdata.wxpospay
+		  		})
+	  		})
+	  		
 			
 	  		
 	  	}

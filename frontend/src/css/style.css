@@ -100,6 +100,13 @@ button[disabled]:focus{
 	padding: 1%;
 	width: 25%;
 }
+.item-dis{
+	display: inline-block;
+	border: 1px solid #33C3F0;
+	padding: 5px 3px;
+	border-radius: 5px;
+	cursor: pointer;
+}
 .card{
 	display: block;
 	background-color: #fff;
@@ -629,8 +636,19 @@ button[disabled]:focus{
 
 /* 微信支付 */
 .wechat{
-	// opacity: 0;
+	opacity: 0;
 }
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 3px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
 
 
 

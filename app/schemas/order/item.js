@@ -12,6 +12,7 @@ var ItemSchema = new mongoose.Schema({
 	year:Number,
 	month:Number,
 	day:Number,
+	orderNum:String,
 	other:String,
 	meta:{
 		createAt:{

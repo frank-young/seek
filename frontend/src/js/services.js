@@ -518,7 +518,23 @@ angular.module('serviceData', [])
             },
         }
     }])
-
+    .factory('payorderData', ['$q','$http',function($q,$http){
+        return {
+            getData: function (id) {
+                var defer = $q.defer();
+                $http({
+                    url: '/wechat/pay/payorder/today/'+id,
+                    method: 'get'
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            }
+        }
+    }])
 
 
 

@@ -4,6 +4,7 @@ var jsSHA = require('jssha'),
 	fs = require('fs'),
 	Memberorder = require('../../models/wechat/memberorder')
 	Member = require('../../models/wechat/member')
+	Payorder = require('../../models/wechat/payorder')
 	
 
 // 暂时用的第一张卡： pV8Fpwyw7-wnfqRIIIQjZwWrBhuU	-> 747522939375  
@@ -1062,8 +1063,8 @@ exports.pay = function(req,res){
 	var mch_id = '1295261101'	
 	var key = 'seekbrandseekcafe521521521521521'
 	var total_fee = '1'	// -- 传递  sales.total_fee
-	var auth_code = user.domain  // -- 传递
-	var attach = sales.attach	 // -- 传递
+	var auth_code = sales.auth_code  // -- 传递
+	var attach = user.domain	 // -- 传递
 	var body_info = 'seekcafe'
 	var device_info = sales.device_info	// -- 传递  门店id
 	var nonce_str = 'ibuaiVcKdpRxkhJA'
@@ -1079,7 +1080,7 @@ exports.pay = function(req,res){
 
 		var formdata = "<xml>"
 		formdata += "<appid>"+appid+"</appid>"
-		// formdata +=	"<attach>"+attach+"</attach>"
+		formdata +=	"<attach>"+attach+"</attach>"
 		formdata += "<auth_code>"+auth_code+"</auth_code>"
 		formdata += "<body>"+body_info+"</body>"
 		formdata += "<device_info>"+device_info+"</device_info>"
@@ -1106,10 +1107,9 @@ exports.pay = function(req,res){
 				if(return_code === "SUCCESS" ){
 					var result_code = getXMLNodeValue('result_code',body.toString("utf-8"))
 					if(result_code === "SUCCESS"){
-						res.json({
-							status:1,
-							msg:"付款成功!"
-						})
+						//储存payorder订单函数
+						savePayorder(user.name,user.email,user.domain,body,res)
+						
 					}else{
 						var err_code_des = getXMLNodeValue('err_code_des',body.toString("utf-8"))
 						var err_code = getXMLNodeValue('err_code',body.toString("utf-8"))
@@ -1157,17 +1157,12 @@ exports.pay = function(req,res){
 	    return crypto.createHash('md5').update(string,'utf8').digest('hex').toUpperCase()
 	}
 
-
-	// 将支付信息存入数据库
-	function savePay(){
-
-	}
-
 }
 
 // 查询订单，如果用户需要输入密码，要用到此接口去查询订单判断状态
 exports.orderquery = function(req,res){
 	var sales = req.body.sales
+	var user = req.session.user 
 
 	var appid = config.wechat.appID,
 		mch_id = '1295261101',
@@ -1209,10 +1204,7 @@ exports.orderquery = function(req,res){
 						var trade_state = getXMLNodeValue('trade_state',body.toString("utf-8"))	
 
 						if(trade_state === "SUCCESS"){
-							res.json({
-								status:1,
-								msg:"付款成功!"
-							})
+							savePayorder(user.name,user.email,user.domain,body,res)
 						}else if(trade_state === "NOTPAY"){
 							res.json({
 								status:0,
@@ -1288,7 +1280,7 @@ function raw1(args) {
   return string
 }
 
-//解析xml
+//解析xml 字符串
 function getXMLNodeValue(node_name,xml){
     if(node_name !==""||node_name !==null){
     	var tmp = xml.split("<"+node_name+"><![CDATA[");
@@ -1296,8 +1288,50 @@ function getXMLNodeValue(node_name,xml){
     	return _tmp[0];
     }
 }
+//解析xml 数字
+function getXMLNumberValue(node_name,xml){
+    if(node_name !==""||node_name !==null){
+    	var tmp = xml.split("<"+node_name+">");
+    	var _tmp = tmp[1].split("</"+node_name+">");
+    	return _tmp[0];
+    }
+}
 
-
+// 将支付信息存入 payorder数据库
+function savePayorder(name,email,domain,body,res){
+	var payorderobj = {}
+		//解析所需要的xml
+		payorderobj.openid = getXMLNodeValue('openid',body.toString("utf-8"))
+		payorderobj.device_info = getXMLNodeValue('device_info',body.toString("utf-8"))
+		payorderobj.is_subscribe = getXMLNodeValue('is_subscribe',body.toString("utf-8"))
+		payorderobj.bank_type = getXMLNodeValue('bank_type',body.toString("utf-8"))
+		payorderobj.total_fee = getXMLNumberValue('total_fee',body.toString("utf-8"))
+		payorderobj.transaction_id = getXMLNodeValue('transaction_id',body.toString("utf-8"))
+		payorderobj.out_trade_no = getXMLNodeValue('out_trade_no',body.toString("utf-8"))
+		payorderobj.attach = getXMLNodeValue('attach',body.toString("utf-8"))
+		payorderobj.time_end = getXMLNodeValue('time_end',body.toString("utf-8"))
+		payorderobj.cash_fee = getXMLNumberValue('cash_fee',body.toString("utf-8"))
+		payorderobj.year = payorderobj.time_end.substr(0,4)
+		payorderobj.month = payorderobj.time_end.substr(4,2)
+		payorderobj.day = payorderobj.time_end.substr(6,2)
+		payorderobj.username = name
+		payorderobj.userlocal = email
+		payorderobj.domainlocal = domain
+		
+		//存入 payorderobj 数据库
+		var	_payorder = new Payorder(payorderobj)
+		_payorder.save(function(err,data){
+			if(err){
+				console.log(err)
+			}else{
+				res.json({
+					status:1,
+					msg:"付款成功!"
+				})
+			}
+			
+		})
+}
 
 
 

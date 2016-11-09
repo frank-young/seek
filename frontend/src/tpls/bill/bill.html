@@ -172,7 +172,7 @@
               <div class="one-third column pay-type" ng-repeat="p in creditArr">
                   <div class="p-radio">
                     <input class="p-radio-i" type="radio" name="type" ng-click="selectCredit($index)" ><span>{{p}}</span>
-                    
+                      
                   </div>
               </div>
             </div>
@@ -214,7 +214,7 @@
              <td class="show-pill">{{cc.name}} <span class="no-sale" ng-show="cc.ishost=='1' ">NO</span></td>
               <td>{{cc.number}}</td>
               <td >
-                <a style="padding: 0 10px;width:72px;font-size:16px"  bs-dropdown aria-haspopup="true" aria-expanded="false" placement="bottom" ng-bind="cc.price | currency:'¥' "></a>
+                <a bs-dropdown aria-haspopup="true" aria-expanded="false" placement="bottom" ng-bind="cc.price | currency:'¥' "  class="item-dis"></a>
                     <ul class="dropdown-menu" role="menu">
                         <li> 
                           <button style="padding: 0 10px;" type="button" class="button" ng-repeat="dd in discountDfault" ng-bind="dd+'折'" ng-click="discountItemFunc(cc,dd)"></button>
@@ -222,7 +222,10 @@
                         </li>
                     </ul>
               </td>
-              <td class="show-pill"><span ng-bind="cc.reducePrice*cc.number | currency:'¥' "></span><span ng-show="cc.reduceNum != null && cc.reduceNum !=100 && cc.reduceNum !=0" class="pill">{{cc.reduceNum}}折</span></td>
+              <td class="show-pill">
+                <span ng-bind="cc.reducePrice*cc.number | currency:'¥' "></span>
+
+                <span ng-show="cc.reduceNum != null && cc.reduceNum !=100 && cc.reduceNum !=0" class="pill">{{cc.reduceNum}}折</span></td>
               <td> 
                   <button style="padding: 0 10px;width:72px;font-size:16px;margin-bottom:0" type="button" class="button" bs-dropdown aria-haspopup="true" aria-expanded="false" placement="bottom" >{{payTypeArr[cc.payType]}}</button>
                     <ul class="dropdown-menu" role="menu">

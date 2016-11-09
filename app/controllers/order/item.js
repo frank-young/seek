@@ -37,24 +37,10 @@ var _ = require('underscore'),
 	exports.save = function(req,res){
 		var itemObj = req.body.item 	//从路由传过来的 item对象
 		var user = req.session.user
-		var _item
-			_item = new Item({
-				checked: itemObj.checked,
-				isEdit: itemObj.isEdit,
-				name:itemObj.name,
-				cate:itemObj.cate,
-				price:itemObj.price,
-				// comboPrice:itemObj.comboPrice,
-				number:itemObj.number,
-				total:itemObj.total,
-				time:itemObj.time,
-				year:itemObj.year,
-				month:itemObj.month,
-				day:itemObj.day,
-				other:itemObj.other,
-				userlocal:user.email,
-				domainlocal:user.domain
-			})
+		itemObj.userlocal = user.email
+		itemObj.domainlocal = user.domain
+
+		var _item = new Item(itemObj)
 			_item.save(function(err,item){
 				if(err){
 					console.log(err)

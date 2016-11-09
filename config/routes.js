@@ -13,6 +13,7 @@ var Index = require('../app/controllers/index'),
     Wechat = require('../app/controllers/wechat/wechat'),
     Memberorder = require('../app/controllers/wechat/memberorder'),
     Member = require('../app/controllers/wechat/member'),
+    Payorder = require('../app/controllers/wechat/payorder'),
     multipart = require('connect-multiparty'),
     multipartMiddleware = multipart(),
     xmlparser = require('express-xml-bodyparser')
@@ -78,7 +79,6 @@ module.exports = function(app){
   app.get('/order/downloadday',User.signinRequired, Order.downloadDay)
   app.get('/order/grade',User.signinRequired, Order.gradeToday)
   app.get('/order/gradeall',User.signinRequired, Order.gradeAllToday)
-  app.get('/order/print', Order.print)
 
   app.get('/order/api/:id', Order.api)
   app.get('/order/apiview', Order.apiview)
@@ -167,6 +167,7 @@ module.exports = function(app){
   app.get('/wechat/shop',Wechat.cardGetShop)  //查询店铺
   app.post('/wechat/pay',Wechat.pay)  //刷卡支付
   app.post('/wechat/orderquery',Wechat.orderquery)  //查询支付订单
+  app.get('/wechat/pay/payorder/today/:id',Payorder.todayPayorder)  //查询今日订单
 
 
 }

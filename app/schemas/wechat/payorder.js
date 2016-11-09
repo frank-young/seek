@@ -1,17 +1,18 @@
 var mongoose = require('mongoose')
 var PayorderSchema = new mongoose.Schema({
 	openid:String,
+	device_info:String,
 	is_subscribe:String,
 	bank_type:String,
-	total_fee:Number,
+	total_fee:String,
 	transaction_id:String,
 	out_trade_no:String,
 	attach:String,
 	time_end:String,
-	cash_fee:Number,
-	year:Number,
-	month:Number,
-	day:Number,
+	cash_fee:String,
+	year:String,
+	month:String,
+	day:String,
 	meta:{
 		createAt:{
 			type:Number,
@@ -21,7 +22,10 @@ var PayorderSchema = new mongoose.Schema({
 			type:Number,	
 			default:Date.now()
 		}
-	}
+	},
+	username:String,
+	userlocal:String,
+	domainlocal:String
 })
 
 PayorderSchema.pre('save',function(next){
@@ -38,7 +42,7 @@ PayorderSchema.statics = {
 	fetch:function(rule,cb){
 		return this
 			.find(rule)
-			.sort('meta.updateAt')
+			.sort({'meta.createAt':-1})
 			.exec(cb)
 	},
 	findById:function(id,cb){

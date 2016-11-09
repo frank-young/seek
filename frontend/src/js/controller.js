@@ -183,6 +183,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.discountItemFunc(ele,100)
 			}
 			payTypeFunc()
+			
 		}
 
 		// 选择会员
@@ -311,19 +312,19 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$scope.order.dishNum = angular.copy(value)	//取餐号
 			$scope.order.dish.forEach(function(ele){
 				var item = {
-					"isTop":false,
-	            	"isChecked":false,
-					"name": ele.name,
-					"cate": ele.cate,
-					"price":ele.price,
+					isTop:false,
+	            	isChecked:false,
+					name: ele.name,
+					cate: ele.cate,
+					price:ele.price,
 					number:ele.number, 
 					total:ele.number * ele.price,
-					// comboPrice: ele.comboPrice,
-					"time":Date.now(),
-					"year": Y,
-					"month": M,
-					"day": D,
-					other:""
+					time:Date.now(),
+					year: Y,
+					month: M,
+					day: D,
+					orderNum:localStorage.orderNum
+
 				}
 				// 品项
 				itemData.addData(item).then(function(data){
@@ -351,7 +352,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				  		})
 					})
 
-					// 更新数据库的流水号 	
+					// 更新数据库的流水号 ，以及清除一些订单信息	
 					localStorage.removeItem('cook')
 					localStorage.removeItem('cookAll')
 					localStorage.removeItem('peopleNumber')
@@ -366,36 +367,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			})
 	
 		}
-		// 打印函数
-		function printFunc(){
-			$scope.nowtime = new Date().getTime()
-			// var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
-			var ele = document.getElementById('print')
-			var content = document.getElementById('print-content')
+		
 
-			content.innerHTML = ""
-			content.appendChild(ele)
-			window.print() 
-			content.innerHTML = ""
-
-			// LODOP.ADD_PRINT_HTM(10,10,220,ele.offsetHeight,ele.innerHTML)
-			// LODOP.SET_PRINT_STYLE("FontSize",12)
-			// // LODOP.SET_PRINT_PAGESIZE(1,580,intPageHeight,strPageName)
-			// LODOP.PRINT()
-
-
-		} 
-
-		// 搜索会员用户
-		// $scope.search = ""
-		// $scope.member = $scope.memberAll
-		// $scope.searchMember = function(value){
-		// 	$scope.member = $scope.memberAll.filter(function(ele){
-		// 		if(ele.memberPhone.indexOf(value)>=0){
-		// 			return ele
-		// 		}
-		// 	})
-		// }
 
 		// 会员卡微信支付
 		$scope.wechatTag = false
@@ -547,7 +520,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			pospayData.setData(value).then(function(data){
 				$scope.changeAlert(data.msg)
 				if(data.status === 1){
-
 					$scope.wechatHide = false
 					//模拟点击，还是采用了dom的方式
 					document.getElementById('bill').click()
@@ -581,6 +553,19 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		}
 
+		// 打印函数
+		function printFunc(){
+			$scope.nowtime = new Date().getTime()
+			var ele = document.getElementById('print')
+			var content = document.getElementById('print-content')
+
+			//打印
+			content.innerHTML = ""
+			content.appendChild(ele)
+			window.print() 
+			content.innerHTML = ""
+
+		} 
 
 	}
 ])
@@ -758,8 +743,8 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
  *                                                     导航条
  ********************************************************************************************************************/
 
-angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData','itemData','overData','domainData','memberorderData',
-  	function($scope,$rootScope,$interval,dayData,orderData,itemData,overData,domainData,memberorderData) {
+angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData','itemData','overData','domainData','memberorderData','payorderData',
+  	function($scope,$rootScope,$interval,dayData,orderData,itemData,overData,domainData,memberorderData,payorderData) {
   		// 设置时间
 	  	function setTime(){
 	  		return $scope.time = new Date()
@@ -816,6 +801,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  		overAll:[],
 	  		overs:[],
 	  		wxpay:0,
+	  		wxpospay:0
 	  	}
 	  	//获取所有的结班信息
 	  	function getAllInfo(){
@@ -836,11 +822,19 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 
 	  		// 获取会员微信支付金额
 	  		domainData.getShopidData().then(function(data){
-	  			memberorderData.getWxpay(data.shopid).then(function(data){
-	  				$scope.todayData.wxpay = data.wxpay	
+	  			memberorderData.getWxpay(data.shopid).then(function(wxdata){
+	  				$scope.todayData.wxpay = wxdata.wxpay
 	  			})
 
 	  		})
+
+	  		//获取微信支付金额
+	  		domainData.getShopidData().then(function(data){
+	  			payorderData.getData(data.shopid).then(function(wxdata){
+		  			$scope.todayData.wxpospay = wxdata.wxpospay
+		  		})
+	  		})
+	  		
 			
 	  		
 	  	}

@@ -497,32 +497,6 @@ var Order = require('../../models/order/order'),	//引入模型
 
 	}
 
-	// 打印模块
-	exports.print = function(req,res){
-		var printer = require('printer')
-		
-		var printer = require('./printer/node_printer_win32_x64.node')
-		var fs = require('fs')
-
-		var info = fs.readFileSync('seek.txt').toString()
-
-		function sendPrint() {
-		  printer.printDirect({
-		    data: info,
-		    type: 'RAW',
-		    success: function (jobID) {
-		      console.log("ID: " + jobID)
-		    },
-		    error: function (err) {
-		      console.log('printer module error: '+err)
-		      throw err
-		    }
-		  })
-		}
-
-		sendPrint()
-	}
-
 
 
 
