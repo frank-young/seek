@@ -310,6 +310,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.billing = function(value){
 
 			$scope.order.dishNum = angular.copy(value)	//取餐号
+			console.log($scope.order.dish)
 			$scope.order.dish.forEach(function(ele){
 				var item = {
 					isTop:false,
@@ -326,9 +327,10 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					orderNum:localStorage.orderNum
 
 				}
+
 				// 品项
 				itemData.addData(item).then(function(data){
-	
+					
 				})
 			})
 
@@ -367,8 +369,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			})
 	
 		}
-		
-
 
 		// 会员卡微信支付
 		$scope.wechatTag = false

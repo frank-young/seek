@@ -13,9 +13,9 @@ var MemberorderSchema = new mongoose.Schema({
 	discount:Number,
 	fee:Number,
 	createtime:Number,
-	year:Number,
-	month:Number,
-	day:Number,
+	year:String,
+	month:String,
+	day:String,
 	meta:{
 		createAt:{
 			type:Number,

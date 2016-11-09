@@ -9,9 +9,9 @@ var ItemSchema = new mongoose.Schema({
 	number:Number,
 	total:Number,
 	time:Number,
-	year:Number,
-	month:Number,
-	day:Number,
+	year:String,
+	month:String,
+	day:String,
 	orderNum:String,
 	other:String,
 	meta:{
