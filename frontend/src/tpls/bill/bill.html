@@ -452,9 +452,9 @@
                     <!-- <button type="button" class="close" ng-click="$hide()">&times;</button> -->
                     <h5 class="modal-title" style="color:#fff; margin-bottom: 0">设置取餐号</h5>
                 </div>
-                <div class="modal-body" style="height:480px;padding-top: 50px;">
+                <div class="modal-body" style="height:560px;padding-top: 50px;">
                   <h5>结账已经成功，请设置取餐号！</h5>
-                   <form name="dishnumForm" ng-submit="billing(dishNum)">
+                   <form name="dishnumForm">
                       
                       <input type="number" name="dishnum" ng-model="dishNum" autofocus style="padding:24px 10px;width:120px;font-size:24px;margin-right:20px;vertical-align: sub;" >
                       <button class="button button-primary p-sure" ng-disabled="dishnumForm.dishnum.$invalid" ng-click="billing(dishNum)" >确认</button>

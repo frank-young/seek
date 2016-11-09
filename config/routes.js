@@ -105,6 +105,7 @@ module.exports = function(app){
   app.get('/item/detail/:id', User.signinRequired, Item.detail)
   app.get('/item/itemday',User.signinRequired, Item.itemdayList)
   app.get('/item/download/itemday',User.signinRequired, Item.downloadItemDay)
+  app.delete('/item/delsome',User.signinRequired, Item.delSome)
 
   // 结班报告
   app.get('/over',User.signinRequired, Over.list)

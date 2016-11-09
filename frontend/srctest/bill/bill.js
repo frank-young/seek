@@ -364,7 +364,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 					window.location.href="#/index"
 				}else{
-					
+					$scope.changeAlert(data.msg)
 				}
 			})
 	

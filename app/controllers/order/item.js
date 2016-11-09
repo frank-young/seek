@@ -86,6 +86,20 @@ var _ = require('underscore'),
 		}
 	}
 
+	//根据订单号删除品项
+	exports.delSome = function(req,res){
+		var orderNum = req.query.id
+		if(orderNum){
+			Item.remove({"orderNum": orderNum},function(err,item){
+				if(err){
+					console.log(err)
+				}else{
+					res.json({status: 1,msg:"删除成功"})
+				}
+			})
+		}
+	}
+
 	//订单详情页
 	exports.detail = function(req,res){
 		var id = req.params.id	

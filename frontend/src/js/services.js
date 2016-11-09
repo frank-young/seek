@@ -289,6 +289,19 @@ angular.module('serviceData', [])
                     defer.reject(msg);
                 });
                 return defer.promise;
+            },
+            deletesomeData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    method: 'DELETE',
+                    url: '/item/delsome?id='+value,
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
             }
         }
     }])

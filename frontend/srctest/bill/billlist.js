@@ -2,8 +2,8 @@
  *                                                     订单列表
  ********************************************************************************************************************/
 
-angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData',
-  	function($scope,$window,orderData,dishData,settingData,paytypeData) {
+angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData','itemData',
+  	function($scope,$window,orderData,dishData,settingData,paytypeData,itemData) {
 
 		$window.document.title = "订单列表"; 
 		orderData.getData().then(function(data){
@@ -56,8 +56,12 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 			localStorage.cookAll = JSON.stringify($scope.cookAll)
 
 			orderData.deleteData(value).then(function(data){
-				console.log(data)
+				$scope.changeAlert("反位结算成功！")
 			})
+			itemData.deletesomeData(value.orderNum).then(function(data){
+				
+			})
+
 		}
 		$scope.nowtime = new Date().getTime()
 

@@ -238,6 +238,15 @@
                       </table>
 
                     </div>
+                      
+                    <div class="detail-item">
+                      <span>
+                        合计金额：
+                      </span>
+                      <span  ng-bind="todayData.overAll.grade | currency:'¥' "></span>
+                    </div>
+                    <div class="hr">------------------------------------------------------------------------------</div>
+
                     <div class="detail-item now-time">
                       <span>
                         打印时间：
@@ -245,7 +254,6 @@
                       <span ng-bind="nowtime | datetime">
                       </span>
                     </div>
-
                     </div>
                   </div>
                 </div>
