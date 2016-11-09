@@ -1056,12 +1056,14 @@ exports.cardGetShop = function(req,res){
 // 刷卡支付
 exports.pay = function(req,res){
 	var sales = req.body.sales
+	var user = req.session.user 
 
 	var appid = config.wechat.appID
 	var mch_id = '1295261101'	
 	var key = 'seekbrandseekcafe521521521521521'
 	var total_fee = '1'	// -- 传递  sales.total_fee
-	var auth_code = sales.auth_code  // -- 传递
+	var auth_code = user.domain  // -- 传递
+	var attach = sales.attach	 // -- 传递
 	var body_info = 'seekcafe'
 	var device_info = sales.device_info	// -- 传递  门店id
 	var nonce_str = 'ibuaiVcKdpRxkhJA'
@@ -1072,11 +1074,12 @@ exports.pay = function(req,res){
 	//刷卡支付
 	function wechatpospay(){
 		//签名
-		var sign = paysignjsapi(appid,auth_code,body_info,device_info,mch_id,nonce_str,out_trade_no,spbill_create_ip,total_fee,key)  //'0F38072A948D438518CCC57424C457EC'
+		var sign = paysignjsapi(appid,attach,auth_code,body_info,device_info,mch_id,nonce_str,out_trade_no,spbill_create_ip,total_fee,key)  //'0F38072A948D438518CCC57424C457EC'
 		var url = 'https://api.mch.weixin.qq.com/pay/micropay'
 
 		var formdata = "<xml>"
 		formdata += "<appid>"+appid+"</appid>"
+		// formdata +=	"<attach>"+attach+"</attach>"
 		formdata += "<auth_code>"+auth_code+"</auth_code>"
 		formdata += "<body>"+body_info+"</body>"
 		formdata += "<device_info>"+device_info+"</device_info>"
@@ -1135,9 +1138,10 @@ exports.pay = function(req,res){
 	}
 
 
-	function paysignjsapi(appid,auth_code,body,device_info,mch_id,nonce_str,out_trade_no,spbill_create_ip,total_fee,key) {
+	function paysignjsapi(appid,attach,auth_code,body,device_info,mch_id,nonce_str,out_trade_no,spbill_create_ip,total_fee,key) {
 	    var ret = {
 	        appid: appid,
+	        attach:attach,
 	        auth_code:auth_code,
 	        body: body,
 	        device_info: device_info,
@@ -1152,39 +1156,24 @@ exports.pay = function(req,res){
 	    var crypto = require('crypto')
 	    return crypto.createHash('md5').update(string,'utf8').digest('hex').toUpperCase()
 	}
-	function raw1(args) {
-	  var keys = Object.keys(args);
-	  keys = keys.sort()
-	  var newArgs = {}
-	  keys.forEach(function (key) {
-	    newArgs[key] = args[key]
-	  })
-	  var string = ''
-	  for (var k in newArgs) {
-	    string += '&' + k + '=' + newArgs[k];
-	  }
-	  string = string.substr(1)
-	  return string
-	}
 
-	function getXMLNodeValue(node_name,xml){
-	    if(node_name !==""||node_name !==null){
-	    	var tmp = xml.split("<"+node_name+"><![CDATA[");
-	    	var _tmp = tmp[1].split("]]></"+node_name+">");
-	    	return _tmp[0];
-	    }
+
+	// 将支付信息存入数据库
+	function savePay(){
+
 	}
 
 }
 
+// 查询订单，如果用户需要输入密码，要用到此接口去查询订单判断状态
 exports.orderquery = function(req,res){
 	var sales = req.body.sales
 
-	var appid = config.wechat.appID
-	var mch_id = '1295261101'	
-	var key = 'seekbrandseekcafe521521521521521'
-	var nonce_str = 'ibuaiVcKdpRxkhJA'
-	var out_trade_no = sales.out_trade_no		// -- 传递
+	var appid = config.wechat.appID,
+		mch_id = '1295261101',
+		key = 'seekbrandseekcafe521521521521521',
+		nonce_str = 'ibuaiVcKdpRxkhJA',
+		out_trade_no = sales.out_trade_no		// -- 传递
 
 	wechatorderquery()
 
@@ -1266,6 +1255,8 @@ exports.orderquery = function(req,res){
 			}
 		})
 	}
+
+	// md5加密算法
 	function ordersignjsapi(appid,mch_id,nonce_str,out_trade_no) {
 	    var ret = {
 	        appid: appid,
@@ -1279,34 +1270,32 @@ exports.orderquery = function(req,res){
 	    return crypto.createHash('md5').update(string,'utf8').digest('hex').toUpperCase()
 	}
 
-	function raw1(args) {
-	  var keys = Object.keys(args);
-	  keys = keys.sort()
-	  var newArgs = {}
-	  keys.forEach(function (key) {
-	    newArgs[key] = args[key]
-	  })
-	  var string = ''
-	  for (var k in newArgs) {
-	    string += '&' + k + '=' + newArgs[k];
-	  }
-	  string = string.substr(1)
-	  return string
-	}
-
-	function getXMLNodeValue(node_name,xml){
-	    if(node_name !==""||node_name !==null){
-	    	var tmp = xml.split("<"+node_name+"><![CDATA[");
-	    	var _tmp = tmp[1].split("]]></"+node_name+">");
-	    	return _tmp[0];
-	    }
-	}
-
-
 }
 
+//序列化
+function raw1(args) {
+  var keys = Object.keys(args);
+  keys = keys.sort()
+  var newArgs = {}
+  keys.forEach(function (key) {
+    newArgs[key] = args[key]
+  })
+  var string = ''
+  for (var k in newArgs) {
+    string += '&' + k + '=' + newArgs[k];
+  }
+  string = string.substr(1)
+  return string
+}
 
-
+//解析xml
+function getXMLNodeValue(node_name,xml){
+    if(node_name !==""||node_name !==null){
+    	var tmp = xml.split("<"+node_name+"><![CDATA[");
+    	var _tmp = tmp[1].split("]]></"+node_name+">");
+    	return _tmp[0];
+    }
+}
 
 
 

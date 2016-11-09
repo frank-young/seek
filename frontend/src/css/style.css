@@ -629,7 +629,7 @@ button[disabled]:focus{
 
 /* 微信支付 */
 .wechat{
-	opacity: 0;
+	// opacity: 0;
 }
 
 
