@@ -11,6 +11,7 @@ var Index = require('../app/controllers/index'),
     Credit = require('../app/controllers/credit/credit'),
     Paytype = require('../app/controllers/credit/paytype'),
     Wechat = require('../app/controllers/wechat/wechat'),
+    Alipay = require('../app/controllers/alipay/alipay'),
     Memberorder = require('../app/controllers/wechat/memberorder'),
     Member = require('../app/controllers/wechat/member'),
     Payorder = require('../app/controllers/wechat/payorder'),
@@ -169,6 +170,11 @@ module.exports = function(app){
   app.post('/wechat/pay',Wechat.pay)  //刷卡支付
   app.post('/wechat/orderquery',Wechat.orderquery)  //查询支付订单
   app.get('/wechat/pay/payorder/today/:id',Payorder.todayPayorder)  //查询今日订单
+
+  // 支付宝端接口
+  app.post('/alipay/init',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse,Alipay.init)
+  app.post('/alipay/callback',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse,Alipay.callback)
+  app.get('/alipay/pospay',Alipay.pospay)
 
 
 }

@@ -37,6 +37,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 					total:data.total,	// 合计--总合计
 					totalNeed:data.totalNeed,	// 应收
 					reduceAfter:data.reduceAfter,
+					erase:data.erase,
 					// payType:Array, 
 					// time:Number, 
 					year:data.year,

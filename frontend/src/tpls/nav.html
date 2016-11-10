@@ -82,6 +82,13 @@
                     </div>
                     <div class="detail-item">
                       <span >
+                        抹零金额：
+                      </span>
+                      <span  ng-bind="todayData.overAll.erase | currency:'¥' ">
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span >
                         实收合计：
                       </span>
                       <span  ng-bind="todayData.overAll.grade | currency:'¥' ">
@@ -94,6 +101,7 @@
                       <span  ng-bind="todayData.overAll.noincome | currency:'¥' ">
                       </span>
                     </div>
+                    
                     <div class="detail-item">
                       <span >
                         应收合计：
@@ -153,6 +161,13 @@
                       </div>
                       <div class="detail-item">
                         <span >
+                          抹零金额：
+                        </span>
+                        <span  ng-bind="ov.erase | currency:'¥' ">
+                        </span>
+                      </div>
+                      <div class="detail-item">
+                        <span >
                           实收合计：
                         </span>
                         <span  ng-bind="ov.totalReal | currency:'¥' ">
@@ -165,6 +180,7 @@
                         <span  ng-bind="ov.noincome | currency:'¥' ">
                         </span>
                       </div>
+                      
                       <div class="detail-item">
                         <span >
                           应收合计：
@@ -224,7 +240,7 @@
                           <tr >
                             <th>名称</th>
                             <th>数量</th>
-                            <th>单价</th>
+                            <th>小计</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -232,18 +248,32 @@
                           <td ng-bind="it.name"></td>
                           <td>{{it.number}}
                           </td>
-                          <td ng-bind="it.price | currency:'¥' "></td>
+                          <td ng-bind="it.reducePrice | currency:'¥' "></td>
                         </tr>
                         </tbody>
                       </table>
 
                     </div>
-                      
+
+                    <div class="detail-item">
+                      <span >
+                        优惠后合计：
+                      </span>
+                      <span  ng-bind="todayData.overAll.reduceAfter+todayData.overAll.noincome | currency:'¥' ">
+                      </span>
+                    </div>
+                    <div class="detail-item">
+                      <span >
+                        抹零金额：
+                      </span>
+                      <span  ng-bind="todayData.overAll.erase | currency:'¥' ">
+                      </span>
+                    </div>
                     <div class="detail-item">
                       <span>
                         合计金额：
                       </span>
-                      <span  ng-bind="todayData.overAll.grade | currency:'¥' "></span>
+                      <span  ng-bind="todayData.overAll.grade+todayData.overAll.noincome | currency:'¥' "></span>
                     </div>
                     <div class="hr">------------------------------------------------------------------------------</div>
 
@@ -277,7 +307,7 @@
                     <button type="button" class="close" ng-click="$hide()">&times;</button>
                     <h5 class="modal-title" style="color:#fff; margin-bottom: 0">提示框</h5>
                 </div>
-                <div class="modal-body ex-box" style="height:470px;padding-top: 50px;">
+                <div class="modal-body ex-box" style="height:520px;padding-top: 50px;">
                     <h5 style="color:#333; font-size:22px;">请核对账款信息，再确认交班</h5>
                     
                     <h5> 备用金：<span ng-bind="gradeData.cash | currency:'¥' "></span> </h5>
@@ -286,6 +316,17 @@
                     <h5> 虚收：<span ng-bind="gradeData.noincome | currency:'¥'"></span> </h5>
                     <h5> 上班时间：<span ng-bind="gradeData.start | onlytime"></span> </h5>
                     <h5> 交班时间：<span ng-bind="gradeData.stop | onlytime"></span> </h5>
+                    <h5>
+                      <span >
+                        工时统计：
+                      </span>
+                      <span>
+                        {{(gradeData.stop  - gradeData.start)/3600000 | floor}}小时
+                      </span>
+                      <span>
+                        {{((gradeData.stop - gradeData.start)/60000)%60 | floor}}分
+                      </span>
+                    </h5>
                    <!--  <h5> 共计：<span ng-bind=""></span> </h5> -->
                     <button class="button button p-sure" ng-click="$hide()" style="color:#333;margin-right:30px;">取消</button>     
                     <a class="button button-primary p-sure" href="/logout" ng-click="exchangeSure();$hide()" >确认</a>                

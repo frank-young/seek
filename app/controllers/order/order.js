@@ -151,13 +151,14 @@ var Order = require('../../models/order/order'),	//引入模型
 						payType: orderObj.payType,
 						payStatus: orderObj.payStatus,
 						total: orderObj.total,
-						reduce: orderObj.reduce,
-						reduceAfter:to2(orderObj.reduceAfter),
-						realTotal:to2(orderObj.realTotal),
-						noincome:to2(orderObj.noincome),
-						onceincome:to2(orderObj.onceincome),
-						cashincome:to2(orderObj.cashincome),
-						credit:to2(orderObj.credit),
+						reduce: Math.round(orderObj.reduce*100)/100,
+						reduceAfter:Math.round(orderObj.reduceAfter*100)/100,
+						realTotal:Math.round(orderObj.realTotal*100)/100,
+						noincome:Math.round(orderObj.noincome*100)/100,
+						onceincome:Math.round(orderObj.onceincome*100)/100,
+						cashincome:Math.round(orderObj.cashincome*100)/100,
+						credit:Math.round(orderObj.credit*100)/100,
+						erase:orderObj.erase,
 						isMember: orderObj.isMember,
 						memberName: orderObj.memberName,
 						memberNum: orderObj.memberNum,
@@ -183,24 +184,7 @@ var Order = require('../../models/order/order'),	//引入模型
   		}
   		
 	}
-	//转化两位小数
-		function to2(x) { 
-			var f = parseFloat(x); 
-			if (isNaN(f)) { 
-				return false; 
-			} 
-			var f = Math.round(x*100)/100; 
-			var s = f.toString(); 
-			var rs = s.indexOf('.'); 
-			if (rs < 0) { 
-				rs = s.length; 
-				s += '.'; 
-			} 
-			while (s.length <= rs + 2) { 
-				s += '0'; 
-			} 
-			return s; 
-		} 
+
 	//订单更新、新建
 	exports.update = function(req,res){
 		var id = req.body.order._id,
@@ -364,8 +348,8 @@ var Order = require('../../models/order/order'),	//引入模型
 				cashincome = 0,
 				total = 0,
 				totalNeed = 0,
-				reduceAfter = 0
-
+				reduceAfter = 0,
+				erase = 0
 
 			orders.forEach(function(ele){
 				grade += ele.realTotal
@@ -376,7 +360,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				cashincome += ele.cashincome
 				total += ele.total
 				reduceAfter += ele.reduceAfter
-
+				erase += ele.erase
 			})
 
 			stand = orders.length
@@ -398,6 +382,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				start:loginTime,
 				totalNeed: totalNeed,
 				reduceAfter:reduceAfter,
+				erase:erase,
 				year:Y,
 				month:M,
 				day:D
@@ -425,7 +410,8 @@ var Order = require('../../models/order/order'),	//引入模型
 				cashincome = 0,
 				total = 0,
 				totalNeed = 0,
-				reduceAfter = 0
+				reduceAfter = 0,
+				erase = 0
 				
 			orders.forEach(function(ele){
 				grade += ele.realTotal
@@ -436,7 +422,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				cashincome += ele.cashincome
 				total += ele.total
 				reduceAfter += ele.reduceAfter
-				
+				erase += ele.erase
 			})
 
 			stand = orders.length
@@ -456,6 +442,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				start:loginTime,
 				totalNeed: totalNeed,
 				reduceAfter:reduceAfter,
+				erase:erase,
 				year:Y,
 				month:M,
 				day:D
@@ -463,7 +450,7 @@ var Order = require('../../models/order/order'),	//引入模型
 		})
 	}
 
-	// 今日总业绩
+	// 时实数据
 	exports.api = function(req,res){
 		var domain = req.params.id
 

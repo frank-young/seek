@@ -18,6 +18,7 @@ var OrderSchema = new mongoose.Schema({
 	reduce:Number,
 	reduceAfter:Number,
 	realTotal:Number,
+	erase:Number,
 	isMember:Boolean,
 	memberName:String,
 	memberNum:String,

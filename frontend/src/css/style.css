@@ -639,9 +639,12 @@ button[disabled]:focus{
 	opacity: 0;
 }
 
+/* scrollbar */
 ::-webkit-scrollbar {
+
   -webkit-appearance: none;
   width: 3px;
+  height: 3px;
 }
 ::-webkit-scrollbar-thumb {
   border-radius: 5px;

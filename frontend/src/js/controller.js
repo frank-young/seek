@@ -83,8 +83,10 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		//抹零
 		$scope.roundFunc = function(value){
-			value.realTotal = Math.round(value.realTotal)
-			// value.reduce = value.total - value.realTotal
+			var old = value.realTotal
+			$scope.order.realTotal = Math.round(old)
+			$scope.order.erase = Math.round((old - $scope.order.realTotal)*100)/100
+			alert($scope.order.erase)
 		}
 
 		// 更新价格
@@ -261,7 +263,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				localStorage.orderNum = orderNum
 		})
 
-		//获取店铺信息	
+		//获取店铺信息	初始化order
 		function getShopInfo(){
 			domainData.getData().then(function(data){
 				var shopinfo = data.domain,
@@ -275,13 +277,14 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"address": shopinfo.address,
 					"tel": shopinfo.tel,
 					"orderNum": orderNum,
-					// "orderStatus":  0,
 					"peopleNum": localStorage.peopleNumber,
 					"dish": $scope.cookCart,
-					// "payType": $scope.payType,
 					"payStatus": 1,
 					"noincome": 0,
 					"credit":0,
+					"erase":0,
+					"onceincome":0,
+					"cashincome":0,
 					"total": $scope.total,
 					"reduce": $scope.total - $scope.totalReal,
 					"reduceAfter": $scope.totalReal,
@@ -318,6 +321,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					name: ele.name,
 					cate: ele.cate,
 					price:ele.price,
+					reducePrice:ele.reducePrice,
 					number:ele.number, 
 					total:ele.number * ele.price,
 					time:Date.now(),
@@ -782,6 +786,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 					total:data.total,	// 合计--总合计
 					totalNeed:data.totalNeed,	// 应收
 					reduceAfter:data.reduceAfter,
+					erase:data.erase,
 					// payType:Array, 
 					// time:Number, 
 					year:data.year,

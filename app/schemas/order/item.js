@@ -5,6 +5,7 @@ var ItemSchema = new mongoose.Schema({
 	name:String,
 	cate:String,
 	price:Number,
+	reducePrice:Number,
 	comboPrice:Number,
 	number:Number,
 	total:Number,
