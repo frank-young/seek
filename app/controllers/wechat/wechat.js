@@ -84,8 +84,7 @@ exports.token = function(req,res){
 exports.addMenu = function(req,res){
 
 	//token，因为token是存在文件里的所以这里进行文件读取得到token
-	var access_token = fs.readFileSync('./config/token').toString();
-
+	var access_token = fs.readFileSync('./config/token').toString()
 	var menus = {
 	  "button": [
 	    {
