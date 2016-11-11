@@ -61,7 +61,8 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  		overAll:[],
 	  		overs:[],
 	  		wxpay:0,
-	  		wxpospay:0
+	  		wxpospay:0,
+	  		alipospay:0
 	  	}
 	  	//获取所有的结班信息
 	  	function getAllInfo(){
@@ -94,8 +95,14 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 		  			$scope.todayData.wxpospay = wxdata.wxpospay
 		  		})
 	  		})
-	  		
-			
+
+	  		//获取支付宝支付金额
+	  		domainData.getShopidData().then(function(data){
+	  			payorderData.getAlipayData(data.shopid).then(function(alipaydata){
+		  			$scope.todayData.alipospay = alipaydata.alipospay
+		  		})
+	  		})
+
 	  		
 	  	}
 	  	getAllInfo()

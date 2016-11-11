@@ -118,6 +118,13 @@
                       <span  ng-bind="todayData.wxpospay| currency:'¥' ">
                       </span>
                     </div>
+                    <div class="detail-item">
+                      <span >
+                        支付宝支付金额合计：
+                      </span>
+                      <span  ng-bind="todayData.alipospay| currency:'¥' ">
+                      </span>
+                    </div>
                     <div class="hr">------------------------------------------------------------------------------</div>
   
                     <div class="detail-box" ng-repeat="ov in todayData.overs">

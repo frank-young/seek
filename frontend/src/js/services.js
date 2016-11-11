@@ -529,6 +529,26 @@ angular.module('serviceData', [])
                 });
                 return defer.promise;
             },
+            setalipayData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    method: 'POST',
+                    url: '/alipay/pospay',
+                    dataType: "json",
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        sales:value
+                    }
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            }
         }
     }])
     .factory('payorderData', ['$q','$http',function($q,$http){
@@ -537,6 +557,19 @@ angular.module('serviceData', [])
                 var defer = $q.defer();
                 $http({
                     url: '/wechat/pay/payorder/today/'+id,
+                    method: 'get'
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            getAlipayData: function (id) {
+                var defer = $q.defer();
+                $http({
+                    url: '/alipay/alipayorder/today/'+id,
                     method: 'get'
                 })
                 .success(function (data, status, headers, config) {

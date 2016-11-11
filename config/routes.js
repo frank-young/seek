@@ -15,6 +15,7 @@ var Index = require('../app/controllers/index'),
     Memberorder = require('../app/controllers/wechat/memberorder'),
     Member = require('../app/controllers/wechat/member'),
     Payorder = require('../app/controllers/wechat/payorder'),
+    Alipayorder = require('../app/controllers/alipay/alipayorder'),
     multipart = require('connect-multiparty'),
     multipartMiddleware = multipart(),
     xmlparser = require('express-xml-bodyparser')
@@ -139,7 +140,6 @@ module.exports = function(app){
   app.get('/member', User.signinRequired, Member.list) 
   app.get('/member/detail/:id', User.signinRequired, Member.detail) 
 
-
   // 微信端接口
   app.get('/wechat/init',Wechat.init)
   app.post('/wechat/init',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse)  //微信推送信息接收url
@@ -174,7 +174,8 @@ module.exports = function(app){
   // 支付宝端接口
   app.post('/alipay/init',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse,Alipay.init)
   app.post('/alipay/callback',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse,Alipay.callback)
-  app.get('/alipay/pospay',Alipay.pospay)
+  app.post('/alipay/pospay',Alipay.pospay)
+  app.get('/alipay/alipayorder/today/:id',Alipayorder.todayAlipayorder)  //查询今日订单
 
 
 }

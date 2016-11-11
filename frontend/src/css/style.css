@@ -634,8 +634,12 @@ button[disabled]:focus{
 	margin: 10px 20px;
 }
 
-/* 微信支付 */
-.wechat{
+/* 刷卡支付 */
+.wechat,
+.alipay{
+	position: absolute;
+	top: 0;
+	left: 0;
 	opacity: 0;
 }
 

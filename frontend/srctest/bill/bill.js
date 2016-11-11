@@ -144,6 +144,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.selectType = function(value){
 			$scope.wechatHide = false
 			$scope.auth_code = ""
+			$scope.alipay_auth_code = ""
 			$scope.cookCart.forEach(function(ele,index){
 				ele.payType = value
 				if(value == 4){		//等于4计入次卡，一定要注意顺序！
@@ -155,9 +156,9 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				// 	$scope.order.cashincome = $scope.order.totalReal	// 计入现金收入
 
 				// }
-				else{
-					$scope.discountItemFunc(ele,100)
-				}
+				// else{
+				// 	$scope.discountItemFunc(ele,100)
+				// }
 				
 			})
 			payTypeFunc()
@@ -166,6 +167,10 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.wechatHide = true
 				//聚焦使用扫码枪
 				document.getElementById("wechat").focus()
+			}
+			if(value == 2){
+				$scope.wechatHide = true
+				document.getElementById("alipay").focus()
 			}
 		}
 
@@ -538,6 +543,26 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 							}
 						})
 					},5000)
+				}
+			})
+		}
+
+		//支付宝刷卡支付
+		$scope.alipayPosPay =function(code){
+
+			var value = {
+				total_fee:$scope.order.realTotal,
+				auth_code:code,
+				device_info:localStorage.shopid,
+				out_trade_no:localStorage.orderNum
+				
+			}
+
+			pospayData.setalipayData(value).then(function(data){
+				$scope.changeAlert(data.msg)
+				if(data.status === 1){
+					$scope.wechatHide = false
+					document.getElementById('bill').click()
 				}
 			})
 		}

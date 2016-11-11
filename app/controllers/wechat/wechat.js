@@ -465,12 +465,15 @@ exports.cardUpdate = function(req,res){
 	var formdata ={
 			"card_id":config.card,
  			"member_card":{
-	 				"supply_balance":false,
-	 				
-	 				 "wx_activate_after_submit" : true,
- 					"wx_activate_after_submit_url" : "http://frankyoung.s1.natapp.link/wechat/info"  			
- 				}		
-		 }
+ 				"base_info": {
+             		"pay_info":{
+                    "swipe_card":{
+                    	"is_swipe_card":true
+                     	}
+                    }
+                } 				
+            }		
+		}
 
 	var options = {
 	    url: url,
