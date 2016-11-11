@@ -18,7 +18,7 @@ var config = {
 		appSecret:'07edc09a46dba2e8d0b1964b5aec3a46',		//       143d36866e792512dc76ea5d11e8df62
 		token:'weixin'
 	},
-	card: "pQw7gvwsk30k4xreKQma_GUlwKNw",
+	card: "pQw7gv-4KHxAWZpHnMAhbghzIzkw",
 	code: "435350747055"
 }
 
