@@ -312,11 +312,10 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.selectCash = function(value){
 			$scope.cashTotal = value - $scope.order.realTotal
 		}
-			$scope.nowtime = new Date().getTime()
 
 		// 结算
 		$scope.billing = function(value){
-
+			$scope.nowtime = new Date().getTime()
 			$scope.order.dishNum = angular.copy(value)	//取餐号
 			console.log($scope.order.dish)
 			$scope.order.dish.forEach(function(ele){
@@ -584,7 +583,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 打印函数
 		function printFunc(){
-			$scope.nowtime = new Date().getTime()
+			
 			var ele = document.getElementById('print')
 			var content = document.getElementById('print-content')
 

@@ -59,20 +59,19 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 				$scope.changeAlert("反位结算成功！")
 			})
 			itemData.deletesomeData(value.orderNum).then(function(data){
-				
+
 			})
 
 		}
-		$scope.nowtime = new Date().getTime()
 
 		$scope.printRec = function(value){
-
+			$scope.nowtime = new Date().getTime()
 			printFunc(value)
 		}
 
 		// 打印函数
 		function printFunc(id){
-			$scope.nowtime = new Date().getTime()
+			
 			// var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
 			var ele = document.getElementById(id)
 			var content = document.getElementById('print-content')
