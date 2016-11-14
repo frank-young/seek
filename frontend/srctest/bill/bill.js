@@ -152,7 +152,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
 
 				}
-				// else if(value == 0){
+				// if(value == 0){
 				// 	$scope.order.cashincome = $scope.order.totalReal	// 计入现金收入
 
 				// }
@@ -172,6 +172,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.wechatHide = true
 				document.getElementById("alipay").focus()
 			}
+
 		}
 
 		// 选择付款方式 单项
@@ -182,7 +183,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
 
 			}
-			// else if(value == 0){
+			// else if(index == 0){
 			// 	$scope.order.cashincome = $scope.order.totalReal	// 计入现金收入
 
 			// }
@@ -209,16 +210,19 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 	
 		}
 
-
 		// 付款方式选择函数
 		function payTypeFunc(){
 			$scope.order.payType = []
+			
 			$scope.cookCart.forEach(function(value,index){
 				if($scope.order.payType.indexOf(value.payType)<0 ){
 					$scope.order.payType.push(value.payType)
 				}
 			})
+
+			console.log($scope.order.payType)
 		}
+
 		payTypeFunc()
 
 		// 订单号  门店编号 年 月 日 时 分 秒  2016 10 11 + 0001
@@ -284,6 +288,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"orderNum": orderNum,
 					"peopleNum": localStorage.peopleNumber,
 					"dish": $scope.cookCart,
+					"payType":[0],
 					"payStatus": 1,
 					"noincome": 0,
 					"credit":0,

@@ -656,7 +656,12 @@ button[disabled]:focus{
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }
 
-
+.show{
+	display: inline-block !important;
+}
+.hide{
+	display: none;
+}
 
 
 

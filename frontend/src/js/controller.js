@@ -152,7 +152,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
 
 				}
-				// else if(value == 0){
+				// if(value == 0){
 				// 	$scope.order.cashincome = $scope.order.totalReal	// 计入现金收入
 
 				// }
@@ -172,6 +172,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.wechatHide = true
 				document.getElementById("alipay").focus()
 			}
+
 		}
 
 		// 选择付款方式 单项
@@ -182,7 +183,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
 
 			}
-			// else if(value == 0){
+			// else if(index == 0){
 			// 	$scope.order.cashincome = $scope.order.totalReal	// 计入现金收入
 
 			// }
@@ -209,16 +210,19 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 	
 		}
 
-
 		// 付款方式选择函数
 		function payTypeFunc(){
 			$scope.order.payType = []
+			
 			$scope.cookCart.forEach(function(value,index){
 				if($scope.order.payType.indexOf(value.payType)<0 ){
 					$scope.order.payType.push(value.payType)
 				}
 			})
+
+			console.log($scope.order.payType)
 		}
+
 		payTypeFunc()
 
 		// 订单号  门店编号 年 月 日 时 分 秒  2016 10 11 + 0001
@@ -284,6 +288,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"orderNum": orderNum,
 					"peopleNum": localStorage.peopleNumber,
 					"dish": $scope.cookCart,
+					"payType":[0],
 					"payStatus": 1,
 					"noincome": 0,
 					"credit":0,
@@ -795,37 +800,16 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   		
   		// 业绩查询-交班
 		$scope.exchangeFunc = function(){
-
+			console.log($rootScope.status)
 			var date = createTime()
 			orderData.getGradeData().then(function(data){
-				$scope.gradeData = {
-					totalReal:data.grade,  	// 实收
-					editPeople:data.username,
-					noincome:data.noincome,		// 虚收
-					people:data.people,	//用餐人数
-					stand:data.stand,	//用餐台数
-					reduce:data.reduce,	//优惠金额
-					onceincome:data.onceincome,	//次卡
-					total:data.total,	// 合计--总合计
-					totalNeed:data.totalNeed,	// 应收
-					reduceAfter:data.reduceAfter,
-					erase:data.erase,
-					// payType:Array, 
-					// time:Number, 
-					year:data.year,
-					month:data.month,
-					day:data.day,
-					// memberNum:Number,
-					start:data.start,
-					stop:date.now
-				}
+				$scope.gradeData = data
+				$scope.gradeData.stop = date.now
 				// 备用金查询
 				domainData.getData().then(function(d){
 		  			$scope.gradeData.cash = d.domain.cash
 		  		})
-
 			})
-
 		}
 
 		$scope.todayData={

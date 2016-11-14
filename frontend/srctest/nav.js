@@ -23,37 +23,16 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   		
   		// 业绩查询-交班
 		$scope.exchangeFunc = function(){
-
+			console.log($rootScope.status)
 			var date = createTime()
 			orderData.getGradeData().then(function(data){
-				$scope.gradeData = {
-					totalReal:data.grade,  	// 实收
-					editPeople:data.username,
-					noincome:data.noincome,		// 虚收
-					people:data.people,	//用餐人数
-					stand:data.stand,	//用餐台数
-					reduce:data.reduce,	//优惠金额
-					onceincome:data.onceincome,	//次卡
-					total:data.total,	// 合计--总合计
-					totalNeed:data.totalNeed,	// 应收
-					reduceAfter:data.reduceAfter,
-					erase:data.erase,
-					// payType:Array, 
-					// time:Number, 
-					year:data.year,
-					month:data.month,
-					day:data.day,
-					// memberNum:Number,
-					start:data.start,
-					stop:date.now
-				}
+				$scope.gradeData = data
+				$scope.gradeData.stop = date.now
 				// 备用金查询
 				domainData.getData().then(function(d){
 		  			$scope.gradeData.cash = d.domain.cash
 		  		})
-
 			})
-
 		}
 
 		$scope.todayData={

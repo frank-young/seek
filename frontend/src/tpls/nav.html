@@ -22,7 +22,7 @@
       <div class="two columns">
         <button class="button-primary btn-p10" ng-click="startDay()" ng-show="status">开班</button>
         <button class="button btn-p10" ng-click="stopDayButton()" ng-show="!status" data-animation="am-fade-and-scale" placement="center" data-template-url="stopView.tpl.html" bs-modal="todayData">结班</button>
-        <button style="margin-left:10px;" class="button btn-p10" ng-show="!status"  data-animation="am-fade-and-scale" placement="center" data-template-url="exchange.tpl.html" bs-modal="gradeData" ng-click="exchangeFunc()">交班</button>
+        <button style="margin-left:10px;" class="button btn-p10" ng-click="exchangeFunc()"  data-animation="am-fade-and-scale" placement="center" data-template-url="exchange.tpl.html" bs-modal="gradeData" ng-class="{true: 'hide', false: 'show'}[status]">交班</button>
       </div>  
     </div>
   </div>
@@ -306,7 +306,7 @@
     </div>
   </script>
 
-   <script type="text/ng-template" id="exchange.tpl.html">
+  <script type="text/ng-template" id="exchange.tpl.html">
     <div class="modal modal-warning" tabindex="-1" role="dialog">
         <div class="modal-dialog" style="width:500px;">
             <div class="modal-content" >
@@ -318,9 +318,10 @@
                     <h5 style="color:#333; font-size:22px;">请核对账款信息，再确认交班</h5>
                     
                     <h5> 备用金：<span ng-bind="gradeData.cash | currency:'¥' "></span> </h5>
-                    <h5> 收银员：<span ng-bind="gradeData.editPeople"></span> </h5>
-                    <h5> 实收：<span ng-bind="gradeData.totalReal | currency:'¥' "></span> </h5>
+                    <h5> 收银员：<span ng-bind="gradeData.username"></span> </h5>
+                    <h5> 实收：<span ng-bind="gradeData.grade | currency:'¥' "></span> </h5>
                     <h5> 虚收：<span ng-bind="gradeData.noincome | currency:'¥'"></span> </h5>
+                    <!-- <h5> 现金收入：<span ng-bind="gradeData.cashincome | currency:'¥'"></span> </h5> -->
                     <h5> 上班时间：<span ng-bind="gradeData.start | onlytime"></span> </h5>
                     <h5> 交班时间：<span ng-bind="gradeData.stop | onlytime"></span> </h5>
                     <h5>
@@ -341,25 +342,7 @@
         </div>
         </div>
     </div>
-</script>
-
-<!-- 
-    本班开单人数
-    本班开台人数
-    本班已结台数
-    本班已结人数
-    本班赠单金额（使用减免（次卡）的金额）
-    优惠金额（使用打折，扣除的优惠部分）
-    品项消费（本班收入）
-    应收合计（=品项消费-本班赠单金额-优惠金额）
-
-
-    结算方式：校园一卡通、人民币、支付宝、微信、减免（次卡）
-    计入收入合计（=除减免之外的金额）
-    不计入收入合计（虚收即挂账）
-    合计
-    打印时间 
--->
+  </script>
 
 
 

@@ -128,7 +128,8 @@ var Order = require('../../models/order/order'),	//引入模型
 				if(err){
 					res.json({
 						status:0,
-						msg:"发生未知错误！"
+						msg:"发生未知错误！",
+						err:err
 					})
 				}
 				if(order){
