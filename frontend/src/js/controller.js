@@ -288,7 +288,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"orderNum": orderNum,
 					"peopleNum": localStorage.peopleNumber,
 					"dish": $scope.cookCart,
-					"payType":[0],
+					"payType":[0],	// 补丁
 					"payStatus": 1,
 					"noincome": 0,
 					"credit":0,
@@ -874,7 +874,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 		//确认交班
 		$scope.exchangeSure = function(){
 			overData.addData($scope.gradeData).then(function(data){
-				console.log(data)
+				printFunc('print-self')
 			})
 		}
 

@@ -97,7 +97,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 		//确认交班
 		$scope.exchangeSure = function(){
 			overData.addData($scope.gradeData).then(function(data){
-				console.log(data)
+				printFunc('print-self')
 			})
 		}
 
