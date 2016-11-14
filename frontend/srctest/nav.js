@@ -23,11 +23,30 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   		
   		// 业绩查询-交班
 		$scope.exchangeFunc = function(){
-			console.log($rootScope.status)
+			
 			var date = createTime()
 			orderData.getGradeData().then(function(data){
-				$scope.gradeData = data
-				$scope.gradeData.stop = date.now
+				$scope.gradeData = {
+					totalReal:data.grade,  	// 实收
+					editPeople:data.username,
+					noincome:data.noincome,		// 虚收
+					people:data.people,	//用餐人数
+					stand:data.stand,	//用餐台数
+					reduce:data.reduce,	//优惠金额
+					onceincome:data.onceincome,	//次卡
+					total:data.total,	// 合计--总合计
+					totalNeed:data.totalNeed,	// 应收
+					reduceAfter:data.reduceAfter,
+					erase:data.erase,
+					// payType:Array, 
+					// time:Number, 
+					year:data.year,
+					month:data.month,
+					day:data.day,
+					// memberNum:Number,
+					start:data.start,
+					stop:date.now
+				}
 				// 备用金查询
 				domainData.getData().then(function(d){
 		  			$scope.gradeData.cash = d.domain.cash
@@ -81,8 +100,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 		  			$scope.todayData.alipospay = alipaydata.alipospay
 		  		})
 	  		})
-
-	  		
 	  	}
 	  	getAllInfo()
 
@@ -96,9 +113,14 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 
 		//确认交班
 		$scope.exchangeSure = function(){
+			
 			overData.addData($scope.gradeData).then(function(data){
-				printFunc('print-self')
+				
 			})
+		}
+		//打印个人订单
+		$scope.printSelf = function(){
+			printFunc('print-self')
 		}
 
 	  	// 开班
@@ -108,7 +130,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  		var date = createTime()
 
 	  		$scope.time = date.now 		// 开班时间
-  			// console.log($scope.time)
+
   			localStorage.starDay = 1
   			localStorage.serial = 1
 
@@ -123,7 +145,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			}
 
   			dayData.addData(dateObj).then(function(data){
-  				console.log(data.msg)
   				localStorage.dayid = data.id
   			})
 
@@ -147,7 +168,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
  
 			var date = createTime()
 	  		$scope.time = date.now	// 结班时间
-	  		// console.log($scope.time)
 
 	  		var dateObj = {
 	  			"_id":localStorage.dayid,
@@ -156,7 +176,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			}
 
 	  		dayData.updateData(dateObj).then(function(data){
-	  			console.log(data.msg)
 	  			localStorage.removeItem('dayid')
 	  		})
 
@@ -191,7 +210,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 			var newObj=ele.cloneNode(true)
 			$scope.nowtime = new Date().getTime()
 			content.innerHTML = ""
-			console.log(newObj)
+
 			content.appendChild(newObj)
 			window.print()
 			content.innerHTML = ""

@@ -309,22 +309,22 @@
   <script type="text/ng-template" id="exchange.tpl.html">
     <div class="modal modal-warning" tabindex="-1" role="dialog">
         <div class="modal-dialog" style="width:500px;">
-            <div class="modal-content" id="print-self">
+            <div class="modal-content" >
                 <div class="modal-header">
                     <button type="button" class="close" ng-click="$hide()">&times;</button>
                     <h5 class="modal-title" style="color:#fff; margin-bottom: 0">提示框</h5>
                 </div>
-                <div class="modal-body ex-box" style="height:520px;padding-top: 50px;">
-                    <h5 style="color:#333; font-size:22px;">请核对账款信息，再确认交班</h5>
+                <div class="modal-body ex-box" style="height:520px;padding-top: 50px;" id="print-self">
+                    <div style="color:#333; font-size:18px;">请核对账款信息，再确认交班</div>
                     
-                    <h5> 备用金：<span ng-bind="gradeData.cash | currency:'¥' "></span> </h5>
-                    <h5> 收银员：<span ng-bind="gradeData.username"></span> </h5>
-                    <h5> 实收：<span ng-bind="gradeData.grade | currency:'¥' "></span> </h5>
-                    <h5> 虚收：<span ng-bind="gradeData.noincome | currency:'¥'"></span> </h5>
-                    <!-- <h5> 现金收入：<span ng-bind="gradeData.cashincome | currency:'¥'"></span> </h5> -->
-                    <h5> 上班时间：<span ng-bind="gradeData.start | onlytime"></span> </h5>
-                    <h5> 交班时间：<span ng-bind="gradeData.stop | onlytime"></span> </h5>
-                    <h5>
+                    <div> 备用金：<span ng-bind="gradeData.cash | currency:'¥' "></span> </div>
+                    <div> 收银员：<span ng-bind="gradeData.editPeople"></span> </div>
+                    <div> 实收：<span ng-bind="gradeData.totalReal | currency:'¥' "></span> </div>
+                    <div> 虚收：<span ng-bind="gradeData.noincome | currency:'¥'"></span> </div>
+                    <!-- <div> 现金收入：<span ng-bind="gradeData.cashincome | currency:'¥'"></span> </div> -->
+                    <div> 上班时间：<span ng-bind="gradeData.start | onlytime"></span> </div>
+                    <div> 交班时间：<span ng-bind="gradeData.stop | onlytime"></span> </div>
+                    <div>
                       <span >
                         工时统计：
                       </span>
@@ -334,10 +334,11 @@
                       <span>
                         {{((gradeData.stop - gradeData.start)/60000)%60 | floor}}分
                       </span>
-                    </h5>
-                   <!--  <h5> 共计：<span ng-bind=""></span> </h5> -->
-                    <button class="button button p-sure" ng-click="$hide()" style="color:#333;margin-right:30px;">取消</button>     
-                    <a class="button button-primary p-sure" href="/logout" ng-click="exchangeSure();$hide()" >确认</a>                
+                    </div>
+                   <!--  <div> 共计：<span ng-bind=""></span> </div> -->
+                    <button class="button button p-sure no-print" ng-click="$hide()" style="color:#333;margin-right:20px;">取消</button>     
+                    <a class="button button-primary p-sure no-print"  ng-click="printSelf()" style="margin-right:20px;">打印</a>    
+                    <a class="button button-primary p-sure no-print"  ng-click="exchangeSure();$hide()" href="/logout" >确认</a>                
                 </div>
         </div>
         </div>

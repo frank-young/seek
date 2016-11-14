@@ -12,6 +12,7 @@ var OverSchema = new mongoose.Schema({
 	cashincome:Number,	// 现金收入
 	totalReal:Number,   // 实收
 	reduceAfter:Number,
+	erase:Number,
 	payType:Array, 
 	editPeople:String,
 	time:Number,

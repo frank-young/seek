@@ -40,7 +40,6 @@ var smtpTransport = require('nodemailer-smtp-transport')
 	}
 	exports.savepassword = function(req, res) {
 		var _user = req.body.user
-		console.log(_user)
 		var rePassword = /^[\w\@\.\_]+$/
 		if(_user.password == ""){
 			res.json({
@@ -308,8 +307,6 @@ var smtpTransport = require('nodemailer-smtp-transport')
 		 	verify = _user.luotest_response
  		var rePhone = /^1[3|5|7|8]\d{9}$/
  		var rePassword = /^[\w\@\.\_]+$/
-
-		console.log(verify)
 
 		if(_user.phone == "" || _user.phone == null){
 			res.json({

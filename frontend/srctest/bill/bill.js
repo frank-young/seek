@@ -35,7 +35,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			}
 		})
 
-
 		$scope.total = 0
 		$scope.totalReal = 0
 
@@ -303,7 +302,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"time":Date.now(),
 					"year": Y,
 					"month": M,
-					"day": D,
+					"day": D
 				}
 
 			})
