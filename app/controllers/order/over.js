@@ -33,6 +33,24 @@ var _ = require('underscore'),
 		})
 	}
 
+	// 按日期的结班列表
+	exports.todaylistsome = function(req,res){
+		var user = req.session.user
+		var date = new Date(),
+			id = req.params.id
+		var Y = id.substr(0,4),
+			M = id.substr(4,2),
+			D = id.substr(6,2)
+
+		Over.fetch({"domainlocal":user.domain,"year":Y,"month":M,"day":D},function(err,overs){
+			res.json({
+				status:"1",
+				msg:"请求成功",
+				overs:overs
+			})
+		})
+	}
+
 	//结班更新、新建
 	exports.save = function(req,res){
 		var overObj = req.body.over 

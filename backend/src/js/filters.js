@@ -134,3 +134,12 @@ app.filter('datetime', function(){
   }
 
 })
+
+app.filter('floor', function(){
+  return function(value){
+    if(value){
+        return parseInt(Math.floor(value))
+    }
+  }
+
+})

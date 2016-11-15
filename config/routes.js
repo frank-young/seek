@@ -81,6 +81,7 @@ module.exports = function(app){
   app.get('/order/downloadday',User.signinRequired, Order.downloadDay)
   app.get('/order/grade',User.signinRequired, Order.gradeToday)
   app.get('/order/gradeall',User.signinRequired, Order.gradeAllToday)
+  app.get('/order/grade/some/:id',User.signinRequired, Order.gradeAllSomeday)
 
   app.get('/order/api/:id', Order.api)
   app.get('/order/apiview', Order.apiview)
@@ -112,6 +113,7 @@ module.exports = function(app){
   // 结班报告
   app.get('/over',User.signinRequired, Over.list)
   app.get('/over/today',User.signinRequired, Over.todaylist)
+  app.get('/over/some/:id',User.signinRequired, Over.todaylistsome)
   app.post('/over/add',User.signinRequired, Over.save)
   app.get('/over/detail/:id', User.signinRequired, Over.detail)
 
@@ -170,12 +172,14 @@ module.exports = function(app){
   app.post('/wechat/pay',Wechat.pay)  //刷卡支付
   app.post('/wechat/orderquery',Wechat.orderquery)  //查询支付订单
   app.get('/wechat/pay/payorder/today/:id',Payorder.todayPayorder)  //查询今日订单
+  app.get('/wechat/pay/payorder/some/:id/:date',Payorder.somePayorder)  //按日期查询订单
 
   // 支付宝端接口
   app.post('/alipay/init',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse,Alipay.init)
   app.post('/alipay/callback',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse,Alipay.callback)
   app.post('/alipay/pospay',Alipay.pospay)
   app.get('/alipay/alipayorder/today/:id',Alipayorder.todayAlipayorder)  //查询今日订单
+  app.get('/alipay/alipayorder/today/:id/:date',Alipayorder.someAlipayorder)  //按日期查询订单
 
 
 }

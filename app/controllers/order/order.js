@@ -485,6 +485,66 @@ var Order = require('../../models/order/order'),	//引入模型
 
 	}
 
+	//代码的未重构，导致代码量增多，遗憾遗憾！！
+	// 今日总业绩
+	exports.gradeAllSomeday = function(req,res){
+		var user = req.session.user,
+			loginTime = req.session.loginTime,
+			id = req.params.id
+		var Y = id.substr(0,4),
+			M = id.substr(4,2),
+			D = id.substr(6,2)
+
+
+		Order.fetch({"domainlocal":user.domain,"year":Y,"month":M,"day":D},function(err,orders){
+			var grade = 0,
+				noincome = 0,
+				people = 0,
+				stand = 0,
+				reduce = 0,
+				onceincome = 0,
+				cashincome = 0,
+				total = 0,
+				totalNeed = 0,
+				reduceAfter = 0,
+				erase = 0
+				
+			orders.forEach(function(ele){
+				grade += ele.realTotal
+				noincome += ele.noincome
+				people += ele.peopleNum
+				reduce += ele.reduce
+				onceincome += ele.onceincome
+				cashincome += ele.cashincome
+				total += ele.total
+				reduceAfter += ele.reduceAfter
+				erase += ele.erase
+			})
+
+			stand = orders.length
+			totalNeed += noincome+total
+			
+ 			res.json({
+				msg:"请求成功",
+				status: 1,
+				grade:grade,
+				noincome:noincome,
+				people: people,
+				reduce: reduce,
+				onceincome: onceincome,
+				cashincome:cashincome,
+				total: total,
+				stand: stand,
+				start:loginTime,
+				totalNeed: totalNeed,
+				reduceAfter:reduceAfter,
+				erase:erase,
+				year:Y,
+				month:M,
+				day:D
+			})
+		})
+	}
 
 
 

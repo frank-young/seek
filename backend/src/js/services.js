@@ -427,11 +427,11 @@ angular.module('serviceData', [])
                 });
                 return defer.promise;
             },
-             getGradeAllData: function () {
+             getGradeAllData: function (id) {
                 var defer = $q.defer();
                 $http({
-                    url: '/order/gradeall',
-                    method: 'get' 
+                    url: '/order/grade/some/'+id,
+                    method: 'get'
                 })
                 .success(function (data, status, headers, config) {
                     defer.resolve(data);
@@ -755,10 +755,10 @@ angular.module('serviceData', [])
                 });
                 return defer.promise;
             },
-            getTodayData: function () {
+            getTodayData: function (id) {
                 var defer = $q.defer();
                 $http({
-                    url: '/over/today',
+                    url: '/over/some/'+id,
                     method: 'get' 
                 })
                 .success(function (data, status, headers, config) {
@@ -805,10 +805,10 @@ angular.module('serviceData', [])
     }])
     .factory('payorderData', ['$q','$http',function($q,$http){
         return {
-            getData: function (id) {
+            getData: function (id,date) {
                 var defer = $q.defer();
                 $http({
-                    url: '/wechat/pay/payorder/today/'+id,
+                    url: '/wechat/pay/payorder/some/'+id+'/'+date,
                     method: 'get'
                 })
                 .success(function (data, status, headers, config) {
@@ -818,10 +818,10 @@ angular.module('serviceData', [])
                 });
                 return defer.promise;
             },
-            getAlipayData: function (id) {
+            getAlipayData: function (id,date) {
                 var defer = $q.defer();
                 $http({
-                    url: '/alipay/alipayorder/today/'+id,
+                    url: '/alipay/alipayorder/today/'+id+'/'+date,
                     method: 'get'
                 })
                 .success(function (data, status, headers, config) {

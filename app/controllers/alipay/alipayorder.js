@@ -22,6 +22,27 @@ var alipayorder = require('../../models/alipay/alipayorder'),
 		})
 	}
 
+	exports.someAlipayorder = function(req, res) {
+		var device_info = req.params.id,
+			date = req.params.date
+		var Y = date.substr(0,4),
+			M = date.substr(4,2),
+			D = date.substr(6,2)
+
+		alipayorder.fetch({"device_info":device_info,"year":Y,"month":M,"day":D},function(err,orders){
+			var alipospay = 0
+			orders.forEach(function(ele){
+				alipospay += ele.receipt_amount
+			})
+			res.json({
+					status:1,
+					msg:"读取成功",
+					alipospay:alipospay
+				})
+
+		})
+	}
+
 
 
 

@@ -5,7 +5,7 @@
 			<a href="javascript:window.history.go(-1)" type="button" class="btn btn-primary ml-20"> <i class="fa fa-angle-left"></i>
 				返回
 			</a>
-			<a ng-click="printOrder()" class="btn btn-danger"> <i class="fa fa-file-pdf-o"></i>
+			<a ng-click="printOver()" class="btn btn-danger"> <i class="fa fa-file-pdf-o"></i>
 				打印
 			</a>
 			<!-- <button type="button" class="btn btn-success" ng-click="saveOrder(order)">
@@ -22,48 +22,48 @@
 
 					<h5>结班报告</h5>
 					<h5>
-						{{todayData.overAll.year}}年{{todayData.overAll.month}}月{{todayData.overAll.day}}日
+						{{overAll.year}}年{{overAll.month}}月{{overAll.day}}日
 					</h5>
 					<div class="detail-item">
 						<span >用餐人数：</span>
-						<span ng-bind="todayData.overAll.people"></span>
+						<span ng-bind="overAll.people"></span>
 					</div>
 					<div class="detail-item">
 						<span >开台数：</span>
-						<span ng-bind="todayData.overAll.stand"></span>
+						<span ng-bind="overAll.stand"></span>
 					</div>
 					<div class="detail-item">
 						<span >赠单金额：</span>
-						<span ng-bind="todayData.overAll.onceincome| currency:'¥'"></span>
+						<span ng-bind="overAll.onceincome| currency:'¥'"></span>
 					</div>
 					<div class="detail-item">
 						<span >优惠金额：</span>
-						<span ng-bind="todayData.overAll.reduce - todayData.overAll.noincome - todayData.overAll.onceincome | currency:'¥'"></span>
+						<span ng-bind="overAll.reduce - overAll.noincome - overAll.onceincome | currency:'¥'"></span>
 					</div>
 					<div class="detail-item">
 						<span >品项消费：</span>
-						<span ng-bind="todayData.overAll.total | currency:'¥'"></span>
+						<span ng-bind="overAll.total | currency:'¥'"></span>
 					</div>
 					<div class="detail-item">
 						<span >优惠后合计：</span>
-						<span  ng-bind="todayData.overAll.reduceAfter | currency:'¥' "></span>
+						<span  ng-bind="overAll.reduceAfter | currency:'¥' "></span>
 					</div>
 					<div class="detail-item">
 						<span >抹零金额：</span>
-						<span  ng-bind="todayData.overAll.erase | currency:'¥' "></span>
+						<span  ng-bind="overAll.erase | currency:'¥' "></span>
 					</div>
 					<div class="detail-item">
 						<span >实收合计：</span>
-						<span  ng-bind="todayData.overAll.grade | currency:'¥' "></span>
+						<span  ng-bind="overAll.grade | currency:'¥' "></span>
 					</div>
 					<div class="detail-item">
 						<span >挂账：</span>
-						<span  ng-bind="todayData.overAll.noincome | currency:'¥' "></span>
+						<span  ng-bind="overAll.noincome | currency:'¥' "></span>
 					</div>
 
 					<div class="detail-item">
 						<span >应收合计：</span>
-						<span  ng-bind="todayData.overAll.grade +todayData.overAll.noincome| currency:'¥' "></span>
+						<span  ng-bind="overAll.grade +overAll.noincome| currency:'¥' "></span>
 					</div>
 					<div class="hr">
 						------------------------------------------------------------------------------
@@ -71,17 +71,17 @@
 
 					<div class="detail-item">
 						<span >微信支付金额合计：</span>
-						<span  ng-bind="todayData.wxpospay| currency:'¥' "></span>
+						<span  ng-bind="wxpospay| currency:'¥' "></span>
 					</div>
 					<div class="detail-item">
 						<span >支付宝支付金额合计：</span>
-						<span  ng-bind="todayData.alipospay| currency:'¥' "></span>
+						<span  ng-bind="alipospay| currency:'¥' "></span>
 					</div>
 					<div class="hr">
 						------------------------------------------------------------------------------
 					</div>
 
-					<div class="detail-box" ng-repeat="ov in todayData.overs">
+					<div class="detail-box" ng-repeat="ov in overs">
 						<h5>
 							收银员：
 							<span ng-bind="ov.editPeople"></span>
@@ -159,3 +159,16 @@
 	</div>
 </form>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
