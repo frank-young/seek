@@ -869,7 +869,70 @@ a.time-select:hover{
   box-shadow: 0 0 12px #c5c5c5;
 }
 
+/* 订单详情页面 */
+.hr {
+  white-space: nowrap;
+  overflow: hidden;
+}
+.detail{
+  padding: 30px;
+  width:260px;
+  margin: 0 auto;
+  font-size: 14px;
+}
+.detail h5{
+  font-size: 18px;
+}
 
+.detail-item{
+  text-align: left;
+}
 
+/*打印部分样式*/
+@media print{
+  .no-print{
+    display: none;
+  }
+  .print-view{
+    display: block !important;
+  }
+  .detail{
+    display: block !important;
 
+    padding: 0;
+    margin: 0;
+    width: 180px;
+    height: 100%;
+    color: #000;
+    font-family: '微软雅黑';
+    font-weight: 300;
+    font-size: 13px;
+  }
+  .detail h5{
+    text-align: center;
+  }
+  .detail th{
+    font-weight: 300;
+  }
+  #print-content{
+    display: block !important;
+    position: absolute;
+    top: 0;
+    z-index: 100;
+  }
+  .now-time {
+    display: block;
+    font-size: 12px;
+  }
+  .now-time span {
+    font-size: 10px;
+  }
+  .f12{
+    font-size: 12px !important;
+  }
+  
+}
 
+@page:first {
+  margin: 0;
+}

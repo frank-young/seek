@@ -1,0 +1,65 @@
+<div ng-controller="ItemDetailCtrl">
+	<form name="orderForm">
+		<h2 class="page-header">
+			品项报告详情
+			<a href="javascript:window.history.go(-1)" type="button" class="btn btn-primary ml-20"> <i class="fa fa-angle-left"></i>
+				返回
+			</a>
+			<a ng-click="printOrder()" class="btn btn-danger"> <i class="fa fa-file-pdf-o"></i>
+				打印
+			</a>
+			<!-- <button type="button" class="btn btn-success" ng-click="saveOrder(order)">
+			<i class="fa fa-save"></i>
+			保存
+		</button>
+		-->
+	</h2>
+	<div class="pro-wrap">
+		<div class="row">
+			<div class="col-md-10 col-md-offset-1">
+
+				<div class="detail" id="print-item">
+					<h3 class="text-center">品项报告</h3>
+					<h5 class="text-center">
+						{{items[0].year}}年{{items[0].month}}月{{items[0].day}}日
+					</h5>
+
+					<div class="detail-item">
+						<table class="table">
+							<thead>
+								<tr >
+									<th>名称</th>
+									<th>数量</th>
+									<th>小计</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr ng-repeat="it in items">
+									<td ng-bind="it.name"></td>
+									<td>{{it.number}}</td>
+									<td ng-bind="it.reducePrice | currency:'¥' "></td>
+								</tr>
+							</tbody>
+						</table>
+
+					</div>
+
+					<div class="detail-item">
+						<span>品项金额合计：</span>
+						<span  ng-bind="total_fee | currency:'¥' "></span>
+					</div>
+					<div class="hr">
+						------------------------------------------------------------------------------
+					</div>
+
+					<div class="detail-item now-time">
+						<span>打印时间：</span>
+						<span ng-bind="nowtime | datetime"></span>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</form>
+</div>

@@ -71,8 +71,6 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 
 		// 打印函数
 		function printFunc(id){
-			
-			// var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
 			var ele = document.getElementById(id)
 			var content = document.getElementById('print-content')
 			

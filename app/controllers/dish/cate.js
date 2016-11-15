@@ -7,7 +7,7 @@ var _ = require('underscore')
 		Cate.fetch({"domainlocal":user.domain},function(err,cates){
 			res.json({
 				status:"1",
-				msg:"请求成功",
+				msg:"操作成功",
 				cates:cates
 			})
 		})

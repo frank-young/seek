@@ -478,10 +478,11 @@ angular.module("dishAddMoudle", []).controller('DishAddCtrl',
             "checked":false
         }
         cateData.addData(msgadd).then(function(data){
-            $scope.changeAlert(data.msg);
+            // $scope.changeAlert(data.msg)
         })
         cateData.getData().then(function (data) {
             $scope.cate = data.cates
+            $scope.changeAlert(data.msg)
         })
     }
 }]);/********************************************************************************************************************
@@ -940,7 +941,45 @@ angular.module("itemDayMoudle", []).controller('ItemDayCtrl',
         })
 
     }
-]);    /********************************************************************************************************************
+]);/********************************************************************************************************************
+ *                                                      品项报告详情页面
+ ********************************************************************************************************************/
+
+angular.module("itemDetailMoudle", []).controller('ItemDetailCtrl', 
+    ['$scope','$window', '$http', '$stateParams','$alert','orderData','itemData',
+    function($scope,$window, $http, $stateParams,$alert,orderData,itemData) {
+	$window.document.title = "品项报告详情"
+
+    itemData.getIdData($stateParams.id).then(function(data){
+        $scope.items = data.items
+        $scope.total_fee = 0
+        $scope.items.forEach(function(value){
+            $scope.total_fee += value.total
+        })
+    })
+    
+    $scope.nowtime = new Date().getTime()
+    $scope.printOrder = function(){
+        $scope.nowtime = new Date().getTime()
+        console.log($scope.nowtime)
+        printFunc('print-item')
+    }
+
+
+
+    function printFunc(id){
+        var ele = document.getElementById(id)
+        var content = document.getElementById('print-content')
+        
+        var newObj=ele.cloneNode(true)
+        content.innerHTML = ""
+        content.appendChild(newObj)
+        window.print()
+        content.innerHTML = ""
+
+    } 
+
+}]);    /********************************************************************************************************************
  *                                                      全部订单页面
  ********************************************************************************************************************/
 
@@ -1138,7 +1177,12 @@ angular.module("orderDetailMoudle", []).controller('OrderDetailCtrl',
 	$scope.isEdit = true;
 
     var date = new Date();
-    $scope.payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
+    //获取支付方式
+    paytypeData.getData().then(function(data){
+        $scope.payTypeArr = data.paytypes.map(function(value){
+            return value.label
+        })
+    })
     
     /* 订单详情请求 */
     orderData.getIdData($stateParams.id).then(function (data) {
@@ -1156,6 +1200,24 @@ angular.module("orderDetailMoudle", []).controller('OrderDetailCtrl',
         localStorage.order= JSON.stringify($scope.order);
         localStorage.showImages= JSON.stringify($scope.order.path);
     }
+
+    $scope.printOrder = function(){
+        $scope.nowtime = new Date().getTime()
+        console.log($scope.nowtime)
+        printFunc('print')
+    }
+
+        function printFunc(id){
+            var ele = document.getElementById(id)
+            var content = document.getElementById('print-content')
+            
+            var newObj=ele.cloneNode(true)
+            content.innerHTML = ""
+            content.appendChild(newObj)
+            window.print()
+            content.innerHTML = ""
+
+        } 
 
 }]);;/********************************************************************************************************************
  *                                                      月报表页面
@@ -1184,6 +1246,57 @@ angular.module("orderMonthMoudle", []).controller('OrderMonthCtrl',
 
     }
 ]);/********************************************************************************************************************
+ *                                                      品项报告详情页面
+ ********************************************************************************************************************/
+
+angular.module("overDetailMoudle", []).controller('OverDetailCtrl', 
+    ['$scope','$window', '$http', '$stateParams','$alert','orderData','itemData','overData','domainData',
+    function($scope,$window, $http, $stateParams,$alert,orderData,itemData,overData,domainData) {
+	$window.document.title = "品项报告详情"
+
+    orderData.getGradeAllData().then(function(data){
+        $scope.todayData.overAll = data 
+    })
+
+    // 获取所有人的结班报告
+    overData.getTodayData().then(function(data){
+        $scope.todayData.overs = data.overs 
+    })
+
+    //获取微信支付金额
+    domainData.getShopidData().then(function(data){
+        payorderData.getData(data.shopid).then(function(wxdata){
+            $scope.todayData.wxpospay = wxdata.wxpospay
+        })
+    })
+
+    //获取支付宝支付金额
+    domainData.getShopidData().then(function(data){
+        payorderData.getAlipayData(data.shopid).then(function(alipaydata){
+            $scope.todayData.alipospay = alipaydata.alipospay
+        })
+    })
+    
+    $scope.nowtime = new Date().getTime()
+    $scope.printOrder = function(){
+        $scope.nowtime = new Date().getTime()
+        console.log($scope.nowtime)
+        printFunc('print-item')
+    }
+
+    function printFunc(id){
+        var ele = document.getElementById(id)
+        var content = document.getElementById('print-content')
+        
+        var newObj=ele.cloneNode(true)
+        content.innerHTML = ""
+        content.appendChild(newObj)
+        window.print()
+        content.innerHTML = ""
+
+    } 
+
+}]);/********************************************************************************************************************
  *                                                      门店设置
  ********************************************************************************************************************/
 

@@ -86,7 +86,7 @@ var _ = require('underscore'),
 		}
 	}
 
-	//根据订单号删除品项
+	//根据品项号删除品项
 	exports.delSome = function(req,res){
 		var orderNum = req.query.id
 		if(orderNum){
@@ -100,15 +100,25 @@ var _ = require('underscore'),
 		}
 	}
 
-	//订单详情页
+	//品项详情页,每日品项详情
 	exports.detail = function(req,res){
-		var id = req.params.id	
-		Item.findById(id,function(err,item){
+		var id = req.params.id
+		var user = req.session.user
+		var year = id.substr(0,4),
+			month = id.substr(4,2),
+			day = id.substr(6,2)
+
+		Item.fetch({"domainlocal":user.domain,"year":year,"month":month,"day":day},function(err,items){
+			
 			res.json({
-				item:item
+				status:1,
+				msg:'读取成功',
+				items:items
 			})
 		})
+
 	}
+
 
 	//品项报告列表页
 	exports.itemdayList = function(req,res){
@@ -158,7 +168,6 @@ var _ = require('underscore'),
 
 		var user = req.session.user
 		var fields = ['名称', '数量','小计']
-		var payTypeArr = ['现金','微信','支付宝','会员卡','次卡','校园卡']
 
 		var itemData = []
 		Item.fetch({"domainlocal":user.domain,"year":year,"month":month,"day":day},function(err,items){

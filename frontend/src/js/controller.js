@@ -328,10 +328,10 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 	            	isChecked:false,
 					name: ele.name,
 					cate: ele.cate,
-					price:ele.price,
-					reducePrice:ele.reducePrice,
+					price:Math.round(ele.price*100)/100,
+					reducePrice:Math.round(ele.reducePrice*100)/100,
 					number:ele.number, 
-					total:ele.number * ele.price,
+					total:Math.round(ele.number * ele.reducePrice*100)/100,
 					time:Date.now(),
 					year: Y,
 					month: M,
@@ -683,8 +683,6 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 
 		// 打印函数
 		function printFunc(id){
-			
-			// var LODOP=getLodop(document.getElementById('LODOP_OB'),document.getElementById('LODOP_EM'))
 			var ele = document.getElementById(id)
 			var content = document.getElementById('print-content')
 			

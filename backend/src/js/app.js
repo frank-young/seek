@@ -20,12 +20,14 @@ var app = angular.module('app', [
         'teamMoudle',
         'teamAddMoudle',
         'teamDetailMoudle',
+        'overDetailMoudle',
         'orderMoudle',
         'orderAddMoudle',
         'orderDetailMoudle',
         'orderMonthMoudle',
         'orderDayMoudle',
         'itemDayMoudle',
+        'itemDetailMoudle',
         'creditMoudle',
         'paytypeMoudle',
         'setMoudle',
@@ -120,6 +122,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('web.itemDay', {
             url: '/itemday',
             templateUrl: 'tpls/order/itemday.html'
+        })
+        .state('web.itemDetail', {
+            url: '/itemdetail/:id',
+            templateUrl: 'tpls/order/itemdetail.html'
+        })
+        .state('web.overDetail', {
+            url: '/overdetail/:id',
+            templateUrl: 'tpls/order/overdetail.html'
         })
         .state('web.credit', {
             url: '/credit',
