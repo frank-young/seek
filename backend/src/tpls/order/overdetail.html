@@ -22,48 +22,48 @@
 
 					<h5>结班报告</h5>
 					<h5>
-						{{todayDataoverAll.year}}年{{todayDataoverAll.month}}月{{todayDataoverAll.day}}日
+						{{todayData.overAll.year}}年{{todayData.overAll.month}}月{{todayData.overAll.day}}日
 					</h5>
 					<div class="detail-item">
 						<span >用餐人数：</span>
-						<span ng-bind="todayDataoverAll.people"></span>
+						<span ng-bind="todayData.overAll.people"></span>
 					</div>
 					<div class="detail-item">
 						<span >开台数：</span>
-						<span ng-bind="todayDataoverAll.stand"></span>
+						<span ng-bind="todayData.overAll.stand"></span>
 					</div>
 					<div class="detail-item">
 						<span >赠单金额：</span>
-						<span ng-bind="todayDataoverAll.onceincome| currency:'¥'"></span>
+						<span ng-bind="todayData.overAll.onceincome| currency:'¥'"></span>
 					</div>
 					<div class="detail-item">
 						<span >优惠金额：</span>
-						<span ng-bind="todayDataoverAll.reduce - todayDataoverAll.noincome - todayDataoverAll.onceincome | currency:'¥'"></span>
+						<span ng-bind="todayData.overAll.reduce - todayData.overAll.noincome - todayData.overAll.onceincome | currency:'¥'"></span>
 					</div>
 					<div class="detail-item">
 						<span >品项消费：</span>
-						<span ng-bind="todayDataoverAll.total | currency:'¥'"></span>
+						<span ng-bind="todayData.overAll.total | currency:'¥'"></span>
 					</div>
 					<div class="detail-item">
 						<span >优惠后合计：</span>
-						<span  ng-bind="todayDataoverAll.reduceAfter | currency:'¥' "></span>
+						<span  ng-bind="todayData.overAll.reduceAfter | currency:'¥' "></span>
 					</div>
 					<div class="detail-item">
 						<span >抹零金额：</span>
-						<span  ng-bind="todayDataoverAll.erase | currency:'¥' "></span>
+						<span  ng-bind="todayData.overAll.erase | currency:'¥' "></span>
 					</div>
 					<div class="detail-item">
 						<span >实收合计：</span>
-						<span  ng-bind="todayDataoverAll.grade | currency:'¥' "></span>
+						<span  ng-bind="todayData.overAll.grade | currency:'¥' "></span>
 					</div>
 					<div class="detail-item">
 						<span >挂账：</span>
-						<span  ng-bind="todayDataoverAll.noincome | currency:'¥' "></span>
+						<span  ng-bind="todayData.overAll.noincome | currency:'¥' "></span>
 					</div>
 
 					<div class="detail-item">
 						<span >应收合计：</span>
-						<span  ng-bind="todayDataoverAll.grade +todayDataoverAll.noincome| currency:'¥' "></span>
+						<span  ng-bind="todayData.overAll.grade +todayData.overAll.noincome| currency:'¥' "></span>
 					</div>
 					<div class="hr">
 						------------------------------------------------------------------------------
@@ -81,7 +81,7 @@
 						------------------------------------------------------------------------------
 					</div>
 
-					<div class="detail-box" ng-repeat="ov in overs">
+					<div class="detail-box" ng-repeat="ov in todayData.overs">
 						<h5>
 							收银员：
 							<span ng-bind="ov.editPeople"></span>
