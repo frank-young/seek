@@ -1252,7 +1252,7 @@ angular.module("orderMonthMoudle", []).controller('OrderMonthCtrl',
 angular.module("overDetailMoudle", []).controller('OverDetailCtrl', 
     ['$scope','$window', '$http', '$stateParams','$alert','orderData','itemData','overData','domainData',
     function($scope,$window, $http, $stateParams,$alert,orderData,itemData,overData,domainData) {
-	$window.document.title = "品项报告详情"
+	$window.document.title = "结班报告详情"
 
     orderData.getGradeAllData().then(function(data){
         $scope.todayData.overAll = data 
