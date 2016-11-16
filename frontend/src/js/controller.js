@@ -151,25 +151,26 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
 
 				}
-				// if(value == 0){
-				// 	$scope.order.cashincome = $scope.order.totalReal	// 计入现金收入
-
-				// }
 				// else{
 				// 	$scope.discountItemFunc(ele,100)
 				// }
 				
 			})
 			payTypeFunc()
-			if(value == 1){
+			if(value === 0){
+				$scope.order.cashincome = $scope.order.realTotal	// 计入现金收入
+			}else if(value === 1){
+				$scope.order.wxincome = $scope.order.realTotal 		// 计入微信收入
 				//禁止手动结账
 				$scope.wechatHide = true
 				//聚焦使用扫码枪
 				document.getElementById("wechat").focus()
-			}
-			if(value == 2){
+			}else if(value === 2){
+				$scope.order.alipayincome = $scope.order.realTotal  // 计入支付宝收入
 				$scope.wechatHide = true
 				document.getElementById("alipay").focus()
+			}else if(value === 5){
+				$scope.order.schoolincome = $scope.order.realTotal  // 计入校园卡收入
 			}
 
 		}
@@ -177,20 +178,25 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		// 选择付款方式 单项
 		$scope.selectPay = function(ele,index) {
 			ele.payType = index
-			if(index == 4){
+			if(index === 4){
 				$scope.discountItemFunc(ele,0)
 				$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
 
+			}else if(value === 0){
+				$scope.order.cashincome = $scope.order.realTotal	// 计入现金收入
+			}else if(value === 5){
+				$scope.order.schoolincome = $scope.order.realTotal  // 计入校园卡收入
 			}
-			// else if(index == 0){
-			// 	$scope.order.cashincome = $scope.order.totalReal	// 计入现金收入
-
+			// else{
+			// 	$scope.discountItemFunc(ele,100)
 			// }
-			else{
-				$scope.discountItemFunc(ele,100)
-			}
 			payTypeFunc()
 			
+		}
+
+		//默认的现金收入判断
+		if($scope.order.payType == 0){
+			$scope.order.cashincome = $scope.order.realTotal	// 计入现金收入
 		}
 
 		// 选择会员
@@ -294,6 +300,9 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"erase":0,
 					"onceincome":0,
 					"cashincome":0,
+					"wxincome":0,
+					"alipayincome":0,
+					"schoolincome":0,
 					"total": $scope.total,
 					"reduce": $scope.total - $scope.totalReal,
 					"reduceAfter": $scope.totalReal,

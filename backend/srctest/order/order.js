@@ -3,17 +3,25 @@
  ********************************************************************************************************************/
 
 angular.module("orderMoudle", []).controller('OrderCtrl', 
-    ['$scope','$window', '$http', '$state','$alert','orderData',
-    function($scope,$window, $http, $state,$alert,orderData) {
+    ['$scope','$window', '$http', '$state','$alert','orderData','paytypeData',
+    function($scope,$window, $http, $state,$alert,orderData,paytypeData) {
 	$window.document.title = "日报表"
     /* 顶部固定按钮 */
     $scope.pinShow = false;
     /* 栏目按钮显示隐藏 */
 	$scope.allShow = false;
-    $scope.payTypeArr = ['现金','微信','支付宝','会员卡','次卡','一卡通']
+    
 	$scope.pinShowFunc = function(){
         $scope.pinShow = !$scope.pinShow
     }
+
+    //获取支付方式
+    paytypeData.getData().then(function(data){
+        $scope.payTypeArr = data.paytypes.map(function(value){
+            return value.label
+        })
+    })
+    
 	/* 根据数组值找到索引*/
     function findIndex(current, obj){
         for(var i in obj){

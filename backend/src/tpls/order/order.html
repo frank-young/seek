@@ -109,7 +109,7 @@
                         <a href="" ui-sref="web.orderDetail({id:o._id})" ng-bind="o.orderNum"></a>
                     </div>
                     <div class="col-xs-3">
-                        <p ng-bind="o.total | currency:'￥' "></p>
+                        <p ng-bind="o.realTotal | currency:'￥' "></p>
                     </div>
                     <div class="col-xs-4">
                         <p><span ng-repeat="pt in o.payType" ng-bind="payTypeArr[pt]+' ' "></span></p>

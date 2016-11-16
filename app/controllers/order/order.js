@@ -158,6 +158,9 @@ var Order = require('../../models/order/order'),	//引入模型
 						noincome:Math.round(orderObj.noincome*100)/100,
 						onceincome:Math.round(orderObj.onceincome*100)/100,
 						cashincome:Math.round(orderObj.cashincome*100)/100,
+						wxincome:Math.round(orderObj.wxincome*100)/100,
+						alipayincome:Math.round(orderObj.alipayincome*100)/100,
+						schoolincome:Math.round(orderObj.schoolincome*100)/100,
 						credit:Math.round(orderObj.credit*100)/100,
 						erase:orderObj.erase,
 						isMember: orderObj.isMember,
@@ -253,7 +256,7 @@ var Order = require('../../models/order/order'),	//引入模型
 		var month = req.query.month
 
 		var user = req.session.user
-		var fields = ['时间','订单编号', '总价','应收','次卡','挂帐金额','实收']
+		var fields = ['时间','订单编号', '总价','优惠','次卡','挂帐金额','现金','微信','支付宝','校园卡','应收','抹零','实收']
 
 		var orderData = []
 		Order.fetch({"domainlocal":user.domain,"year":year,"month":month},function(err,orders){
@@ -263,9 +266,15 @@ var Order = require('../../models/order/order'),	//引入模型
 					"时间":value.year+'年'+value.month+'月'+value.day+'日',
 					"订单编号":value.orderNum,
 					"总价":value.total,
-					"应收":value.reduceAfter,
+					"优惠":value.reduce,
 					"次卡":value.onceincome,
 					'挂帐金额':value.noincome,
+					'现金':value.cashincome,
+					'微信':value.wxincome,
+					'支付宝':value.alipayincome,
+					'校园卡':value.schoolincome,
+					"应收":value.reduceAfter,
+					"抹零":value.erase,
 					"实收":value.realTotal
 
 				}
@@ -277,6 +286,7 @@ var Order = require('../../models/order/order'),	//引入模型
 			var link = '/orderprint/'+file
 
 			fs.writeFile('frontend/src'+link, csv, function(err) {
+				if(err) throw err
 			  	res.json({
 			  		status:1,
 			  		msg:"生成文件成功！",

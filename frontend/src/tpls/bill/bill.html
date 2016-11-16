@@ -250,7 +250,7 @@
 
           <h4>合计： 
             <span ng-bind="order.realTotal | currency:'¥' "></span>
-            <button ng-click="roundFunc(order)" class="button " style="padding: 0 10px;float:right">抹零</button>
+            <button ng-click="roundFunc(order)" class="button " style="padding: 0 10px;float:right"  ng-show="order.payType==0">抹零</button>
           </h4>
         </div>
         <button ng-disabled="wechatTag" class="button button-primary btn-bill" data-animation="am-fade-and-scale" placement="center" data-template-url="setdish.tpl.html" bs-modal="cashInfo" id="bill" data-backdrop="static" ng-hide="wechatHide">结算</button>

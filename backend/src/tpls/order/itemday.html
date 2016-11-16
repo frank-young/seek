@@ -29,7 +29,7 @@
     <div class="col-md-12">
         <div class="row">
             <div class="col-md-3 text-center">
-               <a href="{{o.link}}" ng-bind="o.year+'年'+o.month+'月'+o.day+'日品项报告' " download="{{o.file}}"></a>
+               <a ui-sref="web.itemDetail({id:{{o.year+o.month+o.day}}})" ng-bind="o.year+'年'+o.month+'月'+o.day+'日品项报告' "></a>
             </div>
             <div class="col-md-2 ">
                 <p ng-bind="o.year"></p>

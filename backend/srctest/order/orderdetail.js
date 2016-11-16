@@ -3,8 +3,8 @@
  ********************************************************************************************************************/
 
 angular.module("orderDetailMoudle", []).controller('OrderDetailCtrl', 
-    ['$scope','$window', '$http', '$stateParams','$alert','orderData',
-    function($scope,$window, $http, $stateParams,$alert,orderData) {
+    ['$scope','$window', '$http', '$stateParams','$alert','orderData','paytypeData',
+    function($scope,$window, $http, $stateParams,$alert,orderData,paytypeData) {
 	$window.document.title = "订单详情";
     /* 是否可编辑 */
 	$scope.isEdit = true;
