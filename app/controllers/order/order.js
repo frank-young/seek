@@ -161,6 +161,7 @@ var Order = require('../../models/order/order'),	//引入模型
 						wxincome:Math.round(orderObj.wxincome*100)/100,
 						alipayincome:Math.round(orderObj.alipayincome*100)/100,
 						schoolincome:Math.round(orderObj.schoolincome*100)/100,
+						otherincome:Math.round(orderObj.otherincome*100)/100,
 						credit:Math.round(orderObj.credit*100)/100,
 						erase:orderObj.erase,
 						isMember: orderObj.isMember,
@@ -263,7 +264,7 @@ var Order = require('../../models/order/order'),	//引入模型
 
 			orders.forEach(function(value,index){
 				var orderObj = {
-					"时间":value.year+'年'+value.month+'月'+value.day+'日',
+					"时间":value.year+'-'+value.month+'-'+value.day,
 					"订单编号":value.orderNum,
 					"总价":value.total,
 					"优惠":value.reduce,

@@ -141,6 +141,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 选择付款方式 统一
 		$scope.selectType = function(value){
+			resetIncome()
 			$scope.wechatHide = false
 			$scope.auth_code = ""
 			$scope.alipay_auth_code = ""
@@ -177,6 +178,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 选择付款方式 单项
 		$scope.selectPay = function(ele,index) {
+			resetIncome()
 			ele.payType = index
 			if(index === 4){
 				$scope.discountItemFunc(ele,0)
@@ -194,9 +196,13 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			
 		}
 
-		//默认的现金收入判断
-		if($scope.order.payType == 0){
-			$scope.order.cashincome = $scope.order.realTotal	// 计入现金收入
+		//重置付款方式收入金额
+		function resetIncome(){
+			$scope.order.cashincome = 0
+			$scope.order.wxincome = 0
+			$scope.order.alipayincome = 0
+			$scope.order.onceincome = 0
+			$scope.order.schoolincome = 0
 		}
 
 		// 选择会员
@@ -299,10 +305,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"credit":0,
 					"erase":0,
 					"onceincome":0,
-					"cashincome":0,
+					"cashincome":$scope.totalReal,
 					"wxincome":0,
 					"alipayincome":0,
 					"schoolincome":0,
+					"otherincome":0,
 					"total": $scope.total,
 					"reduce": $scope.total - $scope.totalReal,
 					"reduceAfter": $scope.totalReal,

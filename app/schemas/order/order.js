@@ -31,6 +31,7 @@ var OrderSchema = new mongoose.Schema({
 	wxincome:Number,
 	alipayincome:Number,
 	schoolincome:Number,
+	otherincome:Number,
 	memberincome:Number,
 	credit:Number,
 	other1:String,
