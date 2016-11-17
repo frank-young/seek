@@ -816,9 +816,8 @@ angular.module("homeMoudle", []).controller('HomeCtrl',
 
 	  	// $scope.memberNum
 	  	//总业绩查询
-	  	orderData.getGradeAllData().then(function(data){
-	  		$scope.grade = data.grade
-			$scope.noincome = data.noincome
+	  	orderData.getGradeTodayData().then(function(data){
+	  		$scope.data = data
 	  	})
 	}
 ])
@@ -1306,6 +1305,31 @@ angular.module("overDetailMoudle", []).controller('OverDetailCtrl',
     } 
 
 }]);/********************************************************************************************************************
+ *                                                      账号设置
+ ********************************************************************************************************************/
+
+angular.module("selfsetMoudle", []).controller('SelfetCtrl', 
+    ['$scope','$window', '$http','$alert','domainData','settingData',
+    function($scope,$window, $http,$alert, domainData,settingData) {
+    $window.document.title = "账号设置";
+
+    $scope.setting={
+        password:"",
+        newpassword:"",
+        surepassword:""
+    }
+
+    $scope.saveSetting = function(value){
+        console.log(value)
+        settingData.selfsetData(value).then(function(data){
+            $scope.changeAlert(data.msg)
+        })
+    }
+
+}]) 
+ 
+
+ ;/********************************************************************************************************************
  *                                                      门店设置
  ********************************************************************************************************************/
 

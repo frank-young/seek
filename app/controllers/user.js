@@ -38,6 +38,114 @@ var smtpTransport = require('nodemailer-smtp-transport')
 	    	title: '重置密码成功'
 	  	})
 	}
+
+	//密码验证
+	exports.editpass = function(req,res){
+		var _user = req.session.user,
+			password = req.body.setting.password,
+			newpassword = req.body.setting.newpassword,
+			surepassword = req.body.setting.surepassword
+
+		var rePhone = /^1[3|5|7|8]\d{9}$/
+ 		var rePassword = /^[\w\@\.\_]+$/
+
+		if(password == "" || _user.password == null){
+			res.json({
+				status:0,
+				msg:"密码不能为空！"
+			})
+		}else if(rePassword.test(password)==false){
+			res.json({
+				status:0,
+				msg:"密码格式不正确，必须为字母、数字、下划线！"
+			})
+		}else if(password.length<6){
+			res.json({
+				status:0,
+				msg:"密码长度必须大于6位，小于20位！"
+			})
+		}else if(password.length>20){
+			res.json({
+				status:0,
+				msg:"密码长度必须大于6位，小于20位！"
+			})
+		}else if(newpassword == ""){
+			res.json({
+				status:0,
+				msg:"新密码不能为空！"
+			})
+		}else if(newpassword !== surepassword){
+			res.json({
+				status:0,
+				msg:"两次密码输入不一致！"
+			})
+		}else if(rePassword.test(newpassword)==false){
+			res.json({
+				status:0,
+				msg:"新密码格式不正确，必须为字母、数字、下划线！"
+			})
+		}else if(newpassword.length<6){
+			res.json({
+				status:0,
+				msg:"新密码长度必须大于6位，小于20位！"
+			})
+		}else if(newpassword.length>20){
+			res.json({
+				status:0,
+				msg:"新密码长度必须大于6位，小于20位！"
+			})
+		}else{
+			User.findOne({"email": _user.email},function(err,user){
+				if(err){
+					res.json({
+						status:0,
+						msg:"发生未知错误！"
+					})
+				}
+				if(!user){
+					res.json({
+						status:0,
+						msg:"用户不存在！"
+					})
+				}else{
+					user.comparePassword(password,function(err,isMatch){
+						if(err){
+							res.json({
+								status:0,
+								msg:"发生未知错误！"
+							})
+						}
+						if(isMatch){
+
+								User.findOne({"email": _user.email},function(err,user){
+									user.password = newpassword
+									user.save(function(err,user){
+										if(err){
+											res.json({
+												status:0,
+												msg:" 发生未知错误！"
+											})
+										}
+										res.json({
+											status:1,
+											msg:"修改密码成功！"
+										})
+									})
+								})
+
+						}else{
+							res.json({
+								status:0,
+								msg:"密码错误！"
+							})
+						}
+					})
+				}
+			})
+		}
+
+	}
+
 	exports.savepassword = function(req, res) {
 		var _user = req.body.user
 		var rePassword = /^[\w\@\.\_]+$/

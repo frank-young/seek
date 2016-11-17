@@ -34,6 +34,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				})
 			}
 		})
+		// $scope.changeAlert("点击“返回”按钮重新选择菜品")
 
 		$scope.total = 0
 		$scope.totalReal = 0
@@ -85,7 +86,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			var old = value.realTotal
 			$scope.order.realTotal = Math.round(old)
 			$scope.order.erase = Math.round((old - $scope.order.realTotal)*100)/100
-			alert($scope.order.erase)
+			
 		}
 
 		// 更新价格
@@ -156,20 +157,36 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			})
 			payTypeFunc()
 			if(value == "现金"){
+				/*-----这里是弹出钱箱的代码-----*/
+
+				/*-----这里是弹出钱箱的代码-----*/
 				$scope.order.cashincome = $scope.order.realTotal	// 计入现金收入
-			}else if(value == "微信"||value == "会员卡"||value == "优惠券"){
+			}else if(value == "微信"){
+				$scope.changeAlert("已选择微信刷卡支付，请用扫码枪扫码！")
 				$scope.order.wxincome = $scope.order.realTotal 		// 计入微信收入
 				//禁止手动结账
 				$scope.wechatHide = true
 				//聚焦使用扫码枪
 				document.getElementById("wechat").focus()
 			}else if(value == "支付宝"){
+				$scope.changeAlert("已选择支付宝刷卡支付，请用扫码枪扫码！")
 				$scope.order.alipayincome = $scope.order.realTotal  // 计入支付宝收入
 				$scope.wechatHide = true
 				document.getElementById("alipay").focus()
 			}else if(value == "校园卡"){
 				$scope.order.schoolincome = $scope.order.realTotal  // 计入校园卡收入
-			}else{
+			}else if(value == "会员卡"){
+				$scope.changeAlert("请选择左侧会员卡选项，选择会员卡付款方式！")
+				$scope.wechatHide = true
+				$scope.order.wxincome = $scope.order.realTotal 		// 计入微信收入
+			}else if(value == "优惠券"){
+				$scope.changeAlert("请选择左侧优惠券选项，选择优惠券类型！")
+				$scope.wechatHide = true
+				$scope.order.wxincome = $scope.order.realTotal 		// 计入微信收入
+			}else if(value == "次卡"){
+				$scope.changeAlert("若想重新更换支付方式，请一定点击下面“取消减免”按钮！")
+					
+				}else{
 				$scope.order.otherincome = $scope.order.realTotal  // 计入其他收入
 
 			}
@@ -220,6 +237,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 选择会员
 		$scope.selectMember = function(value){
+			$scope.changeAlert("请选择其他支付方式，如现金、微信、支付宝等")
 			$scope.discountFunc(100 - value.discount)
 			selectMemberFunc(true,value.username,value.code,value.phone,$scope.order.realTotal)
 		}
@@ -411,8 +429,12 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 会员卡微信支付
 		$scope.wechatTag = false
+		$scope.gaptag = false
 		$scope.wechatPay = function(){
 			$scope.wechatTag = true
+			$scope.wechatHide = true
+			$scope.changeAlert("用户付款成功后，系统将自动结算")
+
 			// 取得shopid
 			domainData.getShopidData().then(function(data){
 				var shopid = data.shopid
@@ -426,6 +448,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				}else{
 					//连续向服务器发请求
 					$scope.stop = $interval(function(){
+						$scope.changeAlert("用户操作中,请稍后...")
+
 						// 如何去判断是谁提交了订单付款请求 
 						memberorderData.getInfo(shopid).then(function(data){
 							if(data.status == 1){
@@ -436,27 +460,27 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 								$scope.discountFunc(dis)
 								selectMemberFunc(true,data.member.username,data.member.code,data.member.phone,data.member.fee/100)
 								
-								if($scope.reduceAfter - data.member.fee/100 - localStorage.localcash/100 ==0){
+								if($scope.order.reduceAfter - data.member.fee/100 - localStorage.localcash/100 <=0){
 									$interval.cancel($scope.stop)
 									$scope.wechatTag = false
+									$scope.gaptag = false
 									$scope.changeAlert("付款成功！")
 									localStorage.member = JSON.stringify(data.member)
 									localStorage.removeItem('localcash')
+									document.getElementById('bill').click()
 								}else{
 									var now = localStorage.getItem('localcash')
 									localStorage.setItem('localcash',parseInt(data.member.fee)+parseInt(now))
 									$scope.order.realTotal = localStorage.localcash/100
-
+									$scope.gaptag = true
+									$scope.gap = $scope.order.reduceAfter - $scope.order.realTotal
 									$scope.changeAlert("付款金额不正确！")
-
-									$scope.changeAlert("付款金额不正确！" )
-
 									
 								}
 
 							}
 						})
-					},500)
+					},1000)
 
 				}
 								
@@ -466,9 +490,12 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		}
 
 		// 优惠券微信支付
-		$scope.wechatTag = false
+
 		$scope.wechatDiscountPay = function(){
 			$scope.wechatTag = true
+			$scope.wechatHide = true
+			$scope.changeAlert("用户付款成功后，系统将自动结算")
+
 			// 取得shopid
 			domainData.getShopidData().then(function(data){
 				var shopid = data.shopid
@@ -482,20 +509,38 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				}else{
 					//连续向服务器发请求
 					$scope.stop = $interval(function(){
+						$scope.changeAlert("用户操作中,请稍后...")
 						// 如何去判断是谁提交了订单付款请求 
 						memberorderData.getInfo(shopid).then(function(data){
 							if(data.status == 1){
-								$scope.wechatTag = false
-								$interval.cancel($scope.stop)
+								// $scope.wechatTag = false
+								// $interval.cancel($scope.stop)
 								var dis = 100 - parseInt(data.member.discount)
 								$scope.discountFunc(dis)
-								$scope.order.realTotal = data.member.fee/100
-								
-								$scope.changeAlert("付款成功！")
-								localStorage.memberDiscount = JSON.stringify(data.member)
+								// $scope.order.realTotal = data.member.fee/100
+								// $scope.changeAlert("付款成功！")
+								// localStorage.memberDiscount = JSON.stringify(data.member)
+
+								if($scope.order.reduceAfter - data.member.fee/100 - localStorage.localyhq/100 <=0){
+									$interval.cancel($scope.stop)
+									$scope.wechatTag = false
+									$scope.gaptag = false
+									$scope.changeAlert("付款成功！")
+									localStorage.memberDiscount = JSON.stringify(data.member)
+									localStorage.removeItem('localyhq')
+									document.getElementById('bill').click()
+								}else{
+									var now = localStorage.getItem('localyhq')
+									localStorage.setItem('localyhq',parseInt(data.member.fee)+parseInt(now))
+									$scope.order.realTotal = localStorage.localcash/100
+									$scope.gaptag = true
+									$scope.gap = $scope.order.reduceAfter - $scope.order.realTotal
+									$scope.changeAlert("付款金额不正确！")
+								}
+
 							}
 						})
-					},500)
+					},1000)
 
 				}
 								
@@ -505,6 +550,9 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		//微信代金券支付
 		$scope.wechatCashPay = function(){
 			$scope.wechatTag = true
+			$scope.wechatHide = true
+			$scope.changeAlert("用户付款成功后，系统将自动结算")
+
 			// 取得shopid
 			domainData.getShopidData().then(function(data){
 				var shopid = data.shopid
@@ -518,20 +566,38 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				}else{
 					//连续向服务器发请求
 					$scope.stop = $interval(function(){
+						$scope.changeAlert("用户操作中,请稍后...")
 						// 如何去判断是谁提交了订单付款请求 
 						memberorderData.getInfo(shopid).then(function(data){
 							if(data.status == 1){
-								$scope.wechatTag = false
-								$interval.cancel($scope.stop)
+								// $scope.wechatTag = false
+								// $interval.cancel($scope.stop)
 								var dis = parseInt(data.member.discount/100)
 								cashFunc(dis)
-								$scope.order.realTotal = data.member.fee/100
-								
-								$scope.changeAlert("付款成功！")
-								localStorage.memberCash = JSON.stringify(data.member)
+								// $scope.order.realTotal = data.member.fee/100
+								// $scope.changeAlert("付款成功！")
+								// localStorage.memberCash = JSON.stringify(data.member)
+
+								if($scope.order.reduceAfter - data.member.fee/100 - localStorage.localdjq/100 <=0){
+									$interval.cancel($scope.stop)
+									$scope.wechatTag = false
+									$scope.gaptag = false
+									$scope.changeAlert("付款成功！")
+									localStorage.memberCash = JSON.stringify(data.member)
+									localStorage.removeItem('localdjq')
+									document.getElementById('bill').click()
+								}else{
+									var now = localStorage.getItem('localdjq')
+									localStorage.setItem('localdjq',parseInt(data.member.fee)+parseInt(now))
+									$scope.order.realTotal = localStorage.localcash/100
+									$scope.gaptag = true
+									$scope.gap = $scope.order.reduceAfter - $scope.order.realTotal
+									$scope.changeAlert("付款金额不正确！")
+								}
+
 							}
 						})
-					},500)
+					},1000)
 
 				}
 								
@@ -541,6 +607,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		$scope.wechatPayCancel = function(){
 			$scope.wechatTag=false
+			// $scope.wechatHide = false
+			$scope.changeAlert("已取消操作！")
 			$interval.cancel($scope.stop)
 
 		}
@@ -579,7 +647,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		//支付宝刷卡支付
 		$scope.alipayPosPay =function(code){
-
 			var value = {
 				total_fee:$scope.order.realTotal,
 				auth_code:code,

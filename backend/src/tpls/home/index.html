@@ -9,12 +9,31 @@
 		</h3>
 		<hr>
 		<div class="row">
-			<div class="col-md-3">
-				<h3>实收：{{grade | currency:'¥'}}</h3>
+			<div class="col-md-12">
+				<h3>总收入：{{data.grade | currency:'¥'}}</h3>
 			</div>
-			<div class="col-md-3">
-				<h3>虚收：{{noincome | currency:'¥'}}</h3>
+
+		</div>
+		<div class="row">
+			<div class="col-md-4">
+				<h3>现金：{{data.cashincome | currency:'¥'}}</h3>
 			</div>
+			<div class="col-md-4">
+				<h3>微信：{{data.wxincome | currency:'¥'}}</h3>
+			</div>
+			<div class="col-md-4">
+				<h3>支付宝：{{data.alipayincome | currency:'¥'}}</h3>
+			</div>
+			<div class="col-md-4">
+				<h3>校园卡：{{data.schoolincome | currency:'¥'}}</h3>
+			</div>
+			<div class="col-md-4">
+				<h3>次卡：{{data.onceincome | currency:'¥'}}</h3>
+			</div>
+			<div class="col-md-4">
+				<h3>挂帐：{{data.noincome | currency:'¥'}}</h3>
+			</div>
+
 			<!-- <div class="col-md-3">
 				<h3>今日新增会员：{{memberNum}}</h3>
 			</div>
@@ -32,12 +51,6 @@
 					{{month}}月报表导出
 				</a>
 			</div>
-			<div class="col-md-2">
-				<a class="btn btn-primary btn-lg">
-					月度报表打印
-				</a>
-			</div>
-
 		</div>
 	</div>
 </div>

@@ -664,6 +664,20 @@ button[disabled]:focus{
 	display: none;
 }
 
+/*金额不足提醒，微信买单*/
+.f-cash-tag{
+	display: inline-block;
+	background-color: #f60;
+	color: #fff;
+	margin-left: 10px;
+	padding: 5px 10px;
+	font-size: 14px;
+	position: relative;
+	top: -5px;
+}
+.f-cash-tag i{
+	letter-spacing: 1px;
+}
 
 
 

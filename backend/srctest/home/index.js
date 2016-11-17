@@ -21,9 +21,8 @@ angular.module("homeMoudle", []).controller('HomeCtrl',
 
 	  	// $scope.memberNum
 	  	//总业绩查询
-	  	orderData.getGradeAllData().then(function(data){
-	  		$scope.grade = data.grade
-			$scope.noincome = data.noincome
+	  	orderData.getGradeTodayData().then(function(data){
+	  		$scope.data = data
 	  	})
 	}
 ])
