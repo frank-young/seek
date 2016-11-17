@@ -133,6 +133,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 挂帐
 		$scope.selectCredit = function(index){
+			resetIncome()
 			$scope.discountFunc(0)
 			$scope.order.noincome = $scope.order.reduce		//计入虚收
 			$scope.order.redit = index	// 纪录编号
@@ -140,57 +141,64 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		}
 
 		// 选择付款方式 统一
-		$scope.selectType = function(value){
+		$scope.selectType = function(value,index){
 			resetIncome()
 			$scope.wechatHide = false
 			$scope.auth_code = ""
 			$scope.alipay_auth_code = ""
-			$scope.cookCart.forEach(function(ele,index){
-				ele.payType = value
-				if(value == 4){		//等于4计入次卡，一定要注意顺序！
+			$scope.cookCart.forEach(function(ele,i){
+				ele.payType = index
+				if(value == "次卡"){
 					$scope.discountItemFunc(ele,0)
 					$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
 
 				}
-				// else{
-				// 	$scope.discountItemFunc(ele,100)
-				// }
-				
 			})
 			payTypeFunc()
-			if(value === 0){
+			if(value == "现金"){
 				$scope.order.cashincome = $scope.order.realTotal	// 计入现金收入
-			}else if(value === 1){
+			}else if(value == "微信"||value == "会员卡"||value == "优惠券"){
 				$scope.order.wxincome = $scope.order.realTotal 		// 计入微信收入
 				//禁止手动结账
 				$scope.wechatHide = true
 				//聚焦使用扫码枪
 				document.getElementById("wechat").focus()
-			}else if(value === 2){
+			}else if(value == "支付宝"){
 				$scope.order.alipayincome = $scope.order.realTotal  // 计入支付宝收入
 				$scope.wechatHide = true
 				document.getElementById("alipay").focus()
-			}else if(value === 5){
+			}else if(value == "校园卡"){
 				$scope.order.schoolincome = $scope.order.realTotal  // 计入校园卡收入
+			}else{
+				$scope.order.otherincome = $scope.order.realTotal  // 计入其他收入
+
 			}
 
 		}
 
 		// 选择付款方式 单项
-		$scope.selectPay = function(ele,index) {
-			resetIncome()
+		$scope.selectPay = function(ele,value,index) {
+			// resetIncome()
 			ele.payType = index
-			if(index === 4){
+			if(value == "次卡"){
 				$scope.discountItemFunc(ele,0)
-				$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
-
-			}else if(value === 0){
-				$scope.order.cashincome = $scope.order.realTotal	// 计入现金收入
-			}else if(value === 5){
-				$scope.order.schoolincome = $scope.order.realTotal  // 计入校园卡收入
+				$scope.order.onceincome += ele.price		//计入次卡消费
+				if($scope.order.cashincome !==0){
+					$scope.order.cashincome = $scope.order.cashincome - ele.price
+				}
+				if($scope.order.schoolincome !==0){
+					$scope.order.schoolincome = $scope.order.schoolincome - ele.price
+				}
+				if($scope.order.onceincome !==0){
+					$scope.order.onceincome = $scope.order.onceincome - ele.price
+				}
 			}
-			// else{
-			// 	$scope.discountItemFunc(ele,100)
+			// else if(value == "现金"){
+			// 	$scope.order.cashincome = ele.reducePrice	// 计入现金收入
+
+			// }else if(value == "校园卡"){
+			// 	$scope.order.schoolincome = ele.reducePrice  // 计入校园卡收入
+
 			// }
 			payTypeFunc()
 			
@@ -203,6 +211,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$scope.order.alipayincome = 0
 			$scope.order.onceincome = 0
 			$scope.order.schoolincome = 0
+		}
+
+		//单个金额不为零判断
+		function notZero(argument) {
+			
 		}
 
 		// 选择会员
@@ -230,8 +243,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					$scope.order.payType.push(value.payType)
 				}
 			})
-
-			console.log($scope.order.payType)
 		}
 
 		payTypeFunc()
@@ -337,7 +348,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.billing = function(value){
 			$scope.nowtime = new Date().getTime()
 			$scope.order.dishNum = angular.copy(value)	//取餐号
-			console.log($scope.order.dish)
 			$scope.order.dish.forEach(function(ele){
 				var item = {
 					isTop:false,
@@ -347,6 +357,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					price:Math.round(ele.price*100)/100,
 					reducePrice:Math.round(ele.reducePrice*100)/100,
 					number:ele.number, 
+					dishArr:ele.dishArr,
 					total:Math.round(ele.number * ele.reducePrice*100)/100,
 					time:Date.now(),
 					year: Y,
@@ -823,7 +834,12 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 					people:data.people,	//用餐人数
 					stand:data.stand,	//用餐台数
 					reduce:data.reduce,	//优惠金额
-					onceincome:data.onceincome,	//次卡
+					onceincome:data.onceincome,	
+					cashincome:data.cashincome,	
+					wxincome:data.wxincome,	
+					alipayincome:data.alipayincome,	
+					schoolincome:data.schoolincome,	
+					otherincome:data.otherincome,	
 					total:data.total,	// 合计--总合计
 					totalNeed:data.totalNeed,	// 应收
 					reduceAfter:data.reduceAfter,
@@ -903,7 +919,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 
 		//确认交班
 		$scope.exchangeSure = function(){
-			
 			overData.addData($scope.gradeData).then(function(data){
 				
 			})

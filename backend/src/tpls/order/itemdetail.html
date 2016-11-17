@@ -28,15 +28,20 @@
 						<table class="table">
 							<thead>
 								<tr >
-									<th>名称</th>
+									<th >名称</th>
 									<th>数量</th>
 									<th>小计</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr ng-repeat="it in items">
-									<td ng-bind="it.name"></td>
-									<td>{{it.number}}</td>
+									<td>
+		                                <span>{{it.name}}</span> <br>
+		                                <div ng-show="it.dishArr.length!==0" ng-repeat="combo in it.dishArr" style="font-size:12px;text-indent:5px;">
+		                                    -{{combo.dishSelect}}({{combo.dishPrice| currency:'¥'}})
+		                                </div>
+		                            </td>
+									<td style="text-align:center;">{{it.number}}</td>
 									<td ng-bind="it.reducePrice | currency:'¥' "></td>
 								</tr>
 							</tbody>

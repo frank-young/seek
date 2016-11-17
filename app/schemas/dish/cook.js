@@ -18,7 +18,7 @@ var CookSchema = new mongoose.Schema({
 	description:String,
 	people:String,
 	history:String,
-	CookArr:Array,
+	dishArr:Array,
 	meta:{
 		createAt:{
 			type:Number,

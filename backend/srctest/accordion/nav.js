@@ -19,11 +19,11 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 						link:'web.orderMonth'
 					},
 					{
-						text:'日报表',
+						text:'结班报告',
 						link:'web.orderDay'
 					},
 					{
-						text:'日品项报告',
+						text:'品项报告',
 						link:'web.itemDay'
 					}
 				]

@@ -33,7 +33,12 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 					people:data.people,	//用餐人数
 					stand:data.stand,	//用餐台数
 					reduce:data.reduce,	//优惠金额
-					onceincome:data.onceincome,	//次卡
+					onceincome:data.onceincome,	
+					cashincome:data.cashincome,	
+					wxincome:data.wxincome,	
+					alipayincome:data.alipayincome,	
+					schoolincome:data.schoolincome,	
+					otherincome:data.otherincome,	
 					total:data.total,	// 合计--总合计
 					totalNeed:data.totalNeed,	// 应收
 					reduceAfter:data.reduceAfter,
@@ -113,7 +118,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 
 		//确认交班
 		$scope.exchangeSure = function(){
-			
 			overData.addData($scope.gradeData).then(function(data){
 				
 			})

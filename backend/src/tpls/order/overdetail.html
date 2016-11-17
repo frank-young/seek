@@ -20,9 +20,7 @@
 				<div class="detail" id="print-over">
 
 					<h5>结班报告</h5>
-					<h5>
-						{{overAll.year}}年{{overAll.month}}月{{overAll.day}}日
-					</h5>
+					<h5>{{overAll.year}}年{{overAll.month}}月{{overAll.day}}日</h5>
 					<div class="detail-item">
 						<span >用餐人数：</span>
 						<span ng-bind="overAll.people"></span>
@@ -52,6 +50,30 @@
 						<span  ng-bind="overAll.erase | currency:'¥' "></span>
 					</div>
 					<div class="detail-item">
+						<span >现金：</span>
+						<span  ng-bind="overAll.cashincome | currency:'¥' "></span>
+					</div>
+					<div class="detail-item">
+						<span >微信：</span>
+						<span  ng-bind="overAll.wxincome | currency:'¥' "></span>
+					</div>
+					<div class="detail-item">
+						<span >支付宝：</span>
+						<span  ng-bind="overAll.alipayincome | currency:'¥' "></span>
+					</div>
+					<div class="detail-item">
+						<span >校园卡：</span>
+						<span  ng-bind="overAll.schoolincome | currency:'¥' "></span>
+					</div>
+					<div class="detail-item">
+						<span >次卡：</span>
+						<span  ng-bind="overAll.onceincome | currency:'¥' "></span>
+					</div>
+					<div class="detail-item">
+						<span >其他：</span>
+						<span  ng-bind="overAll.otherincome | currency:'¥' "></span>
+					</div>
+					<div class="detail-item">
 						<span >实收合计：</span>
 						<span  ng-bind="overAll.grade | currency:'¥' "></span>
 					</div>
@@ -63,18 +85,6 @@
 					<div class="detail-item">
 						<span >应收合计：</span>
 						<span  ng-bind="overAll.grade +overAll.noincome| currency:'¥' "></span>
-					</div>
-					<div class="hr">
-						------------------------------------------------------------------------------
-					</div>
-
-					<div class="detail-item">
-						<span >微信支付金额合计：</span>
-						<span  ng-bind="wxpospay| currency:'¥' "></span>
-					</div>
-					<div class="detail-item">
-						<span >支付宝支付金额合计：</span>
-						<span  ng-bind="alipospay| currency:'¥' "></span>
 					</div>
 					<div class="hr">
 						------------------------------------------------------------------------------
@@ -112,6 +122,30 @@
 						<div class="detail-item">
 							<span >抹零金额：</span>
 							<span  ng-bind="ov.erase | currency:'¥' "></span>
+						</div>
+						<div class="detail-item">
+							<span >现金：</span>
+							<span  ng-bind="ov.cashincome | currency:'¥' "></span>
+						</div>
+						<div class="detail-item">
+							<span >微信：</span>
+							<span  ng-bind="ov.wxincome | currency:'¥' "></span>
+						</div>
+						<div class="detail-item">
+							<span >支付宝：</span>
+							<span  ng-bind="ov.alipayincome | currency:'¥' "></span>
+						</div>
+						<div class="detail-item">
+							<span >校园卡：</span>
+							<span  ng-bind="ov.schoolincome | currency:'¥' "></span>
+						</div>
+						<div class="detail-item">
+							<span >次卡：</span>
+							<span  ng-bind="ov.onceincome | currency:'¥' "></span>
+						</div>
+						<div class="detail-item">
+							<span >其他：</span>
+							<span  ng-bind="ov.otherincome | currency:'¥' "></span>
 						</div>
 						<div class="detail-item">
 							<span >实收合计：</span>
@@ -158,16 +192,3 @@
 	</div>
 </form>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-

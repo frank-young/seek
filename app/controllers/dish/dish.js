@@ -116,32 +116,32 @@ var path = require('path')
 		if(dishObj.name==""||dishObj.name==null){
   			res.json({
 				status:0,
-				msg:"菜品名称不能为空！"
+				msg:"套餐名称不能为空！"
 			})
-  		}else if(dishObj.price==""||dishObj.price==null){
+  		}else if(dishObj.price===""||dishObj.price===null){
   			res.json({
 				status:0,
-				msg:"菜品单价不能为空！"
+				msg:"套餐单价不能为空！"
 			})
   		}else if(dishObj.search==""||dishObj.search==null){
   			res.json({
 				status:0,
-				msg:"菜品拼音缩写不能为空！"
+				msg:"套餐拼音缩写不能为空！"
 			})
   		}else if(dishObj.cate==""||dishObj.cate==null){
   			res.json({
 				status:0,
-				msg:"菜品分类不能为空！"
+				msg:"套餐分类不能为空！"
 			})
   		}else if(rePrice.test(dishObj.price)==false){
   			res.json({
 				status:0,
-				msg:"菜品单价格式有问题！"
+				msg:"套餐单价格式有问题！"
 			})
   		}else if(re.test(dishObj.search)==false){
   			res.json({
 				status:0,
-				msg:"菜品拼音缩写格式不正确，必须为字母或数字！"
+				msg:"套餐拼音缩写格式不正确，必须为字母或数字！"
 			})
   		}else{
   			if(id !=="undefined"){

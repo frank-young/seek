@@ -199,7 +199,7 @@
         <div class="row">
           <div class="one-third column pay-type" ng-repeat="p in payTypeArr">
               <div class="p-radio">
-                <input class="p-radio-i" type="radio" name="type" ng-click="selectType($index)" ><span>{{p}}</span>
+                <input class="p-radio-i" type="radio" name="type" ng-click="selectType(p,$index)" ><span>{{p}}</span>
                 
               </div>
           </div>
@@ -232,10 +232,10 @@
 
                 <span ng-show="cc.reduceNum != null && cc.reduceNum !=100 && cc.reduceNum !=0" class="pill">{{cc.reduceNum}}折</span></td>
               <td> 
-                  <button style="padding: 0 10px;width:72px;font-size:16px;margin-bottom:0" type="button" class="button" bs-dropdown aria-haspopup="true" aria-expanded="false" placement="bottom" >{{payTypeArr[cc.payType]}}</button>
+                  <button ng-disabled="true" style="padding: 0 10px;width:72px;font-size:16px;margin-bottom:0" type="button" class="button" bs-dropdown aria-haspopup="true" aria-expanded="false" placement="bottom" >{{payTypeArr[cc.payType]}}</button>
                     <ul class="dropdown-menu" role="menu">
                         <li ng-repeat="p in payTypeArr">
-                            <button class="button" style="padding: 0 10px;"  ng-bind="p" ng-click="selectPay(cc,$index)"></button>
+                            <button class="button" style="padding: 0 10px;"  ng-bind="p" ng-click="selectPay(cc,p,$index)" ></button>
                         </li>
                     </ul>
               </td>

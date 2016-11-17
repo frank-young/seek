@@ -8,6 +8,7 @@ var ItemSchema = new mongoose.Schema({
 	reducePrice:Number,
 	comboPrice:Number,
 	number:Number,
+	dishArr:Array,
 	total:Number,
 	time:Number,
 	year:String,
@@ -42,7 +43,7 @@ ItemSchema.statics = {
 	fetch:function(rule,cb){
 		return this
 			.find(rule)
-			.sort({'name':1})
+			.sort({'cate':1})
 			.exec(cb)
 	},
 	findById:function(id,cb){

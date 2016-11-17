@@ -64,7 +64,7 @@ var _ = require('underscore'),
 				if(err){
 					console.log(err)
 				}
-				res.json({msg:"添加成功",status: 1})
+				res.json({msg:"结班成功",status: 1})
 			})
 	}
 
@@ -163,7 +163,6 @@ var _ = require('underscore'),
 
 		var user = req.session.user
 		var fields = ['名称', '数量','小计']
-		var payTypeArr = ['现金支付','微信支付','支付宝支付','会员卡支付']
 		var overData = []
 		Over.fetch({"domainlocal":user.domain,"year":year,"month":month,"day":day},function(err,overs){
 

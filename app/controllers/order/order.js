@@ -358,6 +358,10 @@ var Order = require('../../models/order/order'),	//引入模型
 				reduce = 0,
 				onceincome = 0,
 				cashincome = 0,
+				wxincome = 0,
+				alipayincome = 0,
+				schoolincome = 0,
+				otherincome = 0,
 				total = 0,
 				totalNeed = 0,
 				reduceAfter = 0,
@@ -370,6 +374,10 @@ var Order = require('../../models/order/order'),	//引入模型
 				reduce += ele.reduce
 				onceincome += ele.onceincome
 				cashincome += ele.cashincome
+				wxincome += ele.wxincome
+				alipayincome += ele.alipayincome
+				schoolincome += ele.schoolincome
+				otherincome += ele.otherincome
 				total += ele.total
 				reduceAfter += ele.reduceAfter
 				erase += ele.erase
@@ -389,6 +397,10 @@ var Order = require('../../models/order/order'),	//引入模型
 				reduce: reduce,
 				onceincome: onceincome,
 				cashincome:cashincome,
+				wxincome:wxincome,
+				alipayincome:alipayincome,
+				schoolincome:schoolincome,
+				otherincome:otherincome,
 				total: total,
 				stand: stand,
 				start:loginTime,
@@ -420,6 +432,10 @@ var Order = require('../../models/order/order'),	//引入模型
 				reduce = 0,
 				onceincome = 0,
 				cashincome = 0,
+				wxincome = 0,
+				alipayincome = 0,
+				schoolincome = 0,
+				otherincome = 0,
 				total = 0,
 				totalNeed = 0,
 				reduceAfter = 0,
@@ -432,6 +448,10 @@ var Order = require('../../models/order/order'),	//引入模型
 				reduce += ele.reduce
 				onceincome += ele.onceincome
 				cashincome += ele.cashincome
+				wxincome += ele.wxincome
+				alipayincome += ele.alipayincome
+				schoolincome += ele.schoolincome
+				otherincome += ele.otherincome
 				total += ele.total
 				reduceAfter += ele.reduceAfter
 				erase += ele.erase
@@ -449,6 +469,10 @@ var Order = require('../../models/order/order'),	//引入模型
 				reduce: reduce,
 				onceincome: onceincome,
 				cashincome:cashincome,
+				wxincome:wxincome,
+				alipayincome:alipayincome,
+				schoolincome:schoolincome,
+				otherincome:otherincome,
 				total: total,
 				stand: stand,
 				start:loginTime,
@@ -515,6 +539,10 @@ var Order = require('../../models/order/order'),	//引入模型
 				reduce = 0,
 				onceincome = 0,
 				cashincome = 0,
+				wxincome = 0,
+				alipayincome = 0,
+				schoolincome = 0,
+				otherincome = 0,
 				total = 0,
 				totalNeed = 0,
 				reduceAfter = 0,
@@ -527,6 +555,10 @@ var Order = require('../../models/order/order'),	//引入模型
 				reduce += ele.reduce
 				onceincome += ele.onceincome
 				cashincome += ele.cashincome
+				wxincome += ele.wxincome
+				alipayincome += ele.alipayincome
+				schoolincome += ele.schoolincome
+				otherincome += ele.otherincome
 				total += ele.total
 				reduceAfter += ele.reduceAfter
 				erase += ele.erase
@@ -544,6 +576,10 @@ var Order = require('../../models/order/order'),	//引入模型
 				reduce: reduce,
 				onceincome: onceincome,
 				cashincome:cashincome,
+				wxincome:wxincome,
+				alipayincome:alipayincome,
+				schoolincome:schoolincome,
+				otherincome:otherincome,
 				total: total,
 				stand: stand,
 				start:loginTime,

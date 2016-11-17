@@ -10,6 +10,10 @@ var OverSchema = new mongoose.Schema({
 	totalNeed:Number,	// 应收
 	noincome:Number,	// 虚收
 	cashincome:Number,	// 现金收入
+	wxincome:Number,	
+	alipayincome:Number,	
+	schoolincome:Number,	
+	otherincome:Number,	
 	totalReal:Number,   // 实收
 	reduceAfter:Number,
 	erase:Number,

@@ -199,6 +199,7 @@ button[disabled]:focus{
 
 .detail-item{
 	text-align: left;
+	line-height: 3em;
 }
 .pay td{
 	border-bottom: 0;
