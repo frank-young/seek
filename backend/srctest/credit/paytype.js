@@ -28,11 +28,13 @@ angular.module("paytypeMoudle", ['ng-sortable']).controller('PaytypeCtrl',
             label:'支付'+(value+1)
         }
         paytypeData.addData(msgadd).then(function(data){
+            paytypeData.getData().then(function (datain) {
+                $scope.cate = datain.paytypes;
+            })
             $scope.changeAlert(data.msg);
+            
         });
-        paytypeData.getData().then(function (data) {
-            $scope.cate = data.paytypes;
-        })
+        
     }
     /* 保存单条分类信息 */
     $scope.saveCate= function(value){
