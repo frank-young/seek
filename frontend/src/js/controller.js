@@ -5,7 +5,6 @@
 angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interval','orderData','memberData','memberorderData','domainData','paytypeData','creditData','dayData','itemData','pospayData',
   	function($scope,$alert,$window,$interval,orderData,memberData,memberorderData,domainData,paytypeData,creditData,dayData,itemData,pospayData) {
 
-		$window.document.title = "结账" 
 		//时间日期
 		var date = new Date(),
 			Y = date.getFullYear(),	
@@ -38,6 +37,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		$scope.total = 0
 		$scope.totalReal = 0
+		$scope.panels = -1
 
 		// 总价格，实际价格
 		$scope.cookCart.forEach(function(ele){
@@ -157,11 +157,13 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			})
 			payTypeFunc()
 			if(value == "现金"){
+				$scope.panels = -1
 				/*-----这里是弹出钱箱的代码-----*/
 
 				/*-----这里是弹出钱箱的代码-----*/
 				$scope.order.cashincome = $scope.order.realTotal	// 计入现金收入
 			}else if(value == "微信"){
+				$scope.panels = -1
 				$scope.changeAlert("已选择微信刷卡支付，请用扫码枪扫码！")
 				$scope.order.wxincome = $scope.order.realTotal 		// 计入微信收入
 				//禁止手动结账
@@ -169,21 +171,26 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				//聚焦使用扫码枪
 				document.getElementById("wechat").focus()
 			}else if(value == "支付宝"){
+				$scope.panels = -1
 				$scope.changeAlert("已选择支付宝刷卡支付，请用扫码枪扫码！")
 				$scope.order.alipayincome = $scope.order.realTotal  // 计入支付宝收入
 				$scope.wechatHide = true
 				document.getElementById("alipay").focus()
 			}else if(value == "校园卡"){
+				$scope.panels = -1
 				$scope.order.schoolincome = $scope.order.realTotal  // 计入校园卡收入
 			}else if(value == "会员卡"){
-				$scope.changeAlert("请选择左侧会员卡选项，选择会员卡付款方式！")
+				$scope.panels = 1
+				$scope.changeAlert("请在左侧栏目选择会员卡付款方式！")
 				$scope.wechatHide = true
 				$scope.order.wxincome = $scope.order.realTotal 		// 计入微信收入
 			}else if(value == "优惠券"){
-				$scope.changeAlert("请选择左侧优惠券选项，选择优惠券类型！")
+				$scope.panels = 2
+				$scope.changeAlert("请在左侧栏目选择优惠券类型！")
 				$scope.wechatHide = true
 				$scope.order.wxincome = $scope.order.realTotal 		// 计入微信收入
 			}else if(value == "次卡"){
+				$scope.panels = -1
 				$scope.changeAlert("若想重新更换支付方式，请一定点击下面“取消减免”按钮！")
 					
 				}else{
@@ -604,7 +611,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			})
 		}
 
-
 		$scope.wechatPayCancel = function(){
 			$scope.wechatTag=false
 			// $scope.wechatHide = false
@@ -711,7 +717,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData','itemData',
   	function($scope,$window,orderData,dishData,settingData,paytypeData,itemData) {
 
-		$window.document.title = "订单列表"; 
 		orderData.getData().then(function(data){
 			$scope.orders = data.orders
 		})
@@ -797,10 +802,10 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
  *                                                     首页
  ********************************************************************************************************************/
 
-angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location',
-  	function($scope,$rootScope,$window,$location) {
+angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location','settingData',
+  	function($scope,$rootScope,$window,$location,settingData) {
 
-		$window.document.title = "seek cafe"
+		$window.document.title = "seek cafe点餐系统"
 
 		// 选择用餐人数
 		$scope.people = [1,2,3,4,5,6,7,8,9,10,11,12]
@@ -817,6 +822,10 @@ angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','
 		  	localStorage.removeItem('cook')
 		  	$window.location.href="#/select"
 		}
+		// 权限控制
+		settingData.getRbac().then(function(data){
+			$scope.role = data.rbac
+		})
 		
 	}
 ])
@@ -830,7 +839,6 @@ angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','
 angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScope','$window','memberData',
   	function($scope,$rootScope,$window,memberData) {
 
-		$window.document.title = "会员信息"
 		// 搜索会员用户
 		$scope.search = ""
 
@@ -1007,10 +1015,10 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			localStorage.serial = 1
 
   			var dateObj = {
-  				"date":date.today,
-  				"year":date.y,
-  				"month":date.m,
-  				"day":date.d,
+  				// "date":date.today,
+  				// "year":date.y,
+  				// "month":date.m,
+  				// "day":date.d,
   				"start": date.now,
   				"status":1,
   				"serial":1
@@ -1114,8 +1122,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 
 angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window','cateData','dishData',
 	function($scope,$window,cateData,dishData) {
-
-		$window.document.title = "点餐"
 		
 		//获取分类
 		if(localStorage.localCate !=null){

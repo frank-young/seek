@@ -15,9 +15,15 @@ var _ = require('underscore')
 
 	//开班更新、新建
 	exports.save = function(req,res){
-		var dayObj = req.body.day 	//从路由传过来的 day对象
-		var user = req.session.user
-		var _day
+		var dayObj = req.body.day, 	//从路由传过来的 day对象
+			user = req.session.user,
+			date = createTime(),
+			_day
+		dayObj.year = date.y
+  		dayObj.month = date.m
+  		dayObj.day = date.d
+  		dayObj.date = date.today
+
 		Day.findOne({date:dayObj.date,domainlocal:user.domain},function(err,day){
 			if(err){
 				res.json({
@@ -110,5 +116,25 @@ var _ = require('underscore')
 			})
 		}
 	}
+
+	// 生成时间，日期等
+  	function createTime(){
+  		var date = new Date(),
+			Y = date.getFullYear(),	
+	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate()),
+	        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()),
+	        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()),
+	        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds()),
+	        now = date.getTime(),
+			today = Y + "" + M + "" + D
+		return {
+			today:today,
+			y:Y,
+			m:M,
+			d:D,
+			now:now
+		}
+  	} 
 
 

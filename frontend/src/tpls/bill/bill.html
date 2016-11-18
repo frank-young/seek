@@ -1,7 +1,7 @@
 <div ng-controller="BillCtrl" class="row ">
       <div class="one-third column">
         <div class="pay">
-		<div class="panel-group" role="tablist" aria-multiselectable="true" bs-collapse>
+		<div class="panel-group" role="tablist" ng-model="panels" aria-multiselectable="true" bs-collapse>
 		   <div class="panel panel-default pay-item">
         <div class="panel-heading" role="tab">
           <h4 class="panel-title">
@@ -469,7 +469,9 @@
                     <h5 style="margin-top:20px;margin-bottom:0;text-align:left;padding-left:30px">
                        手动输入：<input type="number" name="dishnum" ng-model="cash" ng-change="selectCash(cash)" autofocus style="padding:24px 10px ;width:120px;font-size:24px;margin-right:20px;vertical-align: sub;" >
                     </h5>
-                   <h5 style="text-align:left;padding-left:30px;" ng-show="cashTotal>=0">找零金额：<span ng-bind="cashTotal | currency:'¥'" style="color:#ef2d2d;font-size:30px;" ></span></h5>
+                   <h5 style="text-align:left;padding-left:30px;" ng-show="cashTotal>=0">找零金额：<span ng-bind="cashTotal | currency:'¥'" style="color:#ef2d2d;font-size:30px;" ></span>
+                   <a class="button button-primary cash-box" href="cashbox:">弹出钱箱</a>
+                   </h5>
                     
                   </div>
                 </div>

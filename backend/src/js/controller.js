@@ -255,11 +255,13 @@ angular.module("paytypeMoudle", ['ng-sortable']).controller('PaytypeCtrl',
             label:'支付'+(value+1)
         }
         paytypeData.addData(msgadd).then(function(data){
+            paytypeData.getData().then(function (datain) {
+                $scope.cate = datain.paytypes;
+            })
             $scope.changeAlert(data.msg);
+            
         });
-        paytypeData.getData().then(function (data) {
-            $scope.cate = data.paytypes;
-        })
+        
     }
     /* 保存单条分类信息 */
     $scope.saveCate= function(value){
@@ -478,12 +480,12 @@ angular.module("dishAddMoudle", []).controller('DishAddCtrl',
             "checked":false
         }
         cateData.addData(msgadd).then(function(data){
-            // $scope.changeAlert(data.msg)
-        })
-        cateData.getData().then(function (data) {
-            $scope.cate = data.cates
+            cateData.getData().then(function (datain) {
+                $scope.cate = datain.cates
+            })
             $scope.changeAlert(data.msg)
         })
+        
     }
 }]);/********************************************************************************************************************
  *                                                      产品分类页面
@@ -512,14 +514,15 @@ angular.module("dishCateMoudle", ['ng-sortable']).controller('DishCateCtrl',
             checked: false,
             isEdit: true,
             value:value,
-            label:'默认分类'+(value+1)
+            label:'新添分类'+(value+1)
         }
         cateData.addData(msgadd).then(function(data){
+            cateData.getData().then(function (datain) {
+                $scope.cate = datain.cates;
+            })
             $scope.changeAlert(data.msg);
         });
-        cateData.getData().then(function (data) {
-            $scope.cate = data.cates;
-        })
+        
     }
     /* 保存单条分类信息 */
     $scope.saveCate= function(value){
@@ -647,11 +650,12 @@ angular.module("dishcomboAddMoudle", []).controller('DishcomboAddCtrl',
             "checked":false
         }
         cateData.addData(msgadd).then(function(data){
+            cateData.getData().then(function (datain) {
+                $scope.cate = datain.cates
+            })
             $scope.changeAlert(data.msg);
         })
-        cateData.getData().then(function (data) {
-            $scope.cate = data.cates
-        })
+        
     }
 }]);/********************************************************************************************************************
  *                                                      菜品详情页面
@@ -723,12 +727,13 @@ angular.module("dishcomboDetailMoudle", []).controller('DishcomboDetailCtrl',
         }
 
         cateData.addData(msgadd).then(function(data){
+            cateData.getData().then(function (datain) {
+                $scope.cate = datain.cates;
+
+            });
             $scope.changeAlert(data.msg);
         });
-        cateData.getData().then(function (data) {
-            $scope.cate = data.cates;
-
-        });
+        
     }
 
     $scope.cloneCombo = function(){
@@ -780,12 +785,13 @@ angular.module("dishDetailMoudle", []).controller('DishDetailCtrl',
         }
 
         cateData.addData(msgadd).then(function(data){
+            cateData.getData().then(function (datain) {
+                $scope.cate = datain.cates;
+
+            });
             $scope.changeAlert(data.msg);
         });
-        cateData.getData().then(function (data) {
-            $scope.cate = data.cates;
-
-        });
+        
     }
 
     $scope.clone = function(){
@@ -798,8 +804,8 @@ angular.module("dishDetailMoudle", []).controller('DishDetailCtrl',
  ********************************************************************************************************************/
 
 angular.module("homeMoudle", []).controller('HomeCtrl', 
-  ['$scope','$window','orderData',
-  	function($scope,$window,orderData) {
+  ['$scope','$window','orderData','settingData',
+  	function($scope,$window,orderData,settingData) {
 
 	  	$window.document.title = "seek cafe";
 	  	var date = new Date()
@@ -819,6 +825,10 @@ angular.module("homeMoudle", []).controller('HomeCtrl',
 	  	orderData.getGradeTodayData().then(function(data){
 	  		$scope.data = data
 	  	})
+	  	// 权限控制
+		settingData.getRbac().then(function(data){
+			$scope.role = data.rbac
+		})
 	}
 ])
 
@@ -1319,10 +1329,19 @@ angular.module("selfsetMoudle", []).controller('SelfetCtrl',
         surepassword:""
     }
 
+    settingData.getPhone().then(function(data){
+        $scope.setting.phone = data.phone
+        $scope.setting.name = data.name
+    })
+
     $scope.saveSetting = function(value){
-        console.log(value)
         settingData.selfsetData(value).then(function(data){
             $scope.changeAlert(data.msg)
+            if(data.status==1){
+                setTimeout(function(){
+                    $window.location.href="/logout"
+                },2000)
+            }
         })
     }
 

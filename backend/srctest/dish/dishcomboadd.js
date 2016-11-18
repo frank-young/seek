@@ -99,10 +99,11 @@ angular.module("dishcomboAddMoudle", []).controller('DishcomboAddCtrl',
             "checked":false
         }
         cateData.addData(msgadd).then(function(data){
+            cateData.getData().then(function (datain) {
+                $scope.cate = datain.cates
+            })
             $scope.changeAlert(data.msg);
         })
-        cateData.getData().then(function (data) {
-            $scope.cate = data.cates
-        })
+        
     }
 }])

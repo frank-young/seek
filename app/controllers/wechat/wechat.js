@@ -1064,13 +1064,13 @@ exports.pay = function(req,res){
 	var appid = config.wechat.appID
 	var mch_id = '1295261101'	
 	var key = 'seekbrandseekcafe521521521521521'
-	var total_fee = '1'	// -- 传递  sales.total_fee
-	var auth_code = sales.auth_code  // -- 传递
-	var attach = user.domain	 // -- 传递
+	var total_fee = sales.total_fee	// -- 传递  sales.total_fee
+	var auth_code = sales.auth_code  
+	var attach = user.domain	 
 	var body_info = 'seekcafe'
-	var device_info = sales.device_info	// -- 传递  门店id
+	var device_info = sales.device_info	
 	var nonce_str = 'ibuaiVcKdpRxkhJA'
-	var out_trade_no = sales.out_trade_no		// -- 传递
+	var out_trade_no = sales.out_trade_no		
 	var spbill_create_ip = '60.205.157.200'
 
 	wechatpospay()

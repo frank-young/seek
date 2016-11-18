@@ -13,10 +13,19 @@ angular.module("selfsetMoudle", []).controller('SelfetCtrl',
         surepassword:""
     }
 
+    settingData.getPhone().then(function(data){
+        $scope.setting.phone = data.phone
+        $scope.setting.name = data.name
+    })
+
     $scope.saveSetting = function(value){
-        console.log(value)
         settingData.selfsetData(value).then(function(data){
             $scope.changeAlert(data.msg)
+            if(data.status==1){
+                setTimeout(function(){
+                    $window.location.href="/logout"
+                },2000)
+            }
         })
     }
 

@@ -39,20 +39,46 @@ var smtpTransport = require('nodemailer-smtp-transport')
 	  	})
 	}
 
-	//密码验证
+	//获取账户手机号
+	exports.getphone = function(req,res){
+		var user = req.session.user
+		res.json({
+			phone:user.phone,
+			name:user.name
+		})
+	}
+	
+	//修改密码
 	exports.editpass = function(req,res){
 		var _user = req.session.user,
 			password = req.body.setting.password,
 			newpassword = req.body.setting.newpassword,
-			surepassword = req.body.setting.surepassword
+			surepassword = req.body.setting.surepassword,
+			phone = req.body.setting.phone,
+			name = req.body.setting.name
 
 		var rePhone = /^1[3|5|7|8]\d{9}$/
  		var rePassword = /^[\w\@\.\_]+$/
 
-		if(password == "" || _user.password == null){
+		if(password == "" || password == null){
 			res.json({
 				status:0,
 				msg:"密码不能为空！"
+			})
+		}else if(name == "" || name == null){
+			res.json({
+				status:0,
+				msg:"姓名不能为空！"
+			})
+		}else if(phone == "" || phone == null){
+			res.json({
+				status:0,
+				msg:"手机号不能为空！"
+			})
+		}else if(rePhone.test(phone) == false){
+			res.json({
+				status:0,
+				msg:"手机号格式不正确！"
 			})
 		}else if(rePassword.test(password)==false){
 			res.json({
@@ -108,38 +134,58 @@ var smtpTransport = require('nodemailer-smtp-transport')
 						msg:"用户不存在！"
 					})
 				}else{
-					user.comparePassword(password,function(err,isMatch){
+					User.findOne({"phone": phone},function(err,phonedate){
 						if(err){
 							res.json({
 								status:0,
 								msg:"发生未知错误！"
 							})
 						}
-						if(isMatch){
-
-								User.findOne({"email": _user.email},function(err,user){
-									user.password = newpassword
-									user.save(function(err,user){
-										if(err){
-											res.json({
-												status:0,
-												msg:" 发生未知错误！"
-											})
-										}
-										res.json({
-											status:1,
-											msg:"修改密码成功！"
-										})
-									})
-								})
-
-						}else{
+						if(phonedate && phone != _user.phone){
 							res.json({
 								status:0,
-								msg:"密码错误！"
+								msg:"手机号已经存在，请重新输入！"
+							})
+						}else{
+							user.comparePassword(password,function(err,isMatch){
+								if(err){
+									res.json({
+										status:0,
+										msg:"发生未知错误！"
+									})
+								}
+								if(isMatch){
+
+										User.findOne({"email": _user.email},function(err,user){
+											user.password = newpassword
+											user.phone = phone
+											user.name = name
+											user.save(function(err,user){
+												if(err){
+													res.json({
+														status:0,
+														msg:" 发生未知错误！"
+													})
+												}
+												res.json({
+													status:1,
+													msg:"修改密码成功,即将退出，请重新登录！"
+												})
+												
+											})
+										})
+
+								}else{
+									res.json({
+										status:0,
+										msg:"旧密码错误！"
+									})
+								}
 							})
 						}
 					})
+
+					
 				}
 			})
 		}

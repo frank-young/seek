@@ -69,11 +69,11 @@ angular.module("dishAddMoudle", []).controller('DishAddCtrl',
             "checked":false
         }
         cateData.addData(msgadd).then(function(data){
-            // $scope.changeAlert(data.msg)
-        })
-        cateData.getData().then(function (data) {
-            $scope.cate = data.cates
+            cateData.getData().then(function (datain) {
+                $scope.cate = datain.cates
+            })
             $scope.changeAlert(data.msg)
         })
+        
     }
 }])
