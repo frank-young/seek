@@ -125,7 +125,28 @@ angular.module('serviceData', [])
                     defer.reject(msg);
                 });
                 return defer.promise;
+            },
+            selfsetData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    method: 'POST',
+                    url: '/user/editpass',
+                    dataType: "json",
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        setting:value
+                    }
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
             }
+
         }
     }])
     .factory('dishData', ['$q','$http',function($q,$http){
@@ -427,7 +448,20 @@ angular.module('serviceData', [])
                 });
                 return defer.promise;
             },
-             getGradeAllData: function (id) {
+            getGradeTodayData: function (id) {
+                var defer = $q.defer();
+                $http({
+                    url: '/order/gradeall',
+                    method: 'get'
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            getGradeAllData: function (id) {
                 var defer = $q.defer();
                 $http({
                     url: '/order/grade/some/'+id,

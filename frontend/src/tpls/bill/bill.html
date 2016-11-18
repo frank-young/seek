@@ -2,11 +2,41 @@
       <div class="one-third column">
         <div class="pay">
 		<div class="panel-group" role="tablist" aria-multiselectable="true" bs-collapse>
-		  <div class="panel panel-default pay-item" ng-show="order.payType==3">
+		   <div class="panel panel-default pay-item">
+        <div class="panel-heading" role="tab">
+          <h4 class="panel-title">
+            <a bs-collapse-toggle>
+              打折
+            </a>
+          </h4>
+        </div>
+        <div class="panel-collapse" role="tabpanel" bs-collapse-target>
+          <div class="panel-body">
+            <table class="u-full-width">
+                <tbody>
+                  <tr>
+                    <td><h6>折扣（1～99）</h6></td>
+                    <td><input type="text" ng-model="discount"></td>
+                  </tr>
+                  <tr>  
+                    <button style="padding: 0 10px;width:72px;font-size:16px;margin-right:15px;margin-bottom:20px;" type="button" class="button" ng-repeat="dd in discountDfault" ng-bind="dd+'折'" ng-click="discountFunc(dd)"></button>
+                  </tr>
+
+                    <tr>
+                    <td></td>
+                    <td><button class="button button-primary" ng-click="discountFunc(discount)">确认</button></td>
+                  </tr>
+                </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel panel-default pay-item" >
 		    <div class="panel-heading" role="tab">
 		      <h4 class="panel-title">
 		        <a bs-collapse-toggle>
-		          会员识别
+		          会员卡
 		        </a>
 		      </h4>
 		    </div>
@@ -49,7 +79,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <td><h6>现金结账</h6><p>
+                      <td><h6>其他方式结算</h6><p>
                         搜索会员手机号
                       </p></td>
                       <td><button type="button" ng-click="" class="button button-primary" data-animation="am-fade-and-scale" placement="center" data-template-url="member.tpl.html" bs-modal>选择</button></td>
@@ -59,7 +89,7 @@
 		      </div>
 		    </div>
 		  </div>
-		  <div class="panel panel-default pay-item" ng-show="order.payType==6">
+		  <div class="panel panel-default pay-item" >
 		    <div class="panel-heading" role="tab">
 		      <h4 class="panel-title">
 		        <a bs-collapse-toggle>
@@ -90,35 +120,6 @@
                         <button class="button" ng-click="wechatPayCancel()" ng-show="wechatTag">取消</button>
 
                       </td>
-                  </tr>
-                </tbody>
-              </table>
-		      </div>
-		    </div>
-		  </div>
-		  <div class="panel panel-default pay-item">
-		    <div class="panel-heading" role="tab">
-		      <h4 class="panel-title">
-		        <a bs-collapse-toggle>
-		          打折
-		        </a>
-		      </h4>
-		    </div>
-		    <div class="panel-collapse" role="tabpanel" bs-collapse-target>
-		      <div class="panel-body">
-		        <table class="u-full-width">
-                <tbody>
-                  <tr>
-                    <td><h6>折扣（1～99）</h6></td>
-                    <td><input type="text" ng-model="discount"></td>
-                  </tr>
-                  <tr>  
-                    <button style="padding: 0 10px;width:72px;font-size:16px;margin-right:15px;margin-bottom:20px;" type="button" class="button" ng-repeat="dd in discountDfault" ng-bind="dd+'折'" ng-click="discountFunc(dd)"></button>
-                  </tr>
-
-                    <tr>
-                    <td></td>
-                    <td><button class="button button-primary" ng-click="discountFunc(discount)">确认</button></td>
                   </tr>
                 </tbody>
               </table>
@@ -250,10 +251,12 @@
 
           <h4>合计： 
             <span ng-bind="order.realTotal | currency:'¥' "></span>
+            <span ng-show="gaptag" class="f-cash-tag">金额不足，还差 <i ng-bind="gap | currency:'¥'"></i></span>
             <button ng-click="roundFunc(order)" class="button " style="padding: 0 10px;float:right"  ng-show="order.payType==0">抹零</button>
           </h4>
         </div>
-        <button ng-disabled="wechatTag" class="button button-primary btn-bill" data-animation="am-fade-and-scale" placement="center" data-template-url="setdish.tpl.html" bs-modal="cashInfo" id="bill" data-backdrop="static" ng-hide="wechatHide">结算</button>
+        <button class="button button-primary btn-bill" data-animation="am-fade-and-scale" placement="center" data-template-url="setdish.tpl.html" bs-modal="cashInfo" id="bill" data-backdrop="static" ng-hide="wechatHide">结算</button>
+
       </div>
       <div class="one-third column side print-view bill-side">
         <!--startprintbill-->

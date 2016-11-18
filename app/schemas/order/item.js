@@ -43,7 +43,7 @@ ItemSchema.statics = {
 	fetch:function(rule,cb){
 		return this
 			.find(rule)
-			.sort({'cate':1})
+			.sort({'cate':1,'name':1})
 			.exec(cb)
 	},
 	findById:function(id,cb){
