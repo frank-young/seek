@@ -5,7 +5,6 @@
 angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interval','orderData','memberData','memberorderData','domainData','paytypeData','creditData','dayData','itemData','pospayData',
   	function($scope,$alert,$window,$interval,orderData,memberData,memberorderData,domainData,paytypeData,creditData,dayData,itemData,pospayData) {
 
-		$window.document.title = "结账" 
 		//时间日期
 		var date = new Date(),
 			Y = date.getFullYear(),	

@@ -5,7 +5,6 @@
 angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interval','orderData','memberData','memberorderData','domainData','paytypeData','creditData','dayData','itemData','pospayData',
   	function($scope,$alert,$window,$interval,orderData,memberData,memberorderData,domainData,paytypeData,creditData,dayData,itemData,pospayData) {
 
-		$window.document.title = "结账" 
 		//时间日期
 		var date = new Date(),
 			Y = date.getFullYear(),	
@@ -644,7 +643,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData','itemData',
   	function($scope,$window,orderData,dishData,settingData,paytypeData,itemData) {
 
-		$window.document.title = "订单列表"; 
 		orderData.getData().then(function(data){
 			$scope.orders = data.orders
 		})
@@ -763,7 +761,6 @@ angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','
 angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScope','$window','memberData',
   	function($scope,$rootScope,$window,memberData) {
 
-		$window.document.title = "会员信息"
 		// 搜索会员用户
 		$scope.search = ""
 
@@ -940,10 +937,10 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			localStorage.serial = 1
 
   			var dateObj = {
-  				"date":date.today,
-  				"year":date.y,
-  				"month":date.m,
-  				"day":date.d,
+  				// "date":date.today,
+  				// "year":date.y,
+  				// "month":date.m,
+  				// "day":date.d,
   				"start": date.now,
   				"status":1,
   				"serial":1
@@ -1047,8 +1044,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 
 angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window','cateData','dishData',
 	function($scope,$window,cateData,dishData) {
-
-		$window.document.title = "点餐"
 		
 		//获取分类
 		if(localStorage.localCate !=null){

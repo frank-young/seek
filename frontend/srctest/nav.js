@@ -139,10 +139,10 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			localStorage.serial = 1
 
   			var dateObj = {
-  				"date":date.today,
-  				"year":date.y,
-  				"month":date.m,
-  				"day":date.d,
+  				// "date":date.today,
+  				// "year":date.y,
+  				// "month":date.m,
+  				// "day":date.d,
   				"start": date.now,
   				"status":1,
   				"serial":1

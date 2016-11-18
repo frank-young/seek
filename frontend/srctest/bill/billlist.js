@@ -5,7 +5,6 @@
 angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData','itemData',
   	function($scope,$window,orderData,dishData,settingData,paytypeData,itemData) {
 
-		$window.document.title = "订单列表"; 
 		orderData.getData().then(function(data){
 			$scope.orders = data.orders
 		})

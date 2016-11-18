@@ -5,7 +5,6 @@
 angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScope','$window','memberData',
   	function($scope,$rootScope,$window,memberData) {
 
-		$window.document.title = "会员信息"
 		// 搜索会员用户
 		$scope.search = ""
 

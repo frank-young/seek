@@ -4,8 +4,6 @@
 
 angular.module("selectMoudle", []).controller('SelectCtrl', ['$scope','$window','cateData','dishData',
 	function($scope,$window,cateData,dishData) {
-
-		$window.document.title = "点餐"
 		
 		//获取分类
 		if(localStorage.localCate !=null){
