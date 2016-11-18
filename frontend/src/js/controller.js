@@ -611,7 +611,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			})
 		}
 
-
 		$scope.wechatPayCancel = function(){
 			$scope.wechatTag=false
 			// $scope.wechatHide = false

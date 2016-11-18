@@ -31,8 +31,8 @@
 					</div>
 					<div class="col-sm-12">
 						<div class="form-group">
-							<label class="col-sm-3 control-label">个人手机</label>
-							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.phone.$invalid}">
+							<label class="col-sm-3 control-label">个人手机（登录账号）</label>
+							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.phone.$invalid}" required>
 								<div type="text" class="form-control" ng-bind="user.phone"" ng-disabled="{{true}}"></div>
 							</div>
 						</div>

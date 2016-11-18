@@ -24,7 +24,7 @@ exports.pospay = function(req,res){
 	var device_info = sales.device_info
 	//公共请求参数
 	var params = {}
-	params.app_id = "2016101000649056",   // 正式->2016111002698733    测试->2016101000649056
+	params.app_id = "2016111002698733",   // 正式->2016111002698733    测试->2016101000649056
 	params.method = "alipay.trade.pay",
 	params.charset = "utf-8",
 	params.sign_type = "RSA",
@@ -41,7 +41,7 @@ exports.pospay = function(req,res){
 
 	var signedParams = rsa(params,biz_content)
 
-	var url = 'https://openapi.alipaydev.com/gateway.do?'+signedParams+"&biz_content="+JSON.stringify(biz_content)
+	var url = 'https://openapi.alipay.com/gateway.do?'+signedParams+"&biz_content="+JSON.stringify(biz_content)
 	options = {
 	    url: url,
 	    method:'post',
