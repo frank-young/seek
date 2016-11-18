@@ -798,8 +798,8 @@ angular.module("dishDetailMoudle", []).controller('DishDetailCtrl',
  ********************************************************************************************************************/
 
 angular.module("homeMoudle", []).controller('HomeCtrl', 
-  ['$scope','$window','orderData',
-  	function($scope,$window,orderData) {
+  ['$scope','$window','orderData','settingData',
+  	function($scope,$window,orderData,settingData) {
 
 	  	$window.document.title = "seek cafe";
 	  	var date = new Date()
@@ -819,6 +819,10 @@ angular.module("homeMoudle", []).controller('HomeCtrl',
 	  	orderData.getGradeTodayData().then(function(data){
 	  		$scope.data = data
 	  	})
+	  	// 权限控制
+		settingData.getRbac().then(function(data){
+			$scope.role = data.rbac
+		})
 	}
 ])
 

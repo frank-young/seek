@@ -16,7 +16,9 @@
         	<button ui-sref="web.member" class="button radius btn-start" ng-disabled="status">会员</button>
 		</div>
     </div>
-    <div class="go-admin"><a href="/admin/#/index"> > </a></div>
+    <div class="go-admin" ng-show="role==10">
+        <a href="/admin/#/index">后台</a>
+    </div>
 </div>
 
  <script type="text/ng-template" id="people.tpl.html">

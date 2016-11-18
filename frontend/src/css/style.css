@@ -39,7 +39,7 @@ button[disabled]:focus{
 .navbar{
 	// height: 60px;
 	line-height: 60px;
-	background-color: #333;
+	background-color: #3A3F51;
 	position: absolute;
 	top: 0;
 	left: 0;
@@ -257,7 +257,7 @@ button[disabled]:focus{
     box-shadow: 0 1px 1px rgba(0,0,0,.05);
 }
 .panel-default>.panel-heading {
-    background-color: #333;
+    background-color: #3A3F51;
     border-color: #fff;
 }
 .panel-group .panel-heading {
@@ -362,7 +362,7 @@ button[disabled]:focus{
 .modal-header {
     min-height: 16.43px;
     padding: 15px;
-	background-color: #333;
+	background-color: #3A3F51;
 }
 .modal-body {
     position: relative;
@@ -373,7 +373,7 @@ button[disabled]:focus{
 .modal-footer {
     padding: 10px;
     text-align: right;
-	background-color: #333;
+	background-color: #3A3F51;
 }
 .close{
 	position: absolute;
@@ -679,9 +679,30 @@ button[disabled]:focus{
 	letter-spacing: 1px;
 }
 
+.go-admin{
+	position: absolute;
+	bottom: 0;
+	right: 0;
+	
+}
+.go-admin a{
+	display: inline-block;
+	min-width: 40px;
+	padding: 0 10px;
+	height: 50px;
+	line-height: 50px;
+	margin-left: 10px;
+	text-align: center;
+	background-color: #3A3F51;
+	color: #fff;
+	text-decoration: none;
+}
 
-
-
-
+/* 钱箱 */
+.cash-box{
+	position: relative;
+    top: -5px;
+	margin-left: 20px;
+}
 
 

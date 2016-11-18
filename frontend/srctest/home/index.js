@@ -2,10 +2,10 @@
  *                                                     首页
  ********************************************************************************************************************/
 
-angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location',
-  	function($scope,$rootScope,$window,$location) {
+angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location','settingData',
+  	function($scope,$rootScope,$window,$location,settingData) {
 
-		$window.document.title = "seek cafe"
+		$window.document.title = "seek cafe点餐系统"
 
 		// 选择用餐人数
 		$scope.people = [1,2,3,4,5,6,7,8,9,10,11,12]
@@ -22,6 +22,10 @@ angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','
 		  	localStorage.removeItem('cook')
 		  	$window.location.href="#/select"
 		}
+		// 权限控制
+		settingData.getRbac().then(function(data){
+			$scope.role = data.rbac
+		})
 		
 	}
 ])
