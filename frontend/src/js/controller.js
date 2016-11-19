@@ -140,7 +140,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$scope.order.redit = index	// 纪录编号
 
 		}
-
+		$scope.outwrap = false
 		// 选择付款方式 统一
 		$scope.selectType = function(value,index){
 			resetIncome()
@@ -157,12 +157,16 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			})
 			payTypeFunc()
 			if(value == "现金"){
+				$scope.outwrap = false
 				$scope.panels = -1
 				/*-----这里是弹出钱箱的代码-----*/
 
 				/*-----这里是弹出钱箱的代码-----*/
 				$scope.order.cashincome = $scope.order.realTotal	// 计入现金收入
 			}else if(value == "微信"){
+				$scope.outwrap = true
+				$scope.wxshow = true
+				$scope.alipayshow = false
 				$scope.panels = -1
 				$scope.changeAlert("已选择微信刷卡支付，请用扫码枪扫码！")
 				$scope.order.wxincome = $scope.order.realTotal 		// 计入微信收入
@@ -171,29 +175,38 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				//聚焦使用扫码枪
 				document.getElementById("wechat").focus()
 			}else if(value == "支付宝"){
+				$scope.outwrap = true
+				$scope.alipayshow = true
+				$scope.wxshow = false
 				$scope.panels = -1
 				$scope.changeAlert("已选择支付宝刷卡支付，请用扫码枪扫码！")
 				$scope.order.alipayincome = $scope.order.realTotal  // 计入支付宝收入
 				$scope.wechatHide = true
 				document.getElementById("alipay").focus()
 			}else if(value == "校园卡"){
+				$scope.outwrap = false
 				$scope.panels = -1
 				$scope.order.schoolincome = $scope.order.realTotal  // 计入校园卡收入
 			}else if(value == "会员卡"){
+				$scope.outwrap = false
 				$scope.panels = 1
 				$scope.changeAlert("请在左侧栏目选择会员卡付款方式！")
 				$scope.wechatHide = true
 				$scope.order.wxincome = $scope.order.realTotal 		// 计入微信收入
 			}else if(value == "优惠券"){
+				$scope.outwrap = false
 				$scope.panels = 2
 				$scope.changeAlert("请在左侧栏目选择优惠券类型！")
 				$scope.wechatHide = true
 				$scope.order.wxincome = $scope.order.realTotal 		// 计入微信收入
 			}else if(value == "次卡"){
+				$scope.outwrap = false
 				$scope.panels = -1
 				$scope.changeAlert("若想重新更换支付方式，请一定点击下面“取消减免”按钮！")
 					
-				}else{
+			}else{
+				$scope.outwrap = false
+				$scope.panels = -1
 				$scope.order.otherincome = $scope.order.realTotal  // 计入其他收入
 
 			}
@@ -330,6 +343,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"isTop":false,
 	            	"isChecked":false,
 					"name": shopinfo.name,
+					"pname": shopinfo.pname,
 					"address": shopinfo.address,
 					"tel": shopinfo.tel,
 					"orderNum": orderNum,
@@ -403,8 +417,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				if(data.status == 1){
 					$scope.changeAlert("点餐成功！")
 
-					printFunc()
-
 					var dayid = localStorage.dayid
 					dayData.getIdData(dayid).then(function(data){
 						serial = data.day.serial
@@ -427,6 +439,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					localStorage.removeItem('memberCash')
 
 					window.location.href="#/index"
+					printFunc()
 				}else{
 					$scope.changeAlert(data.msg)
 				}
@@ -774,7 +787,7 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 			})
 
 		}
-
+		$scope.nowtime = new Date().getTime()
 		$scope.printRec = function(value){
 			$scope.nowtime = new Date().getTime()
 			printFunc(value)

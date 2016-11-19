@@ -3,7 +3,7 @@
           <input type="text" placeholder="拼音首字母搜索菜品..." ng-model="search" ng-keypress="searchFunc(search)">
           <button type="button" class="button button-primary" ng-click="searchFunc(search)">搜索</button>
         <div class="row">
-          	<div class="two columns" ng-repeat="ca in cate">
+          	<div class="three columns" ng-repeat="ca in cate">
           		<button ng-click="selectCate(ca)" class="button" ng-bind="ca.label" ng-class="{true: 'button-primary', false: ''}[ca.checked]"></button>
           	</div>
         </div>
@@ -19,13 +19,13 @@
 
         </div>
       </div>
-      <div class="one-third column side">
+      <div class="one-third column side" style="width:34.666666%;margin-left:0;">
         <h4 class="center">已选菜品</h4>
         <table class="u-full-width">
           <thead>
             <tr>
               <!-- <th>序号</th> -->
-              <th>名称</th>
+              <th style="width:27%;">名称</th>
               <th style="text-align:center">数量</th>
               <th>单价</th>
             </tr>
@@ -37,7 +37,7 @@
               <td>
                 <span class="ctrl">
                   <button class="button" ng-click="reduce(cc)">-</button>
-                  {{cc.number}}
+                  <span style="margin: 0 5px 0 5px;">{{cc.number}}</span>
                   <button class="button button-primary" ng-click="add(cc)">+</button>
                 </span>
               </td>

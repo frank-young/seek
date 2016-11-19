@@ -62,7 +62,7 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 			})
 
 		}
-
+		$scope.nowtime = new Date().getTime()
 		$scope.printRec = function(value){
 			$scope.nowtime = new Date().getTime()
 			printFunc(value)

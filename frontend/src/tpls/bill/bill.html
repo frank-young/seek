@@ -181,18 +181,21 @@
 		      </div>
 		    </div>
 		  </div>
-      <div class="wechat">
-        <form ng-submit="wechatPosPay(auth_code)">
-          <input id="wechat" type="text" ng-model="auth_code">
-        </form>
-      </div>
-      <div class="alipay">
-        <form ng-submit="alipayPosPay(alipay_auth_code)">
-          <input id="alipay" type="text" ng-model="alipay_auth_code">
-        </form>
-      </div>
-
+      
 		</div>
+        </div>
+        <div class="wx-alipay-type" ng-class="{true: 'visible', false: 'disvisible'}[outwrap]">
+          <div class="wechat" ng-class="{true: 'visible', false: 'disvisible'}[wxshow]">
+            <form ng-submit="wechatPosPay(auth_code)">
+             微信支付： <input id="wechat" type="text" ng-model="auth_code">
+            </form>
+          </div>
+          <div class="alipay" ng-class="{true: 'visible', false: 'disvisible'}[alipayshow]">
+            <form ng-submit="alipayPosPay(alipay_auth_code)">
+              支付宝支付：<input id="alipay" type="text" ng-model="alipay_auth_code">
+            </form>
+          </div>
+
         </div>
       </div>
       <div class="one-third column main bill-main">
@@ -264,11 +267,26 @@
           <h5 class="center" style="margin-bottom:20px;">SEEK CAFE 结账单</h5>
           <div class="detail-item">
             <span>
+              店铺名称：
+            </span>
+            <span ng-bind="order.pname">
+            </span>
+          </div>
+          <div class="detail-item">
+            <span>
               店铺地址：
             </span>
             <span ng-bind="order.address">
             </span>
           </div>
+          <div class="detail-item">
+            <span>
+              联系电话：
+            </span>
+            <span ng-bind="order.tel">
+            </span>
+          </div>
+
           <div class="hr">------------------------------------------------------------------------------</div>
           <div class="detail-item">
             <span>
@@ -457,7 +475,7 @@
                   <h5>结账已经成功，请设置取餐号！</h5>
                    <form name="dishnumForm">
                       
-                      <input type="number" name="dishnum" ng-model="dishNum" autofocus style="padding:24px 10px;width:120px;font-size:24px;margin-right:20px;vertical-align: sub;" >
+                      <input type="text" name="dishnum" ng-model="dishNum" autofocus style="padding:24px 10px;width:120px;font-size:24px;margin-right:20px;vertical-align: sub;" >
                       <button class="button button-primary p-sure" ng-disabled="dishnumForm.dishnum.$invalid" ng-click="billing(dishNum)" >确认</button>
                    </form>
                   <div ng-show="order.payType==0">
@@ -467,7 +485,7 @@
                       <input class="p-radio-i" type="radio" name="type" ng-click="selectCash(cash)" ><span>{{cash}}</span>
                     </div>
                     <h5 style="margin-top:20px;margin-bottom:0;text-align:left;padding-left:30px">
-                       手动输入：<input type="number" name="dishnum" ng-model="cash" ng-change="selectCash(cash)" autofocus style="padding:24px 10px ;width:120px;font-size:24px;margin-right:20px;vertical-align: sub;" >
+                       手动输入：<input type="text" name="dishnum" ng-model="cash" ng-change="selectCash(cash)" autofocus style="padding:24px 10px ;width:120px;font-size:24px;margin-right:20px;vertical-align: sub;" >
                     </h5>
                    <h5 style="text-align:left;padding-left:30px;" ng-show="cashTotal>=0">找零金额：<span ng-bind="cashTotal | currency:'¥'" style="color:#ef2d2d;font-size:30px;" ></span>
                    <a class="button button-primary cash-box" href="cashbox:">弹出钱箱</a>

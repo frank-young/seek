@@ -148,9 +148,9 @@ button[disabled]:focus{
 	text-decoration: none;
 }
 .card h3{
-	font-size: 20px;
+	font-size: 18px;
 	margin-bottom: 1rem;
-
+	
 }
 .card p{
 	font-size: 20px;
@@ -636,14 +636,39 @@ button[disabled]:focus{
 }
 
 /* 刷卡支付 */
+.wx-alipay-type{
+	position: absolute;
+	left: 0px;
+	bottom: 0;
+	margin-top: 20px;
+	border: 5px solid #33C3F0;
+	background-color: #fff;
+	padding: 20px;
+}
 .wechat,
 .alipay{
-	position: absolute;
-	top: 0;
-	left: 0;
+	margin: 0;
 	opacity: 0;
 }
+.wechat{
+	
+}
+.alipay{
 
+}
+.visible{
+	opacity: 1!important;
+}
+.disvisible{
+	opacity: 0!important;
+}
+
+.wechat form,
+.alipay form,
+.wechat input,
+.alipay input{
+	margin: 0;
+}
 /* scrollbar */
 ::-webkit-scrollbar {
 

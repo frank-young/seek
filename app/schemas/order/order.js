@@ -3,6 +3,7 @@ var OrderSchema = new mongoose.Schema({
 	isTop: Boolean,
 	checked: Boolean,
 	name:String,
+	pname:String,
 	address:String,
 	tel:String,
 	orderNum:{

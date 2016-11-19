@@ -142,6 +142,7 @@ var Order = require('../../models/order/order'),	//引入模型
 						isTop: orderObj.isTop,
 						isChecked: orderObj.isChecked,
 						name: orderObj.name,
+						pname: orderObj.pname,
 						address: orderObj.address,
 						tel: orderObj.tel,
 						orderNum: orderObj.orderNum,
