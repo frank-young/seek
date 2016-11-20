@@ -1,27 +1,26 @@
 <style>
-	.back{
-		display: none;
-	}
+.back {
+    display: none;
+}
 </style>
 <div ng-controller="HomeCtrl">
-	<div class="row">
-      	<div class="right one-third column" style="margin-top: 20%">
-        	<button ui-sref="web.billlist" class="button radius btn-start" ng-disabled="status">订单信息</button>
-		</div>
-		<div class="center one-third column" style="margin-top: 20%">
-        	<button  class="button-primary radius btn-start" ng-disabled="status" data-animation="am-fade-and-scale" placement="center" data-template-url="people.tpl.html" bs-modal>点餐</button>
-      	</div>
-
-		<div class="one-third column" style="margin-top: 20%">
-        	<button ui-sref="web.member" class="button radius btn-start" ng-disabled="status">会员</button>
-		</div>
+    <div class="row">
+        <div class="right one-third column" style="margin-top: 20%">
+            <button ui-sref="web.billlist" class="button radius btn-start" ng-disabled="status">订单信息</button>
+        </div>
+        <div class="center one-third column" style="margin-top: 20%">
+            <button class="button-primary radius btn-start" ng-disabled="status" data-animation="am-fade-and-scale" placement="center" data-template-url="people.tpl.html" bs-modal>点餐</button>
+        </div>
+        <div class="one-third column" style="margin-top: 20%">
+            <button ui-sref="web.member" class="button radius btn-start" ng-disabled="status">会员</button>
+        </div>
     </div>
     <div class="go-admin" ng-show="role==10">
         <a href="/admin/#/index">后台</a>
+        <a href="javascript:window.opener=null;window.open('','_self');window.close();">关闭</a></body>
     </div>
 </div>
-
- <script type="text/ng-template" id="people.tpl.html">
+<script type="text/ng-template" id="people.tpl.html">
     <div class="modal modal-people" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -29,20 +28,20 @@
                     <button type="button" class="close" ng-click="$hide()">&times;</button>
                     <h4 class="modal-title">选择用餐人数</h4>
                 </div>
-                <div class="modal-body" >
-					<div class="row">
-					    <div class="two columns no-margin" ng-repeat="p in people">
-							<div class="p-radio">
-								<input class="p-radio-i" type="radio" name="people" ng-click="showNumber(p)" value="{{pNum}}"><span>{{p}}</span>
-							</div>
-					    </div>
-					</div> 
-					<button class="button button-primary p-sure" ng-click="start()">确认</button>                
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="two columns no-margin" ng-repeat="p in people">
+                            <div class="p-radio">
+                                <input class="p-radio-i" type="radio" name="people" ng-click="showNumber(p)" value="{{pNum}}"><span>{{p}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="button button-primary p-sure" ng-click="start()">确认</button>
                 </div>
-            <div class="modal-footer">
-                <button type="button" class="button " ng-click="$hide()">关闭</button>
+                <div class="modal-footer">
+                    <button type="button" class="button " ng-click="$hide()">关闭</button>
+                </div>
             </div>
-        </div>
         </div>
     </div>
 </script>

@@ -1,5 +1,5 @@
 <div ng-controller="BilllistCtrl" class="row billlist">
-      <div class="two-thirds column main">
+    <div class="two-thirds column main">
         <h4>今日订单</h4>
         <h5>
           <div class="row bl-panel" ng-show="role==0">
@@ -15,205 +15,193 @@
           </div>
         </h5>
         <table class="u-full-width">
-          <thead>
-            <tr>
-              <th>订单编号</th>
-              <th>金额</th>
-              <th>时间</th>
-              <th>操作人</th>
-              <th style="text-align:center">操作</th>
-            </tr>
-          </thead>
-          <tbody>
-             <tr ng-repeat="o in orders">
-              <td ng-bind="o.orderNum"></td>
-              <td ng-bind="o.realTotal | currency:'¥' "></td>
-              <td ng-bind="o.time | onlytime"></td>
-              <td ng-bind="o.editPeople"></td>
-              <td> 
-                <button style="padding: 0 10px;" class="button button-primary" ng-click="lookAll(o._id)">查看详情</button>
-                <button style="padding: 0 10px;" class="button " ng-click="printRec('print-rec')">重新打印</button>
-                <button ng-show="role == 10" style="padding: 0 10px;" class="button " data-animation="am-fade-and-scale" placement="center" data-template-url="warning.tpl.html" bs-modal>反位结算</button>
-              </td>
-            </tr>
-          </tbody>
+            <thead>
+                <tr>
+                    <th>订单编号</th>
+                    <th>金额</th>
+                    <th>时间</th>
+                    <th>操作人</th>
+                    <th style="text-align:center">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="o in orders">
+                    <td ng-bind="o.orderNum"></td>
+                    <td ng-bind="o.realTotal | currency:'¥' "></td>
+                    <td ng-bind="o.time | onlytime"></td>
+                    <td ng-bind="o.editPeople"></td>
+                    <td>
+                        <button style="padding: 0 10px;" class="button button-primary" ng-click="lookAll(o._id)">查看详情</button>
+                        <button style="padding: 0 10px;" class="button " ng-click="printRec('print-rec')">重新打印</button>
+                        <button ng-show="role == 10" style="padding: 0 10px;" class="button " data-animation="am-fade-and-scale" placement="center" data-template-url="warning.tpl.html" bs-modal>反位结算</button>
+                    </td>
+                </tr>
+            </tbody>
         </table>
-      </div>
-     
-      <div class="one-third column side print-view">
+    </div>
+    <div class="one-third column side print-view">
         <div class="detail" id="print-rec">
-          <div class="print-wrap">
-             <h5 class="center" style="margin-bottom:20px;">SEEK CAFE 结账单</h5>
-          <div class="detail-item">
-            <span>
+            <div class="print-wrap">
+                <h5 class="center" style="margin-bottom:20px;">SEEK CAFE 结账单</h5>
+                <div class="detail-item">
+                    <span>
               店铺名称：
             </span>
-            <span ng-bind="order.pname">
+                    <span ng-bind="order.pname">
             </span>
-          </div>
-          <div class="detail-item">
-            <span>
+                </div>
+                <div class="detail-item">
+                    <span>
               店铺地址：
             </span>
-            <span ng-bind="order.address">
+                    <span ng-bind="order.address">
             </span>
-          </div>
-          <div class="detail-item">
-            <span>
+                </div>
+                <div class="detail-item">
+                    <span>
               联系电话：
             </span>
-            <span ng-bind="order.tel">
+                    <span ng-bind="order.tel">
             </span>
-          </div>
-          <div class="hr">------------------------------------------------------------------------------</div>
-  
-          <div class="detail-item">
-            <span>
+                </div>
+                <div class="hr">------------------------------------------------------------------------------</div>
+                <div class="detail-item">
+                    <span>
               NO.
             </span>
-            <span ng-bind="order.orderNum" class="f12">
+                    <span ng-bind="order.orderNum" class="f12">
             </span>
-          </div>
-          <div class="detail-item">
-            <span>
+                </div>
+                <div class="detail-item">
+                    <span>
 
             </span>
-            <span ng-bind="order.time | datetime" class="f12"></span>
-          </div>
-          
-          <div class="detail-item">
-            <span>
+                    <span ng-bind="order.time | datetime" class="f12"></span>
+                </div>
+                <div class="detail-item">
+                    <span>
               用餐人数：
             </span>
-            <span ng-bind="order.peopleNum">
+                    <span ng-bind="order.peopleNum">
             </span>
-          </div>
-          <div class="detail-item">
-            <span>
+                </div>
+                <div class="detail-item">
+                    <span>
               取餐编号：
             </span>
-            <span ng-bind="order.dishNum">
+                    <span ng-bind="order.dishNum">
             </span>
-          </div>
-
-          <div class="hr">------------------------------------------------------------------------------</div>
-  
-          <div class="detail-item">
-            <table class="u-full-width">
-              <thead>
-                <tr>
-                  <th>名称</th>
-                  <th>数量</th>
-                  <th>实付金额</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr ng-repeat="d in order.dish">
-                <td>
-                  {{d.name}} <span ng-show="d.other1==1">(套餐)</span>
-                  <div ng-show="d.other1==1">
-                    <span ng-repeat="da in d.dishArr" style="font-size: 12px;">
+                </div>
+                <div class="hr">------------------------------------------------------------------------------</div>
+                <div class="detail-item">
+                    <table class="u-full-width">
+                        <thead>
+                            <tr>
+                                <th>名称</th>
+                                <th>数量</th>
+                                <th>实付金额</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="d in order.dish">
+                                <td>
+                                    {{d.name}} <span ng-show="d.other1==1">(套餐)</span>
+                                    <div ng-show="d.other1==1">
+                                        <span ng-repeat="da in d.dishArr" style="font-size: 12px;">
                       {{da.dishSelect}}
                     </span>
-                  </div>
-                </td>
-                <td>{{d.number}}
-                </td>
-                <td ng-bind="d.reducePrice*d.number | currency:'¥' "></td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
-          <div class="hr">------------------------------------------------------------------------------</div>
-  
-          <div class="detail-item">
-            <span>
+                                    </div>
+                                </td>
+                                <td>{{d.number}}
+                                </td>
+                                <td ng-bind="d.reducePrice*d.number | currency:'¥' "></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="hr">------------------------------------------------------------------------------</div>
+                <div class="detail-item">
+                    <span>
               支付方式：
             </span>
-            <span ng-repeat="pt in order.payType" ng-bind="payTypeArr[pt]+' ' ">           
+                    <span ng-repeat="pt in order.payType" ng-bind="payTypeArr[pt]+' ' ">           
             </span>
-          </div>
-          <div class="detail-item" ng-show="order.isMember">
-            <span>
+                </div>
+                <div class="detail-item" ng-show="order.isMember">
+                    <span>
               会员姓名：
             </span>
-            <span ng-bind="order.memberName">              
+                    <span ng-bind="order.memberName">              
             </span>
-          </div>
-          <div class="detail-item" ng-show="order.isMember">
-            <span>
+                </div>
+                <div class="detail-item" ng-show="order.isMember">
+                    <span>
               会员手机：
             </span>
-            <span ng-bind="order.memberPhone">             
+                    <span ng-bind="order.memberPhone">             
             </span>
-          </div>
-          <div class="detail-item" ng-show="order.isMember">
-            <span>
+                </div>
+                <div class="detail-item" ng-show="order.isMember">
+                    <span>
               会员卡号：
             </span>
-            <span ng-bind="order.memberNum">             
+                    <span ng-bind="order.memberNum">             
             </span>
-          </div>
-          <div class="detail-item">
-            <span>
+                </div>
+                <div class="detail-item">
+                    <span>
               金额合计：
             </span>
-            <span ng-bind="order.total | currency:'¥' ">
+                    <span ng-bind="order.total | currency:'¥' ">
             </span>
-          </div>
-          <div class="detail-item">
-            <span>
+                </div>
+                <div class="detail-item">
+                    <span>
               减免金额：
             </span>
-            <span ng-bind=" order.reduce | currency:'¥' ">
+                    <span ng-bind=" order.reduce | currency:'¥' ">
             </span>
-          </div>
-          <div class="detail-item">
-            <span>
+                </div>
+                <div class="detail-item">
+                    <span>
               优惠后金额：
             </span>
-            <span ng-bind="order.reduceAfter | currency:'¥' ">
+                    <span ng-bind="order.reduceAfter | currency:'¥' ">
             </span>
-          </div>
-
-          <div class="detail-item">
-            <span>
+                </div>
+                <div class="detail-item">
+                    <span>
               实收合计：
             </span>
-            <span ng-bind="order.realTotal | currency:'¥' ">
+                    <span ng-bind="order.realTotal | currency:'¥' ">
             </span>
-          </div>
-          <div class="detail-item now-time">
-            <span>
+                </div>
+                <div class="detail-item now-time">
+                    <span>
               打印时间：
             </span>
-            <span ng-bind="nowtime | datetime">
+                    <span ng-bind="nowtime | datetime">
             </span>
-          </div>
-
-          </div>
+                </div>
+            </div>
         </div>
         <!-- <button class="button  btn-bill">清空</button> -->
-      </div>
     </div>
-
- <script type="text/ng-template" id="warning.tpl.html">
+</div>
+<script type="text/ng-template" id="warning.tpl.html">
     <div class="modal modal-warning" tabindex="-1" role="dialog">
         <div class="modal-dialog" style="width:500px;">
-            <div class="modal-content" >
+            <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" ng-click="$hide()">&times;</button>
                     <h5 class="modal-title" style="color:#fff; margin-bottom: 0">提示框</h5>
                 </div>
                 <div class="modal-body" style="height:160px;padding-top: 50px;">
                     <h5 style="color:#333; font-size:22px;">反位结算将会彻底删除此订单，是否继续？</h5>
-                    <button class="button button p-sure" ng-click="$hide()" style="color:#333;margin-right:30px;">取消</button>                
-                    <button class="button button-primary p-sure" ui-sref="web.select" ng-click="againAccount(o);$hide()" >确认</button>                
+                    <button class="button button p-sure" ng-click="$hide()" style="color:#333;margin-right:30px;">取消</button>
+                    <button class="button button-primary p-sure" ui-sref="web.select" ng-click="againAccount(o);$hide()">确认</button>
                 </div>
-        </div>
+            </div>
         </div>
     </div>
 </script>
-
-
-
