@@ -114,7 +114,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.order = {}
 		$scope.payTypeArr = []
 		$scope.creditArr = []
-		$scope.discountDfault = [95,90,85,80,75,70]
+		$scope.discountDfault = [95,90,85]
 		$scope.payType = []
 
 		//获取支付方式
