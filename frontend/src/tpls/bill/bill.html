@@ -14,15 +14,15 @@
           <div class="panel-body">
             <table class="u-full-width">
                 <tbody>
-                  <tr>
-                    <td ><h6>折扣（1～99）</h6></td>
-                    <td ><input type="text" ng-model="discount" ></td>
+                  <tr ng-show="role==10">
+                    <td><h6>折扣（1～99）</h6></td>
+                    <td ><input type="text" ng-model="discount" style="width:100%"></td>
                   </tr>
                   <tr>  
                     <button style="padding: 0 10px;width:52px;font-size:16px;margin-right:15px;margin-bottom:20px;" type="button" class="button" ng-repeat="dd in discountDfault" ng-bind="dd+'折'" ng-click="discountFunc(dd)"></button>
                   </tr>
 
-                    <tr>
+                  <tr ng-show="role==10">
                     <td></td>
                     <td><button class="button button-primary" ng-click="discountFunc(discount)">确认</button></td>
                   </tr>
@@ -126,7 +126,7 @@
 		      </div>
 		    </div>
 		  </div>
-		  <div class="panel panel-default pay-item">
+		  <div class="panel panel-default pay-item" ng-show="role==10">
 		    <div class="panel-heading" role="tab">
 		      <h4 class="panel-title">
 		        <a bs-collapse-toggle>
@@ -140,7 +140,7 @@
                 <tbody>
                   <tr>
                     <td><h6>减免金额：</h6></td>
-                    <td><input type="text" ng-model="reduce"></td>
+                    <td><input type="text" ng-model="reduce" style="width:100%"></td>
                   </tr>
                  <!--  <tr>
                     <td>减免前：</td>
@@ -170,7 +170,7 @@
 		    <div class="panel-collapse" role="tabpanel" bs-collapse-target>
 		      <div class="panel-body">
             <div class="row">
-              <div class="one-third column pay-type" ng-repeat="p in creditArr">
+              <div class="one-half column pay-type" ng-repeat="p in creditArr">
                   <div class="p-radio">
                     <input class="p-radio-i" type="radio" name="type" ng-click="selectCredit($index)" ><span>{{p}}</span>
                       
@@ -213,8 +213,8 @@
             <tr>
               <th style="width:30%">名称</th>
               <th>数量</th>
-              <th style="text-align:center">单价</th>
-              <th>金额</th>
+              <th >单价</th>
+              <!-- <th>金额</th> -->
               <th>支付方式</th>
             </tr>
           </thead>
@@ -235,14 +235,14 @@
                 <span ng-bind="cc.reducePrice*cc.number | currency:'¥' "></span>
 
                 <span ng-show="cc.reduceNum != null && cc.reduceNum !=100 && cc.reduceNum !=0" class="pill">{{cc.reduceNum}}折</span></td>
-              <td> 
+              <!-- <td> 
                   <button ng-disabled="true" style="padding: 0 10px;width:72px;font-size:16px;margin-bottom:0" type="button" class="button" bs-dropdown aria-haspopup="true" aria-expanded="false" placement="bottom" >{{payTypeArr[cc.payType]}}</button>
                     <ul class="dropdown-menu" role="menu">
                         <li ng-repeat="p in payTypeArr">
                             <button class="button" style="padding: 0 10px;"  ng-bind="p" ng-click="selectPay(cc,p,$index)" ></button>
                         </li>
                     </ul>
-              </td>
+              </td> -->
             </tr>
           </tbody>
         </table>

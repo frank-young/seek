@@ -2,8 +2,8 @@
  *                                                     结账页面
  ********************************************************************************************************************/
 
-angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interval','orderData','memberData','memberorderData','domainData','paytypeData','creditData','dayData','itemData','pospayData',
-  	function($scope,$alert,$window,$interval,orderData,memberData,memberorderData,domainData,paytypeData,creditData,dayData,itemData,pospayData) {
+angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interval','orderData','memberData','memberorderData','domainData','paytypeData','creditData','dayData','itemData','pospayData','settingData',
+  	function($scope,$alert,$window,$interval,orderData,memberData,memberorderData,domainData,paytypeData,creditData,dayData,itemData,pospayData,settingData) {
 
 		//时间日期
 		var date = new Date(),
@@ -13,6 +13,10 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 	        h = (date.getHours() < 10 ? '0'+(date.getHours()) : date.getHours()),
 	        m = (date.getMinutes() < 10 ? '0'+(date.getMinutes()) : date.getMinutes()),
 	        s = (date.getSeconds() < 10 ? '0'+(date.getSeconds()) : date.getSeconds())
+	    // 权限控制
+		settingData.getRbac().then(function(data){
+			$scope.role = data.rbac
+		})
 
 		// 获取本地存储已点的菜品
 		$scope.cookCart = JSON.parse(localStorage.cook)
