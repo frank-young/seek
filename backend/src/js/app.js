@@ -26,6 +26,9 @@ var app = angular.module('app', [
         'orderDetailMoudle',
         'orderMonthMoudle',
         'orderDayMoudle',
+        'petruleMoudle',
+        'petruleAddMoudle',
+        'petruleDetailMoudle',
         'itemDayMoudle',
         'itemDetailMoudle',
         'creditMoudle',
@@ -152,7 +155,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/wechat',
             templateUrl: 'tpls/wechat/wechat.html'
         })
-
+        .state('web.petrule', {
+            url: '/petrule',
+            templateUrl: 'tpls/member/petrule.html'
+        })
+        .state('web.petruleAdd', {
+            url: '/petruleAdd',
+            templateUrl: 'tpls/member/petruleadd.html'
+        })
+        .state('web.petruleDetail', {
+            url: '/petruleDetail/:id',
+            templateUrl: 'tpls/member/petruledetail.html'
+        })
 
         
 });
@@ -161,4 +175,9 @@ app.config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
     cfpLoadingBarProvider.parentSelector = '#loading-bar-container';
     cfpLoadingBarProvider.includeSpinner  = false;
 }])
+
+
+
+
+
 

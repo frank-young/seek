@@ -764,3 +764,73 @@ button[disabled]:focus{
 }
 
 /* 添加储值卡 */
+.petcard-box label{
+	height: 38px;
+	line-height: 38px;
+}
+.petcard-box label.p-label{
+	cursor: pointer;
+	position: relative;
+	font-weight: normal;
+}
+.petcard-box input[type="text"]{
+	/*width: 100%;*/
+}
+.petcard-box input[type="radio"]{
+	margin-right: 8px;
+	width: 15px;
+	height: 15px;
+	position: relative;
+	top: -3px;
+	opacity: 0;
+}
+.petcard-box input[type="radio"]+span{
+	position: absolute;
+	left: -1px;
+	top: 9px;
+	width: 15px;
+	height: 15px;
+	border: 1px solid #ccc;
+	border-radius: 50%;
+	-webkit-border-radius:50%;
+}
+.petcard-box input[type="radio"]:checked+span{
+	border: 1px solid #44B549;
+}
+.petcard-box input[type="radio"]:checked+span:after{
+	content: '';
+	position: absolute;
+	top: 3px;
+	left: 3px;
+	width: 9px;
+	height: 9px;
+	border-radius: 50%;
+	-webkit-border-radius:50%;
+	background-color: #44B549;
+}
+
+.block{
+	display: block;
+	width: 100%;
+}
+.petcard-box .button{
+	margin-top: 15px;
+}
+.petcard-box input::-webkit-calendar-picker-indicator,
+.petcard-box input::-webkit-inner-spin-button{
+	display: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

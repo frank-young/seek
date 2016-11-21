@@ -4,7 +4,7 @@ var _ = require('underscore')
 	//储值卡列表页
 	exports.list = function(req,res){
 		var user = req.session.user
-		Petcard.fetch({"domainlocal":user.domain},function(err,petcards){
+		Petcard.fetch(function(err,petcards){
 			res.json({
 				status:"1",
 				msg:"操作成功",

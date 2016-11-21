@@ -15,6 +15,7 @@ var Index = require('../app/controllers/index'),
     Memberorder = require('../app/controllers/wechat/memberorder'),
     Member = require('../app/controllers/wechat/member'),
     Petcard = require('../app/controllers/member/petcard'),
+    Petrule = require('../app/controllers/member/petrule'),
     Payorder = require('../app/controllers/wechat/payorder'),
     Alipayorder = require('../app/controllers/alipay/alipayorder'),
     multipart = require('connect-multiparty'),
@@ -151,6 +152,13 @@ module.exports = function(app){
   app.post('/petcard/update', User.signinRequired, Petcard.update)
   app.get('/petcard/detail/:id', User.signinRequired, Petcard.detail)
   // app.delete('/petcard/delete',User.signinRequired, Petcard.del)
+  
+  // 储值卡规则信息
+  app.get('/petrule',User.signinRequired, Petrule.list)
+  app.post('/petrule/add',User.signinRequired, Petrule.save)
+  app.post('/petrule/update', User.signinRequired, Petrule.update)
+  app.get('/petrule/detail/:id', User.signinRequired, Petrule.detail)
+  app.delete('/petrule/delete',User.signinRequired, Petrule.del)
   
   // 微信端接口
   app.get('/wechat/init',Wechat.init)

@@ -67,22 +67,22 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 					}
 				]
 			},
-			// {
-			// 	icon:'fa fa-users',
-			// 	title:'会员管理',
-			// 	role:10,
-			// 	subs:[ 
-			// 		{
-			// 			text:'会员列表',
-			// 			link:'web.member'
-			// 		}
-			// 		,
-			// 		{
-			// 			text:'添加会员',
-			// 			link:'web.member'
-			// 		}
-			// 	]
-			// },
+			{
+				icon:'fa fa-users',
+				title:'储值卡管理',
+				role:10,
+				subs:[ 
+					{
+						text:'储值卡列表',
+						link:'web.member'
+					}
+					,
+					{
+						text:'储值卡规则',
+						link:'web.petruleAdd'
+					}
+				]
+			},
 			{
 				icon:'fa fa-wechat',
 				title:'微信端',

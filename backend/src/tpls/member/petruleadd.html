@@ -1,0 +1,76 @@
+<div ng-controller="PetruleAddCtrl">
+	<h2 class="page-header">添加收银员
+		<a href="javascript:window.history.go(-1)" type="button" class="btn btn-primary ml-20"><i class="fa fa-angle-left"></i> 返回</a>
+		<button type="button" class="btn btn-success" ng-click="saveUser(user)"><i class="fa fa-save"></i> 保存</button>
+	</h2>
+
+<div class="row cus-border">
+	<div class="col-md-12 cus-txt">
+		<h4>收银员</h4>
+	</div>
+	<form name="teamFrom">
+		<div class="col-md-6 col-md-offset-3">
+			<div class="cus-user">
+				<div class="row">
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">姓名</label>
+							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.name.$invalid}">
+								<input type="text" name="name" class="form-control" placeholder="姓名" ng-model="user.name" ng-disabled="isEdit" required ng-maxlength="50"></div>
+						</div>
+					</div>
+
+					<div class="col-sm-12">
+						
+						<div class="form-group">
+							<label class="col-sm-3 control-label">邮箱</label>
+							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.mail.$invalid}">
+								<input type="email" name="mail" class="form-control" placeholder="邮箱" ng-model="user.email" ng-disabled="isEdit"  ng-maxlength="50"></div>
+						</div>
+					</div>
+					<div class="col-sm-12">
+
+						<div class="form-group">
+							<label class="col-sm-3 control-label">密码</label>
+							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.password.$invalid}">
+								<input type="password" name="password" class="form-control" placeholder="密码" ng-model="user.password" ng-disabled="isEdit" ng-maxlength="20" required></div>
+						</div>
+
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">个人手机（登录账号）</label>
+							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.phone.$invalid}" required>
+								<input type="text" name="phone" class="form-control" placeholder="个人手机" ng-model="user.phone" ng-disabled="isEdit" ng-maxlength="20"></div>
+						</div>
+						
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">性别</label>
+							<div class="col-sm-9">
+								<button type="button" class="form-control form-select" ng-model="user.sex" data-html="1" data-toggle="true" bs-options="sex.value as sex.label for sex in sexs" ng-disabled="isEdit" placeholder="请选择性别" bs-select>
+									<span class="caret"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-sm-12">
+						<div class="form-group">
+							<label class="col-sm-3 control-label">成员类型</label>
+							<div class="col-sm-9">
+								<button type="button" class="form-control form-select" ng-model="user.role" data-html="1" data-toggle="true" bs-options="role.value as role.label for role in roles" ng-disabled="isEdit" placeholder="请选择类型" bs-select>
+									<span class="caret"></span>
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</form>
+
+</div>
+
+</div>
