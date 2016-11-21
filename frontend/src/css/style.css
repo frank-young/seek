@@ -125,7 +125,7 @@ button[disabled]:focus{
 	-moz-box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 	-ms-box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 	-o-box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-	border: 5px solid #3c3;
+	border: 5px solid #44B549;
 	position: relative;
 
 }
@@ -136,7 +136,7 @@ button[disabled]:focus{
 	bottom: -20px;
 	width: 0px;
 	height: 0px;
-	border-color: transparent transparent transparent #3c3;
+	border-color: transparent transparent transparent #44B549;
 	border-style: solid;
 	border-width: 20px;
 	-webkit-transform: rotate(45deg);
@@ -763,4 +763,4 @@ button[disabled]:focus{
 	margin-left: 20px;
 }
 
-
+/* 添加储值卡 */

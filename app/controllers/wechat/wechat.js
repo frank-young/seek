@@ -18,7 +18,7 @@ var config = {
 		appSecret:'07edc09a46dba2e8d0b1964b5aec3a46',		//       143d36866e792512dc76ea5d11e8df62
 		token:'weixin'
 	},
-	card: "pQw7gv-4KHxAWZpHnMAhbghzIzkw",
+	card: "pQw7gv3-fLxpHzSpU1Yl21r1ukrE",
 	code: "435350747055"
 }
 
@@ -80,47 +80,52 @@ exports.token = function(req,res){
 	saveToken()
 }
 
+//获取自动回复规则
+exports.getcgi = function(req,res){
+	var access_token = fs.readFileSync('./config/token').toString()
+	var url = 'https://api.weixin.qq.com/cgi-bin/get_current_autoreply_info?access_token=' + access_token
+
+	request(url, function (error, response, body) {
+	  	if (!error && response.statusCode == 200) {
+	  		res.json({
+		      	status:1,
+				msg:'获取成功！',
+				data:body
+		      })
+	  	}
+	})
+}
+
+//读取自定义菜单
+exports.getmenu = function(req,res){
+	var access_token = fs.readFileSync('./config/token').toString()
+	var url = 'https://api.weixin.qq.com/cgi-bin/menu/get?access_token=' + access_token
+
+	request(url, function (error, response, body) {
+	  	if (!error && response.statusCode == 200) {
+	  		res.json({
+		      	status:1,
+				msg:'读取自定义菜单成功！',
+				data:body
+		      })
+	  	}
+	})
+}
+
 //添加菜单
-exports.addMenu = function(req,res){
+exports.addmenu = function(req,res){
 
 	//token，因为token是存在文件里的所以这里进行文件读取得到token
 	var access_token = fs.readFileSync('./config/token').toString()
 	var menus = {
-	  "button": [
-	    {
-	      "name": "会员信息",
-	      "sub_button": [
-	        {
-	          "type": "view",
-	          "name": "我的会员",
-	          "url": "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd95a4f3e82e0df64&redirect_uri=http%3A%2F%2F39778151.ngrok.natapp.cn/wechat/login&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect"
-	        },
-	        {
-	          "type": "view",
-	          "name": "优惠信息",
-	          "url": "http://60.205.157.200"
-	        }]
-	    },
-	    {
-	      "name": "关于我们",
-	      "sub_button": [
-	        {
-	          "type": "view",
-	          "name": "关于我们",
-	          "url": "http://www.nanafly.com"
-	        }]
-	    },
-	    {
-	      "name": "联系我们",
-	      "sub_button": [
-	        {
-	          "type": "view",
-	          "name": "联系我们",
-	          "url": "http://www.nanafly.com"
-	        }]
-	    }
-	    ]
-	}
+	  "button":[{
+			"name":"微官网",
+			"sub_button":[
+			{"type":"view",
+			"name":"首页",
+			"url":"http:\/\/55735016.m.weimob.com\/weisite\/home?pid=55735016&bid=56673821&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E6aaW6aG1","sub_button":[]},
+			{"type":"view","name":"申请会员","url":"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGk8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0ZrVEZkZXZsS21kVE9JVkY0R19IAAIE4bMyWAMECAcAAA%3D%3D","sub_button":[]},{"type":"view","name":"品牌故事","url":"http:\/\/55735016.m.weimob.com\/WEISITE\/detail?did=2534329&bid=56673821&pid=55735016","sub_button":[]},{"type":"view","name":"在线订购","url":"http:\/\/55735016.m.weimob.com\/dining\/info\/showStoreListPage?pid=55735016&wechatid=fromUsername&menu=ONLINE_ORDERING&_tt=2&channel=menu%5E%23%5E5Zyo57q\/6K6i6LSt","sub_button":[]},{"type":"view","name":"积分查询","url":"http:\/\/55735016.m.weimob.com\/Webnewmemberscore\/index?pid=55735016&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E56ev5YiG5p+l6K+i","sub_button":[]}]},{"name":"会员消息","sub_button":[{"type":"view","name":"最新活动","url":"http:\/\/55735016.m.weimob.com\/weisite\/list?pid=55735016&bid=56673821&wechatid=fromUsername&ltid=1739279&wxref=mp.weixin.qq.com&_tt=2&channel=menu%5E%23%5E5pyA5paw5rS75Yqo","sub_button":[]},{"type":"view","name":"优惠信息","url":"http:\/\/55735016.m.weimob.com\/weisite\/list?pid=55735016&bid=56673821&wechatid=fromUsername&ltid=1738517&wxref=mp.weixin.qq.com&_tt=2&channel=menu%5E%23%5E5LyY5oOg5L+h5oGv","sub_button":[]},{"type":"click","name":"抢优惠","key":"刮刮卡","sub_button":[]},{"type":"click","name":"创业求助","key":"求助","sub_button":[]},{"type":"view","name":"微信打印机","url":"http:\/\/prtv3.etbar.com\/uweb\/index.aspx?userid=1311&ucode=AsBSkMLRgD1o","sub_button":[]}]},{"name":"关于我们","sub_button":[{"type":"view","name":"门店信息","url":"http:\/\/55735016.m.weimob.com\/weisite\/list?pid=55735016&bid=56673821&wechatid=fromUsername&ltid=1818666&wxref=mp.weixin.qq.com&_tt=2&channel=menu%5E%23%5E6Zeo5bqX5L+h5oGv","sub_button":[]},{"type":"click","name":"商务合作","key":"商务合作","sub_button":[]},{"type":"view","name":"诚邀加盟","url":"http:\/\/55735016.m.weimob.com\/webreserve\/ReserveBook?rid=71459&pid=55735016&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E6K+a6YKA5Yqg55uf","sub_button":[]},{"type":"view","name":"推荐选址","url":"http:\/\/55735016.m.weimob.com\/webreserve\/ReserveBook?rid=71460&pid=55735016&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E5o6o6I2Q6YCJ5Z2A","sub_button":[]},{"type":"view","name":"意见反馈","url":"http:\/\/55735016.m.weimob.com\/webreserve\/ReserveBook?rid=71464&pid=55735016&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E5oSP6KeB5Y+N6aaI","sub_button":[]}]}]
+		}
 	var options = {
 	    url: 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token=' + access_token,
 	    form: JSON.stringify(menus),
@@ -134,11 +139,11 @@ exports.addMenu = function(req,res){
 	      console.log(err)
 	      
 	    }else {
-	      console.log(body)
-	      res.json({
-	      	status:1,
-			msg:'添加自定义菜单成功'
-	      })
+	      	console.log(body)
+	      	res.json({
+	      		status:1,
+				msg:'添加自定义菜单成功'
+	      	})
 	    }
 	  })
 }
@@ -615,12 +620,13 @@ exports.cardGetDiscount = function(req,res){
 
 // 拉取会员信息---单个会员
 exports.cardMembercard = function(req,res){
+	var code = req.params.code
 	var access_token = fs.readFileSync('./config/token').toString();
 	var url = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
 
 	var formdata ={
 			"card_id":config.card,
- 			"code": config.code
+ 			"code": code
 		}
 
 	var options = {
@@ -655,7 +661,10 @@ exports.cardMembercard = function(req,res){
 					})
 					res.json({
 						msg:'1',
-						data:data
+						data:data,
+						mobile:mobile,
+						name:name,
+						birthday:birthday
 					})
 				}
 
@@ -687,10 +696,10 @@ exports.cardMembercardUpdate = function(req,res){
 	var formdata ={
  			"code": config.code,
 			"card_id":config.card,
-		    "record_bonus": "消费30元，获得3积分",
+		    "record_bonus": "",
 		    "bonus":103,
 		    "balance":1,
-		    "record_balance": "购买叶小妞一枚，一生陪着她。",
+		    "record_balance": "",
 		    "notify_optional": {
 		        "is_notify_bonus": true,
 		        "is_notify_balance": true,
@@ -760,12 +769,26 @@ exports.cardResponse = function(req,res){
 	// update_member_card 会员卡内容更新事件
 	//  会员卡激活事件推送
 	var access_token = fs.readFileSync('./config/token').toString()
-	var url = 'https://api.weixin.qq.com/card/get?access_token='+access_token
 	var msg = req.body.xml
+	//消息自动回复
+	if(msg.msgtype == 'text'){
+		// res_data = '<xml>'+
+		// 		'<ToUserName><![CDATA[toUser]]></ToUserName>'+
+		// 		'<FromUserName><![CDATA[fromUser]]></FromUserName>'+
+		// 		'<CreateTime>12345678</CreateTime>'+
+		// 		'<MsgType><![CDATA[text]]></MsgType>'+
+		// 		'<Content><![CDATA[你好]]></Content>'+
+		// 		'</xml>'
+		// res.writeHead(200, {'Content-Type': 'application/xml'})
+		// res.end(res_data)
+		console.log('回复成功')
+	}
+
+	var url = 'https://api.weixin.qq.com/card/get?access_token='+access_token
+	console.log(msg.msgtype)
 	console.log(msg)
 	var formdata ={
-			"card_id":msg.cardid,
- 			
+			"card_id":msg.cardid
 		 }
 
 	var options = {
@@ -785,7 +808,6 @@ exports.cardResponse = function(req,res){
 		if (!error && response.statusCode == 200) {
 			var carddata = JSON.parse(body)
 			if(carddata.errcode ==0){
-				
 				// 打折券
 				if(carddata.card.card_type == "DISCOUNT"){
 					if(msg.event == "user_pay_from_pay_cell"){	
@@ -793,7 +815,7 @@ exports.cardResponse = function(req,res){
 								openid:msg.fromusername,
 								shopid:msg.locationid,
 								cardid:msg.cardid,
-								code:parseInt(msg.usercardcode),
+								code:msg.usercardcode,
 								originalfee:parseInt(msg.originalfee),
 								transid:msg.transid,
 								fee:parseInt(msg.fee),
@@ -819,12 +841,11 @@ exports.cardResponse = function(req,res){
 				else if(carddata.card.card_type == "MEMBER_CARD"){
 					//买单事件推送
 					if(msg.event == "user_pay_from_pay_cell"){	
-
 						var cardurl = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
 
 						var formdata = {
 								"card_id":msg.cardid,
-								"code": parseInt(msg.usercardcode)
+								"code": msg.usercardcode
 							}
 
 						var cardoptions = {
@@ -863,7 +884,7 @@ exports.cardResponse = function(req,res){
 									shopid:msg.locationid,
 									username:name,
 									cardid:msg.cardid,
-									code:parseInt(msg.usercardcode),
+									code:msg.usercardcode,
 									phone:mobile,
 									originalfee:parseInt(msg.originalfee),
 									transid:msg.transid,
@@ -898,7 +919,8 @@ exports.cardResponse = function(req,res){
 						var cardurl = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
 
 						var formdata = {
-								"card_id":msg.cardid
+								"card_id":msg.cardid,
+								"code": msg.usercardcode
 							}
 
 						var cardoptions = {
@@ -938,7 +960,7 @@ exports.cardResponse = function(req,res){
 									title:carddata.card.member_card.base_info.title,
 									discount:parseInt(carddata.card.member_card.discount),
 									openid:msg.fromusername,
-									code:parseInt(msg.usercardcode),
+									code:msg.usercardcode,
 									username:name,
 									nickname:data.nickname,
 									sex:data.sex,
@@ -976,7 +998,7 @@ exports.cardResponse = function(req,res){
 								openid:msg.fromusername,
 								shopid:msg.locationid,
 								cardid:msg.cardid,
-								code:parseInt(msg.usercardcode),
+								code:msg.usercardcode,
 								originalfee:parseInt(msg.originalfee),
 								transid:msg.transid,
 								fee:parseInt(msg.fee),

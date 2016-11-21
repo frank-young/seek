@@ -505,7 +505,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 							}
 						})
 					},1000)
-
+					setTimeout(function() {
+						$scope.wechatTag = false
+						$interval.cancel($scope.stop)
+						$scope.changeAlert("付款超时，请重新操作！")
+					}, 180000)
 				}
 								
 
@@ -565,7 +569,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 							}
 						})
 					},1000)
-
+					setTimeout(function() {
+						$scope.wechatTag = false
+						$interval.cancel($scope.stop)
+						$scope.changeAlert("付款超时，请重新操作！")
+					}, 180000)
 				}
 								
 			})
@@ -622,7 +630,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 							}
 						})
 					},1000)
-
+					setTimeout(function() {
+						$scope.wechatTag = false
+						$interval.cancel($scope.stop)
+						$scope.changeAlert("付款超时，请重新操作！")
+					}, 180000)
 				}
 								
 			})

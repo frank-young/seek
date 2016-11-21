@@ -14,6 +14,7 @@ var Index = require('../app/controllers/index'),
     Alipay = require('../app/controllers/alipay/alipay'),
     Memberorder = require('../app/controllers/wechat/memberorder'),
     Member = require('../app/controllers/wechat/member'),
+    Petcard = require('../app/controllers/member/petcard'),
     Payorder = require('../app/controllers/wechat/payorder'),
     Alipayorder = require('../app/controllers/alipay/alipayorder'),
     multipart = require('connect-multiparty'),
@@ -144,12 +145,21 @@ module.exports = function(app){
   app.get('/member', User.signinRequired, Member.list) 
   app.get('/member/detail/:id', User.signinRequired, Member.detail) 
 
+  // 储值卡信息
+  app.get('/petcard',User.signinRequired, Petcard.list)
+  app.post('/petcard/add',User.signinRequired, Petcard.save)
+  app.post('/petcard/update', User.signinRequired, Petcard.update)
+  app.get('/petcard/detail/:id', User.signinRequired, Petcard.detail)
+  // app.delete('/petcard/delete',User.signinRequired, Petcard.del)
+  
   // 微信端接口
   app.get('/wechat/init',Wechat.init)
   app.post('/wechat/init',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse)  //微信推送信息接收url
   app.get('/wechat/token',Wechat.token)
-  app.get('/wechat/addmenu',Wechat.addMenu)
+  app.get('/wechat/getmenu',Wechat.getmenu) //查询自定义菜单
+  app.get('/wechat/addmenu',Wechat.addmenu) //添加自定义菜单
   app.get('/wechat/login',Wechat.login)
+  app.get('/wechat/getcgi',Wechat.getcgi) //获取自动回复规则
 
   app.get('/wechat/userinfo',Wechat.userinfo)
 
@@ -163,7 +173,7 @@ module.exports = function(app){
   app.get('/wechat/card/update',Wechat.cardUpdate)  //更新会员卡
   app.get('/wechat/card/memberinfo',Wechat.cardMemberinfo)  //设置会员开卡字段
   app.get('/wechat/card/getcard',Wechat.cardGetcard)  //拉取会员卡数据
-  app.get('/wechat/card/membercard',Wechat.cardMembercard)  //拉取会员信息
+  app.get('/wechat/card/membercard/:code',Wechat.cardMembercard)  //拉取会员信息
   app.get('/wechat/card/membercard/update',Wechat.cardMembercardUpdate)  //更新会员信息
   
   app.get('/wechat/card/getdiscount',Wechat.cardGetDiscount)  //优惠券查询

@@ -11,7 +11,8 @@ var app = angular.module('app', [
         'selectMoudle',
         'billMoudle',
         'billlistMoudle',
-        'memberMoudle'
+        'memberMoudle',
+        'petcardMoudle'
 
         ]);  
 
@@ -63,6 +64,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'tpls/member/member.html',
             data:{
                 title:"会员信息"
+            }
+        })
+        .state('web.petcard', {
+            url: '/petcard',
+            templateUrl: 'tpls/member/petcard.html',
+            data:{
+                title:"储值卡信息"
             }
         })
         

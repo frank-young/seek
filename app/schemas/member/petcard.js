@@ -1,22 +1,23 @@
 var mongoose = require('mongoose')
-var MemberSchema = new mongoose.Schema({
-	cardid:String,
-	openid:String,
-	title:String,
+var PetcardSchema = new mongoose.Schema({
 	code:String,
 	username:String,
-	nickname:String,
 	sex:String,
 	phone:String,
+	password:String,
 	birthday:String,
-	location:String,
-	user_card_status:String,
 	has_active:Boolean,
+	edit_people:String,
+	status:Number,		//状态
+	card_grade:String,	//会员卡等级
 	discount:Number,
-	bonus:Number,
-	fee:Number,
-	balance:Number,
-	createtime:Number,
+	bonus:Number,		//赠送金额
+	fee:Number,			//总金额
+	balance:Number,		//余额
+	int:Number,		//积分
+	start:Number,	//开卡时间
+	stop:Number,	//到期时间
+	history:Array,		//消费记录
 	meta:{
 		createAt:{
 			type:Number,
@@ -26,10 +27,11 @@ var MemberSchema = new mongoose.Schema({
 			type:Number,	
 			default:Date.now()
 		}
-	}
+	},
+	domainlocal:String,
 })
 
-MemberSchema.pre('save',function(next){
+PetcardSchema.pre('save',function(next){
 	if(this.isNew){
 		this.meta.createAt = this.meta.updateAt = Date.now()
 	}else{
@@ -39,7 +41,7 @@ MemberSchema.pre('save',function(next){
 })
 
 
-MemberSchema.statics = {
+PetcardSchema.statics = {
 	fetch:function(rule,cb){
 		return this
 			.find(rule)
@@ -53,4 +55,4 @@ MemberSchema.statics = {
 	}
 }
 
-module.exports = MemberSchema
+module.exports = PetcardSchema

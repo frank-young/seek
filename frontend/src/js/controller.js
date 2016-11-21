@@ -505,7 +505,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 							}
 						})
 					},1000)
-
+					setTimeout(function() {
+						$scope.wechatTag = false
+						$interval.cancel($scope.stop)
+						$scope.changeAlert("付款超时，请重新操作！")
+					}, 180000)
 				}
 								
 
@@ -565,7 +569,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 							}
 						})
 					},1000)
-
+					setTimeout(function() {
+						$scope.wechatTag = false
+						$interval.cancel($scope.stop)
+						$scope.changeAlert("付款超时，请重新操作！")
+					}, 180000)
 				}
 								
 			})
@@ -622,7 +630,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 							}
 						})
 					},1000)
-
+					setTimeout(function() {
+						$scope.wechatTag = false
+						$interval.cancel($scope.stop)
+						$scope.changeAlert("付款超时，请重新操作！")
+					}, 180000)
 				}
 								
 			})
@@ -878,6 +890,46 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
 
 				$scope.memberItem = data.member
 
+			})
+		}
+	}
+])
+
+
+
+
+
+
+
+
+
+;/********************************************************************************************************************
+ *                                                     储值卡信息
+ ********************************************************************************************************************/
+
+angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope','$rootScope','$window','petcardData',
+  	function($scope,$rootScope,$window,petcardData) {
+
+		// 搜索储值卡用户
+		$scope.search = ""
+
+		petcardData.getData().then(function(data){
+			$scope.petcards = data.petcards
+
+		})
+		
+		$scope.searchMember = function(value){
+			$scope.petcard = $scope.petcards.filter(function(ele){
+				if(ele.phone.indexOf(value)>=0){
+					return ele
+				}
+			})
+		}
+
+		// 查看储值卡详情
+		$scope.memberDetail = function(id){
+			petcardData.getIdData(id).then(function(data){
+				$scope.petcard = data.petcard
 			})
 		}
 	}

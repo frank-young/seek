@@ -1,0 +1,69 @@
+<div ng-controller="PetcardCtrl" class="row">
+    <div class="two-thirds column main">
+        <input autofocus type="text" placeholder="输入手机号查找..." ng-model="search" ng-change="searchMember(search)">
+        <!-- ng-keypress="searchMember()" -->
+        <button type="button" class="button button-primary" ng-click="searchMember(search)">搜索</button>
+        <table class="u-full-width">
+            <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>姓名</th>
+                    <th>会员卡类型</th>
+                    <th>卡号</th>
+                    <th>手机号</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="m in member">
+                    <td ng-bind="$index+1"></td>
+                    <td ng-bind="m.username"></td>
+                    <td ng-bind="m.title"></td>
+                    <td ng-bind="m.code"></td>
+                    <td ng-bind="m.phone"></td>
+                    <td>
+                        <button class="button" style="margin-bottom:0" ng-click="memberDetail(m._id)">详情</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="one-third column side">
+        <h4 class="center">储值卡详情</h4>
+        <div class="row">
+            <div class="member-i">
+                姓名：<span ng-bind="memberItem.username"></span>
+            </div>
+            <div class="member-i">
+                卡号：<span ng-bind="memberItem.code"></span>
+            </div>
+            <div class="member-i">
+                手机：<span ng-bind="memberItem.phone"></span>
+            </div>
+            <div class="member-i">
+                会员卡类型：<span ng-bind="memberItem.title"></span>
+            </div>
+            <div class="member-i">
+                会员卡折扣：<span ng-bind="(100 - memberItem.discount)+'折'"></span>
+            </div>
+            <div class="member-i">
+                性别：<span ng-bind="memberItem.sex"></span>
+            </div>
+            <div class="member-i">
+                生日：<span ng-bind="memberItem.birthday"></span>
+            </div>
+            <!-- <div class="member-i">
+            剩余积分：<span ng-bind="memberItem.bonus"></span>
+          </div>
+          <div class="member-i">
+            余额：<span ng-bind="memberItem.balance"></span>
+          </div> -->
+            <div class="member-i">
+                开卡时间：<span ng-bind="memberItem.createtime*1000 | datetime"></span>
+            </div>
+            <div class="member-i">
+                地址：<span ng-bind="memberItem.location"></span>
+            </div>
+        </div>
+    </div>
+</div>
