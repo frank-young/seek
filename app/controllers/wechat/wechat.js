@@ -124,7 +124,7 @@ exports.addmenu = function(req,res){
 			{"type":"view",
 			"name":"首页",
 			"url":"http:\/\/55735016.m.weimob.com\/weisite\/home?pid=55735016&bid=56673821&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E6aaW6aG1","sub_button":[]},
-			{"type":"view","name":"申请会员","url":"https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQGk8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0ZrVEZkZXZsS21kVE9JVkY0R19IAAIE4bMyWAMECAcAAA%3D%3D","sub_button":[]},{"type":"view","name":"品牌故事","url":"http:\/\/55735016.m.weimob.com\/WEISITE\/detail?did=2534329&bid=56673821&pid=55735016","sub_button":[]},{"type":"view","name":"在线订购","url":"http:\/\/55735016.m.weimob.com\/dining\/info\/showStoreListPage?pid=55735016&wechatid=fromUsername&menu=ONLINE_ORDERING&_tt=2&channel=menu%5E%23%5E5Zyo57q\/6K6i6LSt","sub_button":[]},{"type":"view","name":"积分查询","url":"http:\/\/55735016.m.weimob.com\/Webnewmemberscore\/index?pid=55735016&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E56ev5YiG5p+l6K+i","sub_button":[]}]},{"name":"会员消息","sub_button":[{"type":"view","name":"最新活动","url":"http:\/\/55735016.m.weimob.com\/weisite\/list?pid=55735016&bid=56673821&wechatid=fromUsername&ltid=1739279&wxref=mp.weixin.qq.com&_tt=2&channel=menu%5E%23%5E5pyA5paw5rS75Yqo","sub_button":[]},{"type":"view","name":"优惠信息","url":"http:\/\/55735016.m.weimob.com\/weisite\/list?pid=55735016&bid=56673821&wechatid=fromUsername&ltid=1738517&wxref=mp.weixin.qq.com&_tt=2&channel=menu%5E%23%5E5LyY5oOg5L+h5oGv","sub_button":[]},{"type":"click","name":"抢优惠","key":"刮刮卡","sub_button":[]},{"type":"click","name":"创业求助","key":"求助","sub_button":[]},{"type":"view","name":"微信打印机","url":"http:\/\/prtv3.etbar.com\/uweb\/index.aspx?userid=1311&ucode=AsBSkMLRgD1o","sub_button":[]}]},{"name":"关于我们","sub_button":[{"type":"view","name":"门店信息","url":"http:\/\/55735016.m.weimob.com\/weisite\/list?pid=55735016&bid=56673821&wechatid=fromUsername&ltid=1818666&wxref=mp.weixin.qq.com&_tt=2&channel=menu%5E%23%5E6Zeo5bqX5L+h5oGv","sub_button":[]},{"type":"click","name":"商务合作","key":"商务合作","sub_button":[]},{"type":"view","name":"诚邀加盟","url":"http:\/\/55735016.m.weimob.com\/webreserve\/ReserveBook?rid=71459&pid=55735016&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E6K+a6YKA5Yqg55uf","sub_button":[]},{"type":"view","name":"推荐选址","url":"http:\/\/55735016.m.weimob.com\/webreserve\/ReserveBook?rid=71460&pid=55735016&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E5o6o6I2Q6YCJ5Z2A","sub_button":[]},{"type":"view","name":"意见反馈","url":"http:\/\/55735016.m.weimob.com\/webreserve\/ReserveBook?rid=71464&pid=55735016&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E5oSP6KeB5Y+N6aaI","sub_button":[]}]}]
+			{"type":"view","name":"申请会员","url":"https:\/\/mp.weixin.qq.com\/cgi-bin\/showqrcode?ticket=gQFY8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0UwU3V0empsWDJjbUxJQ1ppMl9IAAIEb9gyWAMEgDPhAQ%3D%3D","sub_button":[]},{"type":"view","name":"品牌故事","url":"http:\/\/55735016.m.weimob.com\/WEISITE\/detail?did=2534329&bid=56673821&pid=55735016","sub_button":[]},{"type":"view","name":"在线订购","url":"http:\/\/55735016.m.weimob.com\/dining\/info\/showStoreListPage?pid=55735016&wechatid=fromUsername&menu=ONLINE_ORDERING&_tt=2&channel=menu%5E%23%5E5Zyo57q\/6K6i6LSt","sub_button":[]},{"type":"view","name":"积分查询","url":"http:\/\/55735016.m.weimob.com\/Webnewmemberscore\/index?pid=55735016&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E56ev5YiG5p+l6K+i","sub_button":[]}]},{"name":"会员消息","sub_button":[{"type":"view","name":"最新活动","url":"http:\/\/55735016.m.weimob.com\/weisite\/list?pid=55735016&bid=56673821&wechatid=fromUsername&ltid=1739279&wxref=mp.weixin.qq.com&_tt=2&channel=menu%5E%23%5E5pyA5paw5rS75Yqo","sub_button":[]},{"type":"view","name":"优惠信息","url":"http:\/\/55735016.m.weimob.com\/weisite\/list?pid=55735016&bid=56673821&wechatid=fromUsername&ltid=1738517&wxref=mp.weixin.qq.com&_tt=2&channel=menu%5E%23%5E5LyY5oOg5L+h5oGv","sub_button":[]},{"type":"click","name":"抢优惠","key":"刮刮卡","sub_button":[]},{"type":"click","name":"创业求助","key":"求助","sub_button":[]},{"type":"view","name":"微信打印机","url":"http:\/\/prtv3.etbar.com\/uweb\/index.aspx?userid=1311&ucode=AsBSkMLRgD1o","sub_button":[]}]},{"name":"关于我们","sub_button":[{"type":"view","name":"门店信息","url":"http:\/\/55735016.m.weimob.com\/weisite\/list?pid=55735016&bid=56673821&wechatid=fromUsername&ltid=1818666&wxref=mp.weixin.qq.com&_tt=2&channel=menu%5E%23%5E6Zeo5bqX5L+h5oGv","sub_button":[]},{"type":"click","name":"商务合作","key":"商务合作","sub_button":[]},{"type":"view","name":"诚邀加盟","url":"http:\/\/55735016.m.weimob.com\/webreserve\/ReserveBook?rid=71459&pid=55735016&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E6K+a6YKA5Yqg55uf","sub_button":[]},{"type":"view","name":"推荐选址","url":"http:\/\/55735016.m.weimob.com\/webreserve\/ReserveBook?rid=71460&pid=55735016&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E5o6o6I2Q6YCJ5Z2A","sub_button":[]},{"type":"view","name":"意见反馈","url":"http:\/\/55735016.m.weimob.com\/webreserve\/ReserveBook?rid=71464&pid=55735016&wechatid=fromUsername&_tt=2&channel=menu%5E%23%5E5oSP6KeB5Y+N6aaI","sub_button":[]}]}]
 		}
 	var options = {
 	    url: 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token=' + access_token,
@@ -354,7 +354,6 @@ exports.cardQrcode = function(req,res){
 
 	var formdata ={
 			"action_name": "QR_CARD", 
-			"expire_seconds": 1800,
 			"action_info": {
 				"card": {
 					"card_id":config.card
@@ -392,7 +391,6 @@ exports.cardQrcode = function(req,res){
 	})
 
 }
-
 
 // 测试白名单
 exports.cardTestwhitelist = function(req,res){
@@ -770,127 +768,60 @@ exports.cardResponse = function(req,res){
 	//  会员卡激活事件推送
 	var access_token = fs.readFileSync('./config/token').toString()
 	var msg = req.body.xml
-	//消息自动回复
+
+	// 消息处理类型
 	if(msg.msgtype == 'text'){
-		// res_data = '<xml>'+
-		// 		'<ToUserName><![CDATA[toUser]]></ToUserName>'+
-		// 		'<FromUserName><![CDATA[fromUser]]></FromUserName>'+
-		// 		'<CreateTime>12345678</CreateTime>'+
-		// 		'<MsgType><![CDATA[text]]></MsgType>'+
-		// 		'<Content><![CDATA[你好]]></Content>'+
-		// 		'</xml>'
-		// res.writeHead(200, {'Content-Type': 'application/xml'})
-		// res.end(res_data)
-		console.log('回复成功')
-	}
+		//消息自动回复
+		if(msg.content == '西可咖啡'){
+			content = '<a href="https://hd.faisco.cn/10865156/6/load.html?style=0">点击参与活动</a> '
+			msgReplay(msg,res,content)
+		}else if(msg.content == '会员'){
+			content = "<a href='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQFY8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0UwU3V0empsWDJjbUxJQ1ppMl9IAAIEb9gyWAMEgDPhAQ%3D%3D'>点击查看领取会员卡二维码</a>"
+			msgReplay(msg,res,content)
+		}else{
+			res.end('')
+		}
+		
+		console.log(msg)
+	}else{
+	//其他事件处理类型
+		console.log(msg)
+		var url = 'https://api.weixin.qq.com/card/get?access_token='+access_token
+		
+		var formdata ={
+				"card_id":msg.cardid
+			 }
 
-	var url = 'https://api.weixin.qq.com/card/get?access_token='+access_token
-	console.log(msg.msgtype)
-	console.log(msg)
-	var formdata ={
-			"card_id":msg.cardid
-		 }
+		var options = {
+		    url: url,
+		    form: JSON.stringify(formdata),
+		    headers: {
+		      'Content-Type': 'application/x-www-form-urlencoded'
+		    }
+		}
+		var date = new Date(),
+			Y = date.getFullYear(),
+	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
 
-	var options = {
-	    url: url,
-	    form: JSON.stringify(formdata),
-	    headers: {
-	      'Content-Type': 'application/x-www-form-urlencoded'
-	    }
-	}
-	var date = new Date(),
-		Y = date.getFullYear(),
-        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
-        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
-
-	
-	request.post(options, function (error, response, body) {
-		if (!error && response.statusCode == 200) {
-			var carddata = JSON.parse(body)
-			if(carddata.errcode ==0){
-				// 打折券
-				if(carddata.card.card_type == "DISCOUNT"){
-					if(msg.event == "user_pay_from_pay_cell"){	
-						var memberorder = {
-								openid:msg.fromusername,
-								shopid:msg.locationid,
-								cardid:msg.cardid,
-								code:msg.usercardcode,
-								originalfee:parseInt(msg.originalfee),
-								transid:msg.transid,
-								fee:parseInt(msg.fee),
-								createtime:parseInt(msg.createtime),
-								discount:parseInt(carddata.card.discount.discount),
-								year:Y,
-								month:M,
-								day:D,
-								status:1,
-								billstatus:0
-							}
-							
-							var _memberorder = new Memberorder(memberorder)
-							_memberorder.save(function(err,memberorderdata){
-								res.json({
-										status:1,
-										msg:"添加成功！"
-									})
-							})
-					}
-				}
-				// 会员卡
-				else if(carddata.card.card_type == "MEMBER_CARD"){
-					//买单事件推送
-					if(msg.event == "user_pay_from_pay_cell"){	
-						var cardurl = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
-
-						var formdata = {
-								"card_id":msg.cardid,
-								"code": msg.usercardcode
-							}
-
-						var cardoptions = {
-						    url: cardurl,
-						    form: JSON.stringify(formdata),
-						    headers: {
-						      'Content-Type': 'application/x-www-form-urlencoded'
-						    }
-						}
-
-						request.post(cardoptions, function (error, response, body) {
-							if (!error && response.statusCode == 200) {
-								var data = JSON.parse(body)
-								var mobile = "",
-									name ="",
-									birthday ="",
-									location =""
-
-									if(data.user_info){
-										data.user_info.common_field_list.forEach(function(v,i){
-											if(v.name=="USER_FORM_INFO_FLAG_MOBILE"){
-												mobile =  v.value
-											}
-											else if(v.name=="USER_FORM_INFO_FLAG_BIRTHDAY"){
-												birthday =  v.value
-											}else if(v.name=="USER_FORM_INFO_FLAG_NAME"){
-												name =  v.value
-											}else if(v.name=="USER_FORM_INFO_FLAG_LOCATION"){
-												location =  v.value
-											}
-
-										})
-									}
-								var memberorder = {
+		
+		request.post(options, function (error, response, body) {
+			if (!error && response.statusCode == 200) {
+				var carddata = JSON.parse(body)
+				if(carddata.errcode ==0){
+					// 打折券
+					if(carddata.card.card_type == "DISCOUNT"){
+						if(msg.event == "user_pay_from_pay_cell"){	
+							var memberorder = {
 									openid:msg.fromusername,
 									shopid:msg.locationid,
-									username:name,
 									cardid:msg.cardid,
 									code:msg.usercardcode,
-									phone:mobile,
 									originalfee:parseInt(msg.originalfee),
 									transid:msg.transid,
 									fee:parseInt(msg.fee),
 									createtime:parseInt(msg.createtime),
-									discount:parseInt(carddata.card.member_card.discount),
+									discount:parseInt(carddata.card.discount.discount),
 									year:Y,
 									month:M,
 									day:D,
@@ -900,82 +831,76 @@ exports.cardResponse = function(req,res){
 								
 								var _memberorder = new Memberorder(memberorder)
 								_memberorder.save(function(err,memberorderdata){
-									if(err){
-										console.log(err)
-									}
 									res.json({
 											status:1,
 											msg:"添加成功！"
 										})
 								})
-
-							}
-							
-						})
-				
-					}
-					// 激活会员卡,存入会员信息
-					else if(msg.event == "submit_membercard_user_info"){	
-						var cardurl = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
-
-						var formdata = {
-								"card_id":msg.cardid,
-								"code": msg.usercardcode
-							}
-
-						var cardoptions = {
-						    url: cardurl,
-						    form: JSON.stringify(formdata),
-						    headers: {
-						      'Content-Type': 'application/x-www-form-urlencoded'
-						    }
 						}
+					}
+					// 会员卡
+					else if(carddata.card.card_type == "MEMBER_CARD"){
+						//买单事件推送
+						if(msg.event == "user_pay_from_pay_cell"){	
+							var cardurl = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
 
-						request.post(cardoptions, function (error, response, body) {
-							if (!error && response.statusCode == 200) {
-								var data = JSON.parse(body)
-								var mobile = "",
-									name ="",
-									birthday ="",
-									location =""
-
-									if(data.user_info){
-										data.user_info.common_field_list.forEach(function(v,i){
-											if(v.name=="USER_FORM_INFO_FLAG_MOBILE"){
-												mobile =  v.value
-											}
-											else if(v.name=="USER_FORM_INFO_FLAG_BIRTHDAY"){
-												birthday =  v.value
-											}else if(v.name=="USER_FORM_INFO_FLAG_NAME"){
-												name =  v.value
-											}else if(v.name=="USER_FORM_INFO_FLAG_LOCATION"){
-												location =  v.value
-											}
-
-										})
-									}
-
-								var member = {
-									cardid:msg.cardid,
-									title:carddata.card.member_card.base_info.title,
-									discount:parseInt(carddata.card.member_card.discount),
-									openid:msg.fromusername,
-									code:msg.usercardcode,
-									username:name,
-									nickname:data.nickname,
-									sex:data.sex,
-									phone:mobile,
-									birthday:birthday,
-									location:location,
-									user_card_status:data.user_card_status,
-									has_active:data.has_active,
-									bonus:data.bonus,
-									fee:data.fee,
-									balance:data.balance,
-									createtime:msg.createtime
+							var formdata = {
+									"card_id":msg.cardid,
+									"code": msg.usercardcode
 								}
-								var _member = new Member(member)
-									_member.save(function(err,memberdata){
+
+							var cardoptions = {
+							    url: cardurl,
+							    form: JSON.stringify(formdata),
+							    headers: {
+							      'Content-Type': 'application/x-www-form-urlencoded'
+							    }
+							}
+
+							request.post(cardoptions, function (error, response, body) {
+								if (!error && response.statusCode == 200) {
+									var data = JSON.parse(body)
+									var mobile = "",
+										name ="",
+										birthday ="",
+										location =""
+
+										if(data.user_info){
+											data.user_info.common_field_list.forEach(function(v,i){
+												if(v.name=="USER_FORM_INFO_FLAG_MOBILE"){
+													mobile =  v.value
+												}
+												else if(v.name=="USER_FORM_INFO_FLAG_BIRTHDAY"){
+													birthday =  v.value
+												}else if(v.name=="USER_FORM_INFO_FLAG_NAME"){
+													name =  v.value
+												}else if(v.name=="USER_FORM_INFO_FLAG_LOCATION"){
+													location =  v.value
+												}
+
+											})
+										}
+									var memberorder = {
+										openid:msg.fromusername,
+										shopid:msg.locationid,
+										username:name,
+										cardid:msg.cardid,
+										code:msg.usercardcode,
+										phone:mobile,
+										originalfee:parseInt(msg.originalfee),
+										transid:msg.transid,
+										fee:parseInt(msg.fee),
+										createtime:parseInt(msg.createtime),
+										discount:parseInt(carddata.card.member_card.discount),
+										year:Y,
+										month:M,
+										day:D,
+										status:1,
+										billstatus:0
+									}
+									
+									var _memberorder = new Memberorder(memberorder)
+									_memberorder.save(function(err,memberorderdata){
 										if(err){
 											console.log(err)
 										}
@@ -985,60 +910,150 @@ exports.cardResponse = function(req,res){
 											})
 									})
 
-
-							}
-						})
-	
-					}
-				}
-				// 代金券
-				else if(carddata.card.card_type == "CASH"){
-					if(msg.event == "user_pay_from_pay_cell"){	
-						var memberorder = {
-								openid:msg.fromusername,
-								shopid:msg.locationid,
-								cardid:msg.cardid,
-								code:msg.usercardcode,
-								originalfee:parseInt(msg.originalfee),
-								transid:msg.transid,
-								fee:parseInt(msg.fee),
-								createtime:parseInt(msg.createtime),
-								discount:parseInt(carddata.card.cash.reduce_cost),
-								year:Y,
-								month:M,
-								day:D,
-								status:1,
-								billstatus:0
-							}
-							
-							var _memberorder = new Memberorder(memberorder)
-							_memberorder.save(function(err,memberorderdata){
-								res.json({
-										status:1,
-										msg:"添加成功！"
-									})
+								}
+								
 							})
+					
+						}
+						// 激活会员卡,存入会员信息
+						else if(msg.event == "submit_membercard_user_info"){	
+							var cardurl = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
+
+							var formdata = {
+									"card_id":msg.cardid,
+									"code": msg.usercardcode
+								}
+
+							var cardoptions = {
+							    url: cardurl,
+							    form: JSON.stringify(formdata),
+							    headers: {
+							      'Content-Type': 'application/x-www-form-urlencoded'
+							    }
+							}
+
+							request.post(cardoptions, function (error, response, body) {
+								if (!error && response.statusCode == 200) {
+									var data = JSON.parse(body)
+									var mobile = "",
+										name ="",
+										birthday ="",
+										location =""
+
+										if(data.user_info){
+											data.user_info.common_field_list.forEach(function(v,i){
+												if(v.name=="USER_FORM_INFO_FLAG_MOBILE"){
+													mobile =  v.value
+												}
+												else if(v.name=="USER_FORM_INFO_FLAG_BIRTHDAY"){
+													birthday =  v.value
+												}else if(v.name=="USER_FORM_INFO_FLAG_NAME"){
+													name =  v.value
+												}else if(v.name=="USER_FORM_INFO_FLAG_LOCATION"){
+													location =  v.value
+												}
+
+											})
+										}
+
+									var member = {
+										cardid:msg.cardid,
+										title:carddata.card.member_card.base_info.title,
+										discount:parseInt(carddata.card.member_card.discount),
+										openid:msg.fromusername,
+										code:msg.usercardcode,
+										username:name,
+										nickname:data.nickname,
+										sex:data.sex,
+										phone:mobile,
+										birthday:birthday,
+										location:location,
+										user_card_status:data.user_card_status,
+										has_active:data.has_active,
+										bonus:data.bonus,
+										fee:data.fee,
+										balance:data.balance,
+										createtime:msg.createtime
+									}
+									var _member = new Member(member)
+										_member.save(function(err,memberdata){
+											if(err){
+												console.log(err)
+											}
+											res.json({
+													status:1,
+													msg:"添加成功！"
+												})
+										})
+
+
+								}
+							})
+		
+						}
+					}
+					// 代金券
+					else if(carddata.card.card_type == "CASH"){
+						if(msg.event == "user_pay_from_pay_cell"){	
+							var memberorder = {
+									openid:msg.fromusername,
+									shopid:msg.locationid,
+									cardid:msg.cardid,
+									code:msg.usercardcode,
+									originalfee:parseInt(msg.originalfee),
+									transid:msg.transid,
+									fee:parseInt(msg.fee),
+									createtime:parseInt(msg.createtime),
+									discount:parseInt(carddata.card.cash.reduce_cost),
+									year:Y,
+									month:M,
+									day:D,
+									status:1,
+									billstatus:0
+								}
+								
+								var _memberorder = new Memberorder(memberorder)
+								_memberorder.save(function(err,memberorderdata){
+									res.json({
+											status:1,
+											msg:"添加成功！"
+										})
+								})
+						}
 					}
 				}
-			}
-			else if(carddata.errcode == 40056){
-				res.json({
-					status:0,
-					msg:'会员卡号不存在！'
-				})
+				else if(carddata.errcode == 40056){
+					res.json({
+						status:0,
+						msg:'会员卡号不存在！'
+					})
+
+				}
+				else{
+					res.json({
+						status:0,
+						msg:'发生一些错误'
+					})
+				}
 
 			}
-			else{
-				res.json({
-					status:0,
-					msg:'发生一些错误'
-				})
-			}
+		})
+	}
 
-		}
-	})
+}
 
 
+//消息回复函数
+function msgReplay(msg,res,content){
+	res_data = '<xml>'+
+				'<ToUserName><![CDATA['+msg.fromusername+']]></ToUserName>'+
+				'<FromUserName><![CDATA['+msg.tousername+']]></FromUserName>'+
+				'<CreateTime>'+parseInt(new Date().valueOf()/1000)+'</CreateTime>'+
+				'<MsgType><![CDATA[text]]></MsgType>'+
+				'<Content><![CDATA['+content+']]></Content>'+
+				'</xml>'
+		res.writeHead(200, {'Content-Type': 'application/xml'})
+		res.end(res_data)
 }
 
 // 查询门店信息
