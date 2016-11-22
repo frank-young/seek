@@ -155,6 +155,7 @@ module.exports = function(app){
   
   // 储值卡规则信息
   app.get('/petrule',User.signinRequired, Petrule.list)
+  app.get('/petrule/active',User.signinRequired, Petrule.activelist)
   app.post('/petrule/add',User.signinRequired, Petrule.save)
   app.post('/petrule/update', User.signinRequired, Petrule.update)
   app.get('/petrule/detail/:id', User.signinRequired, Petrule.detail)

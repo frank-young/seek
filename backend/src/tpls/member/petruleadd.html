@@ -1,76 +1,84 @@
 <div ng-controller="PetruleAddCtrl">
-	<h2 class="page-header">添加收银员
-		<a href="javascript:window.history.go(-1)" type="button" class="btn btn-primary ml-20"><i class="fa fa-angle-left"></i> 返回</a>
-		<button type="button" class="btn btn-success" ng-click="saveUser(user)"><i class="fa fa-save"></i> 保存</button>
+	<h2 class="page-header">
+		添加套餐
+		<a href="javascript:window.history.go(-1)" type="button" class="btn btn-primary ml-20"> <i class="fa fa-angle-left"></i>
+			返回
+		</a>
+		<button type="button" class="btn btn-success" ng-click="savePetrule(petrule)"> <i class="fa fa-save"></i>
+			保存
+		</button>
 	</h2>
 
-<div class="row cus-border">
-	<div class="col-md-12 cus-txt">
-		<h4>收银员</h4>
-	</div>
-	<form name="teamFrom">
-		<div class="col-md-6 col-md-offset-3">
-			<div class="cus-user">
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="form-group">
-							<label class="col-sm-3 control-label">姓名</label>
-							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.name.$invalid}">
-								<input type="text" name="name" class="form-control" placeholder="姓名" ng-model="user.name" ng-disabled="isEdit" required ng-maxlength="50"></div>
+	<div class="row cus-border">
+		<div class="col-md-12 cus-txt">
+			<h4>套餐</h4>
+		</div>
+		<form name="petruleFrom">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="cus-petrule">
+					<div class="row">
+						<div class="col-xs-12">
+							<p style="color:#DD5044;">请填写套餐充值的规则，如：充值(100)元送(20)元，只在下面填写金额。</p>
 						</div>
-					</div>
-
-					<div class="col-sm-12">
-						
-						<div class="form-group">
-							<label class="col-sm-3 control-label">邮箱</label>
-							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.mail.$invalid}">
-								<input type="email" name="mail" class="form-control" placeholder="邮箱" ng-model="user.email" ng-disabled="isEdit"  ng-maxlength="50"></div>
-						</div>
-					</div>
-					<div class="col-sm-12">
-
-						<div class="form-group">
-							<label class="col-sm-3 control-label">密码</label>
-							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.password.$invalid}">
-								<input type="password" name="password" class="form-control" placeholder="密码" ng-model="user.password" ng-disabled="isEdit" ng-maxlength="20" required></div>
-						</div>
-
-					</div>
-					<div class="col-sm-12">
-						<div class="form-group">
-							<label class="col-sm-3 control-label">个人手机（登录账号）</label>
-							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.phone.$invalid}" required>
-								<input type="text" name="phone" class="form-control" placeholder="个人手机" ng-model="user.phone" ng-disabled="isEdit" ng-maxlength="20"></div>
-						</div>
-						
-					</div>
-					<div class="col-sm-12">
-						<div class="form-group">
-							<label class="col-sm-3 control-label">性别</label>
-							<div class="col-sm-9">
-								<button type="button" class="form-control form-select" ng-model="user.sex" data-html="1" data-toggle="true" bs-options="sex.value as sex.label for sex in sexs" ng-disabled="isEdit" placeholder="请选择性别" bs-select>
-									<span class="caret"></span>
-								</button>
+						<div class="col-xs-6">
+							<div class="form-group">
+								<label class="col-sm-5 control-label">充值</label>
+								<div class="col-sm-7" ng-class="{'has-danger': petruleFrom.fee.$invalid}">
+									<input type="text" name="fee" class="form-control" placeholder="充值" ng-model="petrule.fee" ng-disabled="isEdit" ng-maxlength="4"></div>
 							</div>
 						</div>
-					</div>
-					<div class="col-sm-12">
-						<div class="form-group">
-							<label class="col-sm-3 control-label">成员类型</label>
-							<div class="col-sm-9">
-								<button type="button" class="form-control form-select" ng-model="user.role" data-html="1" data-toggle="true" bs-options="role.value as role.label for role in roles" ng-disabled="isEdit" placeholder="请选择类型" bs-select>
-									<span class="caret"></span>
-								</button>
+
+						<div class="col-xs-6">
+							<div class="form-group">
+								<label class="col-sm-5 control-label">送</label>
+								<div class="col-sm-7" ng-class="{'has-danger': petruleFrom.bonus.$invalid}">
+									<input type="text" name="bonus" class="form-control" placeholder="赠送" ng-model="petrule.bonus" ng-disabled="isEdit" ng-maxlength="4"></div>
+							</div>
+
+						</div>
+						<div class="col-xs-12">
+							<p style="color:#DD5044;">请填写积分规则，此规则是每消费多少元，积多少分，此功能暂时作为保留功能。 如：每消费(10)元送(1)积分，只在下面填写数字。</p>
+						</div>
+						<div class="col-xs-6">
+							<div class="form-group">
+								<label class="col-sm-5 control-label">每消费</label>
+								<div class="col-sm-7" ng-class="{'has-danger': petruleFrom.consume.$invalid}">
+									<input type="text" name="consume" class="form-control" placeholder="积分" ng-model="petrule.consume" ng-disabled="isEdit" ng-maxlength="4"></div>
+							</div>
+						</div>
+
+						<div class="col-xs-6">
+							<div class="form-group">
+								<label class="col-sm-5 control-label">送</label>
+								<div class="col-sm-7" ng-class="{'has-danger': petruleFrom.int.$invalid}">
+									<input type="text" name="int" class="form-control" placeholder="积分" ng-model="petrule.int" ng-disabled="isEdit" ng-maxlength="4"></div>
+							</div>
+
+						</div>
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">套餐名称</label>
+								<div class="col-sm-9">
+									<div class="form-control" ng-disabled="isEdit">充值{{petrule.fee}}元，赠送{{petrule.bonus}}元</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">是否启用</label>
+								<div class="col-sm-9">
+									<button type="button" class="form-control form-select" ng-model="petrule.status" data-html="1" data-toggle="true" bs-options="use.value as use.label for use in uses" ng-disabled="isEdit" placeholder="请选择" bs-select>
+										<span class="caret"></span>
+									</button>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 
-	</form>
+		</form>
 
-</div>
+	</div>
 
 </div>

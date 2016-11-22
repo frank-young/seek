@@ -1,12 +1,16 @@
 var mongoose = require('mongoose')
 var PetruleSchema = new mongoose.Schema({
+	name:String,
 	bonus:Number,		//赠送金额
 	fee:Number,			//充值总金额
 	consume:Number,		//每消费consume
 	int:Number,			//积int分
-	start:Number,		//开始时间
+	start:{
+		type:Number,
+		default:Date.now()
+	},					//开始时间
 	stop:Number,		//到期时间
-	status:Number,		//0:规则不可用  1:规则可用
+	status:Number,		//0:规则可用  1:规则不可用
 	meta:{
 		createAt:{
 			type:Number,

@@ -41,15 +41,13 @@
                     <div class="row">
                         <div class="col-xs-1"></div>
 
-                        <div class="col-xs-4">
-                            姓名
-                        </div>
+                        <div class="col-xs-4">姓名</div>
 
                         <div class="col-xs-6">邮箱</div>
 
                     </div>
                 </div>
-                 <div class="col-md-2 col-xs-12">
+                <div class="col-md-2 col-xs-12">
                     <span class="h-sort" ng-click="col='role';desc=!desc">
                         类型
                         <i class="fa fa-sort"></i>
@@ -86,7 +84,7 @@
                         <div class="col-xs-7">
                             <p ng-bind="ti.email"></p>
                         </div>
-                        
+
                     </div>
                 </div>
                 <div class="col-md-2 col-xs-4">
@@ -98,18 +96,18 @@
                 <div class="col-md-2 col-xs-4">
                     <p ng-bind="ti.meta.createAt | schetime"></p>
                 </div>
-                 <div class="col-md-1">
+                <div class="col-md-1">
                     <a href="" ui-sref="web.teamDetail({id:ti._id})" >
                         <i class="fa fa-edit fa-lg"></i>
                     </a>
                 </div>
 
+            </div>
         </div>
     </div>
-</div>
 
- <uib-pagination total-items="team.length" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" rotate="false" items-per-page="itemsPerPage" num-pages="numPages" ng-show="team.length>
-itemsPerPage" next-text="下一页" previous-text="上一页" first-text="首页" last-text="尾页">
-</uib-pagination>
+    <uib-pagination total-items="team.length" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" rotate="false" items-per-page="itemsPerPage" num-pages="numPages" ng-show="team.length>
+        itemsPerPage" next-text="下一页" previous-text="上一页" first-text="首页" last-text="尾页">
+    </uib-pagination>
 
 </div>

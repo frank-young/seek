@@ -16,6 +16,11 @@ var _ = require('underscore')
 	exports.save = function(req,res){
 		var petcardObj = req.body.petcard 
 		var user = req.session.user
+
+		petcardObj.code = '1211220001'
+		petcardObj.edit_people = user.name
+		petcardObj.domainlocal = user.domain
+
 		var _petcard
 			_petcard = new Petcard(petcardObj)
 			_petcard.save(function(err,petcard){
@@ -71,6 +76,12 @@ var _ = require('underscore')
 	// 		})
 	// 	}
 	// }
+	
+	function createCode(){
+		Petcard.fetch(function(err,petcards){
+			
+		})
+	}
 
 
 	

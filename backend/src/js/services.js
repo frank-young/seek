@@ -952,7 +952,7 @@ angular.module('serviceData', [])
                 var defer = $q.defer();
                 $http({
                     method: 'DELETE',
-                    url: '/petrule/delete?id='+value._id,
+                    url: '/petrule/delete?id='+value,
                 })
                 .success(function (data, status, headers, config) {
                     defer.resolve(data);

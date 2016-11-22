@@ -2,35 +2,50 @@
     <div class="two-thirds column main">
         <input autofocus type="text" placeholder="输入手机号查找..." ng-model="search" ng-change="searchMember(search)">
         <!-- ng-keypress="searchMember()" -->
-        <button type="button" class="button button-primary" ng-click="searchMember(search)">搜索</button>
+        <button type="button" class="button button-primary" ng-click="searchPetcard(search)">搜索</button>
         <table class="u-full-width">
             <thead>
                 <tr>
-                    <th>序号</th>
                     <th>姓名</th>
                     <th>会员卡类型</th>
                     <th>卡号</th>
                     <th>手机号</th>
+                    <th>余额</th>
                     <th>操作</th>
+
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="m in member">
-                    <td ng-bind="$index+1"></td>
-                    <td ng-bind="m.username"></td>
-                    <td ng-bind="m.title"></td>
-                    <td ng-bind="m.code"></td>
-                    <td ng-bind="m.phone"></td>
+                <tr ng-repeat="petcard in petcards">
+                    <td ng-bind="petcard.username"></td>
+                    <td ng-bind="petcard.type"></td>
+                    <td ng-bind="petcard.code"></td>
+                    <td ng-bind="petcard.phone"></td>
+                    <td ng-bind="petcard.balance | currency:'¥' "></td>
                     <td>
-                        <button class="button" style="margin-bottom:0" ng-click="memberDetail(m._id)">详情</button>
+                        <button class="button button-primary">充值</button>  
                     </td>
                 </tr>
             </tbody>
         </table>
+        <div class="wx-alipay-type" ng-class="{true: 'visible', false: 'disvisible'}[outwrap]">
+            <div class="wechat" ng-class="{true: 'visible', false: 'disvisible'}[wxshow]">
+                <form ng-submit="wechatPosPay(auth_code)">
+                    微信支付：
+                    <input id="pet-wechat" type="text" ng-model="auth_code">
+                </form>
+            </div>
+            <div class="alipay" ng-class="{true: 'visible', false: 'disvisible'}[alipayshow]">
+                <form ng-submit="alipayPosPay(alipay_auth_code)">
+                    支付宝支付：
+                    <input id="pet-alipay" type="text" ng-model="alipay_auth_code">
+                </form>
+            </div>
+        </div>
     </div>
-    <div class="one-third column side petcard-box">
+    <div class="one-third column side">
         <h4 class="center">添加储值卡</h4>
-        <div class="row ">
+        <div class="row petcard-box ">
             <label for="" class="one-third column">
                 姓名
             </label>
@@ -38,7 +53,7 @@
                 <input class="block" type="text" placeholder="姓名（必填）" ng-model="petcard.username">
             </div>
         </div>
-        <div class="row">
+        <div class="row petcard-box">
             <label for="" class="one-third column">
                 手机号
             </label>
@@ -46,7 +61,7 @@
                 <input class="block" type="text" placeholder="手机号（必填）" ng-model="petcard.phone">
             </div>
         </div>
-        <div class="row">
+        <div class="row petcard-box">
             <label for="" class="one-third column">
                 性别
             </label>
@@ -61,7 +76,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row petcard-box">
             <label for="" class="one-third column">
                 生日
             </label>
@@ -69,18 +84,25 @@
                 <input class="block" type="date" ng-model="petcard.birthday" placeholder="生日">
             </div>
         </div>
-        <div class="row">
+        <div class="row petcard-box">
             <label for="" class="one-third column">
                 充值
             </label>
             <div class="two-thirds column" >
-                <label class="p-label"  ng-repeat="pettype in pettypes">
-                    <input type="radio" name="petcard" ng-model="petcard.pettype" ng-value="pettype.value" ng-change="change()"> <span></span>{{pettype.label}}
+                <label class="p-label"  ng-repeat="petrule in petrules">
+                    <input type="radio" name="petcard" ng-model="petcard.petrule" ng-value="petrule._id" ng-change="change(petrule)" > <span></span>{{petrule.name}}
                 </label>
             </div>
         </div>
+        <div class="row" style="margin-top: 20px;">
+            <div class="one-third column pay-type" ng-repeat="p in payTypeArr">
+                <div class="p-radio">
+                    <input class="p-radio-i" type="radio" name="type" ng-click="selectType(p,$index)"><span>{{p}}</span>
+                </div>
+            </div>
+        </div>
         <div class="row">
-            <button class="button button-primary block" ng-click="sureFunc()">确认</button>
+            <button class="button button-primary block" ng-click="saveFunc()" ng-hide="wechatHide">确认</button>
         </div>
     </div>
 </div>

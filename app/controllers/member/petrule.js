@@ -12,10 +12,24 @@ var _ = require('underscore')
 			})
 		})
 	}
+	exports.activelist = function(req,res){
+		var user = req.session.user
+		Petrule.fetch({"domainlocal":user.domain,status:0},function(err,petrules){
+			res.json({
+				status:"1",
+				msg:"操作成功",
+				petrules:petrules
+			})
+		})
+	}
 	//储值卡规则更新、新建
 	exports.save = function(req,res){
 		var petruleObj = req.body.petrule 
 		var user = req.session.user
+
+		petruleObj.userlocal = user.email
+		petruleObj.domainlocal = user.domain
+
 		var _petrule
 			_petrule = new Petrule(petruleObj)
 			_petrule.save(function(err,petrule){

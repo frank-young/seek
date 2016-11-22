@@ -1,11 +1,11 @@
 /********************************************************************************************************************
- *                                                      会员列表页面
+ *                                                      储值卡套餐列表页面
  ********************************************************************************************************************/
 
 angular.module("teamMoudle", []).controller('TeamCtrl', 
     ['$scope','$window', '$http', '$state','$alert','settingData',
     function($scope,$window, $http, $state,$alert,settingData) {
-        $window.document.title = "收银员管理";
+        $window.document.title = "储值卡套餐管理";
 
     /* 根据数组值找到索引*/
     function findIndex(current, obj){
@@ -16,18 +16,13 @@ angular.module("teamMoudle", []).controller('TeamCtrl',
         }
     }
 
-    settingData.getListData().then(function(data){
-    	$scope.user = data.users
-        // $scope.changeAlert(data.msg);
-        $scope.user.forEach(function(ele){
-            ele.isChecked=false
-        })
-    })
+    
 
     /*分页*/
     $scope.itemsPerPage = 8;
 
     $scope.currentPage = 1;
+
 
     /***************************** 以下是顶部导航栏批量操作 **************************************/
     /* 多选框选择 */
@@ -44,9 +39,9 @@ angular.module("teamMoudle", []).controller('TeamCtrl',
         }
         
     }
-    /* 删除会员 */
+    /* 删除储值卡套餐 */
     $scope.deleteTeam = function(value){
-        var deleteConfirm = confirm('您确定要删除这位会员吗？');
+        var deleteConfirm = confirm('您确定要删除这个储值卡套餐吗？');
         if(deleteConfirm){
             var index = findIndex(value,$scope.user);
             $scope.user.splice(index,1);   //删除
@@ -71,7 +66,7 @@ angular.module("teamMoudle", []).controller('TeamCtrl',
     } 
     /* 删除栏目 ----批量操作 */
     $scope.deleteTeamAll = function(value){
-        var deleteConfirm = confirm('您确定要删除这位会员吗？');
+        var deleteConfirm = confirm('您确定要删除这个储值卡套餐吗？');
         if(deleteConfirm){
             for(var i in value){
                 var index = findIndex(value[i],$scope.user);

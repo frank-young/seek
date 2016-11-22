@@ -2,6 +2,7 @@ var mongoose = require('mongoose')
 var PetcardSchema = new mongoose.Schema({
 	code:String,
 	username:String,
+	type:String,
 	sex:String,
 	phone:{
 		unique:true,
@@ -17,8 +18,12 @@ var PetcardSchema = new mongoose.Schema({
 	bonus:Number,		//赠送金额
 	fee:Number,			//前一次或第一次充值总金额
 	balance:Number,		//余额
-	int:Number,		//积分
-	start:Number,	//开卡时间
+	int:Number,			//积分
+	position:String,	//开卡门店
+	start:{
+			type:Number,
+			default:Date.now()
+		},			//开卡时间
 	stop:Number,	//到期时间
 	history:Array,		//消费记录
 	meta:{
@@ -27,7 +32,7 @@ var PetcardSchema = new mongoose.Schema({
 			default:Date.now()
 		},
 		updateAt:{
-			type:Number,	
+			type:Number,
 			default:Date.now()
 		}
 	},

@@ -78,8 +78,8 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 					}
 					,
 					{
-						text:'储值卡规则',
-						link:'web.petruleAdd'
+						text:'储值卡套餐',
+						link:'web.petrule'
 					}
 				]
 			},
