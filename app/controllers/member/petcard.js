@@ -17,7 +17,7 @@ var _ = require('underscore')
 		var petcardObj = req.body.petcard 
 		var user = req.session.user
 
-		petcardObj.code = '1211220001'
+		petcardObj.code = '960904691623'
 		petcardObj.edit_people = user.name
 		petcardObj.domainlocal = user.domain
 
@@ -32,24 +32,48 @@ var _ = require('underscore')
 	}
 	//储值卡更新、新建
 	exports.update = function(req,res){
-		var id = req.body.petcard._id
 		var petcardObj = req.body.petcard 
 		var _petcard
-		if(id !=="undefined"){
-			Petcard.findById(id,function(err,petcard){
-				if(err){
-					console.log(err)
-				}
-				_petcard = _.extend(petcard,petcardObj)	
-				_petcard.save(function(err,petcard){
-					if(err){
-						console.log(err)
-					}
-
-					res.json({msg:"更新成功",status: 1})
-				})
+		var rePhone = /^1[3|5|7|8]\d{9}$/
+		if(petcardObj.phone == "" || petcardObj.phone == null){
+			res.json({
+				status:0,
+				msg:"手机号不能为空！"
 			})
 		}
+		else if(rePhone.test(petcardObj.phone) == false){
+			res.json({
+				status:0,
+				msg:"手机号格式不正确！"
+			})
+		}else{
+			Petcard.findOne({"phone":petcardObj.phone},function(err,petcard){
+				if(!petcard){
+					res.json({msg:"手机号不存在",status: 0})
+				}else{
+					if(err){
+					console.log(err)
+					}
+					console.log(petcard.balance)
+					petcardObj.fee += petcard.fee
+					petcardObj.bonus += petcard.bonus
+					petcardObj.balance	+= petcard.balance
+					_petcard = _.extend(petcard,petcardObj)	
+					_petcard.save(function(err,petcard){
+						if(err){
+							console.log(err)
+						}
+						res.json({msg:"充值成功！",status: 1})
+						//这里需要同步 微信数据，这时再将 fee ，bonus balance *100
+						
+						
+					})
+
+				}
+			})
+
+		}
+		
 		
 	}
 

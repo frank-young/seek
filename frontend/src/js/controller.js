@@ -915,9 +915,8 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope','$rootSc
 		$scope.sexes = ['男','女']
 		$scope.payTypeArr = ['现金','微信','支付宝']
 		$scope.petcard={
-			sex:'男',
 			petrule:'1',
-			birthday:null
+			phone:null
 		}
 
 		//会员卡套餐
@@ -940,17 +939,17 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope','$rootSc
 			
 		}
 
-		// 保存储值卡
+		// 充值
 		$scope.saveFunc = function(){
-			$scope.petcard.type = '储值卡'
-			$scope.petcard.has_active = true
-			$scope.petcard.status = 1
-			$scope.petcard.card_grade = 0
-			$scope.petcard.int = 0
-			$scope.petcard.discount = 0
-
-			petcardData.addData($scope.petcard).then(function(data){
+			console.log($scope.petcard.balance)
+			petcardData.updateData($scope.petcard).then(function(data){
 				$scope.changeAlert(data.msg)
+				if(data.status==1){
+					$scope.petcard={
+						petrule:'1',
+						phone:null
+					}
+				}
 			})
 			petcardData.getData().then(function(data){
 				$scope.petcards = data.petcards

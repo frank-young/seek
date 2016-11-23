@@ -1,7 +1,11 @@
 var mongoose = require('mongoose')
 var PetcardSchema = new mongoose.Schema({
 	code:String,
+	cardid:String,
+	openid:String,
+	title:String,
 	username:String,
+	nickname:String,
 	type:String,
 	sex:String,
 	phone:{
@@ -10,6 +14,7 @@ var PetcardSchema = new mongoose.Schema({
 	},
 	password:String,
 	birthday:String,
+	location:String,
 	has_active:Boolean,
 	edit_people:String,
 	status:Number,		//状态		0:未激活 1：激活  2:挂失
@@ -20,6 +25,7 @@ var PetcardSchema = new mongoose.Schema({
 	balance:Number,		//余额
 	int:Number,			//积分
 	position:String,	//开卡门店
+	createtime:Number,
 	start:{
 			type:Number,
 			default:Date.now()
