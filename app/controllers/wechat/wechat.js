@@ -689,6 +689,7 @@ exports.cardMembercard = function(req,res){
 
 // 更新会员信息
 exports.cardMembercardUpdate = function(req,res){
+
 	var access_token = fs.readFileSync('./config/token').toString();
 	var url = 'https://api.weixin.qq.com/card/membercard/updateuser?access_token='+access_token
 
@@ -805,7 +806,7 @@ exports.cardResponse = function(req,res){
 	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
 	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
 
-		// 领会员卡，这里是当作取储值卡
+		// 领会员卡，这里是当作储值卡
 		if(msg.event == "user_get_card"){
 			if(msg.cardid==='pQw7gvyLUU7yuy7eEdaut-GlxPyA'){
 				console.log('领取了储值卡')
@@ -971,7 +972,7 @@ exports.cardResponse = function(req,res){
 										msgReplay(msg,res,content)
 										var petcardObj = {
 											cardid:msg.cardid,
-											title:carddata.card.member_card.base_info.title,
+											type:carddata.card.member_card.base_info.title,
 											openid:msg.fromusername,
 											code:msg.usercardcode,
 											username:name,
@@ -1003,7 +1004,10 @@ exports.cardResponse = function(req,res){
 													if(err){
 														console.log(err)
 													}
-													res.json({msg:"添加成功",status: 1})
+													res.json({
+														msg:"添加成功",
+														status: 1
+													})
 												})
 
 											}

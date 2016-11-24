@@ -2,8 +2,8 @@
  *                                                     结账页面
  ********************************************************************************************************************/
 
-angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interval','orderData','memberData','memberorderData','domainData','paytypeData','creditData','dayData','itemData','pospayData','settingData',
-  	function($scope,$alert,$window,$interval,orderData,memberData,memberorderData,domainData,paytypeData,creditData,dayData,itemData,pospayData,settingData) {
+angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$window','$interval','orderData','memberData','memberorderData','domainData','paytypeData','creditData','dayData','itemData','pospayData','settingData','petcardData',
+  	function($scope,$alert,$window,$interval,orderData,memberData,memberorderData,domainData,paytypeData,creditData,dayData,itemData,pospayData,settingData,petcardData) {
 
 		//时间日期
 		var date = new Date(),
@@ -156,21 +156,18 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				if(value == "次卡"){
 					$scope.discountItemFunc(ele,0)
 					$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
-
 				}
 			})
 			payTypeFunc()
 			if(value == "现金"){
 				$scope.outwrap = false
 				$scope.panels = -1
-				/*-----这里是弹出钱箱的代码-----*/
-
-				/*-----这里是弹出钱箱的代码-----*/
 				$scope.order.cashincome = $scope.order.realTotal	// 计入现金收入
 			}else if(value == "微信"){
 				$scope.outwrap = true
 				$scope.wxshow = true
 				$scope.alipayshow = false
+				$scope.petcardshow = false
 				$scope.panels = -1
 				$scope.changeAlert("已选择微信刷卡支付，请用扫码枪扫码！")
 				$scope.order.wxincome = $scope.order.realTotal 		// 计入微信收入
@@ -182,6 +179,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.outwrap = true
 				$scope.alipayshow = true
 				$scope.wxshow = false
+				$scope.petcardshow = false
 				$scope.panels = -1
 				$scope.changeAlert("已选择支付宝刷卡支付，请用扫码枪扫码！")
 				$scope.order.alipayincome = $scope.order.realTotal  // 计入支付宝收入
@@ -217,6 +215,24 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		}
 
+		//储值卡扫码支付
+		$scope.petcardSelect = function(code){
+			$scope.pet_code = ""
+			$scope.outwrap = true
+			$scope.alipayshow = false
+			$scope.wxshow = false
+			$scope.petcardshow = true
+			$scope.panels = -1
+			$scope.wechatHide = true
+			$scope.changeAlert("请扫描微信会员卡卡号！")
+			document.getElementById("petcard").focus()
+			$scope.cookCart.forEach(function(ele,i){
+				$scope.discountItemFunc(ele,0)
+				$scope.order.petcardincome = $scope.order.reduce		//计入储值会员卡消费
+			})
+
+		}
+		
 		// 选择付款方式 单项
 		$scope.selectPay = function(ele,value,index) {
 			// resetIncome()
@@ -691,6 +707,23 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			}
 
 			pospayData.setalipayData(value).then(function(data){
+				$scope.changeAlert(data.msg)
+				if(data.status === 1){
+					$scope.wechatHide = false
+					document.getElementById('bill').click()
+				}
+			})
+		}
+
+		//储值会员刷卡支付
+		$scope.petcardPosPay =function(code){
+			var value = {
+				total_fee:$scope.order.reduce,
+				int:parseInt($scope.order.reduce),
+				code:code
+			}
+
+			petcardData.reduceData(value).then(function(data){
 				$scope.changeAlert(data.msg)
 				if(data.status === 1){
 					$scope.wechatHide = false

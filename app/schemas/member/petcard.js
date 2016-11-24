@@ -3,7 +3,6 @@ var PetcardSchema = new mongoose.Schema({
 	code:String,
 	cardid:String,
 	openid:String,
-	title:String,
 	username:String,
 	nickname:String,
 	type:String,
@@ -19,7 +18,7 @@ var PetcardSchema = new mongoose.Schema({
 	edit_people:String,
 	status:Number,		//状态		0:未激活 1：激活  2:挂失
 	card_grade:Number,	//会员卡等级
-	discount:Number,	// 单位为分
+	discount:Number,	// 折扣
 	bonus:Number,		//赠送金额
 	fee:Number,			//前一次或第一次充值总金额
 	balance:Number,		//余额

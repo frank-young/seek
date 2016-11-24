@@ -11,7 +11,7 @@
                     <th>卡号</th>
                     <th>手机号</th>
                     <th>余额</th>
-                    <th>操作</th>
+                    <th>创建时间</th>
 
                 </tr>
             </thead>
@@ -22,9 +22,7 @@
                     <td ng-bind="petcard.code"></td>
                     <td ng-bind="petcard.phone"></td>
                     <td ng-bind="petcard.balance | currency:'¥' "></td>
-                    <td>
-                        <button class="button button-primary">充值</button>  
-                    </td>
+                    <td ng-bind="petcard.start | datetime ""></td>
                 </tr>
             </tbody>
         </table>
@@ -44,16 +42,8 @@
         </div>
     </div>
     <div class="one-third column side">
-        <h4 class="center">储值卡充值</h4>
-<!--         <div class="row petcard-box ">
-            <label for="" class="one-third column">
-                姓名
-            </label>
-            <div class="two-thirds column">
-                <input class="block" type="text" placeholder="姓名（必填）" ng-model="petcard.username">
-            </div>
-        </div>
- -->        <div class="row petcard-box">
+        <h4 class="center">储值会员卡充值</h4>
+        <div class="row petcard-box">
             <label for="" class="one-third column">
                 手机号 
             </label>
@@ -61,35 +51,12 @@
                 <input class="block" type="text" placeholder="手机号（必填）" ng-model="petcard.phone">
             </div>
         </div>
-<!--         <div class="row petcard-box">
-            <label for="" class="one-third column">
-                性别
-            </label>
-            <div class="two-thirds column">
-                <div class="row">
-                    <div class="one-half column" ng-repeat="sex in sexes">
-                        <label class="p-label">
-                            <input type="radio" name="sex" ng-model="petcard.sex" ng-value="sex" > <span></span>{{sex}}
-                        </label>
-
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row petcard-box">
-            <label for="" class="one-third column">
-                生日
-            </label>
-            <div class="two-thirds column">
-                <input class="block" type="date" ng-model="petcard.birthday" placeholder="生日">
-            </div>
-        </div>
- -->        <div class="row petcard-box">
-            <label for="" class="one-third column">
+            <label for="" class="">
                 支付方式
             </label>
-            <div class="two-thirds column" >
-                <label class="p-label"  ng-repeat="petrule in petrules">
+            <div class="" style="margin-left:30px;">
+                <label class="p-label"  ng-repeat="petrule in petrules" style="height: inherit;">
                     <input type="radio" name="petcard" ng-model="petcard.petrule" ng-value="petrule._id" ng-change="change(petrule)" > <span></span>{{petrule.name}}
                 </label>
             </div>
@@ -97,12 +64,13 @@
         <div class="row" style="margin-top: 20px;">
             <div class="one-third column pay-type" ng-repeat="p in payTypeArr">
                 <div class="p-radio">
-                    <input class="p-radio-i" type="radio" name="type" ng-click="selectType(p,$index)"><span>{{p}}</span>
+                    <input class="p-radio-i w-70px" type="radio" name="type" ng-click="selectType(p,$index)"><span class="w-70px">{{p}}</span>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <button class="button button-primary block" ng-click="saveFunc()" ng-hide="wechatHide">确认</button>
+        <div class="row" ng-hide="wechatHide">
+            <button class="button button-primary block" ng-click="saveFunc()" >确认充值</button>
+            <a class="button cash-box" ng-hide="cashboxHide" href="cashbox:">弹出钱箱</a>
         </div>
     </div>
 </div>

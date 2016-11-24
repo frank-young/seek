@@ -73,6 +73,17 @@
                       </tr> -->
                                     <tr>
                                         <td>
+                                            <h6>储值卡</h6>
+                                            <p>
+                                                储值卡扫码支付
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="button button-primary" ng-click="petcardSelect()">选择</button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
                                             <h6>微信买单</h6>
                                             <p>
                                                 系统将自动结算
@@ -94,6 +105,7 @@
                                             <button type="button" ng-click="" class="button button-primary" data-animation="am-fade-and-scale" placement="center" data-template-url="member.tpl.html" bs-modal>选择</button>
                                         </td>
                                     </tr>
+                                    
                                 </tbody>
                             </table>
                         </div>
@@ -211,6 +223,12 @@
                 <form ng-submit="alipayPosPay(alipay_auth_code)">
                     支付宝支付：
                     <input id="alipay" type="text" ng-model="alipay_auth_code">
+                </form>
+            </div>
+            <div class="petcard" ng-class="{true: 'visible', false: 'disvisible'}[petcardshow]">
+                <form ng-submit="petcardPosPay(pet_code)">
+                    储值卡号：
+                    <input id="petcard" type="text" ng-model="pet_code">
                 </form>
             </div>
         </div>

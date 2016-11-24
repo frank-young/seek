@@ -34,6 +34,7 @@ var OrderSchema = new mongoose.Schema({
 	schoolincome:Number,
 	otherincome:Number,
 	memberincome:Number,
+	petcardincome:Number,
 	credit:Number,
 	other1:String,
 	other2:String,

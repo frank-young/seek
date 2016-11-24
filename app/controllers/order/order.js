@@ -162,6 +162,7 @@ var Order = require('../../models/order/order'),	//引入模型
 						wxincome:Math.round(orderObj.wxincome*100)/100,
 						alipayincome:Math.round(orderObj.alipayincome*100)/100,
 						schoolincome:Math.round(orderObj.schoolincome*100)/100,
+						petcardincome:Math.round(orderObj.petcardincome*100)/100,
 						otherincome:Math.round(orderObj.otherincome*100)/100,
 						credit:Math.round(orderObj.credit*100)/100,
 						erase:orderObj.erase,
@@ -363,6 +364,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				alipayincome = 0,
 				schoolincome = 0,
 				otherincome = 0,
+				petcardincome = 0,
 				total = 0,
 				totalNeed = 0,
 				reduceAfter = 0,
@@ -378,7 +380,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				wxincome += ele.wxincome
 				alipayincome += ele.alipayincome
 				schoolincome += ele.schoolincome
-				otherincome += ele.otherincome
+				petcardincome += ele.petcardincome
 				total += ele.total
 				reduceAfter += ele.reduceAfter
 				erase += ele.erase
@@ -402,6 +404,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				alipayincome:alipayincome,
 				schoolincome:schoolincome,
 				otherincome:otherincome,
+				petcardincome:petcardincome,
 				total: total,
 				stand: stand,
 				start:loginTime,
@@ -437,6 +440,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				alipayincome = 0,
 				schoolincome = 0,
 				otherincome = 0,
+				petcardincome = 0,
 				total = 0,
 				totalNeed = 0,
 				reduceAfter = 0,
@@ -452,7 +456,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				wxincome += ele.wxincome
 				alipayincome += ele.alipayincome
 				schoolincome += ele.schoolincome
-				otherincome += ele.otherincome
+				petcardincome += ele.petcardincome
 				total += ele.total
 				reduceAfter += ele.reduceAfter
 				erase += ele.erase
@@ -474,6 +478,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				alipayincome:alipayincome,
 				schoolincome:schoolincome,
 				otherincome:otherincome,
+				petcardincome:petcardincome,
 				total: total,
 				stand: stand,
 				start:loginTime,
@@ -544,6 +549,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				alipayincome = 0,
 				schoolincome = 0,
 				otherincome = 0,
+				petcardincome = 0,
 				total = 0,
 				totalNeed = 0,
 				reduceAfter = 0,
@@ -559,7 +565,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				wxincome += ele.wxincome
 				alipayincome += ele.alipayincome
 				schoolincome += ele.schoolincome
-				otherincome += ele.otherincome
+				petcardincome += ele.petcardincome
 				total += ele.total
 				reduceAfter += ele.reduceAfter
 				erase += ele.erase
@@ -581,6 +587,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				alipayincome:alipayincome,
 				schoolincome:schoolincome,
 				otherincome:otherincome,
+				petcardincome:petcardincome,
 				total: total,
 				stand: stand,
 				start:loginTime,

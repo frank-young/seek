@@ -679,7 +679,8 @@ button[disabled]:focus{
 	padding: 20px;
 }
 .wechat,
-.alipay{
+.alipay,
+.petcard{
 	margin: 0;
 	opacity: 0;
 }
@@ -698,8 +699,10 @@ button[disabled]:focus{
 
 .wechat form,
 .alipay form,
+.petcard form,
 .wechat input,
-.alipay input{
+.alipay input,
+.petcard input{
 	margin: 0;
 }
 /* scrollbar */
@@ -821,6 +824,10 @@ button[disabled]:focus{
 	display: none;
 }
 
+.w-70px{
+	width: 70px !important;
+
+}
 
 
 

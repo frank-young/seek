@@ -17,3 +17,11 @@ token = 968122_b
 新老员卡     		pQw7gvwsk30k4xreKQma_GUlwKNw
 普通会员卡     		pQw7gv4cxjkPwUlU7j_J5_YVM5D0
 普通会员卡 （自制）    	pQw7gv3-fLxpHzSpU1Yl21r1ukrE
+
+
+会员消费通知            -KlE9nR1ekfNTWYYtnCTKf4lgFuxCGGdrLVKSDDfAlc
+成为会员通知            PFXZ_rMtSW4-1kO9f5hUQvw_T-ZGzBSoPY1kyM9I5mU
+会员充值通知            Z8hZ8g5SF5c4cV-eaXOVHhSRoDlnFjHiYWHRiHyRmUk
+
+
+openid   gh_891c20df008d
