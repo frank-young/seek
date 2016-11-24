@@ -968,6 +968,7 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope','$rootSc
 
 		// 充值
 		$scope.saveFunc = function(){
+			console.log($scope.petcard)
 			petcardData.updateData($scope.petcard).then(function(data){
 				$scope.changeAlert(data.msg)
 				if(data.status==1){

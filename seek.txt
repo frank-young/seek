@@ -17,6 +17,7 @@ token = 968122_b
 新老员卡     		pQw7gvwsk30k4xreKQma_GUlwKNw
 普通会员卡     		pQw7gv4cxjkPwUlU7j_J5_YVM5D0
 普通会员卡 （自制）    	pQw7gv3-fLxpHzSpU1Yl21r1ukrE
+储值卡			pQw7gv8yKi5oKd9PvLSS6OK4LVwg
 
 
 会员消费通知            -KlE9nR1ekfNTWYYtnCTKf4lgFuxCGGdrLVKSDDfAlc
