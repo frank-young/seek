@@ -5,6 +5,7 @@ var jsSHA = require('jssha'),
 	Memberorder = require('../../models/wechat/memberorder')
 	Member = require('../../models/wechat/member')
 	Payorder = require('../../models/wechat/payorder')
+	Petcard = require('../../models/member/petcard')
 	
 
 // 暂时用的第一张卡： pV8Fpwyw7-wnfqRIIIQjZwWrBhuU	-> 747522939375  
@@ -18,7 +19,7 @@ var config = {
 		appSecret:'07edc09a46dba2e8d0b1964b5aec3a46',		//       143d36866e792512dc76ea5d11e8df62
 		token:'weixin'
 	},
-	card: "pQw7gv3-fLxpHzSpU1Yl21r1ukrE",
+	card: "pQw7gvyLUU7yuy7eEdaut-GlxPyA",
 	code: "435350747055"
 }
 
@@ -804,7 +805,14 @@ exports.cardResponse = function(req,res){
 	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
 	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
 
-		
+		// 领会员卡，这里是当作取储值卡
+		if(msg.event == "user_get_card"){
+			if(msg.cardid==='pQw7gvyLUU7yuy7eEdaut-GlxPyA'){
+				console.log('领取了储值卡')
+					
+			}
+		}
+
 		request.post(options, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
 				var carddata = JSON.parse(body)
@@ -916,9 +924,9 @@ exports.cardResponse = function(req,res){
 					
 						}
 						// 激活会员卡,存入会员信息
-						else if(msg.event == "submit_membercard_user_info"){	
+						else if(msg.event == "submit_membercard_user_info"){
+							
 							var cardurl = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token='+access_token
-
 							var formdata = {
 									"card_id":msg.cardid,
 									"code": msg.usercardcode
@@ -956,26 +964,72 @@ exports.cardResponse = function(req,res){
 											})
 										}
 
-									var member = {
-										cardid:msg.cardid,
-										title:carddata.card.member_card.base_info.title,
-										discount:parseInt(carddata.card.member_card.discount),
-										openid:msg.fromusername,
-										code:msg.usercardcode,
-										username:name,
-										nickname:data.nickname,
-										sex:data.sex,
-										phone:mobile,
-										birthday:birthday,
-										location:location,
-										user_card_status:data.user_card_status,
-										has_active:data.has_active,
-										bonus:data.bonus,
-										fee:data.fee,
-										balance:data.balance,
-										createtime:msg.createtime
-									}
-									var _member = new Member(member)
+									
+									if(msg.cardid==='pQw7gvyLUU7yuy7eEdaut-GlxPyA'){
+										console.log('激活储值卡')
+										var content = '恭喜您，成功激活了seek cafe储值卡，请将卡号告诉收银员，进行充值！'
+										msgReplay(msg,res,content)
+										var petcardObj = {
+											cardid:msg.cardid,
+											title:carddata.card.member_card.base_info.title,
+											openid:msg.fromusername,
+											code:msg.usercardcode,
+											username:name,
+											nickname:data.nickname,
+											sex:data.sex,
+											phone:mobile,
+											birthday:birthday,
+											location:location,
+											status:1,
+											has_active:true,
+											card_grade:0,
+											discount:0,
+											int:0,
+											bonus:data.bonus,
+											fee:data.fee,
+											balance:data.balance,
+											createtime:msg.createtime
+										}
+										Petcard.findOne({"code":msg.usercardcode},function(err,codedata){
+											if(codedata){
+												res.json({
+													status:0,
+													msg:"已经领取过储值卡了！"
+												})
+											}else{
+												var _petcard
+												_petcard = new Petcard(petcardObj)
+												_petcard.save(function(err,petcard){
+													if(err){
+														console.log(err)
+													}
+													res.json({msg:"添加成功",status: 1})
+												})
+
+											}
+										})
+											
+									}else{
+										var member = {
+											cardid:msg.cardid,
+											title:carddata.card.member_card.base_info.title,
+											discount:parseInt(carddata.card.member_card.discount),
+											openid:msg.fromusername,
+											code:msg.usercardcode,
+											username:name,
+											nickname:data.nickname,
+											sex:data.sex,
+											phone:mobile,
+											birthday:birthday,
+											location:location,
+											user_card_status:data.user_card_status,
+											has_active:data.has_active,
+											bonus:data.bonus,
+											fee:data.fee,
+											balance:data.balance,
+											createtime:msg.createtime
+										}
+										var _member = new Member(member)
 										_member.save(function(err,memberdata){
 											if(err){
 												console.log(err)
@@ -986,10 +1040,11 @@ exports.cardResponse = function(req,res){
 												})
 										})
 
+									}
+									
 
 								}
 							})
-		
 						}
 					}
 					// 代金券
