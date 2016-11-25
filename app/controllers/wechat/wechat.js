@@ -19,7 +19,7 @@ var config = {
         appSecret: '07edc09a46dba2e8d0b1964b5aec3a46', //       143d36866e792512dc76ea5d11e8df62
         token: 'weixin'
     },
-    card: "pQw7gv8yKi5oKd9PvLSS6OK4LVwg",
+    card: "pQw7gvyKKtUmYGizNvXKYIn15vGc",
     code: "435350747055"
 }
 
@@ -275,16 +275,21 @@ exports.cardCreate = function(req, res) {
                         "total_quantity": 999999999
                     },
                     "create_time": 1476862469,
-                    "update_time": 1480008198,
+                    "update_time": 1480070243,
                     "use_all_locations": true,
                     "area_code_list": []
                 },
                 "supply_bonus": true,
                 "supply_balance": true,
-                "prerogative": "",
-                "discount": 1,
+                "prerogative": "10积分可兑换精美礼品；",
                 "auto_activate": false,
                 "wx_activate": true,
+                "bonus_rule": {
+                    "cost_money_unit": 100,
+                    "increase_bonus": 1,
+                    "cost_bonus_unit": 100,
+                    "reduce_money": 100
+                },
                 "background_pic_url": "",
                 "advanced_info": {
                     "time_limit": [{
@@ -954,7 +959,7 @@ exports.cardResponse = function(req, res) {
                                     if (msg.cardid === config.card) {
                                         console.log('激活储值会员卡')
                                         var content = '恭喜您，成功激活了seek cafe储值会员卡，请将卡号告诉收银员，进行充值！'
-                                        
+
                                         var petcardObj = {
                                             cardid: msg.cardid,
                                             type: carddata.card.member_card.base_info.title,
@@ -977,20 +982,21 @@ exports.cardResponse = function(req, res) {
                                             createtime: msg.createtime
                                         }
                                         console.log(petcardObj)
-                                        // Petcard.findOne({ "code": msg.usercardcode }, function(err, codedata) {
-                                        //     if (codedata) {
-                                        //         res.json({
-                                        //             status: 0,
-                                        //             msg: "已经激活过储值会员卡了！"
-                                        //         })
-                                        //     } else {
-                                                var _petcard
-                                                _petcard = new Petcard(petcardObj)
-                                                _petcard.save(function(err, petcard) {
-                                                    if (err) {
-                                                        console.log(err)
-                                                    }
-                                                    msgReplay(msg, res, content)                                                })
+                                            // Petcard.findOne({ "code": msg.usercardcode }, function(err, codedata) {
+                                            //     if (codedata) {
+                                            //         res.json({
+                                            //             status: 0,
+                                            //             msg: "已经激活过储值会员卡了！"
+                                            //         })
+                                            //     } else {
+                                        var _petcard
+                                        _petcard = new Petcard(petcardObj)
+                                        _petcard.save(function(err, petcard) {
+                                            if (err) {
+                                                console.log(err)
+                                            }
+                                            msgReplay(msg, res, content)
+                                        })
 
                                         //     }
                                         // })

@@ -299,47 +299,10 @@ function tempReplay(old_petcard,petcarddata,user, res) {
             }
         })
     }else{
-         var formdata = {
-            "touser": petcarddata.openid,
-            "template_id": "-KlE9nR1ekfNTWYYtnCTKf4lgFuxCGGdrLVKSDDfAlc",
-            "data": {
-                "first": {
-                    "value": "购买成功！"
-                },
-                "accountType": {
-                    "value": "会员卡号"
-                },
-                "account": {
-                    "value": petcarddata.code
-                },
-                "amount": {
-                    "value": "50元"
-                },
-                "result": {
-                    "value": createTime().date
-                },
-                "remark": {
-                    "value": "有疑问请通过微信号联系我们。"
-                }
-            }
-        }
-        var options = {
-            url: url,
-            form: JSON.stringify(formdata),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }
-
-        request.post(options, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                var data = JSON.parse(body)
-                res.json({
-                    msg:"操作成功！",
-                    status: 1,
-                    petcard:petcarddata
-                })
-            }
+         res.json({
+            msg:"支付成功！",
+            status: 1,
+            petcard:petcarddata
         })
     }
     
