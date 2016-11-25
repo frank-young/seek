@@ -1,6 +1,6 @@
-var Petcard = require('../../models/member/petcard'), 
-    Petcardorder = require('../../models/member/petcardorder'), 
-    Domain = require('../../models/domain'), 
+var Petcard = require('../../models/member/petcard'),
+    Petcardorder = require('../../models/member/petcardorder'),
+    Domain = require('../../models/domain'),
     _ = require('underscore'),
     https = require('https'),
     request = require('request'),
@@ -41,10 +41,10 @@ exports.update = function(req, res) {
         user = req.session.user,
         _petcard,
         rePhone = /^1[3|5|4|7|8]\d{9}$/
-    var old_petcard ={
-        old_fee:req.body.petcard.fee,
-        old_bonus:req.body.petcard.bonus,
-        old_pay_type:req.body.petcard.pay_type
+    var old_petcard = {
+        old_fee: req.body.petcard.fee,
+        old_bonus: req.body.petcard.bonus,
+        old_pay_type: req.body.petcard.pay_type
     }
 
     petcardObj.edit_people = user.name
@@ -86,7 +86,7 @@ exports.update = function(req, res) {
                                 console.log(err)
                             }
                             //这里需要同步 微信数据，这时再将 fee ，bonus balance *100
-                            
+
                             var formdata = {
                                 "code": petcarddata.code,
                                 "card_id": petcarddata.cardid,
@@ -100,7 +100,7 @@ exports.update = function(req, res) {
                                     "is_notify_custom_field1": true
                                 }
                             }
-                            updateMember(formdata, old_petcard,petcarddata,user, res)//微信更新会员卡接口
+                            updateMember(formdata, old_petcard, petcarddata, user, res) //微信更新会员卡接口
                         })
                     })
                 }
@@ -143,12 +143,12 @@ exports.reduce = function(req, res) {
                 if (err) {
                     res.json({ msg: "系统错误，请联系管理员！", status: 0 })
                 } else {
-                    if(petcardObj.total_fee > petcard.balance){
+                    if (petcardObj.total_fee > petcard.balance) {
                         res.json({
                             status: 0,
                             msg: "余额不足，请充值！"
                         })
-                    }else{
+                    } else {
                         record_balance = '您的储值会员卡成功在Seek Cafe消费' + Math.round(petcardObj.total_fee * 100) / 100 + '元,欢迎下次光临！'
                         record_bonus = ''
 
@@ -175,11 +175,11 @@ exports.reduce = function(req, res) {
                                 }
                             }
 
-                            updateMember(formdata, old_petcard,petcarddata,user, res)
+                            updateMember(formdata, old_petcard, petcarddata, user, res)
 
                         })
                     }
-                    
+
                 }
 
             }
@@ -221,13 +221,8 @@ exports.detail = function(req, res) {
     })
 }
 
-function createCode() {
-    Petcard.fetch(function(err, petcards) {
 
-    })
-}
-
-function updateMember(formdata, old_petcard,petcarddata,user, res) {
+function updateMember(formdata, old_petcard, petcarddata, user, res) {
     var access_token = fs.readFileSync('./config/token').toString();
     var url = 'https://api.weixin.qq.com/card/membercard/updateuser?access_token=' + access_token
 
@@ -243,137 +238,98 @@ function updateMember(formdata, old_petcard,petcarddata,user, res) {
         if (!error && response.statusCode == 200) {
             var data = JSON.parse(body)
             console.log(data)
-            // res.json({
-            //         status: 1,
-            //         msg: '操作成功！',
-            //         data: data
-            //     })
-            tempReplay(old_petcard,petcarddata,user, res)
+                // res.json({
+                //         status: 1,
+                //         msg: '操作成功！',
+                //         data: data
+                //     })
+            tempReplay(old_petcard, petcarddata, user, res)
 
         }
     })
 }
 
 //发送模板消息函数
-function tempReplay(old_petcard,petcarddata,user, res) {
+function tempReplay(old_petcard, petcarddata, user, res) {
     var access_token = fs.readFileSync('./config/token').toString();
     var url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=' + access_token
 
-    if(old_petcard != null&&old_petcard != "" &&old_petcard != "undefined"){
-        var formdata = {
-            "touser": petcarddata.openid,
-            "template_id": "Z8hZ8g5SF5c4cV-eaXOVHhSRoDlnFjHiYWHRiHyRmUk",
-            "data": {
-                "first": {
-                    "value": "恭喜您充值成功！"
-                },
-                "accountType": {
-                    "value": "会员卡号"
-                },
-                "account": {
-                    "value": petcarddata.code
-                },
-                "amount": {
-                    "value": petcarddata.fee+"元"
-                },
-                "result": {
-                    "value": createTime().date
-                },
-                "remark": {
-                    "value": "有疑问请通过微信号联系我们。"
-                }
-            }
-        }
-        var options = {
-            url: url,
-            form: JSON.stringify(formdata),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }
-
-        request.post(options, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                var data = JSON.parse(body)
-                saveOrder (old_petcard,petcarddata,user,res)
-            }
-        })
-    }else{
-         res.json({
-            msg:"支付成功！",
+    if (old_petcard != null && old_petcard != "" && old_petcard != "undefined") {
+        saveOrder(old_petcard, petcarddata, user, res)
+    } else {
+        res.json({
+            msg: "操作成功！",
             status: 1,
-            petcard:petcarddata
+            petcard: petcarddata
         })
     }
-    
-    
 }
 
 //存入订单信息
-function saveOrder (old_petcard,petcarddata,user,res){
+function saveOrder(old_petcard, petcarddata, user, res) {
 
     var date = new Date(),
         order_num = user.domain + date.getTime()
 
-    var Y = createTime().Y, 
+    var Y = createTime().Y,
         M = createTime().M,
         D = createTime().D
 
-    var fee = Math.round(old_petcard.old_fee*100)/100,
-        bonus = Math.round(old_petcard.old_bonus*100)/100,
+    var fee = Math.round(old_petcard.old_fee * 100) / 100,
+        bonus = Math.round(old_petcard.old_bonus * 100) / 100,
         cashincome = 0,
         wxincome = 0,
         alipayincome = 0
-    
-    if(old_petcard.old_pay_type==0){
+
+    if (old_petcard.old_pay_type == 0) {
         cashincome = fee
-    }else if(old_petcard.old_pay_type==1){
+    } else if (old_petcard.old_pay_type == 1) {
         wxincome = fee
-    }else{
+    } else {
         alipayincome = fee
     }
     var _petcardorder = new Petcardorder({
         order_num: order_num,
-        username:petcarddata.username,
-        phone:petcarddata.phone,
-        code:petcarddata.code,
-        pay_type:old_petcard.old_pay_type, 
-        cashincome:cashincome,
-        wxincome:wxincome,
-        alipayincome:alipayincome,
+        username: petcarddata.username,
+        phone: petcarddata.phone,
+        code: petcarddata.code,
+        pay_type: old_petcard.old_pay_type,
+        cashincome: cashincome,
+        wxincome: wxincome,
+        alipayincome: alipayincome,
         fee: fee,
         bonus: bonus,
-        balance: petcarddata.balance,   //余额
+        balance: petcarddata.balance, //余额
         start: petcarddata.start,
         year: Y,
         month: M,
         day: D,
         edit_people: user.name,
-        userlocal:user.email,
-        domainlocal:user.domain
+        userlocal: user.email,
+        domainlocal: user.domain
     })
 
-    _petcardorder.save(function(err,order){
-        if(err){
+    _petcardorder.save(function(err, order) {
+        if (err) {
             console.log(err)
-        }else{
-            res.json({msg:"充值成功！",status: 1})
+        } else {
+            res.json({ msg: "充值成功！", status: 1 })
         }
     })
 
 }
 
 
-function createTime(){
+function createTime() {
     var date = new Date(),
-        Y = date.getFullYear(), 
-        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
-        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
+        Y = date.getFullYear(),
+        M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1),
+        D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate())
 
     return {
-        Y:Y,
-        M:M,
-        D:D,
-        date:Y+'年'+M+'月'+D+'日'
+        Y: Y,
+        M: M,
+        D: D,
+        date: Y + '年' + M + '月' + D + '日'
     }
 }
