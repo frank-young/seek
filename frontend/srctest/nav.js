@@ -20,7 +20,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			$rootScope.status = true;
   		}
   		
-  		
   		// 业绩查询-交班
 		$scope.exchangeFunc = function(){
 			
@@ -39,6 +38,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 					alipayincome:data.alipayincome,	
 					schoolincome:data.schoolincome,	
 					otherincome:data.otherincome,	
+					petcardincome:data.petcardincome,	
 					total:data.total,	// 合计--总合计
 					totalNeed:data.totalNeed,	// 应收
 					reduceAfter:data.reduceAfter,

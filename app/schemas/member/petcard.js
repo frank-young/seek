@@ -25,6 +25,7 @@ var PetcardSchema = new mongoose.Schema({
 	int:Number,			//积分
 	position:String,	//开卡门店
 	createtime:Number,
+	pay_type:Number,
 	start:{
 			type:Number,
 			default:Date.now()

@@ -69,16 +69,15 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 			},
 			{
 				icon:'fa fa-users',
-				title:'储值卡管理',
+				title:'会员管理',
 				role:10,
 				subs:[ 
 					{
-						text:'储值卡列表',
-						link:'web.member'
-					}
-					,
+						text:'储值会员卡',
+						link:'web.petcard'
+					},
 					{
-						text:'储值卡套餐',
+						text:'储值会员卡套餐',
 						link:'web.petrule'
 					}
 				]
@@ -918,7 +917,63 @@ angular.module("teamMoudle", []).controller('TeamCtrl',
 
 
 ;/********************************************************************************************************************
- *                                                      会员列表页面
+ *                                                      储值卡列表页面
+ ********************************************************************************************************************/
+
+angular.module("petcardMoudle", []).controller('PetcardCtrl', 
+    ['$scope','$window', '$http', '$state','$alert','petcardData',
+    function($scope,$window, $http, $state,$alert,petcardData) {
+        $window.document.title = "储值卡管理";
+
+    petcardData.getData().then(function(data){
+    	$scope.petcards = data.petcards
+
+    })
+
+    /*分页*/
+    $scope.itemsPerPage = 8;
+    $scope.currentPage = 1;
+
+
+}])
+
+
+;/********************************************************************************************************************
+ *                                                      储值卡详情页面
+ ********************************************************************************************************************/
+
+angular.module("petcardDetailMoudle", []).controller('PetcardDetailCtrl', 
+    ['$scope','$window', '$http', '$stateParams','$alert','petcardData',
+    function($scope,$window, $http, $stateParams,$alert,petcardData) {
+    $window.document.title = "储值卡详情";
+    $scope.isEdit = true
+    $scope.sexs = [
+        {"value":"0","label":"男"}, 
+        {"value":"1","label":"女"}
+    ]
+    $scope.uses = [
+        {"value":1,"label":"启用"},
+        {"value":0,"label":"禁用"},
+        {"value":2,"label":"挂失"}
+    ]
+    petcardData.getIdData($stateParams.id).then(function (data) {
+       $scope.petcard=data.petcard
+    })
+
+    $scope.savePetcard = function(value){
+        petcardData.updateData($scope.petcard).then(function(data){
+            $scope.changeAlert(data.msg)
+            if(data.status==1){
+                window.history.go(-1)
+            }
+        })
+    }
+
+}]) 
+ 
+
+;/********************************************************************************************************************
+ *                                                      储值卡套餐列表页面
  ********************************************************************************************************************/
 
 angular.module("petruleMoudle", []).controller('PetruleCtrl', 
@@ -940,7 +995,7 @@ angular.module("petruleMoudle", []).controller('PetruleCtrl',
 
 
 ;/********************************************************************************************************************
- *                                                      添加成员页面
+ *                                                      添加储值卡套餐页面
  ********************************************************************************************************************/
 
 angular.module("petruleAddMoudle", []).controller('PetruleAddCtrl', 
@@ -958,7 +1013,7 @@ angular.module("petruleAddMoudle", []).controller('PetruleAddCtrl',
     $scope.petrule = {
                     fee:100,
                     bonus:20,
-                    consume:1,
+                    consume:100,
                     int:1,
                     status:0
                 }
@@ -975,7 +1030,7 @@ angular.module("petruleAddMoudle", []).controller('PetruleAddCtrl',
 
 
 ;/********************************************************************************************************************
- *                                                      成员详情页面
+ *                                                      储值卡套餐详情页面
  ********************************************************************************************************************/
 
 angular.module("petruleDetailMoudle", []).controller('PetruleDetailCtrl', 
@@ -989,7 +1044,7 @@ angular.module("petruleDetailMoudle", []).controller('PetruleDetailCtrl',
     ]
     $scope.uses = [
         {"value":0,"label":"启用"},
-        {"value":1,"label":"禁止"}
+        {"value":1,"label":"禁用"}
     ]
     petruleData.getIdData($stateParams.id).then(function (data) {
        $scope.petrule=data.petrule

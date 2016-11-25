@@ -2,17 +2,17 @@
     <div class="two-thirds column main">
         <h4>今日订单</h4>
         <h5>
-          <div class="row bl-panel" ng-show="role==0">
-            <div class="one-third column">
-              <span>收银员：{{username}}</span>
+            <div class="row bl-panel" ng-show="role==0">
+                <div class="one-third column">
+                    <span>收银员：{{username}}</span>
+                </div>
+                <div class="one-third column">
+                    <span>实收款：{{grade | currency:'¥'}}</span>
+                </div>
+                <div class="one-third column">
+                    <span>虚收：{{noincome | currency:'¥'}}</span>
+                </div>
             </div>
-            <div class="one-third column">
-              <span>实收款：{{grade | currency:'¥'}}</span>
-            </div>
-            <div class="one-third column">
-              <span>虚收：{{noincome | currency:'¥'}}</span>
-            </div>
-          </div>
         </h5>
         <table class="u-full-width">
             <thead>
@@ -44,55 +44,39 @@
             <div class="print-wrap">
                 <h5 class="center" style="margin-bottom:20px;">SEEK CAFE 结账单</h5>
                 <div class="detail-item">
-                    <span>
-              店铺名称：
-            </span>
-                    <span ng-bind="order.pname">
-            </span>
+                    <span>店铺名称：</span>
+                    <span ng-bind="order.pname"></span>
                 </div>
                 <div class="detail-item">
-                    <span>
-              店铺地址：
-            </span>
-                    <span ng-bind="order.address">
-            </span>
+                    <span>店铺地址：</span>
+                    <span ng-bind="order.address"></span>
                 </div>
                 <div class="detail-item">
-                    <span>
-              联系电话：
-            </span>
-                    <span ng-bind="order.tel">
-            </span>
+                    <span>联系电话：</span>
+                    <span ng-bind="order.tel"></span>
                 </div>
-                <div class="hr">------------------------------------------------------------------------------</div>
-                <div class="detail-item">
-                    <span>
-              NO.
-            </span>
-                    <span ng-bind="order.orderNum" class="f12">
-            </span>
+                <div class="hr">
+                    ------------------------------------------------------------------------------
                 </div>
                 <div class="detail-item">
-                    <span>
-
-            </span>
+                    <span>NO.</span>
+                    <span ng-bind="order.orderNum" class="f12"></span>
+                </div>
+                <div class="detail-item">
+                    <span></span>
                     <span ng-bind="order.time | datetime" class="f12"></span>
                 </div>
                 <div class="detail-item">
-                    <span>
-              用餐人数：
-            </span>
-                    <span ng-bind="order.peopleNum">
-            </span>
+                    <span>用餐人数：</span>
+                    <span ng-bind="order.peopleNum"></span>
                 </div>
                 <div class="detail-item">
-                    <span>
-              取餐编号：
-            </span>
-                    <span ng-bind="order.dishNum">
-            </span>
+                    <span>取餐编号：</span>
+                    <span ng-bind="order.dishNum"></span>
                 </div>
-                <div class="hr">------------------------------------------------------------------------------</div>
+                <div class="hr">
+                    ------------------------------------------------------------------------------
+                </div>
                 <div class="detail-item">
                     <table class="u-full-width">
                         <thead>
@@ -105,88 +89,66 @@
                         <tbody>
                             <tr ng-repeat="d in order.dish">
                                 <td>
-                                    {{d.name}} <span ng-show="d.other1==1">(套餐)</span>
+                                    {{d.name}}
+                                    <span ng-show="d.other1==1">(套餐)</span>
                                     <div ng-show="d.other1==1">
-                                        <span ng-repeat="da in d.dishArr" style="font-size: 12px;">
-                      {{da.dishSelect}}
-                    </span>
+                                        <span ng-repeat="da in d.dishArr" style="font-size: 12px;">{{da.dishSelect}}</span>
                                     </div>
                                 </td>
-                                <td>{{d.number}}
-                                </td>
+                                <td>{{d.number}}</td>
                                 <td ng-bind="d.reducePrice*d.number | currency:'¥' "></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div class="hr">------------------------------------------------------------------------------</div>
+                <div class="hr">
+                    ------------------------------------------------------------------------------
+                </div>
                 <div class="detail-item">
-                    <span>
-              支付方式：
-            </span>
-                    <span ng-repeat="pt in order.payType" ng-bind="payTypeArr[pt]+' ' ">           
-            </span>
+                    <span>支付方式：</span>
+                    <span ng-repeat="pt in order.payType" ng-bind="payTypeArr[pt]+' ' "></span>
                 </div>
                 <div class="detail-item" ng-show="order.isMember">
-                    <span>
-              会员姓名：
-            </span>
-                    <span ng-bind="order.memberName">              
-            </span>
+                    <span>会员姓名：</span>
+                    <span ng-bind="order.memberName"></span>
                 </div>
                 <div class="detail-item" ng-show="order.isMember">
-                    <span>
-              会员手机：
-            </span>
-                    <span ng-bind="order.memberPhone">             
-            </span>
+                    <span>会员手机：</span>
+                    <span ng-bind="order.memberPhone"></span>
                 </div>
                 <div class="detail-item" ng-show="order.isMember">
-                    <span>
-              会员卡号：
-            </span>
-                    <span ng-bind="order.memberNum">             
-            </span>
+                    <span>会员卡号：</span>
+                    <span ng-bind="order.memberNum"></span>
+                </div>
+                <div class="detail-item" ng-show="order.isPetcard">
+                    <span>储值卡余额：</span>
+                    <span ng-bind="order.memberBalance | currency:'¥' "></span>
                 </div>
                 <div class="detail-item">
-                    <span>
-              金额合计：
-            </span>
-                    <span ng-bind="order.total | currency:'¥' ">
-            </span>
+                    <span>金额合计：</span>
+                    <span ng-bind="order.total | currency:'¥' "></span>
                 </div>
                 <div class="detail-item">
-                    <span>
-              减免金额：
-            </span>
-                    <span ng-bind=" order.reduce | currency:'¥' ">
-            </span>
+                    <span>减免金额：</span>
+                    <span ng-bind=" order.reduce | currency:'¥' "></span>
                 </div>
                 <div class="detail-item">
-                    <span>
-              优惠后金额：
-            </span>
-                    <span ng-bind="order.reduceAfter | currency:'¥' ">
-            </span>
+                    <span>优惠后金额：</span>
+                    <span ng-bind="order.reduceAfter | currency:'¥' "></span>
                 </div>
                 <div class="detail-item">
-                    <span>
-              实收合计：
-            </span>
-                    <span ng-bind="order.realTotal | currency:'¥' ">
-            </span>
+                    <span>实收合计：</span>
+                    <span ng-bind="order.realTotal | currency:'¥' "></span>
                 </div>
                 <div class="detail-item now-time">
-                    <span>
-              打印时间：
-            </span>
-                    <span ng-bind="nowtime | datetime">
-            </span>
+                    <span>打印时间：</span>
+                    <span ng-bind="nowtime | datetime"></span>
                 </div>
             </div>
         </div>
-        <!-- <button class="button  btn-bill">清空</button> -->
-    </div>
+        <!-- <button class="button  btn-bill">清空</button>
+    -->
+</div>
 </div>
 <script type="text/ng-template" id="warning.tpl.html">
     <div class="modal modal-warning" tabindex="-1" role="dialog">

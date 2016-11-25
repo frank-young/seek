@@ -150,9 +150,9 @@ module.exports = function(app){
   app.get('/petcard',User.signinRequired, Petcard.list)
   app.post('/petcard/add',User.signinRequired, Petcard.save)
   app.post('/petcard/update', User.signinRequired, Petcard.update)
+  app.post('/petcard/admin/update', User.signinRequired, Petcard.updateadmin)
   app.post('/petcard/reduce', User.signinRequired, Petcard.reduce)
   app.get('/petcard/detail/:id', User.signinRequired, Petcard.detail)
-  // app.delete('/petcard/delete',User.signinRequired, Petcard.del)
   
   // 储值卡规则信息
   app.get('/petrule',User.signinRequired, Petrule.list)

@@ -30,7 +30,7 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope','$rootSc
 
 		// 充值
 		$scope.saveFunc = function(){
-			console.log($scope.petcard)
+			$scope.petcard.pay_type = 0
 			petcardData.updateData($scope.petcard).then(function(data){
 				$scope.changeAlert(data.msg)
 				if(data.status==1){
@@ -114,6 +114,7 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope','$rootSc
 
 		//微信刷卡支付
 		$scope.wechatPosPay =function(code){
+			$scope.petcard.pay_type = 1
 			petcardData.updateData($scope.petcard).then(function(data){
 				
 				if(data.status==1){
@@ -159,6 +160,7 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope','$rootSc
 
 		//支付宝刷卡支付
 		$scope.alipayPosPay =function(code){
+			$scope.petcard.pay_type = 2
 			petcardData.updateData($scope.petcard).then(function(data){
 				
 				if(data.status==1){

@@ -69,16 +69,15 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 			},
 			{
 				icon:'fa fa-users',
-				title:'储值卡管理',
+				title:'会员管理',
 				role:10,
 				subs:[ 
 					{
-						text:'储值卡列表',
-						link:'web.member'
-					}
-					,
+						text:'储值会员卡',
+						link:'web.petcard'
+					},
 					{
-						text:'储值卡套餐',
+						text:'储值会员卡套餐',
 						link:'web.petrule'
 					}
 				]

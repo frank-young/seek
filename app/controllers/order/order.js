@@ -118,12 +118,18 @@ var Order = require('../../models/order/order'),	//引入模型
 			_order,
 			rePrice = /^\+?(?:[1-9]\d*(?:\.\d{1,2})?|0\.(?:\d[1-9]|[1-9]\d))$/ 
 
+		var date = new Date(),
+			Y = date.getFullYear(),	
+	        M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1),
+	        D = (date.getDate() < 10 ? '0'+(date.getDate()) : date.getDate())
+
 		if(orderObj.total==""||orderObj.total==null){
   			res.json({
 				status:0,
 				msg:"总价不能为空！"
 			})
   		}else{
+
   			Order.findOne({orderNum:orderObj.orderNum},function(err,order){
 				if(err){
 					res.json({
@@ -167,13 +173,15 @@ var Order = require('../../models/order/order'),	//引入模型
 						credit:Math.round(orderObj.credit*100)/100,
 						erase:orderObj.erase,
 						isMember: orderObj.isMember,
+						isPetcard: orderObj.isPetcard,
 						memberName: orderObj.memberName,
 						memberNum: orderObj.memberNum,
 						memberPhone: orderObj.memberPhone,
+						memberPetcard: orderObj.memberPetcard,
 						time: orderObj.time,
-						year: orderObj.year,
-						month: orderObj.month,
-						day: orderObj.day,
+						year: Y,
+						month: M,
+						day: D,
 						editPeople: user.name,
 						userlocal:user.email,
 						domainlocal:user.domain
@@ -393,7 +401,7 @@ var Order = require('../../models/order/order'),	//引入模型
 				msg:"请求成功",
 				status: 1,
 				orders:orders,
-				grade:grade,
+				grade:grade - petcardincome,
 				username:user.name,
 				noincome:noincome,
 				people: people,
@@ -468,7 +476,7 @@ var Order = require('../../models/order/order'),	//引入模型
  			res.json({
 				msg:"请求成功",
 				status: 1,
-				grade:grade,
+				grade:grade - petcardincome,
 				noincome:noincome,
 				people: people,
 				reduce: reduce,
@@ -577,7 +585,7 @@ var Order = require('../../models/order/order'),	//引入模型
  			res.json({
 				msg:"请求成功",
 				status: 1,
-				grade:grade,
+				grade:grade - petcardincome,
 				noincome:noincome,
 				people: people,
 				reduce: reduce,

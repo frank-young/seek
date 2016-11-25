@@ -1,0 +1,50 @@
+<div ng-controller="PetcardCtrl">
+    <h2 class="page-header">
+        储值会员卡
+    </h2>
+
+    <div class="row hidden-xs hidden-sm">
+        <div class="row">
+            <div class="col-sm-2 text-center">姓名</div>
+            <div class="col-sm-2" >卡号</div>
+            <div class="col-sm-2">手机号</div>
+            <div class="col-sm-2">余额</div>
+            <div class="col-sm-1" >状态</div>
+            <div class="col-sm-2 text-center" >操作</div>
+        </div>
+    </div>
+    <hr>
+
+    <div class="row cus-item fade-pin" ng-repeat="p in petcards | orderBy:col:desc | filter: pinSort | offset: (currentPage-1)*itemsPerPage |  limitTo:itemsPerPage">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-sm-2 text-center">
+                    <p ng-bind="p.username"></p>
+                </div>
+                <div class="col-sm-2 ">
+                    <p ng-bind="p.code"></p>
+                </div>
+                <div class="col-sm-2">
+                    <p ng-bind="p.phone"></p>
+                </div>
+                <div class="col-sm-2">
+                    <p ng-bind="p.balance| currency:'￥'"></p>
+                </div>
+                <div class="col-sm-1">
+                    <span ng-show="p.status==1" class='label label-success'>激活</span>
+                    <span ng-show="p.status==0" class='label label-default'>禁用</span>
+                </div>
+
+                <div class="col-sm-2 text-center">
+                    <a class="btn btn-success" ui-sref="web.petcardDetail({id:p._id})" style="margin-left:30px;">查看</a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    <uib-pagination total-items="order.length" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" rotate="false" items-per-page="itemsPerPage" num-pages="numPages" ng-show="order.length>
+        itemsPerPage" next-text="下一页" previous-text="上一页" first-text="首页" last-text="尾页">
+    </uib-pagination>
+
+</div>

@@ -29,6 +29,8 @@ var app = angular.module('app', [
         'petruleMoudle',
         'petruleAddMoudle',
         'petruleDetailMoudle',
+        'petcardMoudle',
+        'petcardDetailMoudle',
         'itemDayMoudle',
         'itemDetailMoudle',
         'creditMoudle',
@@ -166,6 +168,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
         .state('web.petruleDetail', {
             url: '/petruleDetail/:id',
             templateUrl: 'tpls/member/petruledetail.html'
+        })
+        .state('web.petcard', {
+            url: '/petcard',
+            templateUrl: 'tpls/member/petcard.html'
+        })
+        .state('web.petcardDetail', {
+            url: '/petcardDetail/:id',
+            templateUrl: 'tpls/member/petcarddetail.html'
         })
 
         

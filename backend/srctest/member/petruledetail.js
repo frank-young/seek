@@ -1,5 +1,5 @@
 /********************************************************************************************************************
- *                                                      成员详情页面
+ *                                                      储值卡套餐详情页面
  ********************************************************************************************************************/
 
 angular.module("petruleDetailMoudle", []).controller('PetruleDetailCtrl', 
@@ -13,7 +13,7 @@ angular.module("petruleDetailMoudle", []).controller('PetruleDetailCtrl',
     ]
     $scope.uses = [
         {"value":0,"label":"启用"},
-        {"value":1,"label":"禁止"}
+        {"value":1,"label":"禁用"}
     ]
     petruleData.getIdData($stateParams.id).then(function (data) {
        $scope.petrule=data.petrule

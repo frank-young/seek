@@ -400,6 +400,13 @@
                 <span ng-bind="order.memberNum">             
             </span>
             </div>
+            <div class="detail-item" ng-show="order.isPetcard">
+                <span>
+              储值卡余额：
+            </span>
+                <span ng-bind="order.memberBalance | currency:'¥' ">             
+            </span>
+            </div>
             <div class="detail-item">
                 <span>
               金额合计：

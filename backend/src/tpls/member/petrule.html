@@ -7,11 +7,11 @@
 
     <div class="row hidden-xs hidden-sm">
         <div class="row">
-            <div class="col-md-3 text-center">套餐名称</div>
-            <div class="col-md-2" ></div>
-            <div class="col-md-2">创建时间</div>
-            <div class="col-md-2">状态</div>
-            <div class="col-md-2 text-center" >操作</div>
+            <div class="col-sm-3 text-center">套餐名称</div>
+            <div class="col-sm-2" ></div>
+            <div class="col-sm-2">创建时间</div>
+            <div class="col-sm-2">状态</div>
+            <div class="col-sm-2 text-center" >操作</div>
         </div>
     </div>
     <hr>
@@ -19,19 +19,19 @@
     <div class="row cus-item fade-pin" ng-repeat="p in petrules | orderBy:col:desc | filter: pinSort | offset: (currentPage-1)*itemsPerPage |  limitTo:itemsPerPage">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-3 text-center">
+                <div class="col-sm-3 text-center">
                     <p ng-bind="p.name"></p>
                 </div>
-                <div class="col-md-2 "></div>
-                <div class="col-md-2">
+                <div class="col-sm-2 "></div>
+                <div class="col-sm-2">
                     <p ng-bind="p.start |datetime"></p>
                 </div>
-                <div class="col-md-2">
+                <div class="col-sm-2">
                     <span ng-show="p.status==0" class='label label-success'>激活</span>
                     <span ng-show="p.status==1" class='label label-default'>禁用</span>
                 </div>
 
-                <div class="col-md-3">
+                <div class="col-sm-2">
                     <a class="btn btn-success" ui-sref="web.petruleDetail({id:p._id})" style="margin-left:30px;">查看</a>
                 </div>
 

@@ -226,11 +226,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$scope.wechatHide = true
 			$scope.changeAlert("请扫描微信会员卡卡号！")
 			document.getElementById("petcard").focus()
-			$scope.cookCart.forEach(function(ele,i){
-				$scope.discountItemFunc(ele,0)
-				$scope.order.petcardincome = $scope.order.reduce		//计入储值会员卡消费
-			})
-
+			$scope.order.petcardincome = $scope.order.realTotal		//计入储值会员卡消费
+			$scope.order.wxincome = 0
 		}
 		
 		// 选择付款方式 单项
@@ -380,11 +377,13 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"alipayincome":0,
 					"schoolincome":0,
 					"otherincome":0,
+					"petcardincome":0,
 					"total": $scope.total,
 					"reduce": $scope.total - $scope.totalReal,
 					"reduceAfter": $scope.totalReal,
 					"realTotal": $scope.totalReal,
 					"isMember": false,
+					"isPetcard": false,
 					"time":Date.now(),
 					"year": Y,
 					"month": M,
@@ -718,7 +717,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		//储值会员刷卡支付
 		$scope.petcardPosPay =function(code){
 			var value = {
-				total_fee:$scope.order.reduce,
+				total_fee:$scope.order.realTotal,
 				int:parseInt($scope.order.reduce),
 				code:code
 			}
@@ -727,6 +726,9 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.changeAlert(data.msg)
 				if(data.status === 1){
 					$scope.wechatHide = false
+					selectMemberFunc(true,data.petcard.username,data.petcard.code,data.petcard.phone,$scope.order.realTotal)
+					$scope.order.memberBalance = Math.round((data.petcard.balance)*100)/100
+					$scope.order.isPetcard = true;
 					document.getElementById('bill').click()
 				}
 			})
@@ -968,7 +970,7 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope','$rootSc
 
 		// 充值
 		$scope.saveFunc = function(){
-			console.log($scope.petcard)
+			$scope.petcard.pay_type = 0
 			petcardData.updateData($scope.petcard).then(function(data){
 				$scope.changeAlert(data.msg)
 				if(data.status==1){
@@ -1052,6 +1054,7 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope','$rootSc
 
 		//微信刷卡支付
 		$scope.wechatPosPay =function(code){
+			$scope.petcard.pay_type = 1
 			petcardData.updateData($scope.petcard).then(function(data){
 				
 				if(data.status==1){
@@ -1097,6 +1100,7 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope','$rootSc
 
 		//支付宝刷卡支付
 		$scope.alipayPosPay =function(code){
+			$scope.petcard.pay_type = 2
 			petcardData.updateData($scope.petcard).then(function(data){
 				
 				if(data.status==1){
@@ -1163,7 +1167,6 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
   			$rootScope.status = true;
   		}
   		
-  		
   		// 业绩查询-交班
 		$scope.exchangeFunc = function(){
 			
@@ -1182,6 +1185,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 					alipayincome:data.alipayincome,	
 					schoolincome:data.schoolincome,	
 					otherincome:data.otherincome,	
+					petcardincome:data.petcardincome,	
 					total:data.total,	// 合计--总合计
 					totalNeed:data.totalNeed,	// 应收
 					reduceAfter:data.reduceAfter,

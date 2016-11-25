@@ -1,0 +1,109 @@
+<div ng-controller="PetcardDetailCtrl">
+	<h2 class="page-header">
+		储值会员卡详情
+		<a href="javascript:window.history.go(-1)" type="button" class="btn btn-primary ml-20"> <i class="fa fa-angle-left"></i>
+			返回
+		</a>
+
+		<button type="button" class="btn btn-info" ng-class="{true: 'pro-show', false: 'pro-hide'}[isEdit]" ng-click="isEdit = !isEdit"> <i class="fa fa-edit"></i>
+			编辑
+		</button>
+		<button type="button" class="btn btn-success" ng-class="{true: 'pro-show', false: 'pro-hide'}[!isEdit]" ng-click="isEdit = !isEdit;savePetcard(petcard)">
+			<i class="fa fa-save"></i>
+			保存
+		</button>
+
+	</h2>
+
+	<div class="row cus-border">
+		<div class="col-md-12 cus-txt">
+			<h4>储值会员</h4>
+		</div>
+		<form name="petcardFrom">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="cus-petcard">
+					<div class="row">
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">姓名</label>
+								<div class="col-sm-9">
+									<div class="form-control" ng-bind="petcard.username" ng-disabled="true"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">手机号</label>
+								<div class="col-sm-9">
+									<div class="form-control" ng-bind="petcard.phone" ng-disabled="true"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">卡号</label>
+								<div class="col-sm-9">
+									<div class="form-control" ng-bind="petcard.code" ng-disabled="true"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">余额</label>
+								<div class="col-sm-9">
+									<div class="form-control" ng-bind="petcard.balance | currency:'￥' " ng-disabled="true"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">开卡门店</label>
+								<div class="col-sm-9">
+									<div class="form-control" ng-bind="petcard.position" ng-disabled="true"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">充值金额</label>
+								<div class="col-sm-9">
+									<div class="form-control" ng-bind="petcard.fee| currency:'￥'" ng-disabled="true"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">赠送金额</label>
+								<div class="col-sm-9">
+									<div class="form-control" ng-bind="petcard.bonus| currency:'￥'" ng-disabled="true"></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">收银员</label>
+								<div class="col-sm-9">
+									<div class="form-control" ng-bind="petcard.edit_people" ng-disabled="true"></div>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xs-12">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">是否启用</label>
+								<div class="col-sm-9">
+									<button type="button" class="form-control form-select" ng-model="petcard.status" data-html="1" data-toggle="true" bs-options="use.value as use.label for use in uses" ng-disabled="isEdit" placeholder="请选择" bs-select>
+										<span class="caret"></span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</form>
+
+	</div>
+
+</div>

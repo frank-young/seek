@@ -1,5 +1,5 @@
 /********************************************************************************************************************
- *                                                      添加成员页面
+ *                                                      添加储值卡套餐页面
  ********************************************************************************************************************/
 
 angular.module("petruleAddMoudle", []).controller('PetruleAddCtrl', 
@@ -17,7 +17,7 @@ angular.module("petruleAddMoudle", []).controller('PetruleAddCtrl',
     $scope.petrule = {
                     fee:100,
                     bonus:20,
-                    consume:1,
+                    consume:100,
                     int:1,
                     status:0
                 }

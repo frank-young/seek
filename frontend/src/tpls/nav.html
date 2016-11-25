@@ -88,6 +88,10 @@
                                 <span ng-bind="todayData.overAll.onceincome | currency:'¥' "></span>
                             </div>
                             <div class="detail-item">
+                                <span>储值会员卡：</span>
+                                <span ng-bind="todayData.overAll.petcardincome | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
                                 <span>其他：</span>
                                 <span ng-bind="todayData.overAll.otherincome | currency:'¥' "></span>
                             </div>
@@ -153,6 +157,10 @@
                                 <div class="detail-item">
                                     <span>次卡：</span>
                                     <span ng-bind="ov.onceincome | currency:'¥' "></span>
+                                </div>
+                                <div class="detail-item">
+                                    <span>储值会员卡：</span>
+                                    <span ng-bind="ov.petcardincome | currency:'¥' "></span>
                                 </div>
                                 <div class="detail-item">
                                     <span>其他：</span>
@@ -320,6 +328,10 @@
                         <div class="detail-item">
                             <span>次卡：</span>
                             <span ng-bind="gradeData.onceincome | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>储值会员卡：</span>
+                            <span ng-bind="ov.petcardincome | currency:'¥' "></span>
                         </div>
                         <div class="detail-item">
                             <span>其他：</span>
