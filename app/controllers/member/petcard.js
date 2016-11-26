@@ -91,7 +91,7 @@ exports.update = function(req, res) {
                                 "code": petcarddata.code,
                                 "card_id": petcarddata.cardid,
                                 "record_bonus": "",
-                                "bonus": petcarddata.int,
+                                "bonus": petcard.int,
                                 "balance": parseInt(petcarddata.balance * 100),
                                 "record_balance": record_balance,
                                 "notify_optional": {
@@ -153,7 +153,7 @@ exports.reduce = function(req, res) {
                         record_bonus = ''
 
                         petcardObj.balance = petcard.balance - Math.round(petcardObj.total_fee * 100) / 100
-                        petcardObj.int = petcard.int + petcardObj.int
+                        petcardObj.int = petcard.int + petcardObj.total_fee
 
                         _petcard = _.extend(petcard, petcardObj)
                         _petcard.save(function(err, petcarddata) {
@@ -165,7 +165,7 @@ exports.reduce = function(req, res) {
                                 "code": petcarddata.code,
                                 "card_id": petcarddata.cardid,
                                 "record_bonus": record_bonus,
-                                "bonus": petcarddata.int,
+                                "bonus": parseInt(petcard.int + petcardObj.total_fee),
                                 "balance": parseInt(petcarddata.balance * 100),
                                 "record_balance": record_balance,
                                 "notify_optional": {
@@ -238,11 +238,7 @@ function updateMember(formdata, old_petcard, petcarddata, user, res) {
         if (!error && response.statusCode == 200) {
             var data = JSON.parse(body)
             console.log(data)
-                // res.json({
-                //         status: 1,
-                //         msg: '操作成功！',
-                //         data: data
-                //     })
+    
             tempReplay(old_petcard, petcarddata, user, res)
 
         }
@@ -251,8 +247,6 @@ function updateMember(formdata, old_petcard, petcarddata, user, res) {
 
 //发送模板消息函数
 function tempReplay(old_petcard, petcarddata, user, res) {
-    var access_token = fs.readFileSync('./config/token').toString();
-    var url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=' + access_token
 
     if (old_petcard != null && old_petcard != "" && old_petcard != "undefined") {
         saveOrder(old_petcard, petcarddata, user, res)

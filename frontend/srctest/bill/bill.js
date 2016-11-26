@@ -710,6 +710,17 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				if(data.status === 1){
 					$scope.wechatHide = false
 					document.getElementById('bill').click()
+				}else if(data.status === 2){ //需要输入密码，这时去查询订单的状态
+					var interval = setInterval(function(){
+						pospayData.alipayOrderData(value).then(function(orderdata){
+							$scope.changeAlert(orderdata.msg)
+							if(orderdata.status === 1){
+								clearInterval(interval)
+								$scope.wechatHide = false
+								document.getElementById('bill').click()
+							}
+						})
+					},5000)
 				}
 			})
 		}

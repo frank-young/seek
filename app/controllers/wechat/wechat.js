@@ -9,7 +9,7 @@ Payorder = require('../../models/wechat/payorder')
 Petcard = require('../../models/member/petcard')
 
 
-// 暂时用的第一张卡： pV8Fpwyw7-wnfqRIIIQjZwWrBhuU	-> 747522939375  
+// 暂时用的第一张卡： pV8Fpwyw7-wnfqRIIIQjZwWrBhuU   -> 747522939375  
 // 第二张会员卡： pV8Fpw9Ma8psDpx_07EwvnmUulJc  -> 341233892893   ->047543802458
 // "pV8Fpw-srHIlmA1ZsDI0aO55X96M" -> 542105098925
 // pV8Fpw_0Wt3USdpKKF_cj7yCX-nA
@@ -809,7 +809,7 @@ exports.cardResponse = function(req, res) {
                         //     msg: "已经领取过储值会员卡了！"
                         // })
                     } else {
-
+                        console.log('再次领取')
                         var url = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token=' + access_token
 
                         var formdata = {
@@ -828,24 +828,65 @@ exports.cardResponse = function(req, res) {
                         request.post(options, function(error, response, body) {
                             if (!error && response.statusCode == 200) {
                                 var data = JSON.parse(body)
+                                console.log(data)
                                 if (data.errcode == 0) {
-                                    var mobile = "",
-                                        name = "",
-                                        birthday = "",
-                                        location = ""
-                                    if (data.user_info) {
-                                        data.user_info.common_field_list.forEach(function(v, i) {
-                                            if (v.name == "USER_FORM_INFO_FLAG_MOBILE") {
-                                                mobile = v.value
-                                            } else if (v.name == "USER_FORM_INFO_FLAG_BIRTHDAY") {
-                                                birthday = v.value
-                                            } else if (v.name == "USER_FORM_INFO_FLAG_NAME") {
-                                                name = v.value
-                                            } else if (v.name == "USER_FORM_INFO_FLAG_LOCATION") {
-                                                location = v.value
+                                    if (data.has_active == true) { //激活
+                                        var mobile = "",
+                                            name = "",
+                                            birthday = "",
+                                            location = ""
+                                        if (data.user_info) {
+                                            data.user_info.common_field_list.forEach(function(v, i) {
+                                                if (v.name == "USER_FORM_INFO_FLAG_MOBILE") {
+                                                    mobile = v.value
+                                                } else if (v.name == "USER_FORM_INFO_FLAG_BIRTHDAY") {
+                                                    birthday = v.value
+                                                } else if (v.name == "USER_FORM_INFO_FLAG_NAME") {
+                                                    name = v.value
+                                                } else if (v.name == "USER_FORM_INFO_FLAG_LOCATION") {
+                                                    location = v.value
+                                                }
+
+                                            })
+                                            var petcardObj = {
+                                                cardid: msg.cardid,
+                                                openid: msg.fromusername,
+                                                code: msg.usercardcode,
+                                                status: 1,
+                                                has_active: true,
+                                                card_grade: 0,
+                                                discount: 0,
+                                                int: data.bonus,
+                                                bonus: 0,
+                                                fee: 0,
+                                                createtime: msg.createtime,
+                                                type: "储值会员卡",
+                                                username: name,
+                                                nickname: data.nickname,
+                                                sex: data.sex,
+                                                phone: mobile,
+                                                birthday: birthday,
+                                                location: location,
+                                                balance: data.balance / 100,
+                                                createtime: msg.createtime
                                             }
 
-                                        })
+                                            var _petcard
+                                            _petcard = new Petcard(petcardObj)
+                                            _petcard.save(function(err, petcard) {
+                                                if (err) {
+                                                    console.log(err)
+                                                }
+                                                console.log(data.errcode)
+                                                res.json({
+                                                    status: 1,
+                                                    msg: '重新存入数据库！'
+                                                })
+                                            })
+                                        }
+                                    } else { //未激活
+                                        var content = '恭喜您，成功领取了seek cafe储值会员卡，请激活会员卡！'
+
                                         var petcardObj = {
                                             cardid: msg.cardid,
                                             openid: msg.fromusername,
@@ -854,18 +895,9 @@ exports.cardResponse = function(req, res) {
                                             has_active: true,
                                             card_grade: 0,
                                             discount: 0,
-                                            int: data.bonus,
+                                            int: 0,
                                             bonus: 0,
                                             fee: 0,
-                                            createtime: msg.createtime,
-                                            type: "储值会员卡",
-                                            username: name,
-                                            nickname: data.nickname,
-                                            sex: data.sex,
-                                            phone: mobile,
-                                            birthday: birthday,
-                                            location: location,
-                                            balance: data.balance/100,
                                             createtime: msg.createtime
                                         }
 
@@ -875,12 +907,14 @@ exports.cardResponse = function(req, res) {
                                             if (err) {
                                                 console.log(err)
                                             }
+                                            // msgReplay(msg, res, content)
                                             res.json({
-                                            	status:1,
-                                            	msg:'重新存入数据库！'
+                                                status: 1,
+                                                msg: '领取成功！'
                                             })
                                         })
                                     }
+
                                 } else if (data.errcode == 40056) {
                                     var content = '恭喜您，成功领取了seek cafe储值会员卡，请激活会员卡！'
 
@@ -904,7 +938,12 @@ exports.cardResponse = function(req, res) {
                                         if (err) {
                                             console.log(err)
                                         }
-                                        msgReplay(msg, res, content)
+                                        // msgReplay(msg, res, content)
+                                        res.json({
+                                            status: 1,
+                                            msg: '领取成功！'
+                                        })
+
                                     })
 
                                 } else {
@@ -1071,7 +1110,7 @@ exports.cardResponse = function(req, res) {
                                     // 这里存入激活卡信息
                                     if (msg.cardid === config.card) {
                                         Petcard.findOne({ "code": msg.usercardcode }, function(err, petcard) {
-                                            var content = '恭喜您，成功激活了seek cafe储值会员卡，请将卡号告诉收银员，进行充值！'
+                                            // var content = '恭喜您，成功激活了seek cafe储值会员卡，请将卡号告诉收银员，进行充值！'
                                             var petcardObj = {
                                                 type: carddata.card.member_card.base_info.title,
                                                 username: name,
@@ -1086,16 +1125,17 @@ exports.cardResponse = function(req, res) {
                                             if (err) {
                                                 res.json({
                                                     status: 0,
-                                                    msg: "发送错误！"
+                                                    msg: "发生错误！"
                                                 })
                                             } else {
                                                 var _petcard
                                                 _petcard = _.extend(petcard, petcardObj)
-                                                _petcard.save(function(err, petcard) {
+                                                _petcard.save(function(err, petcarddata) {
                                                     if (err) {
                                                         console.log(err)
                                                     }
-                                                    msgReplay(msg, res, content)
+                                                    // msgReplay(msg, res, content)
+                                                    tempReplay(petcarddata, res)
                                                 })
                                             }
                                         })
@@ -1183,6 +1223,61 @@ exports.cardResponse = function(req, res) {
             }
         })
     }
+
+}
+
+// 模版消息回复 
+function tempReplay(petcarddata, res) {
+    var access_token = fs.readFileSync('./config/token').toString();
+    var url = 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=' + access_token
+    var formdata = {
+        "touser": petcarddata.openid,
+        "template_id": "PFXZ_rMtSW4-1kO9f5hUQvw_T-ZGzBSoPY1kyM9I5mU",
+        "url": "http://weixin.qq.com/q/XUTLL_LlMWdIIM4K7m_H",
+        "data": {
+            "first": {
+                "value": "您好，您已成为seek cafe会员！"
+            },
+            "cardNumber": {
+                "value": petcarddata.code
+            },
+            "type": {
+                "value": "门店"
+            },
+            "address": {
+                "value": 'Seek Cafe【4店通用】'
+            },
+            "VIPName": {
+                "value": petcarddata.username
+            },
+            "VIPPhone": {
+                "value": petcarddata.phone
+            },
+            "expDate": {
+                "value": "永久有效"
+            },
+            "remark": {
+                "value": "有疑问请通过微信公众号联系我们。"
+            }
+        }
+    }
+    var options = {
+        url: url,
+        form: JSON.stringify(formdata),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }
+
+    request.post(options, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var data = JSON.parse(body)
+            res.json({
+                status: 1,
+                msg: 'success'
+            })
+        }
+    })
 
 }
 

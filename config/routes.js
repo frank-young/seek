@@ -200,6 +200,7 @@ module.exports = function(app){
   app.post('/alipay/init',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse,Alipay.init)
   app.post('/alipay/callback',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse,Alipay.callback)
   app.post('/alipay/pospay',Alipay.pospay)
+  app.post('/alipay/orderquery',Alipay.orderquery)
   app.get('/alipay/alipayorder/today/:id',Alipayorder.todayAlipayorder)  //查询今日订单
   app.get('/alipay/alipayorder/today/:id/:date',Alipayorder.someAlipayorder)  //按日期查询订单
 
