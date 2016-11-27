@@ -736,6 +736,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			petcardData.reduceData(value).then(function(data){
 				$scope.changeAlert(data.msg)
 				if(data.status === 1){
+					$scope.pet_code = ""
 					$scope.wechatHide = false
 					selectMemberFunc(true,data.petcard.username,data.petcard.code,data.petcard.phone,$scope.order.realTotal)
 					$scope.order.memberBalance = Math.round((data.petcard.balance)*100)/100
