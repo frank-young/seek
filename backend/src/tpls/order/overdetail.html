@@ -1,6 +1,6 @@
 <div ng-controller="OverDetailCtrl">
-	<form name="orderForm">
-		<h2 class="page-header">
+    <form name="orderForm">
+        <h2 class="page-header">
 			品项报告详情
 			<a href="javascript:window.history.go(-1)" type="button" class="btn btn-primary ml-20"> <i class="fa fa-angle-left"></i>
 				返回
@@ -14,181 +14,184 @@
 		</button>
 		-->
 	</h2>
-	<div class="pro-wrap">
-		<div class="row">
-			<div class="col-md-10 col-md-offset-1">
-				<div class="detail" id="print-over">
-
-					<h5>结班报告</h5>
-					<h5>{{overAll.year}}年{{overAll.month}}月{{overAll.day}}日</h5>
-					<div class="detail-item">
-						<span >用餐人数：</span>
-						<span ng-bind="overAll.people"></span>
-					</div>
-					<div class="detail-item">
-						<span >开台数：</span>
-						<span ng-bind="overAll.stand"></span>
-					</div>
-					<div class="detail-item">
-						<span >赠单金额：</span>
-						<span ng-bind="overAll.onceincome| currency:'¥'"></span>
-					</div>
-					<div class="detail-item">
-						<span >优惠金额：</span>
-						<span ng-bind="overAll.reduce - overAll.noincome - overAll.onceincome | currency:'¥'"></span>
-					</div>
-					<div class="detail-item">
-						<span >品项消费：</span>
-						<span ng-bind="overAll.total | currency:'¥'"></span>
-					</div>
-					<div class="detail-item">
-						<span >优惠后合计：</span>
-						<span  ng-bind="overAll.reduceAfter | currency:'¥' "></span>
-					</div>
-					<div class="detail-item">
-						<span >抹零金额：</span>
-						<span  ng-bind="overAll.erase | currency:'¥' "></span>
-					</div>
-					<div class="detail-item">
-						<span >现金：</span>
-						<span  ng-bind="overAll.cashincome | currency:'¥' "></span>
-					</div>
-					<div class="detail-item">
-						<span >微信：</span>
-						<span  ng-bind="overAll.wxincome | currency:'¥' "></span>
-					</div>
-					<div class="detail-item">
-						<span >支付宝：</span>
-						<span  ng-bind="overAll.alipayincome | currency:'¥' "></span>
-					</div>
-					<div class="detail-item">
-						<span >校园卡：</span>
-						<span  ng-bind="overAll.schoolincome | currency:'¥' "></span>
-					</div>
-					<div class="detail-item">
-						<span >次卡：</span>
-						<span  ng-bind="overAll.onceincome | currency:'¥' "></span>
-					</div>
-					<div class="detail-item">
-						<span >其他：</span>
-						<span  ng-bind="overAll.otherincome | currency:'¥' "></span>
-					</div>
-					<div class="detail-item">
-						<span >实收合计：</span>
-						<span  ng-bind="overAll.grade | currency:'¥' "></span>
-					</div>
-					<div class="detail-item">
-						<span >挂账：</span>
-						<span  ng-bind="overAll.noincome | currency:'¥' "></span>
-					</div>
-
-					<div class="detail-item">
-						<span >应收合计：</span>
-						<span  ng-bind="overAll.grade +overAll.noincome| currency:'¥' "></span>
-					</div>
-					<div class="hr">
-						------------------------------------------------------------------------------
-					</div>
-
-					<div class="detail-box" ng-repeat="ov in overs">
-						<h5>
+        <div class="pro-wrap">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="detail" id="print-over">
+                        <h5>结班报告</h5>
+                        <h5>{{overAll.year}}年{{overAll.month}}月{{overAll.day}}日</h5>
+                        <div class="detail-item">
+                            <span>用餐人数：</span>
+                            <span ng-bind="overAll.people"></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>开台数：</span>
+                            <span ng-bind="overAll.stand"></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>赠单金额：</span>
+                            <span ng-bind="overAll.onceincome| currency:'¥'"></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>优惠金额：</span>
+                            <span ng-bind="overAll.reduce - overAll.noincome - overAll.onceincome | currency:'¥'"></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>品项消费：</span>
+                            <span ng-bind="overAll.total | currency:'¥'"></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>优惠后合计：</span>
+                            <span ng-bind="overAll.reduceAfter | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>抹零金额：</span>
+                            <span ng-bind="overAll.erase | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>现金：</span>
+                            <span ng-bind="overAll.cashincome | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>微信：</span>
+                            <span ng-bind="overAll.wxincome | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>支付宝：</span>
+                            <span ng-bind="overAll.alipayincome | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>校园卡：</span>
+                            <span ng-bind="overAll.schoolincome | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>次卡：</span>
+                            <span ng-bind="overAll.onceincome | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>其他：</span>
+                            <span ng-bind="overAll.otherincome | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>实收合计：</span>
+                            <span ng-bind="overAll.grade | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>挂账：</span>
+                            <span ng-bind="overAll.noincome | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>应收合计：</span>
+                            <span ng-bind="overAll.grade +overAll.noincome| currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>会员卡充值：</span>
+                            <span ng-bind="fee | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>充值赠送：</span>
+                            <span ng-bind="bonus | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>实际收入：</span>
+                            <span ng-bind="overAll.grade +overAll.noincome + fee - bonus | currency:'¥' "></span>
+                        </div>
+                        <div class="hr">
+                            ------------------------------------------------------------------------------
+                        </div>
+                        <div class="detail-box" ng-repeat="ov in overs">
+                            <h5>
 							收银员：
 							<span ng-bind="ov.editPeople"></span>
 						</h5>
-						<div class="detail-item">
-							<span >用餐人数：</span>
-							<span ng-bind="ov.people"></span>
-						</div>
-						<div class="detail-item">
-							<span >开台数：</span>
-							<span ng-bind="ov.stand"></span>
-						</div>
-						<div class="detail-item">
-							<span >赠单金额：</span>
-							<span ng-bind="ov.onceincome| currency:'¥'"></span>
-						</div>
-						<div class="detail-item">
-							<span >优惠金额：</span>
-							<span ng-bind="ov.reduce - ov.noincome - ov.onceincome | currency:'¥'"></span>
-						</div>
-						<div class="detail-item">
-							<span >品项消费：</span>
-							<span ng-bind="ov.total | currency:'¥'"></span>
-						</div>
-						<div class="detail-item">
-							<span >优惠后合计：</span>
-							<span  ng-bind="ov.reduceAfter | currency:'¥' "></span>
-						</div>
-						<div class="detail-item">
-							<span >抹零金额：</span>
-							<span  ng-bind="ov.erase | currency:'¥' "></span>
-						</div>
-						<div class="detail-item">
-							<span >现金：</span>
-							<span  ng-bind="ov.cashincome | currency:'¥' "></span>
-						</div>
-						<div class="detail-item">
-							<span >微信：</span>
-							<span  ng-bind="ov.wxincome | currency:'¥' "></span>
-						</div>
-						<div class="detail-item">
-							<span >支付宝：</span>
-							<span  ng-bind="ov.alipayincome | currency:'¥' "></span>
-						</div>
-						<div class="detail-item">
-							<span >校园卡：</span>
-							<span  ng-bind="ov.schoolincome | currency:'¥' "></span>
-						</div>
-						<div class="detail-item">
-							<span >次卡：</span>
-							<span  ng-bind="ov.onceincome | currency:'¥' "></span>
-						</div>
-						<div class="detail-item">
-							<span >其他：</span>
-							<span  ng-bind="ov.otherincome | currency:'¥' "></span>
-						</div>
-						<div class="detail-item">
-							<span >实收合计：</span>
-							<span  ng-bind="ov.totalReal | currency:'¥' "></span>
-						</div>
-						<div class="detail-item">
-							<span >挂账：</span>
-							<span  ng-bind="ov.noincome | currency:'¥' "></span>
-						</div>
-
-						<div class="detail-item">
-							<span >应收合计：</span>
-							<span  ng-bind="ov.totalReal +ov.noincome| currency:'¥' "></span>
-						</div>
-						<div class="detail-item">
-							<span >上班时间：</span>
-							<span  ng-bind="ov.start | datetime "></span>
-						</div>
-						<div class="detail-item">
-							<span >交班时间：</span>
-							<span  ng-bind="ov.stop | datetime "></span>
-						</div>
-
-						<div class="detail-item">
-							<span >工时统计：</span>
-							<span>{{(ov.stop - ov.start)/3600000 | floor}}小时</span>
-							<span>{{((ov.stop - ov.start)/60000)%60 | floor}}分</span>
-						</div>
-
-						<div class="hr">
-							------------------------------------------------------------------------------
-						</div>
-
-					</div>
-					<div class="detail-item now-time">
-						<span>打印时间：</span>
-						<span ng-bind="nowtime | datetime"></span>
-					</div>
-
-				</div>
-
-			</div>
-		</div>
-	</div>
-</form>
+                            <div class="detail-item">
+                                <span>用餐人数：</span>
+                                <span ng-bind="ov.people"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>开台数：</span>
+                                <span ng-bind="ov.stand"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>赠单金额：</span>
+                                <span ng-bind="ov.onceincome| currency:'¥'"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>优惠金额：</span>
+                                <span ng-bind="ov.reduce - ov.noincome - ov.onceincome | currency:'¥'"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>品项消费：</span>
+                                <span ng-bind="ov.total | currency:'¥'"></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>优惠后合计：</span>
+                                <span ng-bind="ov.reduceAfter | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>抹零金额：</span>
+                                <span ng-bind="ov.erase | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>现金：</span>
+                                <span ng-bind="ov.cashincome | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>微信：</span>
+                                <span ng-bind="ov.wxincome | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>支付宝：</span>
+                                <span ng-bind="ov.alipayincome | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>校园卡：</span>
+                                <span ng-bind="ov.schoolincome | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>次卡：</span>
+                                <span ng-bind="ov.onceincome | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>其他：</span>
+                                <span ng-bind="ov.otherincome | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>实收合计：</span>
+                                <span ng-bind="ov.totalReal | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>挂账：</span>
+                                <span ng-bind="ov.noincome | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>应收合计：</span>
+                                <span ng-bind="ov.totalReal +ov.noincome| currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>上班时间：</span>
+                                <span ng-bind="ov.start | datetime "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>交班时间：</span>
+                                <span ng-bind="ov.stop | datetime "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>工时统计：</span>
+                                <span>{{(ov.stop - ov.start)/3600000 | floor}}小时</span>
+                                <span>{{((ov.stop - ov.start)/60000)%60 | floor}}分</span>
+                            </div>
+                            <div class="hr">
+                                ------------------------------------------------------------------------------
+                            </div>
+                        </div>
+                        <div class="detail-item now-time">
+                            <span>打印时间：</span>
+                            <span ng-bind="nowtime | datetime"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
 </div>

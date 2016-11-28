@@ -1043,6 +1043,32 @@ angular.module('serviceData', [])
                     defer.reject(msg);
                 });
                 return defer.promise;
+            },
+            getTodayData: function (id) {
+                var defer = $q.defer();
+                $http({
+                    url: '/petcard/some/'+id,
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
+            getTodayOrderData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/petcard/today',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
             }
         }
     }])

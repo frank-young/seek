@@ -153,6 +153,8 @@ module.exports = function(app){
   app.post('/petcard/admin/update', User.signinRequired, Petcard.updateadmin)
   app.post('/petcard/reduce', User.signinRequired, Petcard.reduce)
   app.get('/petcard/detail/:id', User.signinRequired, Petcard.detail)
+  app.get('/petcard/today',User.signinRequired, Petcard.petcardtoday)
+  app.get('/petcard/some/:id', User.signinRequired, Petcard.petcardsome)
   
   // 储值卡规则信息
   app.get('/petrule',User.signinRequired, Petrule.list)

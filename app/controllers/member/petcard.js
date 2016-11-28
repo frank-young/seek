@@ -238,7 +238,7 @@ function updateMember(formdata, old_petcard, petcarddata, user, res) {
         if (!error && response.statusCode == 200) {
             var data = JSON.parse(body)
             console.log(data)
-    
+
             tempReplay(old_petcard, petcarddata, user, res)
 
         }
@@ -311,6 +311,57 @@ function saveOrder(old_petcard, petcarddata, user, res) {
         }
     })
 
+}
+// 今日订单
+exports.petcardtoday = function(req, res) {
+    var user = req.session.user
+    var date =createTime(),
+        Y = date.Y,
+        M = date.M,
+        D = date.D
+
+    Petcardorder.fetch({ "domainlocal": user.domain, "year": Y, "month": M, "day": D }, function(err, petcardorders) {
+        var fee = 0,
+            bonus = 0
+
+        petcardorders.forEach(function(value,index){
+            fee += value.fee
+            bonus += value.bonus
+
+        })
+        res.json({
+            msg: "请求成功",
+            status: 1,
+            fee: fee,
+            bonus:bonus
+        })
+    })
+}
+
+exports.petcardsome = function(req, res) {
+    var user = req.session.user,
+        id = req.params.id
+    var Y = id.substr(0,4),
+        M = id.substr(4,2),
+        D = id.substr(6,2)
+
+
+    Petcardorder.fetch({ "domainlocal": user.domain, "year": Y, "month": M, "day": D }, function(err, petcardorders) {
+        var fee = 0,
+            bonus = 0
+
+        petcardorders.forEach(function(value,index){
+            fee += value.fee
+            bonus += value.bonus
+
+        })
+        res.json({
+            msg: "请求成功",
+            status: 1,
+            fee: fee,
+            bonus:bonus
+        })
+    })
 }
 
 

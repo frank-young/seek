@@ -2,8 +2,8 @@
  *                                                     导航条
  ********************************************************************************************************************/
 
-angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData','itemData','overData','domainData','memberorderData','payorderData',
-  	function($scope,$rootScope,$interval,dayData,orderData,itemData,overData,domainData,memberorderData,payorderData) {
+angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$interval','dayData','orderData','itemData','overData','domainData','memberorderData','payorderData','petcardData',
+  	function($scope,$rootScope,$interval,dayData,orderData,itemData,overData,domainData,memberorderData,payorderData,petcardData) {
   		// 设置时间
 	  	function setTime(){
 	  		return $scope.time = new Date()
@@ -185,6 +185,12 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 
 	  		window.location.href="#/index"
 	  	}
+
+	  	petcardData.getTodayOrderData().then(function(data){
+	  		$scope.fee = data.fee
+	  		$scope.bonus = data.bonus
+
+	  	})
 
 	  	// 生成时间，日期等
 	  	function createTime(){

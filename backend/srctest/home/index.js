@@ -3,8 +3,8 @@
  ********************************************************************************************************************/
 
 angular.module("homeMoudle", []).controller('HomeCtrl', 
-  ['$scope','$window','orderData','settingData',
-  	function($scope,$window,orderData,settingData) {
+  ['$scope','$window','orderData','settingData','petcardData',
+  	function($scope,$window,orderData,settingData,petcardData) {
 
 	  	$window.document.title = "seek cafe";
 	  	var date = new Date()
@@ -28,6 +28,13 @@ angular.module("homeMoudle", []).controller('HomeCtrl',
 		settingData.getRbac().then(function(data){
 			$scope.role = data.rbac
 		})
+
+		petcardData.getTodayOrderData().then(function(data){
+	  		$scope.fee = data.fee
+	  		$scope.bonus = data.bonus
+
+	  	})
+
 	}
 ])
 

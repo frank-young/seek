@@ -107,6 +107,18 @@
                                 <span>应收合计：</span>
                                 <span ng-bind="todayData.overAll.grade +todayData.overAll.noincome| currency:'¥' "></span>
                             </div>
+                            <div class="detail-item">
+                                <span>会员卡充值：</span>
+                                <span ng-bind="fee | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>充值赠送：</span>
+                                <span ng-bind="bonus | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>实际收入：</span>
+                                <span ng-bind="todayData.overAll.grade +todayData.overAll.noincome + fee - bonus | currency:'¥' "></span>
+                            </div>
                             <div class="hr">------------------------------------------------------------------------------</div>
                             <div class="detail-box" ng-repeat="ov in todayData.overs">
                                 <h5>收银员：<span ng-bind="ov.editPeople"></span> </h5>
@@ -235,7 +247,7 @@
                             </div>
                             <div class="detail-item">
                                 <span>合计金额：</span>
-                                <span ng-bind="todayData.overAll.grade+todayData.overAll.noincome | currency:'¥' "></span>
+                                <span ng-bind="todayData.overAll.reduceAfter+todayData.overAll.noincome -todayData.overAll.erase | currency:'¥' "></span>
                             </div>
                             <div class="hr">------------------------------------------------------------------------------</div>
                             <div class="detail-item now-time">
@@ -331,7 +343,7 @@
                         </div>
                         <div class="detail-item">
                             <span>储值会员卡：</span>
-                            <span ng-bind="ov.petcardincome | currency:'¥' "></span>
+                            <span ng-bind="gradeData.petcardincome | currency:'¥' "></span>
                         </div>
                         <div class="detail-item">
                             <span>其他：</span>

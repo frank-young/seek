@@ -378,6 +378,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"schoolincome":0,
 					"otherincome":0,
 					"petcardincome":0,
+					"memberBalance":0,
 					"total": $scope.total,
 					"reduce": $scope.total - $scope.totalReal,
 					"reduceAfter": $scope.totalReal,
