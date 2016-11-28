@@ -23,9 +23,9 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		
 		//会员信息
 		$scope.memberAll = []
-		memberData.getData().then(function(data){
+		petcardData.getData().then(function(data){
 
-			$scope.memberAll = data.members
+			$scope.memberAll = data.petcards
 			// 搜索会员用户
 			$scope.search = ""
 			$scope.member = $scope.memberAll
@@ -999,24 +999,30 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope', '$rootS
         //左侧会员列表
         function getData() {
             petcardData.getData().then(function(data) {
-                $scope.petcards = data.petcards
+                $scope.petcardall = data.petcards
+                $scope.petcards = $scope.petcardall
             })
         }
 
         //搜索
         $scope.searchPetcard = function(value) {
-                $scope.petcard = $scope.petcards.filter(function(ele) {
-                    if (ele.phone.indexOf(value) >= 0) {
-                        return ele
-                    }
-                })
-            }
-            //变化监测
+            $scope.petcards = $scope.petcardall.filter(function(ele) {
+                if (ele.phone.indexOf(value) >= 0) {
+                    return ele
+                }
+            })
+        }
+        //变化监测
         $scope.change = function(value) {
 
             $scope.petcard.fee = value.fee
             $scope.petcard.bonus = value.bonus
             $scope.petcard.balance = value.fee + value.bonus
+
+        }
+
+        $scope.selectOne = function(value) {
+            $scope.petcard.phone = value
 
         }
 

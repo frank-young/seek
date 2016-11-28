@@ -25,7 +25,7 @@ var OrderSchema = new mongoose.Schema({
 	memberName:String,
 	memberNum:String,
 	memberPhone:String,
-	memberBalance:Number,
+	memberBalance:String,
 	editPeople:String,
 	dishNum:String,
 	noincome:Number,

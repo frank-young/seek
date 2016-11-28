@@ -809,7 +809,6 @@ exports.cardResponse = function(req, res) {
                         //     msg: "已经领取过储值会员卡了！"
                         // })
                     } else {
-                        console.log('再次领取')
                         var url = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token=' + access_token
 
                         var formdata = {
@@ -855,7 +854,7 @@ exports.cardResponse = function(req, res) {
                                                 status: 1,
                                                 has_active: true,
                                                 card_grade: 0,
-                                                discount: 0,
+                                                discount: 5,
                                                 int: data.bonus,
                                                 bonus: 0,
                                                 fee: 0,
@@ -894,7 +893,7 @@ exports.cardResponse = function(req, res) {
                                             status: 1,
                                             has_active: true,
                                             card_grade: 0,
-                                            discount: 0,
+                                            discount: 5,
                                             int: 0,
                                             bonus: 0,
                                             fee: 0,
@@ -1115,10 +1114,13 @@ exports.cardResponse = function(req, res) {
                                                 type: carddata.card.member_card.base_info.title,
                                                 username: name,
                                                 nickname: data.nickname,
+                                                discount: parseInt(carddata.card.member_card.discount),
                                                 sex: data.sex,
                                                 phone: mobile,
                                                 birthday: birthday,
                                                 location: location,
+                                                bonus: data.bonus,
+                                                fee: data.fee,
                                                 balance: data.balance,
                                                 createtime: msg.createtime
                                             }

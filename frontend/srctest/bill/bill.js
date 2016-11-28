@@ -23,9 +23,9 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		
 		//会员信息
 		$scope.memberAll = []
-		memberData.getData().then(function(data){
+		petcardData.getData().then(function(data){
 
-			$scope.memberAll = data.members
+			$scope.memberAll = data.petcards
 			// 搜索会员用户
 			$scope.search = ""
 			$scope.member = $scope.memberAll

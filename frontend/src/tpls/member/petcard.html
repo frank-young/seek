@@ -1,6 +1,6 @@
 <div ng-controller="PetcardCtrl" class="row">
     <div class="two-thirds column main">
-        <input autofocus type="text" placeholder="输入手机号查找..." ng-model="search" ng-change="searchMember(search)">
+        <input autofocus type="text" placeholder="输入手机号查找..." ng-model="search" ng-change="searchPetcard(search)">
         <!-- ng-keypress="searchMember()" -->
         <button type="button" class="button button-primary" ng-click="searchPetcard(search)">搜索</button>
         <table class="u-full-width">
@@ -8,21 +8,21 @@
                 <tr>
                     <th>姓名</th>
                     <th>会员卡类型</th>
-                    <th>卡号</th>
                     <th>手机号</th>
                     <th>余额</th>
-                    <th>创建时间</th>
+                    <th>开卡日期</th>
+                    <th>操作</th>
 
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="petcard in petcards">
-                    <td ng-bind="petcard.username"></td>
-                    <td ng-bind="petcard.type"></td>
-                    <td ng-bind="petcard.code"></td>
-                    <td ng-bind="petcard.phone"></td>
-                    <td ng-bind="petcard.balance | currency:'¥' "></td>
-                    <td ng-bind="petcard.start | datetime ""></td>
+                <tr ng-repeat="p in petcards">
+                    <td ng-bind="p.username"></td>
+                    <td ng-bind="p.type"></td>
+                    <td ng-bind="p.phone"></td>
+                    <td ng-bind="p.balance | currency:'¥' "></td>
+                    <td ng-bind="p.start | onlydate ""></td>
+                    <td> <button class="button button-primary" ng-click="selectOne(p.phone)">选择</button> </td>
                 </tr>
             </tbody>
         </table>
