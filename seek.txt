@@ -7,7 +7,7 @@ AppSecret = 07edc09a46dba2e8d0b1964b5aec3a46
 
 url = http://api.weimob.com/api?t=96ca72ddc1f245229fcdc8d18c99884b==Z
 
-139.129.239.39
+139.129.239.39  ----¡·248027    iZm5earhdmk82vhknyxuwdZ
 
 token = 968122_b
 
