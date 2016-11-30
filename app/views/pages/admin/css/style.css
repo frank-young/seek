@@ -1,0 +1,4 @@
+body,div,input,span,p,h1,h2,h3,h4,h5,h6{
+	font-family: -apple-system, BlinkMacSystemFont, "Microsoft Yahei", Roboto, "Helvetica Neue", Arial, sans-serif;
+	-webkit-font-smoothing: antialiased;
+}
