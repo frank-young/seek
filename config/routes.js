@@ -1,5 +1,7 @@
 var Index = require('../app/controllers/index'),
     User = require('../app/controllers/user'),
+    Admin = require('../app/controllers/admin/admin'),
+    Home = require('../app/controllers/admin/index'),
     Domain = require('../app/controllers/domain'),
     Setting = require('../app/controllers/setting'),
     Dish = require('../app/controllers/dish/dish'),
@@ -33,6 +35,13 @@ module.exports = function(app){
   app.get('/', Index.index)
 	app.get('/admin', Index.admin)
 
+  //管理员
+  app.post('/manager/signin/ctrl', Admin.signin)
+  app.get('/manager/signin', Admin.signinUnRequired, Admin.showSignin)
+  app.post('/manager/signup/ctrl', Admin.signup)
+  app.get('/manager/signup', Admin.signinUnRequired, Admin.showSignup)
+  app.get('/manager/index', Admin.signinRequired, Home.index)
+
   // 用户信息
   app.post('/user/signup', User.signup)
   app.post('/user/signin', User.signin)
@@ -48,9 +57,9 @@ module.exports = function(app){
   app.post('/savepassword', User.savepassword)
   app.get('/successpassword', User.successpassword)
   app.get('/activation/:verify', User.signActivation)
-  app.get('/admin/user/list', User.signinRequired,User.adminRequired, User.list)
-  app.post('/user/editpass', User.signinRequired, User.editpass)
-  app.get('/user/getphone', User.signinRequired, User.getphone)
+  // app.get('/admin/user/list', User.signinRequired,User.adminRequired, User.list)
+  // app.post('/user/editpass', User.signinRequired, User.editpass)
+  // app.get('/user/getphone', User.signinRequired, User.getphone)
   
   // 门店信息设置
   app.get('/domain/add',User.signinRequired,Domain.domainRequired, Domain.add )

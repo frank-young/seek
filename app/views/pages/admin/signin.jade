@@ -1,0 +1,32 @@
+include ./includes/header
+.container
+  .row
+    .sign-wrap
+      form(id="f-signin",autocomplete="off")
+        h2 SEEK CAFE 后台管理系统                                 
+        .form-group
+          label.sr-only(for='inputPhone') 手机号                  
+          input#inputPhone.form-control(name="admin[phone]",type='text', placeholder='请输入手机号', required='', autofocus='',autocomplete="off")
+          span.phone 
+        .form-group
+          label.sr-only(for='inputPassword') 密码
+          input#inputPassword.form-control(name="admin[password]",type='password', placeholder='请输入密码', required='',autocomplete="off") 
+          span.password
+        .form-group
+          div#f-alert.alert.alert-danger(role="alert")
+        .form-group.mt-20
+          button#f-submit.btn.btn-lg.btn-primary.btn-block(type='submit') 登录
+  .footer
+    .text-center © 2016 呐呐科技  
+include ./includes/footer
+      
+
+      
+    
+
+      
+
+
+
+
+

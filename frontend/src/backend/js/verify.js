@@ -9,7 +9,6 @@
 
 $(document).ready(function() {
 	// 使用 jQuery 异步提交表单
-	
 	$('#f-signup').submit(function() {
 		jQuery.ajax({
 			url: '/user/signup',
@@ -34,6 +33,7 @@ $(document).ready(function() {
 		});
 		return false;
 	});
+
 	$('#f-signin').submit(function() {
 		jQuery.ajax({
 			url: '/user/signin',
