@@ -35,12 +35,18 @@ module.exports = function(app){
   app.get('/', Index.index)
 	app.get('/admin', Index.admin)
 
-  //管理员
+  //管理员登录注册
   app.post('/manager/signin/ctrl', Admin.signin)
   app.get('/manager/signin', Admin.signinUnRequired, Admin.showSignin)
   app.post('/manager/signup/ctrl', Admin.signup)
   app.get('/manager/signup', Admin.signinUnRequired, Admin.showSignup)
+
+  // 管理页面
   app.get('/manager/index', Admin.signinRequired, Home.index)
+  app.get('/manager/account', Admin.signinRequired, Home.account)
+  app.get('/manager/account/add', Admin.signinRequired, Home.accountAdd)
+  app.get('/manager/account/detail', Admin.signinRequired, Home.accountDetail)
+  app.get('/manager/report', Admin.signinRequired, Home.report)
 
   // 用户信息
   app.post('/user/signup', User.signup)

@@ -1,0 +1,31 @@
+include ./includes/header
+include ./includes/nav
+
+.container.mt-60
+  .row.mt-20
+    .col-md-12
+      a.btn.btn-success.btn-lg.btn-block(href='add_account.html')
+        span.glyphicon.glyphicon-plus
+        |  新建会计账号
+  |         
+  .shadow-box
+    .row.item
+      .col-xs-8
+        .a-name
+          a(href='account_detail.html') 名字
+      |                 
+      .col-xs-4
+        a.btn.btn-danger.btn-lg.btn-block(href='#')
+          span.glyphicon.glyphicon-trash
+          |  删除
+    |             
+    .row.item
+      .col-xs-8
+        .a-name
+          a(href='') 名字
+      |                 
+      .col-xs-4
+        a.btn.btn-danger.btn-lg.btn-block(href='#')
+          span.glyphicon.glyphicon-trash
+          |  删除
+include ./includes/footer

@@ -1,0 +1,82 @@
+body {
+    background-color: #fafafa;
+}
+
+div,
+p,
+span {
+    font-family: -apple-system, BlinkMacSystemFont, "Microsoft Yahei", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+h3{
+    margin-top: 10px;
+	margin-bottom: 10px;
+    text-align: left;
+}
+p{
+    margin-bottom: 10px;
+    text-align: left;
+}
+.container{
+    padding-top: 5px;
+}
+
+.mt-60 {
+    margin-top: 60px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid #fff;
+}
+
+.nav-tabs>li.active>a,
+.nav-tabs>li.active>a:hover,
+.nav-tabs>li.active>a:focus {
+    border: 1px solid #eee;
+    border-bottom: 0;
+    border-radius: 0;
+}
+
+.tab-pane {
+    padding: 10px 20px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    -o-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.red {
+    color: #DD4E41;
+    font-size: 18px;
+}
+
+.navbar-brand {
+    color: #fff!important;
+}
+
+.a-name {
+    font-size: 18px;
+    padding: 12px;
+}
+
+.shadow-box {
+    padding: 15px 10px 20px 10px;
+    margin-top: 20px;
+    background-color: #fff;
+    -webkit-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    -moz-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    -ms-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    -o-box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.item {
+    padding: 15px 0;
+    border-bottom: 1px solid #fafafa;
+}

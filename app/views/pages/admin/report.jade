@@ -1,0 +1,38 @@
+include ./includes/header
+include ./includes/nav
+.container.mt-60
+    .row
+        h3.text-center 选择店名，生成报表
+      |         
+      .row
+        .col-md-12
+          .input-group
+            select.form-control(name='', id='')
+              option(value='') 天商微渡店
+              |                         
+              option(value='') 天软微吧店
+              |                         
+              option(value='') 晋滨国际店
+              |                         
+              option(value='') 津京互联店
+            |                     
+            span.input-group-btn
+              button.btn.btn-primary(type='button') 生成
+        |             
+        .col-md-12.mt-20
+          a.btn.btn-success.btn-lg.btn-block(href='add_account.html')
+            span.glyphicon.glyphicon-download-alt
+            |  本月财务报表下载
+      |         
+      .shadow-box
+        .row.item
+          .col-xs-8
+            .a-name
+              a(href='') 2016年11月
+          |                 
+          .col-xs-4
+            a.btn.btn-info.btn-lg.btn-block(href='#')
+              span.glyphicon.glyphicon-download-alt
+              |  下载
+include ./includes/footer    
+        
