@@ -83,24 +83,27 @@ exports.update = function(req, res) {
                         _petcard = _.extend(petcard, petcardObj)
                         _petcard.save(function(err, petcarddata) {
                             if (err) {
-                                console.log(err)
+                                console.log(petcarddata)
+                                res.json({ msg: "发生错误，请联系管理员！", status: 0 })
                             }
                             //这里需要同步 微信数据，这时再将 fee ，bonus balance *100
-
-                            var formdata = {
-                                "code": petcarddata.code,
-                                "card_id": petcarddata.cardid,
-                                "record_bonus": "",
-                                "bonus": petcard.int,
-                                "balance": parseInt(petcarddata.balance * 100),
-                                "record_balance": record_balance,
-                                "notify_optional": {
-                                    "is_notify_bonus": true,
-                                    "is_notify_balance": true,
-                                    "is_notify_custom_field1": true
+                            else{
+                                var formdata = {
+                                    "code": petcarddata.code,
+                                    "card_id": petcarddata.cardid,
+                                    "record_bonus": "",
+                                    "bonus": petcard.int,
+                                    "balance": parseInt(petcarddata.balance * 100),
+                                    "record_balance": record_balance,
+                                    "notify_optional": {
+                                        "is_notify_bonus": true,
+                                        "is_notify_balance": true,
+                                        "is_notify_custom_field1": true
+                                    }
                                 }
+                                updateMember(formdata, old_petcard, petcarddata, user, res) //微信更新会员卡接口
                             }
-                            updateMember(formdata, old_petcard, petcarddata, user, res) //微信更新会员卡接口
+                        
                         })
                     })
                 }
