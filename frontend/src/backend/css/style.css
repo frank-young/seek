@@ -7,18 +7,31 @@ p,
 span {
     font-family: -apple-system, BlinkMacSystemFont, "Microsoft Yahei", Roboto, "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
-}
-h3{
-    margin-top: 10px;
-	margin-bottom: 10px;
     text-align: left;
 }
-p{
+
+h3 {
+    margin-top: 10px;
     margin-bottom: 10px;
     text-align: left;
 }
-.container{
-    padding-top: 5px;
+
+p {
+    margin-bottom: 10px;
+    text-align: left;
+}
+
+button,
+a,
+button:focus,
+a:foucs {
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+
+}
+
+.container {
+    padding: 5px 15px 0px 15px;
 }
 
 .mt-60 {
@@ -58,11 +71,12 @@ p{
 
 .navbar-brand {
     color: #fff!important;
+    margin-left: 5px;
 }
 
 .a-name {
     font-size: 18px;
-    padding: 12px;
+    padding: 5px 8px;
 }
 
 .shadow-box {

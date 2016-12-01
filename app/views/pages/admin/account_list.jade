@@ -4,7 +4,7 @@ include ./includes/nav
 .container.mt-60
   .row.mt-20
     .col-md-12
-      a.btn.btn-success.btn-lg.btn-block(href='add_account.html')
+      a.btn.btn-success.btn-lg.btn-block(href='/manager/account/add')
         span.glyphicon.glyphicon-plus
         |  新建会计账号
   |         
@@ -12,10 +12,10 @@ include ./includes/nav
     .row.item
       .col-xs-8
         .a-name
-          a(href='account_detail.html') 名字
+          a(href='/manager/account/detail') 名字
       |                 
       .col-xs-4
-        a.btn.btn-danger.btn-lg.btn-block(href='#')
+        a.btn.btn-danger.btn-block(href='#')
           span.glyphicon.glyphicon-trash
           |  删除
     |             
@@ -25,7 +25,7 @@ include ./includes/nav
           a(href='') 名字
       |                 
       .col-xs-4
-        a.btn.btn-danger.btn-lg.btn-block(href='#')
+        a.btn.btn-danger.btn-block(href='#')
           span.glyphicon.glyphicon-trash
           |  删除
-include ./includes/footer
+include ./includes/footer_i

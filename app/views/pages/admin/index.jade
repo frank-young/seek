@@ -1,4 +1,4 @@
-include ./includes/header
+include ./includes/header_i
 nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
   .container
       .navbar-header
@@ -18,7 +18,6 @@ nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
           li
             a(href='#') 退出     
 .container.mt-60
-  .row
     h3.text-center 实时数据统计
     .row
       .col-md-12
@@ -45,11 +44,11 @@ nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
               span.red ¥1700.00               
             p 会员充值： ¥200.00         
           #messages.tab-pane.fade(role='tabpanel')
-           h3 晋滨国际店
+            h3 晋滨国际店
             p
               | 总收入：
-              span.red ¥1700.00
-            p 会员充值： ¥200.00                     
+              span.red ¥1700.00               
+            p 会员充值： ¥200.00                          
           #settings.tab-pane.fade(role='tabpanel')
             h3 津京互联店
             p
@@ -65,4 +64,4 @@ nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
         a.btn.btn-primary.btn-lg.btn-block(href='/manager/report')
           span.glyphicon.glyphicon-list-alt
           |  财务报表
-include ./includes/footer
+include ./includes/footer_i
