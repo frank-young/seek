@@ -21,10 +21,8 @@ p {
     text-align: left;
 }
 
-button,
-a,
-button:focus,
-a:foucs {
+.btn,
+.btn:focus {
     outline: none;
     -webkit-tap-highlight-color: transparent;
 
@@ -94,3 +92,17 @@ a:foucs {
     padding: 15px 0;
     border-bottom: 1px solid #fafafa;
 }
+
+.alert{
+    display: none;
+    border-radius: 1px;
+    padding: 11px;
+    font-family: '微软雅黑';
+    margin-bottom: 0;
+}
+.alert-danger{
+    color: #fff;
+    background-color: #F88E8B;
+    border-color: #F88E8B;
+}
+

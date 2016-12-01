@@ -1,4 +1,4 @@
-var Admin = require('../../models/admin/admin') //引入模型
+var Admin = require('../../models/admin/admin') 
 
 
 exports.showSignin = function(req, res) {
@@ -314,8 +314,7 @@ exports.signup = function(req, res) {
 exports.logout = function(req, res) {
     delete req.session.admin
     delete req.session.loginTime
-        // delete app.locals.admin
-    res.redirect('/signin')
+    res.redirect('/manager/signin')
 }
 
 //登录权限

@@ -40,13 +40,17 @@ module.exports = function(app){
   app.get('/manager/signin', Admin.signinUnRequired, Admin.showSignin)
   app.post('/manager/signup/ctrl', Admin.signup)
   app.get('/manager/signup', Admin.signinUnRequired, Admin.showSignup)
-
+  app.get('/manager/logout', Admin.signinRequired, Admin.logout)
+  
   // 管理页面
   app.get('/manager/index', Admin.signinRequired, Home.index)
   app.get('/manager/account', Admin.signinRequired, Home.account)
   app.get('/manager/account/add', Admin.signinRequired, Home.accountAdd)
-  app.get('/manager/account/detail', Admin.signinRequired, Home.accountDetail)
   app.get('/manager/report', Admin.signinRequired, Home.report)
+  app.get('/manager/ctrl/account', Admin.signinRequired, Home.ctrlaccount)
+  app.post('/manager/ctrl/account/add', Admin.signinRequired, Home.ctrlaccountAdd)
+  app.post('/manager/ctrl/report', Admin.signinRequired, Home.ctrlreport)
+  app.delete('/manager/ctrl/account/del',Admin.signinRequired, Home.del)
 
   // 用户信息
   app.post('/user/signup', User.signup)
