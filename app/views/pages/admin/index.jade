@@ -18,50 +18,52 @@ nav.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
           li
             a(href='/manager/logout') 退出     
 .container.mt-60
-    h3.text-center 实时数据统计
+  if role === 20
+    h3.text-center 数据统计 
+      button#refresh.btn.btn-primary.ml-20(type="button")
+        span.glyphicon.glyphicon-refresh
+        | 刷新
     .row
       .col-md-12
         ul.nav.nav-tabs(role='tablist')
           li.active(role='presentation')
-            a(href='#home', role='tab', data-toggle='tab') 天商
+            a(href='#ts', role='tab', data-toggle='tab') 天商
           li(role='presentation')
-            a(href='#profile', role='tab', data-toggle='tab') 天软                     
+            a(href='#tr', role='tab', data-toggle='tab') 天软                     
           li(role='presentation')
-            a(href='#messages', role='tab', data-toggle='tab') 晋滨
+            a(href='#jb', role='tab', data-toggle='tab') 晋滨
           li(role='presentation')
-            a(href='#settings', role='tab', data-toggle='tab') 津京
+            a(href='#jj', role='tab', data-toggle='tab') 津京
         .tab-content
-          #home.tab-pane.fade.in.active(role='tabpanel')
+          #ts.tab-pane.fade.in.active(role='tabpanel')
             h3 天商微渡店
             p
               | 总收入：
-              span.red ¥1700.00        
-            p 会员充值： ¥200.00                          
-          #profile.tab-pane.fade(role='tabpanel')
+              span#ts-data.red                                  
+          #tr.tab-pane.fade(role='tabpanel')
             h3 天软微吧店
             p
               | 总收入：
-              span.red ¥1700.00               
-            p 会员充值： ¥200.00         
-          #messages.tab-pane.fade(role='tabpanel')
+              span#tr-data.red                        
+          #jb.tab-pane.fade(role='tabpanel')
             h3 晋滨国际店
             p
               | 总收入：
-              span.red ¥1700.00               
-            p 会员充值： ¥200.00                          
-          #settings.tab-pane.fade(role='tabpanel')
+              span#jb-data.red                                         
+          #jj.tab-pane.fade(role='tabpanel')
             h3 津京互联店
             p
               | 总收入：
-              span.red ¥1700.00
-            p 会员充值： ¥200.00
-    .row
+              span#jj-data.red 
+  .row
+    if role === 20
       .col-md-6.mt-20
-       a.btn.btn-success.btn-lg.btn-block(href='/manager/account')
+        a.btn.btn-success.btn-lg.btn-block(href='/manager/account')
           span.glyphicon.glyphicon-user
           |  会记管理
-      .col-md-6.mt-20
-        a.btn.btn-primary.btn-lg.btn-block(href='/manager/report')
-          span.glyphicon.glyphicon-list-alt
-          |  财务报表
+    .col-md-6.mt-20
+      a.btn.btn-primary.btn-lg.btn-block(href='/manager/report')
+        span.glyphicon.glyphicon-list-alt
+        |  财务报表
 include ./includes/footer_i
+script(src="../../backend/js/admin/index.js")

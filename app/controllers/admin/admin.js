@@ -346,7 +346,7 @@ exports.adminRequired = function(req, res, next) {
 //超级管理员权限
 exports.superRequired = function(req, res, next) {
     var admin = req.session.admin
-    if (admin.role < 10) {
+    if (admin.role <= 10) {
         return res.json({ status: 1, msg: "你没有操作权限！" })
     } else {
         next()

@@ -40,6 +40,10 @@ p {
     margin-top: 20px;
 }
 
+.ml-20 {
+    margin-left: 20px;
+}
+
 .nav-tabs {
     border-bottom: 1px solid #fff;
 }

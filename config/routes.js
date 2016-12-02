@@ -44,13 +44,15 @@ module.exports = function(app){
   
   // 管理页面
   app.get('/manager/index', Admin.signinRequired, Home.index)
-  app.get('/manager/account', Admin.signinRequired, Home.account)
-  app.get('/manager/account/add', Admin.signinRequired, Home.accountAdd)
+  app.get('/manager/account', Admin.signinRequired,Admin.superRequired, Home.account)
+  app.get('/manager/account/add', Admin.signinRequired,Admin.superRequired, Home.accountAdd)
   app.get('/manager/report', Admin.signinRequired, Home.report)
-  app.get('/manager/ctrl/account', Admin.signinRequired, Home.ctrlaccount)
-  app.post('/manager/ctrl/account/add', Admin.signinRequired, Home.ctrlaccountAdd)
+  app.get('/manager/ctrl/account', Admin.signinRequired,Admin.superRequired, Home.ctrlaccount)
+  app.post('/manager/ctrl/account/add', Admin.signinRequired,Admin.superRequired, Home.ctrlaccountAdd)
   app.post('/manager/ctrl/report', Admin.signinRequired, Home.ctrlreport)
-  app.delete('/manager/ctrl/account/del',Admin.signinRequired, Home.del)
+  app.delete('/manager/ctrl/account/del',Admin.signinRequired,Admin.superRequired, Home.del)
+  app.get('/manager/report/download', Admin.signinRequired, Order.monthListManager)
+  app.get('/manager/report/create', Admin.signinRequired, Order.downloadMonthManager)
 
   // 用户信息
   app.post('/user/signup', User.signup)

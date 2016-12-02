@@ -1,8 +1,12 @@
 var Admin = require('../../models/admin/admin')
 
 exports.index = function(req, res) {
-    res.render('admin/index', {
-        title: '首页'
+    var _admin = req.session.admin
+    Admin.findOne({ "phone": _admin.phone},function(err, admin) {
+        res.render('admin/index', {
+            title: '首页',
+            role:admin.role
+        })
     })
 }
 

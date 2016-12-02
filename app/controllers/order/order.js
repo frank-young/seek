@@ -539,19 +539,16 @@ exports.api = function(req, res) {
         D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate())
 
     Order.fetch({ "domainlocal": domain, "year": Y, "month": M, "day": D }, function(err, orders) {
-        var realTotal = 0,
-            noincome = 0
+        var realTotal = 0
 
         orders.forEach(function(ele) {
             realTotal += ele.realTotal
-            noincome += ele.noincome
         })
 
         res.json({
             msg: "请求成功",
             status: 1,
-            realTotal: realTotal,
-            noincome: noincome
+            total: realTotal
         })
 
     })
@@ -634,6 +631,123 @@ exports.gradeAllSomeday = function(req, res) {
             year: Y,
             month: M,
             day: D
+        })
+    })
+}
+
+//财务报表 列表
+exports.monthListManager = function(req, res) {
+    var user = req.session.user
+    Order.fetch({ "domainlocal": user.domain }, function(err, orders) {
+        var arr = []
+        orders.forEach(function(order) {
+            arr.push({
+                'year': order.year,
+                'month': order.month
+            })
+        })
+
+        var month = distinct(arr)
+
+        res.json({
+            msg: "请求成功",
+            status: 1,
+            orders: month
+        })
+    })
+}
+
+//下载月报表  会计总号，代码未重构
+exports.downloadMonthManager = function(req, res) {
+    var year = req.query.year
+    var month = req.query.month
+
+    var domain = req.query.user
+
+    creatReport(domain,year,month,res)
+
+}
+
+//去重
+function distinct(arr) {
+    var ret = [],
+        length = arr.length;
+    for (var i = 0; i < length; i++) {
+        for (j = i + 1; j < length; j++) {
+            if (arr[i].year === arr[j].year && arr[i].month === arr[j].month) {
+                j = ++i;
+            }
+        }
+        ret.push(arr[i]);
+    }
+    return ret;
+}
+
+//报表生成
+function creatReport(domain,year,month,res){
+    var fields = ['时间', '订单编号', '总价', '优惠', '次卡', '挂帐金额', '现金', '微信', '支付宝', '校园卡', '应收', '抹零', '充值金额', '充值赠送', '实收']
+    var orderData = []
+    Order.fetch({ "domainlocal": domain, "year": year, "month": month }, function(err, orders) {
+
+        orders.forEach(function(value, index) {
+            var orderObj = {
+                "时间": value.year + '-' + value.month + '-' + value.day,
+                "订单编号": value.orderNum,
+                "总价": value.total,
+                "优惠": value.reduce,
+                "次卡": value.onceincome,
+                '挂帐金额': value.noincome,
+                '现金': value.cashincome,
+                '微信': value.wxincome,
+                '支付宝': value.alipayincome,
+                '校园卡': value.schoolincome,
+                "应收": value.reduceAfter,
+                "抹零": value.erase,
+                "充值金额": 0,
+                "充值赠送": 0,
+                "实收": value.realTotal
+
+            }
+            orderData.push(orderObj)
+        })
+
+        Petcardorder.fetch({ "domainlocal": user.domain, "year": year, "month": month }, function(err, petcardorders) {
+            petcardorders.forEach(function(value, index) {
+                var petcardorderObj = {
+                    "时间": value.year + '-' + value.month + '-' + value.day,
+                    "订单编号": value.order_num,
+                    "总价": 0,
+                    "优惠": 0,
+                    "次卡": 0,
+                    '挂帐金额': 0,
+                    '现金': value.cashincome,
+                    '微信': value.wxincome,
+                    '支付宝': value.alipayincome,
+                    '校园卡': 0,
+                    "应收": 0,
+                    "抹零": 0,
+                    "充值金额": value.fee,
+                    "充值赠送": value.bonus,
+                    "实收": value.fee - value.bonus
+
+                }
+                orderData.push(petcardorderObj)
+            })
+            var csv = json2csv({ data: orderData, fields: fields })
+
+            var file = year + '年' + month + '月度报表.csv'
+            var link = '/orderprint/report/' + file
+
+            fs.writeFile('frontend/src' + link, csv, function(err) {
+                if (err) throw err
+                res.json({
+                    status: 1,
+                    msg: "生成文件成功！",
+                    link: link,
+                    file: file
+                })
+            })
+
         })
     })
 }
