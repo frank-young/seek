@@ -6,13 +6,15 @@ include ./includes/nav
   .row
     .col-md-12
       .input-group
-        select.form-control(name='', id='')
-          option(value='') 天商微渡店
-          option(value='') 天软微吧店
-          option(value='') 晋滨国际店
-          option(value='') 津京互联店
+        input(type="hidden",id="year")
+        input(type="hidden",id="month")
+        select.form-control(name='report', id='report')
+          option(value='seek01') 天软微吧店
+          option(value='seek02') 天商微渡店
+          option(value='seek03') 晋滨国际店
+          option(value='seek04') 津京互联店
         span.input-group-btn
-          button.btn.btn-primary(type='button') 生成
+          button#submit-report.btn.btn-primary(type='button') 生成
     .col-md-12.mt-20
       a.btn.btn-success.btn-lg.btn-block(href='')
         span.glyphicon.glyphicon-download-alt
@@ -27,4 +29,5 @@ include ./includes/nav
           span.glyphicon.glyphicon-download-alt
           |  下载
 include ./includes/footer_i  
+script(src="../../backend/js/admin/report.js")
         

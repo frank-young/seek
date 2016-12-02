@@ -637,8 +637,8 @@ exports.gradeAllSomeday = function(req, res) {
 
 //财务报表 列表
 exports.monthListManager = function(req, res) {
-    var user = req.session.user
-    Order.fetch({ "domainlocal": user.domain }, function(err, orders) {
+    var domain = req.query.domain
+    Order.fetch({ "domainlocal": domain }, function(err, orders) {
         var arr = []
         orders.forEach(function(order) {
             arr.push({
@@ -648,11 +648,10 @@ exports.monthListManager = function(req, res) {
         })
 
         var month = distinct(arr)
-
         res.json({
             msg: "请求成功",
             status: 1,
-            orders: month
+            month: month
         })
     })
 }
@@ -661,8 +660,7 @@ exports.monthListManager = function(req, res) {
 exports.downloadMonthManager = function(req, res) {
     var year = req.query.year
     var month = req.query.month
-
-    var domain = req.query.user
+    var domain = req.query.domain
 
     creatReport(domain,year,month,res)
 
@@ -711,7 +709,7 @@ function creatReport(domain,year,month,res){
             orderData.push(orderObj)
         })
 
-        Petcardorder.fetch({ "domainlocal": user.domain, "year": year, "month": month }, function(err, petcardorders) {
+        Petcardorder.fetch({ "domainlocal": domain, "year": year, "month": month }, function(err, petcardorders) {
             petcardorders.forEach(function(value, index) {
                 var petcardorderObj = {
                     "时间": value.year + '-' + value.month + '-' + value.day,
@@ -751,3 +749,11 @@ function creatReport(domain,year,month,res){
         })
     })
 }
+
+
+
+
+
+
+
+

@@ -7,8 +7,8 @@ $(document).ready(function() {
 
 //获取数据
 function getData() {
-    getServer('seek01','ts-data')
-    getServer('seek02','tr-data')
+    getServer('seek01','tr-data')
+    getServer('seek02','ts-data')
     getServer('seek03','jb-data')
     getServer('seek04','jj-data')
 }
@@ -25,7 +25,6 @@ function getServer(domain,id){
             fillData(id,data.total)
         }
     });
-    // setTimeout(getServer(domain,id),10000)
 }
 
 //填充数据

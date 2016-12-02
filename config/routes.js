@@ -51,7 +51,7 @@ module.exports = function(app){
   app.post('/manager/ctrl/account/add', Admin.signinRequired,Admin.superRequired, Home.ctrlaccountAdd)
   app.post('/manager/ctrl/report', Admin.signinRequired, Home.ctrlreport)
   app.delete('/manager/ctrl/account/del',Admin.signinRequired,Admin.superRequired, Home.del)
-  app.get('/manager/report/download', Admin.signinRequired, Order.monthListManager)
+  app.get('/manager/report/list', Admin.signinRequired, Order.monthListManager)
   app.get('/manager/report/create', Admin.signinRequired, Order.downloadMonthManager)
 
   // 用户信息
