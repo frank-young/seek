@@ -70,8 +70,8 @@ module.exports = function(app){
   app.get('/successpassword', User.successpassword)
   app.get('/activation/:verify', User.signActivation)
   // app.get('/admin/user/list', User.signinRequired,User.adminRequired, User.list)
-  // app.post('/user/editpass', User.signinRequired, User.editpass)
-  // app.get('/user/getphone', User.signinRequired, User.getphone)
+  app.post('/user/editpass', User.signinRequired, User.editpass)
+  app.get('/user/getphone', User.signinRequired, User.getphone)
   
   // 门店信息设置
   app.get('/domain/add',User.signinRequired,Domain.domainRequired, Domain.add )

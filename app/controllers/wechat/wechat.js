@@ -780,7 +780,7 @@ exports.cardResponse = function(req, res) {
             content = '<a href="https://hd.faisco.cn/10865156/6/load.html?style=0">点击参与活动</a> '
             msgReplay(msg, res, content)
         }else if (msg.content == '投票') {
-            content = '<a href="http://mp.weixin.qq.com/s?__biz=MzIxOTEzMTk3MQ==&mid=2650425910&idx=2&sn=7898d770639f06f978f6c77ab4cb74b2&chksm=8fd1131ab8a69a0c9d71929ddf4b07e33d9d371d4616f37803e6647716669b371baac0204318#rd">点击此处进行投票</a> '
+            content = '<a href="http://mp.weixin.qq.com/mp/homepage?__biz=MzIxOTEzMTk3MQ==&hid=2&sn=179108676e27a4130eef1543d621cd68#wechat_redirect">点击此处进行投票</a> '
             msgReplay(msg, res, content)
         } else if (msg.content == '会员') {
             content = "<a href='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQFY8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0UwU3V0empsWDJjbUxJQ1ppMl9IAAIEb9gyWAMEgDPhAQ%3D%3D'>点击查看领取会员卡二维码</a>"

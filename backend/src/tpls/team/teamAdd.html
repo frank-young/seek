@@ -16,7 +16,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">姓名</label>
 							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.name.$invalid}">
-								<input type="text" name="name" class="form-control" placeholder="姓名" ng-model="user.name" ng-disabled="isEdit" required ng-maxlength="50"></div>
+								<input type="text" name="name" class="form-control" placeholder="姓名（必填）" ng-model="user.name" ng-disabled="isEdit" required ng-maxlength="50"></div>
 						</div>
 					</div>
 
@@ -25,7 +25,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">邮箱</label>
 							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.mail.$invalid}">
-								<input type="email" name="mail" class="form-control" placeholder="邮箱" ng-model="user.email" ng-disabled="isEdit"  ng-maxlength="50"></div>
+								<input type="email" name="mail" class="form-control" placeholder="邮箱（必填）" ng-model="user.email" ng-disabled="isEdit"  ng-maxlength="50" required></div>
 						</div>
 					</div>
 					<div class="col-sm-12">
@@ -33,7 +33,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">密码</label>
 							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.password.$invalid}">
-								<input type="password" name="password" class="form-control" placeholder="密码" ng-model="user.password" ng-disabled="isEdit" ng-maxlength="20" required></div>
+								<input type="password" name="password" class="form-control" placeholder="密码（必填）" ng-model="user.password" ng-disabled="isEdit" ng-maxlength="20" required></div>
 						</div>
 
 					</div>
@@ -41,7 +41,7 @@
 						<div class="form-group">
 							<label class="col-sm-3 control-label">个人手机（登录账号）</label>
 							<div class="col-sm-9" ng-class="{'has-danger': teamFrom.phone.$invalid}" required>
-								<input type="text" name="phone" class="form-control" placeholder="个人手机" ng-model="user.phone" ng-disabled="isEdit" ng-maxlength="20"></div>
+								<input type="text" name="phone" class="form-control" placeholder="个人手机（必填）" ng-model="user.phone" ng-disabled="isEdit" ng-maxlength="20"></div>
 						</div>
 						
 					</div>
