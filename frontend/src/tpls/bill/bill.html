@@ -105,7 +105,6 @@
                                             <button type="button" ng-click="" class="button button-primary" data-animation="am-fade-and-scale" placement="center" data-template-url="member.tpl.html" bs-modal>选择</button>
                                         </td>
                                     </tr>
-                                    
                                 </tbody>
                             </table>
                         </div>
@@ -345,6 +344,13 @@
                 <span ng-bind="order.dishNum">
             </span>
             </div>
+            <div class="detail-item">
+                <span>
+              就餐方式：
+            </span>
+                <span ng-bind="order.eatType">
+            </span>
+            </div>
             <div class="hr">------------------------------------------------------------------------------</div>
             <div class="detail-item">
                 <table class="u-full-width">
@@ -393,7 +399,7 @@
                 <span ng-bind="order.memberPhone">             
             </span>
             </div>
-        <!--     <div class="detail-item" ng-show="order.isMember">
+            <!--     <div class="detail-item" ng-show="order.isMember">
                 <span>
               会员卡号：
             </span>
@@ -495,12 +501,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <!-- <button type="button" class="close" ng-click="$hide()">&times;</button> -->
-                    <h5 class="modal-title" style="color:#fff; margin-bottom: 0">设置取餐号</h5>
+                    <h5 class="modal-title" style="color:#fff; margin-bottom: 0">额外设置</h5>
                 </div>
                 <div class="modal-body" style="height:560px;padding-top: 50px;">
-                    <h5>结账已经成功，请设置取餐号！</h5>
+                    <h5>结账已经成功，请设置就餐方式和取餐号！</h5>
                     <form name="dishnumForm">
+                        <select name="" id="" ng-model="order.eatType" style="padding:24px 10px;width:120px;height:50px;font-size:24px;margin-right:20px;vertical-align: sub;">
+                            <option value="大厅">大厅</option>
+                            <option value="包间">包间</option>
+                            <option value="外带">外带</option>
+                        </select>
                         <input type="text" name="dishnum" ng-model="dishNum" autofocus style="padding:24px 10px;width:120px;font-size:24px;margin-right:20px;vertical-align: sub;">
+                        
                         <button class="button button-primary p-sure" ng-disabled="dishnumForm.dishnum.$invalid" ng-click="billing(dishNum)">确认</button>
                     </form>
                     <div ng-show="order.payType==0">

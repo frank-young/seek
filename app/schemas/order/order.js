@@ -28,6 +28,7 @@ var OrderSchema = new mongoose.Schema({
 	memberBalance:String,
 	editPeople:String,
 	dishNum:String,
+	eatType:String,
 	noincome:Number,
 	onceincome:Number,
 	cashincome:Number,

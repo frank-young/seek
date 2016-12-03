@@ -118,7 +118,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.order = {}
 		$scope.payTypeArr = []
 		$scope.creditArr = []
-		$scope.discountDfault = [95,90,85]
+		$scope.discountDfault = [95,90,85,80]
 		$scope.payType = []
 
 		//获取支付方式
@@ -379,6 +379,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"otherincome":0,
 					"petcardincome":0,
 					"memberBalance":0,
+					"eatType":'大厅',
 					"total": $scope.total,
 					"reduce": $scope.total - $scope.totalReal,
 					"reduceAfter": $scope.totalReal,

@@ -7,10 +7,7 @@ var PetcardSchema = new mongoose.Schema({
 	nickname:String,
 	type:String,
 	sex:String,
-	phone:{
-		unique:true,
-		type:String
-	},
+	phone:String,
 	password:String,
 	birthday:String,
 	location:String,

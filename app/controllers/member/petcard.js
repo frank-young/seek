@@ -168,7 +168,7 @@ exports.reduce = function(req, res) {
                                 "code": petcarddata.code,
                                 "card_id": petcarddata.cardid,
                                 "record_bonus": record_bonus,
-                                "bonus": parseInt(petcard.int + petcardObj.total_fee),
+                                "bonus": parseInt(petcardObj.int),
                                 "balance": parseInt(petcarddata.balance * 100),
                                 "record_balance": record_balance,
                                 "notify_optional": {

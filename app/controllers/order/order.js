@@ -157,6 +157,7 @@ exports.save = function(req, res) {
                     peopleNum: orderObj.peopleNum,
                     dish: orderObj.dish,
                     dishNum: orderObj.dishNum,
+                    eatType: orderObj.eatType,
                     payType: orderObj.payType,
                     payStatus: orderObj.payStatus,
                     total: orderObj.total,

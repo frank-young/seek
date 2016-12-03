@@ -20,7 +20,7 @@ var config = {
         appSecret: '07edc09a46dba2e8d0b1964b5aec3a46', //       143d36866e792512dc76ea5d11e8df62
         token: 'weixin'
     },
-    card: "pQw7gv4tnvAt_M2avr2JW_Zog8Bw",  // 原来 ：pQw7gvyKKtUmYGizNvXKYIn15vGc  新卡：pQw7gv4tnvAt_M2avr2JW_Zog8Bw
+    card: "pQw7gv4tnvAt_M2avr2JW_Zog8Bw",  // 原来 ：pQw7gvyKKtUmYGizNvXKYIn15vGc  新卡：pQw7gv4tnvAt_M2avr2JW_Zog8Bw  测试：pQw7gv2DCJQJiR39cHVr2uW0a6xw
     code: "435350747055"
 }
 
@@ -897,7 +897,7 @@ exports.cardResponse = function(req, res) {
                                         }
                                     } else { //未激活
                                         var content = '恭喜您，成功领取了seek cafe储值会员卡，请激活会员卡！'
-
+                                        console.log('恭喜您，成功领取了seek cafe储值会员卡，请激活会员卡！')
                                         var petcardObj = {
                                             cardid: msg.cardid,
                                             openid: msg.fromusername,
@@ -918,6 +918,7 @@ exports.cardResponse = function(req, res) {
                                             if (err) {
                                                 console.log(err)
                                             }
+                                            console.log(petcard)
                                             // msgReplay(msg, res, content)
                                             res.json({
                                                 status: 1,

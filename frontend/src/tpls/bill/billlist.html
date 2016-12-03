@@ -74,6 +74,13 @@
                     <span>取餐编号：</span>
                     <span ng-bind="order.dishNum"></span>
                 </div>
+                <div class="detail-item">
+                    <span>
+                      就餐方式：
+                    </span>
+                    <span ng-bind="order.eatType">
+                    </span>
+                </div>
                 <div class="hr">
                     ------------------------------------------------------------------------------
                 </div>
@@ -148,7 +155,7 @@
         </div>
         <!-- <button class="button  btn-bill">清空</button>
     -->
-</div>
+    </div>
 </div>
 <script type="text/ng-template" id="warning.tpl.html">
     <div class="modal modal-warning" tabindex="-1" role="dialog">
