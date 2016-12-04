@@ -206,12 +206,19 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.panels = -1
 				$scope.changeAlert("若想重新更换支付方式，请一定点击下面“取消减免”按钮！")
 					
+			}else if(value == "微信-"||value == "微"){
+				$scope.order.wxincome = $scope.order.realTotal
+			}else if(value == "支付宝-"||value == "支"){
+				$scope.order.alipayincome = $scope.order.realTotal
+			}else if(value == "刷卡"){
+				$scope.order.cardincome = $scope.order.realTotal
 			}else{
 				$scope.outwrap = false
 				$scope.panels = -1
 				$scope.order.otherincome = $scope.order.realTotal  // 计入其他收入
 
 			}
+
 
 		}
 
@@ -378,6 +385,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"schoolincome":0,
 					"otherincome":0,
 					"petcardincome":0,
+					"cardincome":0,
 					"memberBalance":0,
 					"eatType":'大厅',
 					"total": $scope.total,

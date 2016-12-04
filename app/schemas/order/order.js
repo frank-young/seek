@@ -39,6 +39,7 @@ var OrderSchema = new mongoose.Schema({
 	memberincome:Number,
 	memberBalance:Number,
 	petcardincome:Number,
+	cardincome:Number,
 	credit:Number,
 	other1:String,
 	other2:String,

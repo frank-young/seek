@@ -171,6 +171,7 @@ exports.save = function(req, res) {
                     alipayincome: Math.round(orderObj.alipayincome * 100) / 100,
                     schoolincome: Math.round(orderObj.schoolincome * 100) / 100,
                     petcardincome: Math.round(orderObj.petcardincome * 100) / 100,
+                    cardincome: Math.round(orderObj.cardincome * 100) / 100,
                     memberBalance: Math.round(orderObj.memberBalance * 100) / 100,
                     otherincome: Math.round(orderObj.otherincome * 100) / 100,
                     credit: Math.round(orderObj.credit * 100) / 100,
@@ -403,6 +404,7 @@ exports.gradeToday = function(req, res) {
             schoolincome = 0,
             otherincome = 0,
             petcardincome = 0,
+            cardincome = 0,
             total = 0,
             totalNeed = 0,
             reduceAfter = 0,
@@ -419,6 +421,7 @@ exports.gradeToday = function(req, res) {
             alipayincome += ele.alipayincome
             schoolincome += ele.schoolincome
             petcardincome += ele.petcardincome
+            cardincome += ele.cardincome
             total += ele.total
             reduceAfter += ele.reduceAfter
             erase += ele.erase
@@ -443,6 +446,7 @@ exports.gradeToday = function(req, res) {
             schoolincome: schoolincome,
             otherincome: otherincome,
             petcardincome: petcardincome,
+            cardincome: cardincome,
             total: total,
             stand: stand,
             start: loginTime,
@@ -479,6 +483,7 @@ exports.gradeAllToday = function(req, res) {
             schoolincome = 0,
             otherincome = 0,
             petcardincome = 0,
+            cardincome = 0,
             total = 0,
             totalNeed = 0,
             reduceAfter = 0,
@@ -495,6 +500,7 @@ exports.gradeAllToday = function(req, res) {
             alipayincome += ele.alipayincome
             schoolincome += ele.schoolincome
             petcardincome += ele.petcardincome
+            cardincome += ele.cardincome
             total += ele.total
             reduceAfter += ele.reduceAfter
             erase += ele.erase
@@ -517,6 +523,7 @@ exports.gradeAllToday = function(req, res) {
             schoolincome: schoolincome,
             otherincome: otherincome,
             petcardincome: petcardincome,
+            cardincome: cardincome,
             total: total,
             stand: stand,
             start: loginTime,
@@ -585,6 +592,7 @@ exports.gradeAllSomeday = function(req, res) {
             schoolincome = 0,
             otherincome = 0,
             petcardincome = 0,
+            cardincome = 0,
             total = 0,
             totalNeed = 0,
             reduceAfter = 0,
@@ -601,6 +609,7 @@ exports.gradeAllSomeday = function(req, res) {
             alipayincome += ele.alipayincome
             schoolincome += ele.schoolincome
             petcardincome += ele.petcardincome
+            cardincome += ele.cardincome
             total += ele.total
             reduceAfter += ele.reduceAfter
             erase += ele.erase
@@ -623,6 +632,7 @@ exports.gradeAllSomeday = function(req, res) {
             schoolincome: schoolincome,
             otherincome: otherincome,
             petcardincome: petcardincome,
+            cardincome: cardincome,
             total: total,
             stand: stand,
             start: loginTime,
@@ -684,7 +694,7 @@ function distinct(arr) {
 
 //报表生成
 function creatReport(domain,year,month,res){
-    var fields = ['时间', '订单编号', '总价', '优惠', '次卡', '挂帐金额', '现金', '微信', '支付宝', '校园卡', '应收', '抹零', '充值金额', '充值赠送', '实收']
+    var fields = ['时间', '订单编号', '总价', '优惠', '次卡', '挂帐金额', '现金', '微信', '支付宝', '刷卡', '校园卡', '应收', '抹零', '充值金额', '充值赠送', '实收']
     var orderData = []
     Order.fetch({ "domainlocal": domain, "year": year, "month": month }, function(err, orders) {
 
@@ -699,6 +709,7 @@ function creatReport(domain,year,month,res){
                 '现金': value.cashincome,
                 '微信': value.wxincome,
                 '支付宝': value.alipayincome,
+                '刷卡': value.cardincome,
                 '校园卡': value.schoolincome,
                 "应收": value.reduceAfter,
                 "抹零": value.erase,
