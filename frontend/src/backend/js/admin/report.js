@@ -1,17 +1,31 @@
 $(document).ready(function() {
-
-    // $('#submit-report').on('click',function(){
-    // 	$('#report').val()
-    // })
-
-    getList('seek02')
+    var arr = ['seek01','seek02','seek03','seek04']
+    getDate(arr)
     
     $('#submit-report').on('click',function(){
-    	getDownload('seek02','2016','11')
+        var report = $('#report').val()
+    	var name = $('#report').find("option:selected").text()
+        var need = hasFile(report)
+        var shop = JSON.parse(localStorage.getItem(report))
+
+        console.log(name)
+        clearHtml()
+        if(need){
+            shop.forEach(function(value,index){
+                createFile(report,name,value.year,value.month)
+            })
+        }
     })
+})
 
-});
+//请求所有店铺
+function getDate(arr){
+    arr.forEach(function(value,index){
+        getList(value)
+    })
+}
 
+//获取门店日期报表
 function getList(domain){
     jQuery.ajax({
         url: '/manager/report/list?domain='+domain,
@@ -20,22 +34,60 @@ function getList(domain){
 
         },
         success: function(data) {
-        	console.log(data)
+            localStorage.setItem(domain,JSON.stringify(data.month))
         }
     });
 
 }
 
-function getDownload(domain,year,month){
+//店铺文件的存在判断
+function hasFile(value){
+    if(JSON.parse(localStorage.getItem(value)) !== null || JSON.parse(localStorage.getItem(value)) !== []){
+        return true
+    }else{
+        return false
+    }
+}
+
+// 生成文件
+function createFile(domain,name,year,month){
     jQuery.ajax({
-        url: '/manager/report/create?domain='+domain+'&year='+year+'&month='+month,
+        url: '/manager/report/create?domain='+domain+'&name='+name+'&year='+year+'&month='+month,
         type: "get",
         beforeSend: function() {
 
         },
         success: function(data) {
-        	console.log(data)
+            addHtml(data.file,data.link)
         }
-    });
-
+    })
 }
+
+//清除html
+function clearHtml(){
+    $('#list').html("")
+}
+
+//添加html
+function addHtml(name,link){
+    $('#list').append(tpls(name,link))
+}
+
+//生成列表
+function tpls(name,link){
+    var html = '<div class="row item">'+
+                    '<div class="col-xs-8">'+
+                        '<div class="a-name">'+
+                            '<a href="'+link+'">'+name+'</a>'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="col-xs-4">'+
+                        '<a href="'+link+'" class="btn btn-info btn-block" download>'+
+                            '<span class="glyphicon glyphicon-download-alt"></span>下载'+
+                        '</a>'+
+                    '</div>'+
+                '</div>';
+
+    return html;
+}
+

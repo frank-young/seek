@@ -669,11 +669,12 @@ exports.monthListManager = function(req, res) {
 
 //下载月报表  会计总号，代码未重构
 exports.downloadMonthManager = function(req, res) {
-    var year = req.query.year
-    var month = req.query.month
-    var domain = req.query.domain
+    var year = req.query.year,
+        month = req.query.month,
+        domain = req.query.domain,
+        name = req.query.name
 
-    creatReport(domain,year,month,res)
+    creatReport(domain,name,year,month,res)
 
 }
 
@@ -693,7 +694,7 @@ function distinct(arr) {
 }
 
 //报表生成
-function creatReport(domain,year,month,res){
+function creatReport(domain,name,year,month,res){
     var fields = ['时间', '订单编号', '总价', '优惠', '次卡', '挂帐金额', '现金', '微信', '支付宝', '刷卡', '校园卡', '应收', '抹零', '充值金额', '充值赠送', '实收']
     var orderData = []
     Order.fetch({ "domainlocal": domain, "year": year, "month": month }, function(err, orders) {
@@ -745,7 +746,7 @@ function creatReport(domain,year,month,res){
             })
             var csv = json2csv({ data: orderData, fields: fields })
 
-            var file = year + '年' + month + '月度报表.csv'
+            var file = name+year + '年' + month + '月报表.csv'
             var link = '/orderprint/report/' + file
 
             fs.writeFile('frontend/src' + link, csv, function(err) {
