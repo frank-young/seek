@@ -2,21 +2,22 @@ var Admin = require('../../models/admin/admin')
 
 exports.index = function(req, res) {
     var _admin = req.session.admin
-    Admin.findOne({ "phone": _admin.phone},function(err, admin) {
-        res.render('admin/index', {
-            title: '首页',
-            role:admin.role
-        })
+    res.render('admin/index', {
+        title: '首页',
+        role: _admin.role,
+        name: _admin.name
     })
 }
 
 exports.account = function(req, res) {
+    var _admin = req.session.admin
     Admin.fetch({ "role": { "$lte": 10 } }, function(err, admins) {
         // 查询权限小于10的数据
         res.render('admin/account_list', {
             title: '会计账户管理',
             status: 1,
-            admins: admins
+            admins: admins,
+            name: _admin.name
         })
 
     })
@@ -24,14 +25,18 @@ exports.account = function(req, res) {
 }
 
 exports.accountAdd = function(req, res) {
+    var _admin = req.session.admin
     res.render('admin/account_add', {
-        title: '添加会计账户'
+        title: '添加会计账户',
+        name: _admin.name
     })
 }
 
 exports.report = function(req, res) {
+    var _admin = req.session.admin
     res.render('admin/report', {
-        title: '财务报表'
+        title: '财务报表',
+        name: _admin.name
     })
 }
 

@@ -41,6 +41,8 @@ module.exports = function(app){
   app.post('/manager/signup/ctrl', Admin.signup)
   app.get('/manager/signup', Admin.signinUnRequired, Admin.showSignup)
   app.get('/manager/logout', Admin.signinRequired, Admin.logout)
+  app.get('/manager/setting', Admin.signinRequired, Admin.setting)
+  app.post('/manager/ctrl/setting', Admin.signinRequired, Admin.editpass)
   
   // 管理页面
   app.get('/manager/index', Admin.signinRequired, Home.index)

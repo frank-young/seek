@@ -13,15 +13,26 @@ exports.showSignup = function(req, res) {
     })
 }
 
+exports.setting = function(req, res) {
+    var admin = req.session.admin
+
+    res.render('admin/setting', {
+        title: '修改密码',
+        name: admin.name,
+        phone: admin.phone
+
+    })
+}
+
 
 //修改密码
 exports.editpass = function(req, res) {
     var _admin = req.session.admin,
-        password = req.body.setting.password,
-        newpassword = req.body.setting.newpassword,
-        surepassword = req.body.setting.surepassword,
-        phone = req.body.setting.phone,
-        name = req.body.setting.name
+        password = req.body.admin.password,
+        newpassword = req.body.admin.newpassword,
+        surepassword = req.body.admin.surepassword,
+        phone = req.body.admin.phone,
+        name = req.body.admin.name
 
     var rePhone = /^1[3|5|7|8]\d{9}$/
     var rePassword = /^[\w\@\.\_]+$/
@@ -87,7 +98,7 @@ exports.editpass = function(req, res) {
             msg: "新密码长度必须大于6位，小于20位！"
         })
     } else {
-        Admin.findOne({ "email": _admin.email }, function(err, admin) {
+        Admin.findOne({ "phone": _admin.phone }, function(err, admin) {
             if (err) {
                 res.json({
                     status: 0,
@@ -122,7 +133,7 @@ exports.editpass = function(req, res) {
                             }
                             if (isMatch) {
 
-                                Admin.findOne({ "email": _admin.email }, function(err, admin) {
+                                Admin.findOne({ "phone": _admin.phone }, function(err, admin) {
                                     admin.password = newpassword
                                     admin.phone = phone
                                     admin.name = name
@@ -135,7 +146,7 @@ exports.editpass = function(req, res) {
                                         }
                                         res.json({
                                             status: 1,
-                                            msg: "修改密码成功,即将退出，请重新登录！"
+                                            msg: "修改密码成功！"
                                         })
 
                                     })

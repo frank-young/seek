@@ -2,27 +2,39 @@ include ./includes/header_i
 include ./includes/nav
 .container.mt-60
   .shadow-box
-    form#account-add
+    form#setting
       .row
-        h3.text-center 新建会计账号
+        h3.text-center #{title}             
       .row.item
         .col-xs-12.col-md-6.col-md-offset-3
           .input-group.input-group-lg
             span.input-group-addon
               i.glyphicon.glyphicon-user
-            input.form-control(type='text', placeholder='名称',name="account[name]",required)                
+            input.form-control(type='text', placeholder='姓名',name="admin[name]",value="#{name}",required)
       .row.item
         .col-xs-12.col-md-6.col-md-offset-3
           .input-group.input-group-lg
             span.input-group-addon
               i.glyphicon.glyphicon-phone
-            input.form-control(type='text', placeholder='手机号',name="account[phone]",required)                
+            input.form-control(type='text', placeholder='手机',name="admin[phone]",value="#{phone}",required)
       .row.item
         .col-xs-12.col-md-6.col-md-offset-3
           .input-group.input-group-lg
             span.input-group-addon
               i.glyphicon.glyphicon-lock
-            input.form-control(type='password', placeholder='密码',name="account[password]",required)
+            input.form-control(type='password', placeholder='原密码',name="admin[password]",required)
+      .row.item
+        .col-xs-12.col-md-6.col-md-offset-3
+          .input-group.input-group-lg
+            span.input-group-addon
+              i.glyphicon.glyphicon-lock
+            input.form-control(type='password', placeholder='新密码',name="admin[newpassword]",required)
+      .row.item
+        .col-xs-12.col-md-6.col-md-offset-3
+          .input-group.input-group-lg
+            span.input-group-addon
+              i.glyphicon.glyphicon-lock
+            input.form-control(type='password', placeholder='确认新密码',name="admin[surepassword]",required)
       .row
         .col-xs-12.col-md-6.col-md-offset-3
           div#f-alert.alert.alert-danger(role="alert")                 
@@ -34,4 +46,4 @@ include ./includes/nav
 script(src="../../backend/libs/jquery/dist/jquery.min.js")
 script(src="../../backend/libs/bootstrap/dist/js/bootstrap.min.js")
 script(src="../../backend/js/admin/tools.js")
-script(src="../../backend/js/admin/account_add.js")
+script(src="../../backend/js/admin/setting.js")
