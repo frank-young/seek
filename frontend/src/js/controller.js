@@ -76,6 +76,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 减价
 		$scope.reduceFunc = function(value){
+
 			cashFunc(value)
 		}
 

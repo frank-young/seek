@@ -14,20 +14,8 @@ include ./includes/nav
           option(value='seek03') 晋滨国际店
           option(value='seek04') 津京互联店
         span.input-group-btn
-          button#submit-report.btn.btn-primary(type='button') 生成
-    .col-md-12.mt-20
-      a.btn.btn-success.btn-lg.btn-block(href='')
-        span.glyphicon.glyphicon-download-alt
-        |  本月财务报表下载
-  .shadow-box
-    .row.item
-      .col-xs-8
-        .a-name
-          a(href='') 2016年11月
-      .col-xs-4
-        a.btn.btn-info.btn-block(href='#')
-          span.glyphicon.glyphicon-download-alt
-          |  下载
+          button#submit-report.btn.btn-success(type='button') 生成
+  div#list.shadow-box
 include ./includes/footer_i  
 script(src="../../backend/js/admin/report.js")
         
