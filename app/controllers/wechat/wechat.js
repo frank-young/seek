@@ -816,11 +816,9 @@ exports.cardResponse = function(req, res) {
             if (msg.cardid === config.card) {
                 Petcard.findOne({ "code": msg.usercardcode }, function(err, petcard) {
                     if (petcard) {
-                        // res.json({
-                        //     status: 0,
-                        //     msg: "已经领取过储值会员卡了！"
-                        // })
+                        
                     } else {
+                        // 数据库里不存在，即第一次领卡用户，会进入这里 ，这时其实已经领卡了，微信端有了空卡数据
                         var url = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token=' + access_token
 
                         var formdata = {
@@ -841,7 +839,8 @@ exports.cardResponse = function(req, res) {
                                 var data = JSON.parse(body)
                                 console.log(data)
                                 if (data.errcode == 0) {
-                                    if (data.has_active == true) { //激活
+                                    
+                                    if (data.has_active == true) { //用户已经领取卡了，并且已经激活过
                                         var mobile = "",
                                             name = "",
                                             birthday = "",
@@ -895,9 +894,8 @@ exports.cardResponse = function(req, res) {
                                                 })
                                             })
                                         }
-                                    } else { //未激活
+                                    } else { //用户已经领取卡了，但是未激活
                                         var content = '恭喜您，成功领取了seek cafe储值会员卡，请激活会员卡！'
-                                        console.log('恭喜您，成功领取了seek cafe储值会员卡，请激活会员卡！')
                                         var petcardObj = {
                                             cardid: msg.cardid,
                                             openid: msg.fromusername,
@@ -918,8 +916,7 @@ exports.cardResponse = function(req, res) {
                                             if (err) {
                                                 console.log(err)
                                             }
-                                            console.log(petcard)
-                                            // msgReplay(msg, res, content)
+                                            msgReplay(msg, res, content)
                                             res.json({
                                                 status: 1,
                                                 msg: '领取成功！'
@@ -927,7 +924,7 @@ exports.cardResponse = function(req, res) {
                                         })
                                     }
 
-                                } else if (data.errcode == 40056) {
+                                } else if (data.errcode == 40056) {    //会员卡不存在
                                     var content = '恭喜您，成功领取了seek cafe储值会员卡，请激活会员卡！'
 
                                     var petcardObj = {
@@ -1129,33 +1126,66 @@ exports.cardResponse = function(req, res) {
                                                     msg: "发生错误！"
                                                 })
                                             } else {
-                                                var petcardObj = {
-                                                    "has_active": true,
-                                                    "type": carddata.card.member_card.base_info.title,
-                                                    "username": name,
-                                                    "nickname": data.nickname,
-                                                    "discount": parseInt(carddata.card.member_card.discount),
-                                                    "sex": data.sex,
-                                                    "phone": mobile,
-                                                    "birthday": birthday,
-                                                    "location": location,
-                                                    "bonus": 0,
-                                                    "fee": 0,
-                                                    "balance": 0,
-                                                    "createtime": msg.createtime
-                                                }
-                                                console.log('---------------------------------------')
-                                                console.log(petcardObj)
-                                                console.log('---------------------------------------')
-                                                var _petcard
-                                                _petcard = _.extend(petcard, petcardObj)
-                                                _petcard.save(function(err, petcarddata) {
-                                                    if (err) {
-                                                        console.log(err)
+                                                if(petcard){
+                                                    var petcardObj = {
+                                                        "has_active": true,
+                                                        "type": carddata.card.member_card.base_info.title,
+                                                        "username": name,
+                                                        "nickname": data.nickname,
+                                                        "discount": parseInt(carddata.card.member_card.discount),
+                                                        "sex": data.sex,
+                                                        "phone": mobile,
+                                                        "birthday": birthday,
+                                                        "location": location,
+                                                        "bonus": 0,
+                                                        "fee": 0,
+                                                        "balance": 0,
+                                                        "createtime": msg.createtime
                                                     }
-                                                    // msgReplay(msg, res, content)
-                                                    tempReplay(petcarddata, res)
-                                                })
+                                                    console.log('---------------------------------------')
+                                                    console.log(petcardObj)
+                                                    console.log('---------------------------------------')
+                                                    var _petcard
+                                                    _petcard = _.extend(petcard, petcardObj)
+                                                    _petcard.save(function(err, petcarddata) {
+                                                        if (err) {
+                                                            console.log(err)
+                                                        }
+                                                        tempReplay(petcarddata, res)
+                                                    })
+                                                }else{
+                                                    var petcardObj = {
+                                                        cardid: msg.cardid,
+                                                        openid: msg.fromusername,
+                                                        code: msg.usercardcode,
+                                                        status: 1,
+                                                        has_active: true,
+                                                        card_grade: 0,
+                                                        discount: 5,
+                                                        int: data.bonus,
+                                                        bonus: 0,
+                                                        fee: 0,
+                                                        createtime: msg.createtime,
+                                                        type: "会员卡",
+                                                        username: name,
+                                                        nickname: data.nickname,
+                                                        sex: data.sex,
+                                                        phone: mobile,
+                                                        birthday: birthday,
+                                                        location: location,
+                                                        balance: data.balance / 100,
+                                                        createtime: msg.createtime
+                                                    }
+
+                                                    var _petcard
+                                                    _petcard = new Petcard(petcardObj)
+                                                    _petcard.save(function(err, petcard) {
+                                                        if (err) {
+                                                            console.log(err)
+                                                        }
+                                                        tempReplay(petcarddata, res)
+                                                    })
+                                                }
                                             }
                                         })
 
