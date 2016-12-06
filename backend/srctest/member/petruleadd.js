@@ -17,7 +17,7 @@ angular.module("petruleAddMoudle", []).controller('PetruleAddCtrl',
     $scope.petrule = {
                     fee:100,
                     bonus:20,
-                    consume:100,
+                    consume:1,
                     int:1,
                     status:0
                 }

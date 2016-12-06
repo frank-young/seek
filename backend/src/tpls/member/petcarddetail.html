@@ -5,7 +5,7 @@
 			返回
 		</a>
 
-		<button type="button" class="btn btn-info" ng-class="{true: 'pro-show', false: 'pro-hide'}[isEdit]" ng-click="isEdit = !isEdit"> <i class="fa fa-edit"></i>
+		<button type="button" class="btn btn-danger" ng-class="{true: 'pro-show', false: 'pro-hide'}[isEdit]" ng-click="isEdit = !isEdit"> <i class="fa fa-edit"></i>
 			编辑
 		</button>
 		<button type="button" class="btn btn-success" ng-class="{true: 'pro-show', false: 'pro-hide'}[!isEdit]" ng-click="isEdit = !isEdit;savePetcard(petcard)">
@@ -51,7 +51,7 @@
 							<div class="form-group">
 								<label class="col-sm-3 control-label">余额</label>
 								<div class="col-sm-9">
-									<div class="form-control" ng-bind="petcard.balance | currency:'￥' " ng-disabled="true"></div>
+									<input class="form-control" ng-model="petcard.balance" ng-disabled="isEdit">
 								</div>
 							</div>
 						</div>
