@@ -29,5 +29,6 @@ function getServer(domain,id){
 
 //填充数据
 function fillData(id,value) {
-    $('#'+id).html('￥'+value)
+
+    $('#'+id).html('￥'+Number(value).toFixed(2))
 }

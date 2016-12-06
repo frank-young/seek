@@ -158,6 +158,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				if(value == "次卡"){
 					$scope.discountItemFunc(ele,0)
 					$scope.order.onceincome = $scope.order.reduce		//计入次卡消费
+					$scope.order.reduce = 0
 				}
 			})
 			payTypeFunc()
@@ -226,6 +227,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		//储值卡扫码支付
 		$scope.petcardSelect = function(code){
+			resetIncome()
 			$scope.pet_code = ""
 			$scope.outwrap = true
 			$scope.alipayshow = false
@@ -236,7 +238,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$scope.changeAlert("请扫描微信会员卡卡号！")
 			document.getElementById("petcard").focus()
 			$scope.order.petcardincome = $scope.order.realTotal		//计入储值会员卡消费
-			$scope.order.wxincome = 0
 		}
 		
 		// 选择付款方式 单项
@@ -274,6 +275,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$scope.order.alipayincome = 0
 			$scope.order.onceincome = 0
 			$scope.order.schoolincome = 0
+			$scope.order.petcardincome = 0
+			$scope.order.cardincome = 0
 		}
 
 		//单个金额不为零判断
@@ -783,11 +786,14 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		//储值会员刷卡支付
 		$scope.petcardPosPay =function(code){
+
 			var value = {
 				total_fee:$scope.order.realTotal,
 				int:parseInt($scope.order.reduce),
 				code:code
 			}
+
+
 
 			petcardData.reduceData(value).then(function(data){
 				$scope.changeAlert(data.msg)
@@ -798,6 +804,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					$scope.order.memberBalance = Math.round((data.petcard.balance)*100)/100
 					$scope.order.isPetcard = true;
 					document.getElementById('bill').click()
+					$scope.order.realTotal = 0
 				}
 			})
 		}
