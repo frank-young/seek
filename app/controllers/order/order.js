@@ -271,7 +271,7 @@ exports.downloadMonth = function(req, res) {
     var month = req.query.month
 
     var user = req.session.user
-    var fields = ['时间', '订单编号', '总价', '优惠', '次卡', '挂帐金额', '现金', '微信', '支付宝', '校园卡', '应收', '抹零', '充值金额', '充值赠送', '实收']
+    var fields = ['时间', '订单编号', '总价', '优惠', '次卡', '挂帐金额', '现金', '微信', '支付宝', '刷卡', '校园卡', '会员卡', '应收', '抹零', '充值金额', '充值赠送', '实收']
 
     var orderData = []
     Order.fetch({ "domainlocal": user.domain, "year": year, "month": month }, function(err, orders) {
@@ -287,7 +287,9 @@ exports.downloadMonth = function(req, res) {
                 '现金': value.cashincome,
                 '微信': value.wxincome,
                 '支付宝': value.alipayincome,
+                '刷卡': value.cardincome,
                 '校园卡': value.schoolincome,
+                '会员卡': value.schoolincome,
                 "应收": value.reduceAfter,
                 "抹零": value.erase,
                 "充值金额": 0,
@@ -310,12 +312,14 @@ exports.downloadMonth = function(req, res) {
                     '现金': value.cashincome,
                     '微信': value.wxincome,
                     '支付宝': value.alipayincome,
+                    '刷卡': 0,
                     '校园卡': 0,
+                    '会员卡': 0,
                     "应收": 0,
                     "抹零": 0,
                     "充值金额": value.fee,
                     "充值赠送": value.bonus,
-                    "实收": value.fee - value.bonus
+                    "实收": value.fee
 
                 }
                 orderData.push(petcardorderObj)
@@ -695,7 +699,7 @@ function distinct(arr) {
 
 //报表生成
 function creatReport(domain,name,year,month,res){
-    var fields = ['时间', '订单编号', '总价', '优惠', '次卡', '挂帐金额', '现金', '微信', '支付宝', '刷卡', '校园卡', '应收', '抹零', '充值金额', '充值赠送', '实收']
+    var fields = ['时间', '订单编号', '总价', '优惠', '次卡', '挂帐金额', '现金', '微信', '支付宝', '刷卡', '校园卡', '会员卡', '应收', '抹零', '充值金额', '充值赠送', '实收']
     var orderData = []
     Order.fetch({ "domainlocal": domain, "year": year, "month": month }, function(err, orders) {
 
@@ -712,6 +716,7 @@ function creatReport(domain,name,year,month,res){
                 '支付宝': value.alipayincome,
                 '刷卡': value.cardincome,
                 '校园卡': value.schoolincome,
+                '会员卡': value.schoolincome,
                 "应收": value.reduceAfter,
                 "抹零": value.erase,
                 "充值金额": 0,
@@ -734,12 +739,14 @@ function creatReport(domain,name,year,month,res){
                     '现金': value.cashincome,
                     '微信': value.wxincome,
                     '支付宝': value.alipayincome,
+                    '刷卡': 0,
                     '校园卡': 0,
+                    '会员卡': 0,
                     "应收": 0,
                     "抹零": 0,
                     "充值金额": value.fee,
                     "充值赠送": value.bonus,
-                    "实收": value.fee - value.bonus
+                    "实收": value.fee
 
                 }
                 orderData.push(petcardorderObj)

@@ -63,7 +63,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			})
 
 			refresh()
-
+			$scope.changeAlert("请选择付款方式！")
+			$scope.wechatHide = true
 		}
 		
 		// 打折 - 单品
@@ -89,7 +90,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		//抹零
 		$scope.roundFunc = function(value){
 			var old = value.realTotal
-			$scope.order.realTotal = Math.round(old)
+			$scope.order.realTotal = Math.ceil(old)
 			$scope.order.erase = Math.round((old - $scope.order.realTotal)*100)/100
 			
 		}
@@ -415,6 +416,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 结算
 		$scope.billing = function(value){
+
 			$scope.nowtime = new Date().getTime()
 			$scope.order.dishNum = angular.copy(value)	//取餐号
 			$scope.order.dish.forEach(function(ele){
@@ -446,6 +448,49 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 				if(data.status == 1){
 					$scope.changeAlert("点餐成功！")
+
+					var dayid = localStorage.dayid
+					dayData.getIdData(dayid).then(function(data){
+						serial = data.day.serial
+						localStorage.serial = serial+1
+						var dateObj = {
+				  			"_id": dayid,
+			  				"serial": serial+1
+			  			}
+			  			dayData.updateData(dateObj).then(function(data){
+
+				  		})
+					})
+
+					// 更新数据库的流水号 ，以及清除一些订单信息	
+					localStorage.removeItem('cook')
+					localStorage.removeItem('cookAll')
+					localStorage.removeItem('peopleNumber')
+					localStorage.removeItem('member')
+					localStorage.removeItem('memberDiscount')
+					localStorage.removeItem('memberCash')
+
+					window.location.href="#/index"
+					printFunc()
+				}else{
+					$scope.changeAlert(data.msg)
+				}
+			})
+	
+		}
+
+		// 挂单
+		$scope.pending = function(value){
+			$scope.nowtime = new Date().getTime()
+			$scope.order.dishNum = angular.copy(value)	//取餐号
+			$scope.order.payStatus = 0
+			$scope.order.realTotal = 0
+			$scope.order.cashincome = 0
+
+			orderData.addData($scope.order).then(function(data){
+
+				if(data.status == 1){
+					$scope.changeAlert("挂单成功！")
 
 					var dayid = localStorage.dayid
 					dayData.getIdData(dayid).then(function(data){
@@ -882,6 +927,65 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 
 	}
 ])
+
+
+
+;// /********************************************************************************************************************
+//  *                                                     未付款订单
+//  ********************************************************************************************************************/
+
+// angular.module("pendingMoudle", []).controller('PendingCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData','itemData',
+//   	function($scope,$window,orderData,dishData,settingData,paytypeData,itemData) {
+
+// 		orderData.getData().then(function(data){
+// 			$scope.orders = data.orders
+// 		})
+
+// 		$scope.payTypeArr = []
+// 		//获取支付方式
+// 		paytypeData.getData().then(function(data){
+// 			$scope.payTypeArr = data.paytypes.map(function(value){
+// 				return value.label
+// 			})
+// 		})
+
+// 		$scope.cookAll = []
+// 		dishData.getData().then(function(data){
+// 			$scope.cookAll = data.dishs
+// 		})
+
+// 		$scope.lookAll = function(id){
+// 			orderData.getIdData(id).then(function(data){
+// 				$scope.order = data.order
+// 			})
+// 		}
+		
+// 		// 反位结算，删除本单，重新下单
+// 		$scope.againAccount = function(value){
+// 			localStorage.cook = JSON.stringify(value.dish)
+// 			localStorage.peopleNumber = value.peopleNum
+// 			value.dish.forEach(function(v1,i1){
+// 				$scope.cookAll.forEach(function(v2,i2){
+// 					if(v1.name == v2.name){
+// 						v2.checked = true
+// 						v2.number = 1
+// 					}
+// 				})
+// 			})
+// 			localStorage.cookAll = JSON.stringify($scope.cookAll)
+
+// 			orderData.deleteData(value).then(function(data){
+// 				$scope.changeAlert("反位结算成功！")
+// 			})
+
+// 			itemData.deletesomeData(value.orderNum).then(function(data){
+
+// 			})
+
+// 		}
+
+// 	}
+// ])
 
 
 
