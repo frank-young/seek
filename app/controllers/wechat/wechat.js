@@ -20,7 +20,7 @@ var config = {
         appSecret: '07edc09a46dba2e8d0b1964b5aec3a46', //       143d36866e792512dc76ea5d11e8df62
         token: 'weixin'
     },
-    card: "pQw7gv4tnvAt_M2avr2JW_Zog8Bw",  // 原来 ：pQw7gvyKKtUmYGizNvXKYIn15vGc  新卡：pQw7gv4tnvAt_M2avr2JW_Zog8Bw  测试：pQw7gv2DCJQJiR39cHVr2uW0a6xw
+    card: "pQw7gv4tnvAt_M2avr2JW_Zog8Bw",  // 原来 ：pQw7gvyKKtUmYGizNvXKYIn15vGc  新卡：pQw7gv4tnvAt_M2avr2JW_Zog8Bw  测试：
     code: "435350747055"
 }
 
@@ -917,10 +917,6 @@ exports.cardResponse = function(req, res) {
                                                 console.log(err)
                                             }
                                             msgReplay(msg, res, content)
-                                            res.json({
-                                                status: 1,
-                                                msg: '领取成功！'
-                                            })
                                         })
                                     }
 
@@ -947,11 +943,7 @@ exports.cardResponse = function(req, res) {
                                         if (err) {
                                             console.log(err)
                                         }
-                                        // msgReplay(msg, res, content)
-                                        res.json({
-                                            status: 1,
-                                            msg: '领取成功！'
-                                        })
+                                        msgReplay(msg, res, content)
                                     })
 
                                 } else {
