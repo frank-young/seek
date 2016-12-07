@@ -147,10 +147,12 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		}
 		$scope.outwrap = false
+		$scope.pendingShow = true
 		// 选择付款方式 统一
 		$scope.selectType = function(value,index){
 			resetIncome()
 			$scope.wechatHide = false
+			$scope.pendingShow = true
 			$scope.auth_code = ""
 			$scope.alipay_auth_code = ""
 			$scope.cookCart.forEach(function(ele,i){
@@ -215,6 +217,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.order.alipayincome = $scope.order.realTotal
 			}else if(value == "刷卡"){
 				$scope.order.cardincome = $scope.order.realTotal
+			}else if(value == "挂单"){
+				$scope.wechatHide = true
+				$scope.pendingShow = false
+				$scope.outwrap = false
+				$scope.panels = -1
 			}else{
 				$scope.outwrap = false
 				$scope.panels = -1
@@ -488,7 +495,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$scope.order.dishNum = angular.copy(value)	//取餐号
 			$scope.order.payStatus = 0
 			$scope.order.realTotal = 0
-			$scope.order.cashincome = 0
+			resetIncome()
 
 			orderData.addData($scope.order).then(function(data){
 
@@ -517,7 +524,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					localStorage.removeItem('memberCash')
 
 					window.location.href="#/index"
-					printFunc()
+					// printFunc()
 				}else{
 					$scope.changeAlert(data.msg)
 				}

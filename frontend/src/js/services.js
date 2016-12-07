@@ -14,6 +14,19 @@ angular.module('serviceData', [])
                 });
                 return defer.promise;
             },
+            getPendingData: function () {
+                var defer = $q.defer();
+                $http({
+                    url: '/ordertoday/pending',
+                    method: 'get' 
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
             updateData: function (value) {
                 var defer = $q.defer();
                 $http({

@@ -33,7 +33,7 @@
                     <td>
                         <button style="padding: 0 10px;" class="button button-primary" ng-click="lookAll(o._id)">查看详情</button>
                         <button style="padding: 0 10px;" class="button " ng-click="printRec('print-rec')">重新打印</button>
-                        <button ng-show="role == 10" style="padding: 0 10px;" class="button " data-animation="am-fade-and-scale" placement="center" data-template-url="warning.tpl.html" bs-modal>反位结算</button>
+                        <button ng-if="role == 10 || shopid=='464246789'" style="padding: 0 10px;" class="button " data-animation="am-fade-and-scale" placement="center" data-template-url="warning.tpl.html" bs-modal>反位结算</button>
                     </td>
                 </tr>
             </tbody>

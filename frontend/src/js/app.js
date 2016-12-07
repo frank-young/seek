@@ -12,7 +12,8 @@ var app = angular.module('app', [
         'billMoudle',
         'billlistMoudle',
         'memberMoudle',
-        'petcardMoudle'
+        'petcardMoudle',
+        'pendingMoudle'
 
         ]);  
 
@@ -57,6 +58,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'tpls/bill/billlist.html',
             data:{
                 title:"订单列表"
+            }
+        })
+        .state('web.pending', {
+            url: '/pending',
+            templateUrl: 'tpls/bill/pending.html',
+            data:{
+                title:"挂单列表"
             }
         })
         .state('web.member', {

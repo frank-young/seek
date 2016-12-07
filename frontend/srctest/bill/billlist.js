@@ -2,8 +2,8 @@
  *                                                     订单列表
  ********************************************************************************************************************/
 
-angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData','itemData',
-  	function($scope,$window,orderData,dishData,settingData,paytypeData,itemData) {
+angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData','itemData','domainData',
+  	function($scope,$window,orderData,dishData,settingData,paytypeData,itemData,domainData) {
 
 		orderData.getData().then(function(data){
 			$scope.orders = data.orders
@@ -67,6 +67,10 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 			$scope.nowtime = new Date().getTime()
 			printFunc(value)
 		}
+
+		domainData.getShopidData().then(function(data){
+			$scope.shopid = data.shopid
+  		})
 
 		// 打印函数
 		function printFunc(id){

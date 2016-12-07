@@ -147,10 +147,12 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		}
 		$scope.outwrap = false
+		$scope.pendingShow = true
 		// 选择付款方式 统一
 		$scope.selectType = function(value,index){
 			resetIncome()
 			$scope.wechatHide = false
+			$scope.pendingShow = true
 			$scope.auth_code = ""
 			$scope.alipay_auth_code = ""
 			$scope.cookCart.forEach(function(ele,i){
@@ -215,6 +217,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.order.alipayincome = $scope.order.realTotal
 			}else if(value == "刷卡"){
 				$scope.order.cardincome = $scope.order.realTotal
+			}else if(value == "挂单"){
+				$scope.wechatHide = true
+				$scope.pendingShow = false
+				$scope.outwrap = false
+				$scope.panels = -1
 			}else{
 				$scope.outwrap = false
 				$scope.panels = -1
@@ -488,7 +495,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			$scope.order.dishNum = angular.copy(value)	//取餐号
 			$scope.order.payStatus = 0
 			$scope.order.realTotal = 0
-			$scope.order.cashincome = 0
+			resetIncome()
 
 			orderData.addData($scope.order).then(function(data){
 
@@ -517,7 +524,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					localStorage.removeItem('memberCash')
 
 					window.location.href="#/index"
-					printFunc()
+					// printFunc()
 				}else{
 					$scope.changeAlert(data.msg)
 				}
@@ -853,8 +860,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
  *                                                     订单列表
  ********************************************************************************************************************/
 
-angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData','itemData',
-  	function($scope,$window,orderData,dishData,settingData,paytypeData,itemData) {
+angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData','itemData','domainData',
+  	function($scope,$window,orderData,dishData,settingData,paytypeData,itemData,domainData) {
 
 		orderData.getData().then(function(data){
 			$scope.orders = data.orders
@@ -919,6 +926,10 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 			printFunc(value)
 		}
 
+		domainData.getShopidData().then(function(data){
+			$scope.shopid = data.shopid
+  		})
+
 		// 打印函数
 		function printFunc(id){
 			var ele = document.getElementById(id)
@@ -937,62 +948,57 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
 
 
 
-;// /********************************************************************************************************************
-//  *                                                     未付款订单
-//  ********************************************************************************************************************/
+;/********************************************************************************************************************
+ *                                                     未付款订单
+ ********************************************************************************************************************/
 
-// angular.module("pendingMoudle", []).controller('PendingCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData','itemData',
-//   	function($scope,$window,orderData,dishData,settingData,paytypeData,itemData) {
+angular.module("pendingMoudle", []).controller('PendingCtrl', ['$scope','$window','orderData','dishData','settingData','paytypeData','itemData',
+  	function($scope,$window,orderData,dishData,settingData,paytypeData,itemData) {
+  		$scope.show = false
 
-// 		orderData.getData().then(function(data){
-// 			$scope.orders = data.orders
-// 		})
+		orderData.getPendingData().then(function(data){
+			$scope.orders = data.orders
+		})
 
-// 		$scope.payTypeArr = []
-// 		//获取支付方式
-// 		paytypeData.getData().then(function(data){
-// 			$scope.payTypeArr = data.paytypes.map(function(value){
-// 				return value.label
-// 			})
-// 		})
+		$scope.cookAll = []
+		dishData.getData().then(function(data){
+			$scope.cookAll = data.dishs
+		})
 
-// 		$scope.cookAll = []
-// 		dishData.getData().then(function(data){
-// 			$scope.cookAll = data.dishs
-// 		})
-
-// 		$scope.lookAll = function(id){
-// 			orderData.getIdData(id).then(function(data){
-// 				$scope.order = data.order
-// 			})
-// 		}
+		$scope.lookAll = function(value){
+			$scope.show = true
+			orderData.getIdData(value._id).then(function(data){
+				$scope.order = data.order
+			})
+		}
+  		
 		
-// 		// 反位结算，删除本单，重新下单
-// 		$scope.againAccount = function(value){
-// 			localStorage.cook = JSON.stringify(value.dish)
-// 			localStorage.peopleNumber = value.peopleNum
-// 			value.dish.forEach(function(v1,i1){
-// 				$scope.cookAll.forEach(function(v2,i2){
-// 					if(v1.name == v2.name){
-// 						v2.checked = true
-// 						v2.number = 1
-// 					}
-// 				})
-// 			})
-// 			localStorage.cookAll = JSON.stringify($scope.cookAll)
+		// 删除本单，重新下单
+		$scope.againAccount = function(value){
+			localStorage.cook = JSON.stringify(value.dish)
+			localStorage.peopleNumber = value.peopleNum
+			value.dish.forEach(function(v1,i1){
+				$scope.cookAll.forEach(function(v2,i2){
+					if(v1.name == v2.name){
+						v2.checked = true
+						v2.number = 1
+					}
+				})
+			})
+			localStorage.cookAll = JSON.stringify($scope.cookAll)
 
-// 			orderData.deleteData(value).then(function(data){
-// 				$scope.changeAlert("反位结算成功！")
-// 			})
+			orderData.deleteData(value).then(function(data){
+				$scope.changeAlert("成功！")
+			})
 
-// 			itemData.deletesomeData(value.orderNum).then(function(data){
+			itemData.deletesomeData(value.orderNum).then(function(data){
 
-// 			})
+			})
 
-// 		}
+		}
 
-// 	}
-// ])
+	}
+])
 
 
 
@@ -1000,8 +1006,8 @@ angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope','$wind
  *                                                     首页
  ********************************************************************************************************************/
 
-angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location','settingData',
-  	function($scope,$rootScope,$window,$location,settingData) {
+angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location','settingData','domainData',
+  	function($scope,$rootScope,$window,$location,settingData,domainData) {
 
 		$window.document.title = "seek cafe点餐系统"
 
@@ -1024,6 +1030,10 @@ angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','
 		settingData.getRbac().then(function(data){
 			$scope.role = data.rbac
 		})
+
+		domainData.getShopidData().then(function(data){
+			$scope.shopid = data.shopid
+  		})
 		
 	}
 ])

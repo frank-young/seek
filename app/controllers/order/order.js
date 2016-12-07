@@ -26,7 +26,24 @@ exports.listToday = function(req, res) {
         M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1),
         D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate())
 
-    Order.fetch({ "domainlocal": user.domain, "year": Y, "month": M, "day": D }, function(err, orders) {
+    Order.fetch({ "domainlocal": user.domain, "year": Y, "month": M, "day": D ,"payStatus":1}, function(err, orders) {
+        res.json({
+            msg: "请求成功",
+            status: 1,
+            orders: orders
+        })
+    })
+}
+
+// 今日挂账订单
+exports.listPendingToday = function(req, res) {
+    var user = req.session.user
+    var date = new Date(),
+        Y = date.getFullYear(),
+        M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1),
+        D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate())
+
+    Order.fetch({ "domainlocal": user.domain, "year": Y, "month": M, "day": D ,"payStatus":0}, function(err, orders) {
         res.json({
             msg: "请求成功",
             status: 1,
@@ -557,10 +574,17 @@ exports.api = function(req, res) {
             realTotal += ele.realTotal
         })
 
-        res.json({
-            msg: "请求成功",
-            status: 1,
-            total: realTotal
+        Petcardorder.fetch({ "domainlocal": domain, "year": Y, "month": M, "day": D }, function(err, petcardorder) {
+            petcardorder.forEach(function(value) {
+                realTotal += value.fee
+            })
+
+            res.json({
+                msg: "请求成功",
+                status: 1,
+                total: realTotal
+            })
+
         })
 
     })

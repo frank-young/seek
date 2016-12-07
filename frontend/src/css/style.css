@@ -119,6 +119,7 @@ button[disabled]:focus{
 	-ms-box-shadow: 0 0 10px rgba(0,0,0,0.1);
 	-o-box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
+.card-pending:focus,
 .card.active{
 	/*background-color: #33C3F0;*/
 	-webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
@@ -129,6 +130,7 @@ button[disabled]:focus{
 	position: relative;
 
 }
+.card-pending:focus:after,
 .card.active:after{
 	content: '';
 	position: absolute;
@@ -146,6 +148,7 @@ button[disabled]:focus{
 	transform: rotate(45deg);
 
 }
+.card-pending:focus:before,
 .card.active:before{
 	content: '';
 	position: absolute;
@@ -163,6 +166,22 @@ button[disabled]:focus{
 	z-index: 1;
 
 }
+.card-pending{
+	position: relative;
+}
+.card-pending h2{
+	margin-top: 20px;
+}
+.card-pending i.no-bill{
+	position: absolute;
+	top: 0;
+	left: 0;
+	padding: 2px 5px;
+	background-color: #DD5044;
+	color: #fff;
+	font-style: normal;
+}
+
 .card.active h3,
 .card.active p,
 .card.active small{

@@ -1,0 +1,42 @@
+<style>
+.back {
+    display: none;
+}
+</style>
+<div ng-controller="PendingCtrl" class="row">
+    <div class="two-thirds column main">
+        <h4 class="center"><a class="button"  ui-sref="web.home" style="float:left">返回首页</a> 挂单</h4>
+        <div class="row">
+            <div class="three columns" ng-repeat="o in orders">
+                <a href="" class="card card-pending" ng-click="lookAll(o)">
+                    <h2 class="center" ng-bind="o.dishNum"></h2>
+                    <i class="no-bill" ng-if="o.payStatus==0">未结账</i>
+                </a>
+            </div>
+
+        </div>
+    </div>
+    <div class="one-third column side" style="width:34.666666%;margin-left:0;">
+        <h4 class="center">菜品详情</h4>
+        <h5>餐桌号: {{order.dishNum}} </h5>
+        <table class="u-full-width">
+            <thead>
+                <tr>
+                    <th style="width:27%;">名称</th>
+                    <th style="text-align:center">数量</th>
+                    <th>单价</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="dish in order.dish">
+                    <td ng-bind="dish.name"></td>
+                    <td style="text-align:center">
+                        <span style="margin: 0 5px 0 5px;" ng-bind="dish.number"></span>
+                    </td>
+                    <td ng-bind="dish.price | currency:'¥' "></td>
+                </tr>
+            </tbody>
+        </table>
+        <button ui-sref="web.select" class="button button-primary btn-bill" ng-click="againAccount(order)" ng-if="show">结账</button>
+    </div>
+</div>
