@@ -112,8 +112,20 @@
                                 <span ng-bind="todayData.overAll.grade +todayData.overAll.noincome| currency:'¥' "></span>
                             </div>
                             <div class="detail-item">
-                                <span>会员卡充值：</span>
+                                <span>充值总金额：</span>
                                 <span ng-bind="fee | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>现金充值：</span>
+                                <span ng-bind="cash | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>微信充值：</span>
+                                <span ng-bind="wx | currency:'¥' "></span>
+                            </div>
+                            <div class="detail-item">
+                                <span>支付宝充值：</span>
+                                <span ng-bind="alipay | currency:'¥' "></span>
                             </div>
                             <div class="detail-item">
                                 <span>充值赠送：</span>

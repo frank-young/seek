@@ -70,11 +70,11 @@
                         </div>
                         <div class="detail-item">
                             <span>储值会员卡：</span>
-                            <span ng-bind="todayData.overAll.petcardincome | currency:'¥' "></span>
+                            <span ng-bind="overAll.petcardincome | currency:'¥' "></span>
                         </div>
                         <div class="detail-item">
                             <span>刷卡：</span>
-                            <span ng-bind="todayData.overAll.cardincome | currency:'¥' "></span>
+                            <span ng-bind="overAll.cardincome | currency:'¥' "></span>
                         </div>
                         <div class="detail-item">
                             <span>其他：</span>
@@ -93,8 +93,20 @@
                             <span ng-bind="overAll.grade +overAll.noincome| currency:'¥' "></span>
                         </div>
                         <div class="detail-item">
-                            <span>会员卡充值：</span>
+                            <span>充值总金额：</span>
                             <span ng-bind="fee | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>现金充值：</span>
+                            <span ng-bind="cash | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>微信充值：</span>
+                            <span ng-bind="wx | currency:'¥' "></span>
+                        </div>
+                        <div class="detail-item">
+                            <span>支付宝充值：</span>
+                            <span ng-bind="alipay | currency:'¥' "></span>
                         </div>
                         <div class="detail-item">
                             <span>充值赠送：</span>

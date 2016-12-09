@@ -1501,6 +1501,9 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 	  	petcardData.getTodayOrderData().then(function(data){
 	  		$scope.fee = data.fee
 	  		$scope.bonus = data.bonus
+	  		$scope.cash = data.cashincome
+	  		$scope.wx = data.wxincome
+	  		$scope.alipay = data.alipayincome
 
 	  	})
 

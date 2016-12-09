@@ -33,6 +33,9 @@ angular.module("overDetailMoudle", []).controller('OverDetailCtrl', ['$scope', '
         petcardData.getTodayData($stateParams.id).then(function(data) {
             $scope.fee = data.fee
             $scope.bonus = data.bonus
+            $scope.cash = data.cashincome
+            $scope.wx = data.wxincome
+            $scope.alipay = data.alipayincome
         })
 
         $scope.nowtime = new Date().getTime()

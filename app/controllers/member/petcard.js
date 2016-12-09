@@ -325,18 +325,28 @@ exports.petcardtoday = function(req, res) {
 
     Petcardorder.fetch({ "domainlocal": user.domain, "year": Y, "month": M, "day": D }, function(err, petcardorders) {
         var fee = 0,
-            bonus = 0
+            bonus = 0,
+            cashincome = 0,
+            wxincome = 0,
+            alipayincome = 0
+
 
         petcardorders.forEach(function(value,index){
             fee += value.fee
             bonus += value.bonus
+            cashincome += value.cashincome
+            wxincome += value.wxincome
+            alipayincome += value.alipayincome
 
         })
         res.json({
             msg: "请求成功",
             status: 1,
             fee: fee,
-            bonus:bonus
+            bonus:bonus,
+            cashincome:cashincome,
+            wxincome:wxincome,
+            alipayincome:alipayincome
         })
     })
 }
@@ -351,18 +361,27 @@ exports.petcardsome = function(req, res) {
 
     Petcardorder.fetch({ "domainlocal": user.domain, "year": Y, "month": M, "day": D }, function(err, petcardorders) {
         var fee = 0,
-            bonus = 0
+            bonus = 0,
+            cashincome = 0,
+            wxincome = 0,
+            alipayincome = 0
 
         petcardorders.forEach(function(value,index){
             fee += value.fee
             bonus += value.bonus
+            cashincome += value.cashincome
+            wxincome += value.wxincome
+            alipayincome += value.alipayincome
 
         })
         res.json({
             msg: "请求成功",
             status: 1,
             fee: fee,
-            bonus:bonus
+            bonus:bonus,
+            cashincome:cashincome,
+            wxincome:wxincome,
+            alipayincome:alipayincome
         })
     })
 }
