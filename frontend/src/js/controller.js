@@ -732,7 +732,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		
 		//微信刷卡支付
 		$scope.wechatPosPay =function(code){
-
+			$scope.order.wxincome = $scope.order.realTotal
 			var value = {
 				total_fee:$scope.order.realTotal,
 				auth_code:code,
@@ -763,6 +763,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		//支付宝刷卡支付
 		$scope.alipayPosPay =function(code){
+			$scope.order.alipayincome = $scope.order.realTotal
 			var value = {
 				total_fee:$scope.order.realTotal,
 				auth_code:code,
@@ -793,7 +794,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		//储值会员刷卡支付
 		$scope.petcardPosPay =function(code){
-
+			$scope.order.petcardincome = $scope.order.realTotal
 			var value = {
 				total_fee:$scope.order.realTotal,
 				int:parseInt($scope.order.reduce),
