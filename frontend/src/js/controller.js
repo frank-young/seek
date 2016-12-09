@@ -1352,6 +1352,7 @@ angular.module("navMoudle", []).controller('NavCtrl', ['$scope','$rootScope','$i
 					schoolincome:data.schoolincome,	
 					otherincome:data.otherincome,	
 					petcardincome:data.petcardincome,	
+					cardincome:data.cardincome,	
 					total:data.total,	// 合计--总合计
 					totalNeed:data.totalNeed,	// 应收
 					reduceAfter:data.reduceAfter,
