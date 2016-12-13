@@ -1,0 +1,20 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm' ]
+2 info using npm@2.15.9
+3 info using node@v4.5.0
+4 verbose stack Error: EACCES: permission denied, mkdir '/opt'
+4 verbose stack     at Error (native)
+5 verbose cwd /Users/frankyoung/Sites/seek
+6 error Darwin 16.1.0
+7 error argv "/usr/local/bin/node" "/usr/local/bin/npm"
+8 error node v4.5.0
+9 error npm  v2.15.9
+10 error path /opt
+11 error code EACCES
+12 error errno -13
+13 error syscall mkdir
+14 error Error: EACCES: permission denied, mkdir '/opt'
+14 error     at Error (native)
+14 error  { [Error: EACCES: permission denied, mkdir '/opt'] errno: -13, code: 'EACCES', syscall: 'mkdir', path: '/opt' }
+15 error Please try running this command again as root/Administrator.
+16 verbose exit [ -13, true ]
