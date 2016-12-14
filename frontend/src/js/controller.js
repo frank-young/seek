@@ -77,7 +77,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 减价
 		$scope.reduceFunc = function(value){
-
+			$scope.changeAlert("请选择付款方式！")
+			$scope.wechatHide = true
 			cashFunc(value)
 		}
 
