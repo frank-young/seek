@@ -105,6 +105,7 @@ module.exports = function(app){
   app.post('/order/add',User.signinRequired, Order.save )
   app.post('/order/update', User.signinRequired, Order.update)
   app.get('/order/detail/:id', User.signinRequired, Order.detail)
+  app.get('/order/query/:id', User.signinRequired, Order.query)
   app.delete('/order/delete',User.signinRequired, User.superRequired, Order.del)
   app.get('/order/download',User.signinRequired, Order.downloadMonth)
   app.get('/order/downloadday',User.signinRequired, Order.downloadDay)

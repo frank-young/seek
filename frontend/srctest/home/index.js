@@ -52,7 +52,6 @@ angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope', '$rootScope',
             if($scope.orders){	// 清除标记
             	localStorage.setItem('wxordering',JSON.stringify($scope.orders))
             	$scope.orders.forEach(function(v, i) {
-	            	console.log(1)
 	            	tableData.updateData(v._id)
 	            })
             }

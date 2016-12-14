@@ -267,6 +267,16 @@ exports.detail = function(req, res) {
             })
         })
     }
+    //根据订单号查询
+exports.query = function(req, res) {
+        var order = req.params.id
+        Order.findOne({orderNum:order}, function(err, order) {
+            res.json({
+                order: order
+            })
+        })
+    }
+
     //删除订单
 exports.del = function(req, res) {
     var id = req.query.id
