@@ -16,6 +16,11 @@
         </div>
     </div>
     <div class="go-admin">
+        <a  href="/#/billlist" class="wechat-ordering" ng-click="clear()">
+            微信点餐
+            <i class="bage" ng-if="wxOrderingShow" ng-bind="wxOrdering"></i>
+        </a>
+
         <a  href="/#/pending" ng-if="shopid=='279080129'">挂单</a>
 
         <a href="/admin/#/index" ng-if="role==10">后台</a>
@@ -25,6 +30,9 @@
 
     </div>
 </div>
+<audio controls id="msg-music" class="msg-music">
+  <source src="audio/msg.mp3" type="audio/mpeg">
+</audio>
 <script type="text/ng-template" id="people.tpl.html">
     <div class="modal modal-people" tabindex="-1" role="dialog">
         <div class="modal-dialog modal-lg">

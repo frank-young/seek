@@ -26,7 +26,9 @@
             </thead>
             <tbody>
                 <tr ng-repeat="o in orders">
-                    <td ng-bind="o.orderNum"></td>
+                    <td class="new-order">
+                        <i class="bage ">new</i>{{o.orderNum}}
+                    </td>
                     <td ng-bind="o.realTotal | currency:'¥' "></td>
                     <td ng-bind="o.time | onlytime"></td>
                     <td ng-bind="o.editPeople"></td>

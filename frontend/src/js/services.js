@@ -814,7 +814,21 @@ angular.module('serviceData', [])
                     defer.reject(msg);
                 });
                 return defer.promise;
+            },
+            updateData: function (id) {
+                var defer = $q.defer();
+                $http({
+                    url: '/table/edit/'+id,
+                    method: 'get'
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
             }
+
         }
     }])
 
