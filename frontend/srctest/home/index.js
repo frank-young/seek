@@ -2,8 +2,8 @@
  *                                                     首页
  ********************************************************************************************************************/
 
-angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location','settingData','domainData',
-  	function($scope,$rootScope,$window,$location,settingData,domainData) {
+angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','$window','$location','settingData','domainData','tableData',
+  	function($scope,$rootScope,$window,$location,settingData,domainData,tableData) {
 
 		$window.document.title = "seek cafe点餐系统"
 
@@ -30,6 +30,12 @@ angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope','$rootScope','
 		domainData.getShopidData().then(function(data){
 			$scope.shopid = data.shopid
   		})
+
+  		setInterval(function(){
+  			tableData.getData('seek01').then(function(data){
+  				
+  			})
+  		},1000)
 		
 	}
 ])

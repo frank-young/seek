@@ -197,6 +197,7 @@ module.exports = function(app){
   app.get('/table/num/:id', User.signinRequired, Table.num)
   app.delete('/table/delete',User.signinRequired, Table.del)
   app.get('/table/qrcode', Table.qrcode)
+  app.get('/table/query/:id',User.signinRequired, Table.query)
 
   //模拟点餐页面
   app.get('/mobile/ordering/:id', Table.ordering)

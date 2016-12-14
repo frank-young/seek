@@ -1,4 +1,5 @@
 var Table = require('../../models/table/table')
+var Tableorder = require('../../models/table/tableorder')
 var _ = require('underscore')
 var qr = require('qr-image')
 	
@@ -93,7 +94,8 @@ var qr = require('qr-image')
 			if(table){
 				res.json({
 					status:1,
-					num:table.num
+					num:table.num,
+					domain:table.domainlocal
 				})
 			}else{
 				res.json({
@@ -101,6 +103,17 @@ var qr = require('qr-image')
 					msg:'扫描失败，请重新扫描二维码！'
 				})
 			}
+		})
+	}
+
+	//查询是否有新订单
+	exports.query = function(req,res){
+		var domain = req.params.id
+		Tableorder.fetch({'domainlocal':domain,'status':1},function(err,orders){
+			res.json({
+				status:1,
+				orders:orders
+			})
 		})
 	}
 
