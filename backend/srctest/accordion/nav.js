@@ -73,31 +73,27 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 				role:10,
 				subs:[ 
 					{
-						text:'储值会员卡',
+						text:'会员卡',
 						link:'web.petcard'
 					},
 					{
-						text:'储值会员卡套餐',
+						text:'会员卡套餐',
 						link:'web.petrule'
 					}
 				]
 			},
 			{
 				icon:'fa fa-wechat',
-				title:'微信端',
+				title:'微信端点餐',
 				role:10,
 				subs:[
 					{
-						text:'会员卡',
-						link:'web.wechat'
+						text:'餐桌管理',
+						link:'web.table'
 					},
 					{
-						text:'优惠券',
-						link:'web.wechat'
-					},
-					{
-						text:'其他',
-						link:'web.wechat'
+						text:'新建餐桌',
+						link:'web.tableAdd'
 					}
 				]
 			},

@@ -20,6 +20,7 @@ var Index = require('../app/controllers/index'),
     Petrule = require('../app/controllers/member/petrule'),
     Payorder = require('../app/controllers/wechat/payorder'),
     Alipayorder = require('../app/controllers/alipay/alipayorder'),
+    Table = require('../app/controllers/table/table'),
     multipart = require('connect-multiparty'),
     multipartMiddleware = multipart(),
     xmlparser = require('express-xml-bodyparser')
@@ -187,7 +188,19 @@ module.exports = function(app){
   app.post('/petrule/update', User.signinRequired, Petrule.update)
   app.get('/petrule/detail/:id', User.signinRequired, Petrule.detail)
   app.delete('/petrule/delete',User.signinRequired, Petrule.del)
-  
+
+  // 餐桌
+  app.get('/table',User.signinRequired, Table.list)
+  app.post('/table/add',User.signinRequired, Table.save)
+  app.post('/table/update', User.signinRequired, Table.update)
+  app.get('/table/detail/:id', User.signinRequired, Table.detail)
+  app.get('/table/num/:id', User.signinRequired, Table.num)
+  app.delete('/table/delete',User.signinRequired, Table.del)
+  app.get('/table/qrcode', Table.qrcode)
+
+  //模拟点餐页面
+  app.get('/mobile/ordering/:id', Table.ordering)
+
   // 微信端接口
   app.get('/wechat/init',Wechat.init)
   app.post('/wechat/init',xmlparser({trim: false, explicitArray: false}),Wechat.cardResponse)  //微信推送信息接收url

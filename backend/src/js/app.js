@@ -37,7 +37,10 @@ var app = angular.module('app', [
         'paytypeMoudle',
         'setMoudle',
         'selfsetMoudle',
-        'wechatMoudle'
+        'wechatMoudle',
+        'tableMoudle',
+        'tableAddMoudle',
+        'tableDetailMoudle'
 
         ]);  
 
@@ -177,7 +180,18 @@ app.config(function($stateProvider, $urlRouterProvider) {
             url: '/petcardDetail/:id',
             templateUrl: 'tpls/member/petcarddetail.html'
         })
-
+        .state('web.table', {
+            url: '/table',
+            templateUrl: 'tpls/table/table.html'
+        })
+        .state('web.tableAdd', {
+            url: '/tableAdd',
+            templateUrl: 'tpls/table/tableadd.html'
+        })
+        .state('web.tableDetail', {
+            url: '/tableDetail/:id',
+            templateUrl: 'tpls/table/tabledetail.html'
+        })
         
 });
 /* 加载进度条 */

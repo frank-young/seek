@@ -1,0 +1,26 @@
+<div ng-controller="TableCtrl">
+    <h2 class="page-header">
+        餐桌管理
+        <a ui-sref="web.tableAdd" class="btn btn-danger ml-10"  data-animation="am-flip-x" data-placement="bottom" bs-tooltip data-title="添加套餐"> <i class="fa fa-plus fa-lg"></i>
+        </a>
+    </h2>
+    <div class="row cus-item fade-pin">
+        <div class="col-md-3" ng-repeat="table in tables | orderBy:col:desc | filter: pinSort | offset: (currentPage-1)*itemsPerPage |  limitTo:itemsPerPage">
+            <div class="thumbnail" >
+                <img src="{{qrcode}}{{table._id}}" alt="二维码...">
+                <div class="caption">
+                    <h3 class="text-center" style="margin-top: 0;margin-bottom:20px;">{{table.num}}</h3>
+                    <p class="text-center">
+                        <a href="{{qrcode}}{{table._id}}" class="btn btn-success" role="button" download="{{table.num}}"><i class="fa fa-download"></i>下载二维码</a>
+                        <a ui-sref="web.tableDetail({id:table._id})" class="btn btn-primary" role="button"><i class="fa fa-edit"></i>编辑</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.row -->
+    <uib-pagination total-items="order.length" ng-model="currentPage" max-size="5" class="pagination-sm" boundary-links="true" rotate="false" items-per-page="itemsPerPage" num-pages="numPages" ng-show="order.length>
+        itemsPerPage" next-text="下一页" previous-text="上一页" first-text="首页" last-text="尾页">
+    </uib-pagination>
+
+</div>

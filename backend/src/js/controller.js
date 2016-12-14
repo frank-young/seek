@@ -73,31 +73,27 @@ angular.module('navleftMoudle',[]).controller('NavleftCtrl', ['$scope', '$http',
 				role:10,
 				subs:[ 
 					{
-						text:'储值会员卡',
+						text:'会员卡',
 						link:'web.petcard'
 					},
 					{
-						text:'储值会员卡套餐',
+						text:'会员卡套餐',
 						link:'web.petrule'
 					}
 				]
 			},
 			{
 				icon:'fa fa-wechat',
-				title:'微信端',
+				title:'微信端点餐',
 				role:10,
 				subs:[
 					{
-						text:'会员卡',
-						link:'web.wechat'
+						text:'餐桌管理',
+						link:'web.table'
 					},
 					{
-						text:'优惠券',
-						link:'web.wechat'
-					},
-					{
-						text:'其他',
-						link:'web.wechat'
+						text:'新建餐桌',
+						link:'web.tableAdd'
 					}
 				]
 			},
@@ -1541,6 +1537,90 @@ angular.module("setMoudle", []).controller('SetCtrl',
  
 
  ;/********************************************************************************************************************
+ *                                                      餐桌管理
+ ********************************************************************************************************************/
+// http://frankyoung.s1.natapp.link
+angular.module("tableMoudle", []).controller('TableCtrl', 
+    ['$scope','$window', '$http', '$state','$alert','tableData',
+    function($scope,$window, $http, $state,$alert,tableData) {
+        $window.document.title = "储值卡套餐管理";
+
+        $scope.qrcode = '../../table/qrcode?text=http://frankyoung.s1.natapp.link/mobile/ordering/'
+
+	    tableData.getData().then(function(data){ 
+	    	$scope.tables = data.tables
+	 
+	    })
+
+	    /*分页*/
+	    $scope.itemsPerPage = 8;
+	    $scope.currentPage = 1;
+
+
+	}
+])
+
+
+;/********************************************************************************************************************
+ *                                                      添加餐桌
+ ********************************************************************************************************************/
+
+angular.module("tableAddMoudle", []).controller('TableAddCtrl',  
+    ['$scope','$window', '$http', '$state','$alert','tableData',
+    function($scope,$window, $http, $state,$alert,tableData) {
+    $window.document.title = "添加餐桌" 
+
+    $scope.table = {
+                    num:"",
+                }
+    $scope.saveTable = function(value){
+        tableData.addData($scope.table).then(function(data){
+            $scope.changeAlert(data.msg)
+            if(data.status===1){
+                window.history.go(-1)
+            }
+        })
+    }
+}])
+
+
+;/********************************************************************************************************************
+ *                                                      添加餐桌
+ ********************************************************************************************************************/
+
+angular.module("tableDetailMoudle", []).controller('TableDetailCtrl',  
+    ['$scope','$window', '$http', '$stateParams', '$state','$alert','tableData',
+    function($scope,$window, $http, $stateParams, $state,$alert,tableData) {
+    $window.document.title = "编辑餐桌" 
+
+    tableData.getIdData($stateParams.id).then(function(data){
+        $scope.table = data.table
+    })
+
+    $scope.deleteTable = function(){
+        var deleteConfirm = confirm('您确定要删除吗？');
+        if(deleteConfirm){
+            tableData.deleteData($stateParams.id).then(function(data){
+                $scope.changeAlert(data.msg)
+                if(data.status===1){
+                    window.history.go(-1)
+                }
+            })
+        }
+    }
+
+    $scope.saveTable = function(value){
+        tableData.updateData($scope.table).then(function(data){
+            $scope.changeAlert(data.msg)
+            if(data.status===1){
+                window.history.go(-1)
+            }
+        })
+    }
+}])
+
+
+;/********************************************************************************************************************
  *                                                      成员列表页面
  ********************************************************************************************************************/
 
