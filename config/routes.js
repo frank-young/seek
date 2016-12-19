@@ -21,6 +21,7 @@ var Index = require('../app/controllers/index'),
     Payorder = require('../app/controllers/wechat/payorder'),
     Alipayorder = require('../app/controllers/alipay/alipayorder'),
     Table = require('../app/controllers/table/table'),
+    Mobile = require('../app/controllers/mobile/mobile'),
     multipart = require('connect-multiparty'),
     multipartMiddleware = multipart(),
     xmlparser = require('express-xml-bodyparser')
@@ -246,5 +247,19 @@ module.exports = function(app){
   app.get('/alipay/alipayorder/today/:id',Alipayorder.todayAlipayorder)  //查询今日订单
   app.get('/alipay/alipayorder/today/:id/:date',Alipayorder.someAlipayorder)  //按日期查询订单
 
+  //微信点餐
+  app.get('/api/goods',Mobile.goods) 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
