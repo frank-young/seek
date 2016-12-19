@@ -785,6 +785,9 @@ exports.cardResponse = function(req, res) {
         } else if (msg.content == '会员') {
             content = "<a href='https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=gQFY8DoAAAAAAAAAASxodHRwOi8vd2VpeGluLnFxLmNvbS9xL0UwU3V0empsWDJjbUxJQ1ppMl9IAAIEb9gyWAMEgDPhAQ%3D%3D'>点击查看领取会员卡二维码</a>"
             msgReplay(msg, res, content)
+        } else if (msg.content == '管理'){
+            content = "<a href='http://139.129.239.39/manager'>点击查看<a>"
+            msgReplay(msg, res, content)
         } else {
             res.end('')
         }
