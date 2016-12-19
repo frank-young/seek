@@ -734,7 +734,24 @@ function distinct(arr) {
 //报表生成
 function creatReport(domain,name,year,month,res){
     var fields = ['时间', '订单编号', '总价', '优惠', '次卡', '挂帐金额', '现金', '微信', '支付宝', '刷卡', '校园卡', '会员卡', '应收', '抹零', '充值金额', '充值赠送', '实收']
-    var orderData = []
+    var orderData = [],
+        orderTotal = {},
+        total = 0,
+        reduce = 0,
+        onceincome = 0,
+        noincome = 0,
+        cashincome = 0,
+        wxincome = 0,
+        alipayincome = 0,
+        schoolincome = 0,
+        petcardincome = 0,
+        cardincome = 0,
+        reduceAfter = 0,
+        erase = 0,
+        realTotal = 0,
+        fee = 0,
+        bonus = 0
+
     Order.fetch({ "domainlocal": domain, "year": year, "month": month }, function(err, orders) {
 
         orders.forEach(function(value, index) {
@@ -759,6 +776,20 @@ function creatReport(domain,name,year,month,res){
 
             }
             orderData.push(orderObj)
+            
+            total += value.total,
+            reduce += value.reduce,
+            onceincome += value.onceincome,
+            noincome += value.noincome,
+            cashincome += value.cashincome,
+            wxincome += value.wxincome,
+            alipayincome += value.alipayincome,
+            cardincome += value.cardincome,
+            schoolincome += value.schoolincome,
+            petcardincome += value.petcardincome,
+            reduceAfter += value.reduceAfter,
+            erase += value.erase,
+            realTotal += value.realTotal
         })
 
         Petcardorder.fetch({ "domainlocal": domain, "year": year, "month": month }, function(err, petcardorders) {
@@ -784,7 +815,39 @@ function creatReport(domain,name,year,month,res){
 
                 }
                 orderData.push(petcardorderObj)
+
+                cashincome += value.cashincome,
+                wxincome += value.wxincome,
+                alipayincome += value.alipayincome,
+                fee += value.fee,
+                bonus += value.bonus,
+                realTotal += value.fee
+                
             })
+
+            var orderTotal = {
+                "时间": '合计',
+                "订单编号": '-',
+                "总价": total,
+                "优惠": reduce,
+                "次卡": onceincome,
+                '挂帐金额': noincome,
+                '现金': cashincome,
+                '微信': wxincome,
+                '支付宝': alipayincome,
+                '刷卡': cardincome,
+                '校园卡': schoolincome,
+                '会员卡': petcardincome,
+                "应收": reduceAfter,
+                "抹零": erase,
+                "充值金额": fee,
+                "充值赠送": bonus,
+                "实收": realTotal
+
+            }
+
+            orderData.push(orderTotal)
+
             var csv = json2csv({ data: orderData, fields: fields })
 
             var file = name+year + '年' + month + '月报表.csv'
@@ -801,6 +864,7 @@ function creatReport(domain,name,year,month,res){
             })
 
         })
+
     })
 }
 
