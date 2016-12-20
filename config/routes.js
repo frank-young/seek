@@ -249,6 +249,7 @@ module.exports = function(app){
 
   //微信点餐
   app.get('/api/goods',Mobile.goods) 
+  app.post('/api/order',Mobile.order) 
 
 }
 
