@@ -91,50 +91,48 @@ exports.qrcode = function(req, res) {
 exports.ordering = function(req, res) {
     var id = req.params.id
 
-    // Table.findById(id, function(err, table) {
-    //     if (table) {
-    //         res.render('wechat/wxorder',{
-    //             status: 1,
-    //             num: table.num,
-    //             domain: table.domainlocal
-    //         })
-    //     } else {
-    //         res.json({
-    //             status: 0,
-    //             msg: '扫描失败，请重新扫描二维码！'
-    //         })
-    //     }
-    // })
-
     // https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd95a4f3e82e0df64&redirect_uri=http%3A%2F%2Fy7gr8.ngrok.natapp.cn%2Fmobile%2Fordering&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
 
-    var code = req.query.code
+    // var code = req.query.codeta
     // 用获取code换取token
-    var url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + config.wechat.appID + '&secret=' + config.wechat.appSecret + '&code=' + code + '&grant_type=authorization_code'
-    var saveToken = function() {
-        request(url, function(error, response, body) {
-            if (!error && response.statusCode == 200) {
-                var data = JSON.parse(body)
-                var token = data.access_token
-                var refresh_token = data.refresh_token
-                var openid = data.openid
+    // var url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + config.wechat.appID + '&secret=' + config.wechat.appSecret + '&code=' + code + '&grant_type=authorization_code'
+    // var saveToken = function() {
+    //     request(url, function(error, response, body) {
+    //         if (!error && response.statusCode == 200) {
+    //             var data = JSON.parse(body)
+    //             var token = data.access_token
+    //             var refresh_token = data.refresh_token
+    //             var openid = data.openid
 
-                fs.writeFile('./config/web_token', token, function(err) {})
-                fs.writeFile('./config/refresh_token', refresh_token, function(err) {})
-                fs.writeFile('./config/openid', openid, function(err) {})
+    //             fs.writeFile('./config/web_token', token, function(err) {})
+    //             fs.writeFile('./config/refresh_token', refresh_token, function(err) {})
+    //             fs.writeFile('./config/openid', openid, function(err) {})
 
-                res.redirect('/wechat/userinfo')
-
-            } else {
-                res.json({
-                    status: 0,
-                    msg: '已经授权过了'
+                Table.findById(id, function(err, table) {
+                    if (table) {
+                        res.render('wechat/wxorder',{
+                            status: 1,
+                            num: table.num,
+                            domain: table.domainlocal
+                        })
+                    } else {
+                        res.json({
+                            status: 0,
+                            msg: '扫描失败，请重新扫描二维码！'
+                        })
+                    }
                 })
 
-            }
-        })
-    }
-    saveToken()
+    //         } else {
+    //             res.json({
+    //                 status: 0,
+    //                 msg: '已经授权过了'
+    //             })
+
+    //         }
+    //     })
+    // }
+    // saveToken()
 
 }
 

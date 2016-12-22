@@ -65,6 +65,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			refresh()
 			$scope.changeAlert("请选择付款方式！")
 			$scope.wechatHide = true
+			$scope.outwrap = false
 		}
 		
 		// 打折 - 单品
@@ -76,9 +77,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		}
 
 		// 减价
+		$scope.reduce = 0
 		$scope.reduceFunc = function(value){
 			$scope.changeAlert("请选择付款方式！")
 			$scope.wechatHide = true
+			$scope.outwrap = false
 			cashFunc(value)
 		}
 
