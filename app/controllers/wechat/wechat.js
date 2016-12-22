@@ -158,7 +158,7 @@ exports.addmenu = function(req, res) {
 // https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd95a4f3e82e0df64&redirect_uri=http%3A%2F%2Fy7gr8.ngrok.natapp.cn%2Fwechat%2Flogin&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
 exports.login = function(req, res) {
     var code = req.query.code
-        // 用获取code换取token
+    // 用获取code换取token
     var url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + config.wechat.appID + '&secret=' + config.wechat.appSecret + '&code=' + code + '&grant_type=authorization_code'
     var saveToken = function() {
         request(url, function(error, response, body) {
@@ -184,7 +184,7 @@ exports.login = function(req, res) {
         })
     }
     saveToken()
-        // var refreshUrl = 'https://api.weixin.qq.com/sns/oauth2/refresh_token?appid='+config.wechat.appID+'&grant_type=refresh_token&refresh_token=REFRESH_TOKEN'
+    // var refreshUrl = 'https://api.weixin.qq.com/sns/oauth2/refresh_token?appid='+config.wechat.appID+'&grant_type=refresh_token&refresh_token=REFRESH_TOKEN'
 
 }
 
