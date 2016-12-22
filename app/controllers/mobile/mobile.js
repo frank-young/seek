@@ -116,8 +116,6 @@ exports.order = (req, res) => {
         M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1),
         D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate())
 
-    console.log(orderObj)
-
     if (orderObj.total == "" || orderObj.total == null) {
         res.json({
             status: 0,
@@ -160,24 +158,58 @@ exports.order = (req, res) => {
                             if (err) {
                                 console.log(err)
                             } else {
-                                res.json({ msg: "添加成功", status: 1 })
+                                cb(null)
                             }
                         })
                     }
                 })
+            },
+            (cb) => {
+                let arr = [],
+                    dish = orderObj.dish,
+                    len = dish.length
+
+                for(let i = 0; i< len; i++){
+                    let itemObj = {
+                        isTop:false,
+                        isChecked:false,
+                        name: dish[i].name,
+                        cate: dish[i].cate,
+                        price: Math.round(dish[i].price*100)/100,
+                        reducePrice: Math.round(dish[i].reducePrice*100)/100,
+                        number: dish[i].number, 
+                        dishArr: dish[i].dishArr,
+                        total:Math.round(dish[i].number * dish[i].reducePrice*100)/100,
+                        time:Date.now(),
+                        year: Y,
+                        month: M,
+                        day: D,
+                        orderNum:orderObj.orderNum
+                    }
+                    
+
+                    let _item = new Item(itemObj)
+
+                    _item.save((err, order) => {
+                        if (err) {
+                            console.log(err)
+                        }
+                    })
+                    
+                    if(i == len-1) {
+                        cb(null, arr)
+                    }
+                }
             }
-        ], (err, result) => {
+
+        ], (err) => {
             if(err){
                 res.json({
-                    errno: 1000,
+                    status: 0,
                     data:"发生错误"
                 })
             } else {
-                res.json({
-                    errno: 0,
-                    data:result
-                })
-
+                res.json({ msg: "添加成功", status: 1 })
             }
         })
         
