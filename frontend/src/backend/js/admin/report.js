@@ -55,9 +55,10 @@ function createFile(domain,name,year,month){
         url: '/manager/report/create?domain='+domain+'&name='+name+'&year='+year+'&month='+month,
         type: "get",
         beforeSend: function() {
-
+            $('#list').append(downloadTpls())
         },
         success: function(data) {
+            clearHtml()
             addHtml(data.file,data.link)
         }
     })
@@ -90,4 +91,29 @@ function tpls(name,link){
 
     return html;
 }
+
+//加载中模版
+function downloadTpls(){
+    var html = '<div class="row item">'+
+                    '<div class="col-xs-12 text-center">'+
+                        '报表生成中，请稍后...'+
+                    '</div>'+
+                '</div>';
+
+    return html;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
