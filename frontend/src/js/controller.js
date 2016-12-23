@@ -868,11 +868,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 angular.module("billlistMoudle", []).controller('BilllistCtrl', ['$scope', '$window', 'orderData', 'dishData', 'settingData', 'paytypeData', 'itemData', 'domainData',
     function($scope, $window, orderData, dishData, settingData, paytypeData, itemData, domainData) {
 
-        var wxordering = JSON.parse(localStorage.getItem('wxordering'))
+  //       var wxordering = JSON.parse(localStorage.getItem('wxordering'))
 
-		wxordering.forEach(function(v,i){
-			console.log(v.order_num)
-		})
+		// wxordering.forEach(function(v,i){
+		// 	console.log(v.order_num)
+		// })
 
         orderData.getData().then(function(data) {
             $scope.orders = data.orders

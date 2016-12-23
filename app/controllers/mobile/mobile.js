@@ -74,7 +74,7 @@ exports.goods = (req, res) => {
                             obj.description = goods[i].description
                             arr[cateNum].foods.push(obj)
 
-                            if(i == len-1) {
+                            if(i === len - 1) {
                                 cb(null, arr)
                             }
                         })
@@ -147,6 +147,7 @@ exports.order = (req, res) => {
                         orderObj.pname = data.pname,
                         orderObj.address = data.address,
                         orderObj.tel = data.tel,
+                        orderObj.time = new Date() - 0,
                         orderObj.year = Y,
                         orderObj.month = M,
                         orderObj.day = D,
@@ -196,7 +197,7 @@ exports.order = (req, res) => {
                         }
                     })
                     
-                    if(i == len-1) {
+                    if(i === len - 1) {
                         cb(null, arr)
                     }
                 }

@@ -1,9 +1,10 @@
 (function(){
 	var num = g('num').getAttribute('data-num'),
 		domain = g('domain').getAttribute('data-domain')
-	localSave('num',num)
-	localSave('domain',domain)
-	window.location.href = "http://127.0.0.1:8080/table?id="+num+"&domain="+domain
+	num = encodeURI(num)
+	var url = 'http://127.0.0.1:8080/?num='+ num +'&domain='+domain
+
+	window.location.href = url
 })()
 
 function g(id) {

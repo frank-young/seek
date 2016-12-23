@@ -9,7 +9,7 @@ angular.module("tableMoudle", []).controller('TableCtrl',
 
         // $scope.qrcode = "../../table/qrcode?text=http://frankyoung.s1.natapp.link/mobile/ordering/"
 
-	 	$scope.qrcode = "../../table/qrcode?text=https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd95a4f3e82e0df64%26redirect_uri=http%3A%2F%2Fy7gr8.ngrok.natapp.cn%2Fmobile%2Fordering%2F"
+	 	$scope.qrcode = "../../table/qrcode?text=https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd95a4f3e82e0df64%26redirect_uri=http%3A%2F%2Ffrankyoung.s1.natapp.link%2Fmobile%2Fordering%2F"
 
         $scope.qrcodeStill = "%26response_type=code%26scope=snsapi_userinfo%26state=STATE#wechat_redirect"
 	    tableData.getData().then(function(data){ 
