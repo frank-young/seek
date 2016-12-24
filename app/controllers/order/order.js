@@ -619,7 +619,6 @@ exports.gradeAllSomeday = function(req, res) {
         M = id.substr(4, 2),
         D = id.substr(6, 2)
 
-
     Order.fetch({ "domainlocal": user.domain, "year": Y, "month": M, "day": D }, function(err, orders) {
         var grade = 0,
             noincome = 0,
@@ -760,9 +759,13 @@ function creatReport(domain, name, year, month, res) {
 
     async.waterfall([
         (cb) => {
-            let len = getDaysInOneMonth(year,month - 1 )
+            let len = getDaysInOneMonth(year, month - 1)
+            // if (month === 12) {
+            //     year = year - 1
+            // }
+            let m = changeNumberToString(month - 1)
             for (let i = 26; i <= len; i++) {
-                Order.fetch({ "domainlocal": domain, "year": year, "month": month - 1, 'day': i}, function(err, orders) {
+                Order.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': i }, function(err, orders) {
 
                     orders.forEach(function(value, index) {
                         let orderObj = {
@@ -788,18 +791,18 @@ function creatReport(domain, name, year, month, res) {
                         orderData.push(orderObj)
 
                         total += value.total,
-                        reduce += value.reduce,
-                        onceincome += value.onceincome,
-                        noincome += value.noincome,
-                        cashincome += value.cashincome,
-                        wxincome += value.wxincome,
-                        alipayincome += value.alipayincome,
-                        cardincome += value.cardincome,
-                        schoolincome += value.schoolincome,
-                        petcardincome += value.petcardincome,
-                        reduceAfter += value.reduceAfter,
-                        erase += value.erase,
-                        realTotal += value.realTotal
+                            reduce += value.reduce,
+                            onceincome += value.onceincome,
+                            noincome += value.noincome,
+                            cashincome += value.cashincome,
+                            wxincome += value.wxincome,
+                            alipayincome += value.alipayincome,
+                            cardincome += value.cardincome,
+                            schoolincome += value.schoolincome,
+                            petcardincome += value.petcardincome,
+                            reduceAfter += value.reduceAfter,
+                            erase += value.erase,
+                            realTotal += value.realTotal
                     })
 
                     if (i === len) {
@@ -812,9 +815,12 @@ function creatReport(domain, name, year, month, res) {
         },
         (orderData, cb) => {
             let len = 25
-            for (let i = 1; i <= len; i++) {
-                Order.fetch({ "domainlocal": domain, "year": year, "month": month, 'day': i}, function(err, orders) {
+            let m = changeNumberToString(month)
 
+            for (let i = 1; i <= len; i++) {
+                let day = changeNumberToString(i)
+
+                Order.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, orders) {
                     orders.forEach(function(value, index) {
                         let orderObj = {
                             "时间": value.year + '-' + value.month + '-' + value.day,
@@ -839,18 +845,18 @@ function creatReport(domain, name, year, month, res) {
                         orderData.push(orderObj)
 
                         total += value.total,
-                        reduce += value.reduce,
-                        onceincome += value.onceincome,
-                        noincome += value.noincome,
-                        cashincome += value.cashincome,
-                        wxincome += value.wxincome,
-                        alipayincome += value.alipayincome,
-                        cardincome += value.cardincome,
-                        schoolincome += value.schoolincome,
-                        petcardincome += value.petcardincome,
-                        reduceAfter += value.reduceAfter,
-                        erase += value.erase,
-                        realTotal += value.realTotal
+                            reduce += value.reduce,
+                            onceincome += value.onceincome,
+                            noincome += value.noincome,
+                            cashincome += value.cashincome,
+                            wxincome += value.wxincome,
+                            alipayincome += value.alipayincome,
+                            cardincome += value.cardincome,
+                            schoolincome += value.schoolincome,
+                            petcardincome += value.petcardincome,
+                            reduceAfter += value.reduceAfter,
+                            erase += value.erase,
+                            realTotal += value.realTotal
                     })
 
                     if (i === len) {
@@ -862,9 +868,13 @@ function creatReport(domain, name, year, month, res) {
 
         },
         (orderData, cb) => {
-            let len = getDaysInOneMonth(year,month - 1)
+            let len = getDaysInOneMonth(year, month - 1)
+            // if (month === 12) {
+            //     year = year - 1
+            // }
+            let m = changeNumberToString(month - 1)
             for (let i = 26; i <= len; i++) {
-                Petcardorder.fetch({ "domainlocal": domain, "year": year, "month": month - 1, 'day': i}, function(err, petcardorders) {
+                Petcardorder.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': i }, function(err, petcardorders) {
                     petcardorders.forEach(function(value, index) {
                         let petcardorderObj = {
                             "时间": value.year + '-' + value.month + '-' + value.day,
@@ -906,8 +916,10 @@ function creatReport(domain, name, year, month, res) {
         },
         (orderData, cb) => {
             let len = 25
+            let m = changeNumberToString(month)
             for (let i = 1; i <= len; i++) {
-                Petcardorder.fetch({ "domainlocal": domain, "year": year, "month": month, 'day': i}, function(err, petcardorders) {
+                let day = changeNumberToString(i)
+                Petcardorder.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, petcardorders) {
                     petcardorders.forEach(function(value, index) {
                         let petcardorderObj = {
                             "时间": value.year + '-' + value.month + '-' + value.day,
@@ -1002,23 +1014,13 @@ function creatReport(domain, name, year, month, res) {
 }
 
 // 获取月份的天数
-function getDaysInOneMonth(year, month){
+function getDaysInOneMonth(year, month) {
     month = parseInt(month, 10)
-    let d= new Date(year, month, 0)
+    let d = new Date(year, month, 0)
     return d.getDate()
-} 
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// 格式转化
+function changeNumberToString(value) {
+    return value < 10 ? '0' + value : '' + value
+}
