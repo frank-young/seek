@@ -368,7 +368,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		domainData.getData().then(function(data){
 			var shopinfo = data.domain,
 				serialNum = localStorage.serialNum,
-				orderNum = shopinfo.name +Y + M + D + serialNum
+				orderNum = shopinfo.name + Math.round((Math.random()*1000)) +'_' + +Y + M + D + serialNum
 				localStorage.orderNum = orderNum
 		})
 
@@ -377,7 +377,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			domainData.getData().then(function(data){
 				var shopinfo = data.domain,
 					serialNum = localStorage.serialNum,
-					orderNum = shopinfo.name +Y + M + D + serialNum
+					orderNum = shopinfo.name+ Math.round((Math.random()*1000))+'_' +Y + M + D + serialNum
 
 				$scope.order = {
 					"isTop":false,
