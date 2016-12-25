@@ -52,7 +52,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 		// 折后、减免、免单后的真实价格
 		$scope.totalReal = angular.copy($scope.total)
-
+		$scope.discount = 100
 		// 打折
 		$scope.discountFunc = function(value){
 			$scope.totalReal = 0
@@ -168,7 +168,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				}
 			})
 			payTypeFunc()
-			if(value == "现金"){
+			if(value == "现金" || value == "MOD"){
 				$scope.outwrap = false
 				$scope.panels = -1
 				$scope.order.cashincome = $scope.order.realTotal	// 计入现金收入
@@ -219,7 +219,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.order.wxincome = $scope.order.realTotal
 			}else if(value == "支付宝-"||value == "支"){
 				$scope.order.alipayincome = $scope.order.realTotal
-			}else if(value == "刷卡"){
+			}else if(value == "刷卡" || value == "信用卡"){
 				$scope.order.cardincome = $scope.order.realTotal
 			}else if(value == "挂单"){
 				$scope.wechatHide = true
@@ -362,6 +362,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		domainData.getShopidData().then(function(data){
 			var shopid = data.shopid 
 			localStorage.shopid = shopid
+			$scope.shopid = data.shopid 
 		})
 
 		//存入本地当前订单号
@@ -422,7 +423,11 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		getShopInfo()
 
 		// 找零
-		$scope.cashInfo = [10,15,20,30,50,100]
+		if(localStorage.shopid && localStorage.shopid ==='279080129') {
+			$scope.cashInfo = [50,100]
+		}else{
+			$scope.cashInfo = [10,15,20,30,50,100]
+		}
 
 		$scope.selectCash = function(value){
 			$scope.cashTotal = value - $scope.order.realTotal

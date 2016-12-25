@@ -33,9 +33,9 @@
                     <td ng-bind="o.time | onlytime"></td>
                     <td ng-bind="o.editPeople"></td>
                     <td>
-                        <button style="padding: 0 10px;" class="button button-primary" ng-click="lookAll(o._id)">查看详情</button>
-                        <button style="padding: 0 10px;" class="button " ng-click="printRec('print-rec')">重新打印</button>
-                        <button ng-if="role == 10 || shopid=='464246789'" style="padding: 0 10px;" class="button " data-animation="am-fade-and-scale" placement="center" data-template-url="warning.tpl.html" bs-modal>反位结算</button>
+                        <button style="padding: 0 10px;" class="button button-primary" ng-click="lookAll(o._id)">详情</button>
+                        <button style="padding: 0 10px;" class="button " ng-click="printRec('print-rec')">打印</button>
+                        <button ng-if="role == 10 || shopid=='464246789'" style="padding: 0 10px;" class="button " data-animation="am-fade-and-scale" placement="center" data-template-url="warning.tpl.html" bs-modal>反位</button>
                     </td>
                 </tr>
             </tbody>
@@ -45,30 +45,30 @@
         <div class="detail" id="print-rec">
             <div class="print-wrap">
                 <h5 class="center" style="margin-bottom:20px;">SEEK CAFE 结账单</h5>
-                <div class="detail-item">
+                <div class="detail-item" ng-if="shopid!='279080129'">
                     <span>店铺名称：</span>
                     <span ng-bind="order.pname"></span>
                 </div>
-                <div class="detail-item">
+                <div class="detail-item" ng-if="shopid!='279080129'">
                     <span>店铺地址：</span>
                     <span ng-bind="order.address"></span>
                 </div>
-                <div class="detail-item">
+                <div class="detail-item" ng-if="shopid!='279080129'">
                     <span>联系电话：</span>
                     <span ng-bind="order.tel"></span>
                 </div>
-                <div class="hr">
+                <div class="hr" ng-if="shopid!='279080129'">
                     ------------------------------------------------------------------------------
                 </div>
                 <div class="detail-item">
                     <span>NO.</span>
                     <span ng-bind="order.orderNum" class="f12"></span>
                 </div>
-                <div class="detail-item">
+                <div class="detail-item" ng-if="shopid!='279080129'">
                     <span></span>
                     <span ng-bind="order.time | datetime" class="f12"></span>
                 </div>
-                <div class="detail-item">
+                <div class="detail-item" ng-if="shopid!='279080129'">
                     <span>用餐人数：</span>
                     <span ng-bind="order.peopleNum"></span>
                 </div>
@@ -76,7 +76,7 @@
                     <span>取餐编号：</span>
                     <span ng-bind="order.dishNum"></span>
                 </div>
-                <div class="detail-item">
+                <div class="detail-item" ng-if="shopid!='279080129'">
                     <span>
                       就餐方式：
                     </span>

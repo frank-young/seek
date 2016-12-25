@@ -55,7 +55,7 @@
     <div class="row hidden-xs hidden-sm">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-6 col-xs-12">
+                <div class="col-md-7 col-xs-12">
                     <div class="row">
                         <div class="col-xs-1">
                             <div class="checkbox">
@@ -68,7 +68,7 @@
                         </div>
                     </div>
 
-                    <div class="col-xs-4">
+                    <div class="col-xs-5">
                             订单编号
                     </div>
                     <div class="col-xs-3" ng-click="col='price';desc=!desc">
@@ -77,12 +77,12 @@
                             <i class="fa fa-sort"></i>
                         </span>
                     </div>
-                    <div class="col-xs-4">支付方式</div>
+                    <div class="col-xs-2">支付方式</div>
                 </div>
 
             </div>
 
-            <div class="col-md-2 col-xs-12" >操作人</div>
+            <div class="col-md-1 col-xs-12" >操作人</div>
             <!-- /.col-md-1 -->
             <div class="col-md-2 col-xs-6">
                 <p style="cursor:pointer;">创建时间</p>
@@ -95,7 +95,7 @@
 <div class="row cus-item fade-pin" ng-repeat="o in order | orderBy:col:desc | filter: pinSort | offset: (currentPage-1)*itemsPerPage |  limitTo:itemsPerPage">
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-6 col-xs-12">
+            <div class="col-md-7 col-xs-12">
                 <div class="row">
                     <div class="col-xs-1">
                         <div class="checkbox">
@@ -105,20 +105,20 @@
                             </label>
                         </div>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-5">
                         <a href="" ui-sref="web.orderDetail({id:o._id})" ng-bind="o.orderNum"></a>
                     </div>
                     <div class="col-xs-3">
                         <p ng-bind="o.realTotal | currency:'￥' "></p>
                     </div>
-                    <div class="col-xs-4">
+                    <div class="col-xs-2">
                         <p><span ng-repeat="pt in o.payType" ng-bind="payTypeArr[pt]+' ' "></span></p>
                         
                     </div>
                 </div>
             </div>
 
-            <div class="col-md-2 col-xs-12">
+            <div class="col-md-1 col-xs-12">
                 <p ng-bind="o.editPeople"></p>
             </div>
             <div class="col-md-2 col-xs-3">
