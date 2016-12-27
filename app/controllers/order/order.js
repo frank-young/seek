@@ -301,76 +301,7 @@ exports.downloadMonth = function(req, res) {
     var month = req.query.month
 
     var user = req.session.user
-        // var fields = ['时间', '订单编号', '总价', '优惠', '次卡', '挂帐金额', '现金', '微信', '支付宝', '刷卡', '校园卡', '会员卡', '应收', '抹零', '充值金额', '充值赠送', '实收']
-
-    // var orderData = []
-    // Order.fetch({ "domainlocal": user.domain, "year": year, "month": month }, function(err, orders) {
-
-    //     orders.forEach(function(value, index) {
-    //         var orderObj = {
-    //             "时间": value.year + '-' + value.month + '-' + value.day,
-    //             "订单编号": value.orderNum,
-    //             "总价": value.total,
-    //             "优惠": value.reduce,
-    //             "次卡": value.onceincome,
-    //             '挂帐金额': value.noincome,
-    //             '现金': value.cashincome,
-    //             '微信': value.wxincome,
-    //             '支付宝': value.alipayincome,
-    //             '刷卡': value.cardincome,
-    //             '校园卡': value.schoolincome,
-    //             '会员卡': value.petcardincome,
-    //             "应收": value.reduceAfter,
-    //             "抹零": value.erase,
-    //             "充值金额": 0,
-    //             "充值赠送": 0,
-    //             "实收": value.realTotal
-
-    //         }
-    //         orderData.push(orderObj)
-    //     })
-
-    //     Petcardorder.fetch({ "domainlocal": user.domain, "year": year, "month": month }, function(err, petcardorders) {
-    //         petcardorders.forEach(function(value, index) {
-    //             var petcardorderObj = {
-    //                 "时间": value.year + '-' + value.month + '-' + value.day,
-    //                 "订单编号": value.order_num,
-    //                 "总价": 0,
-    //                 "优惠": 0,
-    //                 "次卡": 0,
-    //                 '挂帐金额': 0,
-    //                 '现金': value.cashincome,
-    //                 '微信': value.wxincome,
-    //                 '支付宝': value.alipayincome,
-    //                 '刷卡': 0,
-    //                 '校园卡': 0,
-    //                 '会员卡': 0,
-    //                 "应收": 0,
-    //                 "抹零": 0,
-    //                 "充值金额": value.fee,
-    //                 "充值赠送": value.bonus,
-    //                 "实收": value.fee
-
-    //             }
-    //             orderData.push(petcardorderObj)
-    //         })
-    //         var csv = json2csv({ data: orderData, fields: fields })
-
-    //         var file = year + '年' + month + '月度报表.csv'
-    //         var link = '/orderprint/' + file
-
-    //         fs.writeFile('frontend/src' + link, csv, function(err) {
-    //             if (err) throw err
-    //             res.json({
-    //                 status: 1,
-    //                 msg: "生成文件成功！",
-    //                 link: link,
-    //                 file: file
-    //             })
-    //         })
-
-    //     })
-    // })
+ 
     creatReport(user.domain, '', year, month, res)
 }
 
@@ -707,7 +638,7 @@ exports.monthListManager = function(req, res) {
     })
 }
 
-//下载月报表  会计总号，代码未重构
+//下载月报表  会计总号，代码已经重构，开心
 exports.downloadMonthManager = function(req, res) {
     var year = req.query.year,
         month = req.query.month,
@@ -765,7 +696,8 @@ function creatReport(domain, name, year, month, res) {
             // }
             let m = changeNumberToString(month - 1)
             for (let i = 26; i <= len; i++) {
-                Order.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': i }, function(err, orders) {
+                let day = changeNumberToString(i)
+                Order.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, orders) {
 
                     orders.forEach(function(value, index) {
                         let orderObj = {
@@ -790,19 +722,19 @@ function creatReport(domain, name, year, month, res) {
                         }
                         orderData.push(orderObj)
 
-                        total += value.total,
-                            reduce += value.reduce,
-                            onceincome += value.onceincome,
-                            noincome += value.noincome,
-                            cashincome += value.cashincome,
-                            wxincome += value.wxincome,
-                            alipayincome += value.alipayincome,
-                            cardincome += value.cardincome,
-                            schoolincome += value.schoolincome,
-                            petcardincome += value.petcardincome,
-                            reduceAfter += value.reduceAfter,
-                            erase += value.erase,
-                            realTotal += value.realTotal
+                        total += value.total
+                        reduce += value.reduce
+                        onceincome += value.onceincome
+                        noincome += value.noincome
+                        cashincome += value.cashincome
+                        wxincome += value.wxincome
+                        alipayincome += value.alipayincome
+                        cardincome += value.cardincome
+                        schoolincome += value.schoolincome
+                        petcardincome += value.petcardincome
+                        reduceAfter += value.reduceAfter
+                        erase += value.erase
+                        realTotal += value.realTotal
                     })
 
                     if (i === len) {
@@ -844,19 +776,19 @@ function creatReport(domain, name, year, month, res) {
                         }
                         orderData.push(orderObj)
 
-                        total += value.total,
-                            reduce += value.reduce,
-                            onceincome += value.onceincome,
-                            noincome += value.noincome,
-                            cashincome += value.cashincome,
-                            wxincome += value.wxincome,
-                            alipayincome += value.alipayincome,
-                            cardincome += value.cardincome,
-                            schoolincome += value.schoolincome,
-                            petcardincome += value.petcardincome,
-                            reduceAfter += value.reduceAfter,
-                            erase += value.erase,
-                            realTotal += value.realTotal
+                        total += value.total
+                        reduce += value.reduce
+                        onceincome += value.onceincome
+                        noincome += value.noincome
+                        cashincome += value.cashincome
+                        wxincome += value.wxincome
+                        alipayincome += value.alipayincome
+                        cardincome += value.cardincome
+                        schoolincome += value.schoolincome
+                        petcardincome += value.petcardincome
+                        reduceAfter += value.reduceAfter
+                        erase += value.erase
+                        realTotal += value.realTotal
                     })
 
                     if (i === len) {
@@ -874,7 +806,8 @@ function creatReport(domain, name, year, month, res) {
             // }
             let m = changeNumberToString(month - 1)
             for (let i = 26; i <= len; i++) {
-                Petcardorder.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': i }, function(err, petcardorders) {
+                let day = changeNumberToString(i)
+                Petcardorder.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, petcardorders) {
                     petcardorders.forEach(function(value, index) {
                         let petcardorderObj = {
                             "时间": value.year + '-' + value.month + '-' + value.day,
@@ -898,11 +831,11 @@ function creatReport(domain, name, year, month, res) {
                         }
                         orderData.push(petcardorderObj)
 
-                        cashincome += value.cashincome,
-                            wxincome += value.wxincome,
-                            alipayincome += value.alipayincome,
-                            fee += value.fee,
-                            bonus += value.bonus,
+                        cashincome += value.cashincome
+                            wxincome += value.wxincome
+                            alipayincome += value.alipayincome
+                            fee += value.fee
+                            bonus += value.bonus
                             realTotal += value.fee
 
                     })
@@ -943,11 +876,11 @@ function creatReport(domain, name, year, month, res) {
                         }
                         orderData.push(petcardorderObj)
 
-                        cashincome += value.cashincome,
-                            wxincome += value.wxincome,
-                            alipayincome += value.alipayincome,
-                            fee += value.fee,
-                            bonus += value.bonus,
+                        cashincome += value.cashincome
+                            wxincome += value.wxincome
+                            alipayincome += value.alipayincome
+                            fee += value.fee
+                            bonus += value.bonus
                             realTotal += value.fee
 
                     })
@@ -973,11 +906,11 @@ function creatReport(domain, name, year, month, res) {
                 '刷卡': cardincome,
                 '校园卡': schoolincome,
                 '会员卡': petcardincome,
-                "应收": reduceAfter,
+                "应收": (Math.round(reduceAfter * 100))/100,
                 "抹零": erase,
                 "充值金额": fee,
                 "充值赠送": bonus,
-                "实收": realTotal
+                "实收": (Math.round(realTotal * 100))/100
 
             }
 

@@ -40,6 +40,14 @@ exports.report = function(req, res) {
     })
 }
 
+exports.item = function(req, res) {
+    var _admin = req.session.admin
+    res.render('admin/item', {
+        title: '品项报表',
+        name: _admin.name
+    })
+}
+
 
 //注册
 exports.ctrlaccountAdd = function(req, res) {

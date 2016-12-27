@@ -1,8 +1,11 @@
+'use strict'
+
 var Item = require('../../models/order/item')	//引入模型
 var _ = require('underscore'),
 	json2csv = require('json2csv'),
-	fs = require('fs')
-	path = require('path')
+	fs = require('fs'),
+	path = require('path'),
+	async = require('async')
 
 	//品项列表页
 	exports.list = function(req,res){
@@ -145,10 +148,10 @@ var _ = require('underscore'),
 
 		// 去除重复元素
 		function distinct(arr) {
-		    var ret = [],
+		    let ret = [],
 		        length = arr.length;
-		    for(var i = 0;i < length; i++){
-		        for(j = i+1; j<length;j++){
+		    for(let i = 0;i < length; i++){
+		        for(let j = i+1; j<length;j++){
 		            if(arr[i].year === arr[j].year && arr[i].month === arr[j].month  && arr[i].day === arr[j].day){
 		                j = ++i;
 		            }
@@ -178,7 +181,7 @@ var _ = require('underscore'),
 				var itemObj = {
 					"名称":value.name,
 					"数量":value.number,
-					"小计":value.total,
+					"小计":value.total
 				}
 				itemData.push(itemObj)
 			})
@@ -198,11 +201,147 @@ var _ = require('underscore'),
 				  		file:file
 				  	})
 				}
-			  	
 			})
 		})
+	}
+
+	exports.downloadItemMonth = function(req, res) {
+	    var year = req.query.year,
+	        month = req.query.month,
+	        domain = req.query.domain,
+	        name = req.query.name
+
+	    creatItem(domain, name, year, month, res)
 
 	}
+
+	//报表生成
+	function creatItem(domain, name, year, month, res) {
+	    year = parseInt(year)
+	    month = parseInt(month)
+
+	    let fields = ['时间','名称', '数量','小计']
+
+	    let itemData = [],
+	    	countTotal = 0,
+	        total = 0
+
+	    async.waterfall([
+	        (cb) => {
+	            let len = getDaysInOneMonth(year, month - 1)
+	            let m = changeNumberToString(month - 1)
+	            for (let i = 26; i <= len; i++) {
+	            	let day = changeNumberToString(i)
+
+	                Item.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, items) {
+
+	                    items.forEach(function(value, index) {
+	                    	let plus =  value.total * value.number
+	                        let itemObj = {
+	                        		"时间": value.year + '-' + value.month + '-' + value.day,
+									"名称":value.name,
+									"数量":value.number,
+									"小计":plus
+								}
+
+	                        itemData.push(itemObj)
+
+	                        total += plus
+                            countTotal += value.number
+	                    })
+
+	                    if (i === len) {
+	                        cb(null, itemData)
+	                    }
+
+	                })
+	            }
+
+	        },
+	        (itemData, cb) => {
+	            let len = 25
+	            let m = changeNumberToString(month)
+
+	            for (let i = 1; i <= len; i++) {
+	                let day = changeNumberToString(i)
+
+	                Item.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, items) {
+
+	                    items.forEach(function(value, index) {
+	                    	let plus =  value.total * value.number
+	                        let itemObj = {
+	                        		"时间": value.year + '-' + value.month + '-' + value.day,
+									"名称":value.name,
+									"数量":value.number,
+									"小计":plus
+								}
+
+	                        itemData.push(itemObj)
+
+	                        total += plus
+                            countTotal += value.number
+	                    })
+
+	                    if (i === len) {
+	                        cb(null, itemData)
+	                    }
+
+	                })
+	            }
+
+	        },
+	        (itemData, cb) => {
+	            let itemTotal = {
+	            		"时间": '合计',
+						"名称": '-',
+						"数量": countTotal,
+						"小计": (Math.round(total * 100))/100
+					}
+
+	            itemData.push(itemTotal)
+	            cb(null, itemData)
+	        },
+	        (itemData, cb) => {
+	            let csv = json2csv({ data: itemData, fields: fields })
+
+	            let file = name + year + '年' + month + '月品项.csv'
+	            let link = '/orderprint/item/' + file
+
+	            fs.writeFile('frontend/src' + link, csv, function(err) {
+	                if (err) throw err
+	                cb(null, file, link)
+	            })
+	        },
+	    ], (err, file, link) => {
+	        if (err) {
+	            res.json({
+	                errno: 1000,
+	                data: "发生错误"
+	            })
+	        } else {
+	            res.json({
+	                status: 1,
+	                msg: "生成文件成功！",
+	                link: link,
+	                file: file
+	            })
+
+	        }
+	    })
+	}
+
+	// 获取月份的天数
+	function getDaysInOneMonth(year, month) {
+	    month = parseInt(month, 10)
+	    let d = new Date(year, month, 0)
+	    return d.getDate()
+	}
+
+	// 格式转化
+	function changeNumberToString(value) {
+	    return value < 10 ? '0' + value : '' + value
+	}
+
 
 
 	

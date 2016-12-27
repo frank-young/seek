@@ -34,8 +34,8 @@
                     <td ng-bind="cc.name"></td>
                     <td>
                         <span class="ctrl">
-                  <button class="button" ng-click="reduce(cc)">-</button>
-                  <span style="margin: 0 5px 0 5px;">{{cc.number}}</span>
+                        <button class="button" ng-click="reduce(cc)">-</button>
+                        <input type="text" style="margin: 0 5px 0 5px;display:inline-block;width: 30px;padding:0;border:0;text-align:center;border-bottom:1px solid #ccc;border-radius:0;" ng-model="cc.number">
                         <button class="button button-primary" ng-click="add(cc)">+</button>
                         </span>
                     </td>

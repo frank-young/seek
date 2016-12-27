@@ -1,0 +1,21 @@
+include ./includes/header_i
+include ./includes/nav
+.container.mt-60
+  .row
+      h3.text-center 选择店名，生成品项
+  .row
+    .col-md-12
+      .input-group
+        input(type="hidden",id="year")
+        input(type="hidden",id="month")
+        select.form-control(name='item', id='item')
+          option(value='seek01') 天软微吧店
+          option(value='seek02') 天商微渡店
+          option(value='seek03') 晋滨国际店
+          option(value='seek04') 津京互联店
+        span.input-group-btn
+          button#submit-item.btn.btn-success(type='button') 生成
+  div#list.shadow-box
+include ./includes/footer_i  
+script(src="../../backend/js/admin/item.js")
+        
