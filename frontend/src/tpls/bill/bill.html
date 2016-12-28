@@ -211,7 +211,7 @@
                             <div class="row">
                                 <div class="one-half column pay-type" ng-repeat="p in creditArr">
                                     <div class="p-radio">
-                                        <input class="p-radio-i" type="radio" name="type" ng-click="selectCredit($index)"><span>{{p}}</span>
+                                        <input class="p-radio-i" type="radio" name="type" ng-click="selectCredit($index,p)"><span>{{p}}</span>
                                     </div>
                                 </div>
                             </div>
@@ -393,6 +393,13 @@
               支付方式：
             </span>
                 <span ng-repeat="pt in order.payType" ng-bind="payTypeArr[pt]+' ' ">           
+            </span>
+            </div>
+            <div class="detail-item" ng-show="creditShow">
+                <span>
+              挂账人：
+            </span>
+                <span ng-bind="order.creditPeople">           
             </span>
             </div>
             <div class="detail-item" ng-show="order.isMember">

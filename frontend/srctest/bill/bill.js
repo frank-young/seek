@@ -143,13 +143,16 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		})
 
 		// 挂帐
-		$scope.selectCredit = function(index){
+		$scope.selectCredit = function(index,p){
 			resetIncome()
 			$scope.discountFunc(0)
 			$scope.order.noincome = $scope.order.reduce		//计入虚收
 			$scope.order.redit = index	// 纪录编号
 
+			$scope.creditShow = true
+			$scope.order.creditPeople = p
 		}
+		$scope.creditShow = false
 		$scope.outwrap = false
 		$scope.pendingShow = true
 		// 选择付款方式 统一
@@ -157,6 +160,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			resetIncome()
 			$scope.wechatHide = false
 			$scope.pendingShow = true
+			$scope.creditShow = false
 			$scope.auth_code = ""
 			$scope.alipay_auth_code = ""
 			$scope.cookCart.forEach(function(ele,i){
@@ -226,7 +230,9 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.pendingShow = false
 				$scope.outwrap = false
 				$scope.panels = -1
-			}else{
+			}else if(value == "挂账" || value == "挂帐"){
+				$scope.creditShow = true
+			} else{
 				$scope.outwrap = false
 				$scope.panels = -1
 				$scope.order.otherincome = $scope.order.realTotal  // 计入其他收入
@@ -405,6 +411,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 					"cardincome":0,
 					"memberBalance":0,
 					"eatType":'大厅',
+					"creditPeople":"",
 					"total": $scope.total,
 					"reduce": $scope.total - $scope.totalReal,
 					"reduceAfter": $scope.totalReal,

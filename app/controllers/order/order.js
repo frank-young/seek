@@ -195,6 +195,7 @@ exports.save = function(req, res) {
                     memberBalance: Math.round(orderObj.memberBalance * 100) / 100,
                     otherincome: Math.round(orderObj.otherincome * 100) / 100,
                     credit: Math.round(orderObj.credit * 100) / 100,
+                    creditPeople: orderObj.creditPeople,
                     erase: orderObj.erase,
                     isMember: orderObj.isMember,
                     isPetcard: orderObj.isPetcard,

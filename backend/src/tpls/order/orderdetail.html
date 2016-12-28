@@ -94,6 +94,13 @@
                     <span>支付方式：</span>
                     <span ng-repeat="pt in order.payType" ng-bind="payTypeArr[pt]+' ' "></span>
                 </div>
+                <div class="detail-item" ng-show="order.creditPeople">
+                    <span>
+                  挂账人：
+                </span>
+                    <span ng-bind="order.creditPeople">           
+                </span>
+                </div>
                 <div class="detail-item" ng-show="order.isMember">
                     <span>会员姓名：</span>
                     <span ng-bind="order.memberName"></span>
