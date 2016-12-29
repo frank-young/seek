@@ -236,7 +236,13 @@ var _ = require('underscore'),
 	                Item.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, items) {
 
 	                    items.forEach(function(value, index) {
-	                    	let plus =  value.total * value.number
+	                    	let plus = 0
+	                    	if (value.total === 0) {
+	                    		plus = value.price * value.number
+	                    	} else {
+	                    		plus =  value.total
+	                    	}
+	                    	
 	                        let itemObj = {
 	                        		"时间": value.year + '-' + value.month + '-' + value.day,
 									"名称":value.name,
@@ -268,7 +274,12 @@ var _ = require('underscore'),
 	                Item.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, items) {
 
 	                    items.forEach(function(value, index) {
-	                    	let plus =  value.total * value.number
+	                    	let plus = 0
+	                    	if (value.total === 0) {
+	                    		plus = value.price * value.number
+	                    	} else {
+	                    		plus =  value.total
+	                    	}
 	                        let itemObj = {
 	                        		"时间": value.year + '-' + value.month + '-' + value.day,
 									"名称":value.name,
