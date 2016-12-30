@@ -225,15 +225,28 @@ var _ = require('underscore'),
 	    let fields = ['时间','名称', '数量','小计']
 
 	    let itemData = [],
+	    	cateData = [],
 	    	countTotal = 0,
 	        total = 0
 	    async.waterfall([
-	    	(cb) => {
+	    	 (cb) => {
+                Cate.fetch({ "domainlocal": domain}, function(err, cates) {
+
+                    cates.forEach(function(cate,i) {
+                    	cateData.push(cate.label)
+                    	if (i === cates.length - 1) {
+	                        cb(null, cateData)
+	                    }
+                    })
+
+                })
+
+	        },
+	    	(cateData, cb) => {
 	            let len = getDaysInOneMonth(year, month - 1)
 	            let m = changeNumberToString(month - 1)
-
                 Cook.fetch({ "domainlocal": domain}, function(err, cooks) {
-                	cooks.forEach(function(cook) {
+                	cooks.forEach(function(cook,j) {
                 		for (let i = 26; i <= len; i++) {
 			            	let day = changeNumberToString(i)
 			            	Item.fetch({ "name": cook.name, "year": year, "month": m, 'day': day }, function(err, items) {
@@ -248,9 +261,10 @@ var _ = require('underscore'),
 				                    	
 				                        let itemObj = {
 			                        		"时间": value.year + '-' + value.month + '-' + value.day,
-											"名称":value.name,
-											"数量":value.number,
-											"小计":plus
+											"名称": value.name,
+											"数量": value.number,
+											"小计": plus,
+											"cate": cook.cate
 										}
 
 				                        itemData.push(itemObj)
@@ -258,10 +272,12 @@ var _ = require('underscore'),
 				                        total += plus
 			                            countTotal += value.number
 				                    })
-				                    if (i === len) {
-				                        cb(null,itemData)
-				                    }
+				                    
 	                			}
+
+	                			if (j === cooks.length - 1 && i === len) {
+			                        cb(null,itemData,cateData)
+			                    }
 	                		})
 
 			            }
@@ -271,12 +287,11 @@ var _ = require('underscore'),
                 })
 
 	        },
-	        (cb) => {
-	            let len = getDaysInOneMonth(year, month)
+	        (itemData,cateData, cb) => {
+	            let len = 31
 	            let m = changeNumberToString(month)
-	            console.log('-----------')
                 Cook.fetch({ "domainlocal": domain}, function(err, cooks) {
-                	cooks.forEach(function(cook) {
+                	cooks.forEach(function(cook,j) {
                 		for (let i = 1; i <= len; i++) {
 			            	let day = changeNumberToString(i)
 			            	Item.fetch({ "name": cook.name, "year": year, "month": m, 'day': day }, function(err, items) {
@@ -293,7 +308,8 @@ var _ = require('underscore'),
 			                        		"时间": value.year + '-' + value.month + '-' + value.day,
 											"名称":value.name,
 											"数量":value.number,
-											"小计":plus
+											"小计":plus,
+											"cate": cook.cate
 										}
 
 				                        itemData.push(itemObj)
@@ -301,10 +317,11 @@ var _ = require('underscore'),
 				                        total += plus
 			                            countTotal += value.number
 				                    })
-				                    if (i === len) {
-				                        cb(null,itemData)
-				                    }
+				                    
 	                			}
+	                			if (j === cooks.length - 1 && i === len) {
+			                        cb(null,itemData,cateData)
+			                    }
 	                		})
 
 			            }
@@ -313,45 +330,26 @@ var _ = require('underscore'),
                 	
                 })
 
-
 	        },
-	       //  (itemData, cb) => {
-	       //      let len = 25
-	       //      let m = changeNumberToString(month)
-
-	       //      for (let i = 1; i <= len; i++) {
-	       //          let day = changeNumberToString(i)
-
-	       //          Item.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, items) {
-
-	       //              items.forEach(function(value, index) {
-	       //              	let plus = 0
-	       //              	if (value.total === 0) {
-	       //              		plus = value.price * value.number
-	       //              	} else {
-	       //              		plus =  value.total
-	       //              	}
-	       //                  let itemObj = {
-	       //                  		"时间": value.year + '-' + value.month + '-' + value.day,
-								// 	"名称":value.name,
-								// 	"数量":value.number,
-								// 	"小计":plus
-								// }
-
-	       //                  itemData.push(itemObj)
-
-	       //                  total += plus
-        //                     countTotal += value.number
-	       //              })
-
-	       //              if (i === len) {
-	       //                  cb(null, itemData)
-	       //              }
-
-	       //          })
-	       //      }
-
-	       //  },
+	        (itemData,cateData,cb) => {
+	        	let newItemDate = []
+	        	itemData.sort((a,b) => {
+	        		return a.cate - b.cate
+	        	})
+	        	itemData.forEach((value,index) => {
+	        		if (index === 0 || value.cate !== itemData[index-1].cate) {
+	        			let cate = {
+		            		"时间": cateData[value.cate],
+							"名称": '-',
+							"数量": '-',
+							"小计": '-'
+						}
+		        		newItemDate.push(cate)
+	        		}
+	        		newItemDate.push(value)        		
+	        	})
+	            cb(null, newItemDate)
+	        },
 	        (itemData,cb) => {
 	            let itemTotal = {
 	            		"时间": '合计',
