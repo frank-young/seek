@@ -1,8 +1,10 @@
 'use strict'
 
 var Item = require('../../models/order/item')
+var Order = require('../../models/order/order')
 var Cate = require('../../models/dish/cate')
 var Cook = require('../../models/dish/cook')
+
 var _ = require('underscore'),
 	json2csv = require('json2csv'),
 	fs = require('fs'),
@@ -245,97 +247,116 @@ var _ = require('underscore'),
 	    	(cateData, cb) => {
 	            let len = getDaysInOneMonth(year, month - 1)
 	            let m = changeNumberToString(month - 1)
-                Cook.fetch({ "domainlocal": domain}, function(err, cooks) {
-                	cooks.forEach(function(cook,j) {
-                		for (let i = 26; i <= len; i++) {
-			            	let day = changeNumberToString(i)
-			            	Item.fetch({ "name": cook.name, "year": year, "month": m, 'day': day }, function(err, items) {
-	                			if(items.length !== 0 ){
-	                				items.forEach(function(value, index) {
-				                    	let plus = 0
-				                    	if (value.total === 0) {
+
+        		for (let i = 26; i <= len; i++) {
+	            	let day = changeNumberToString(i)
+	            	Order.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, orders) {
+	            		
+                		if(orders.length !== 0 ){
+                			orders.forEach(function(order,j) {
+                				if(order.length !== 0){
+
+                					order.dish.forEach(function(value,k) {
+                						
+	                					let plus = 0
+	                					
+				                    	if (value.reducePrice === 0) {
 				                    		plus = value.price * value.number
 				                    	} else {
-				                    		plus =  value.total
+				                    		plus =  value.reducePrice * value.number
 				                    	}
 				                    	
 				                        let itemObj = {
-			                        		"时间": value.year + '-' + value.month + '-' + value.day,
+			                        		"时间": orders[j].year + '-' + orders[j].month + '-' + orders[j].day,
 											"名称": value.name,
 											"数量": value.number,
 											"小计": plus,
-											"cate": cook.cate
+											"cate": value.cate,
+											"name": value.name
 										}
 
 				                        itemData.push(itemObj)
 
 				                        total += plus
 			                            countTotal += value.number
-				                    })
-				                    
-	                			}
+			                            if (i === len && j === orders.length -1 && k === order.dish.length-1) {
+					                        cb(null, itemData,cateData)
+					                    }
+									})
 
-	                			if (j === cooks.length - 1 && i === len) {
-			                        cb(null,itemData,cateData)
-			                    }
-	                		})
-
-			            }
-                			                		
-                	})
-                	
-                })
-
+                				}
+							})
+            			}else {
+            				if (i === len) {
+		                        cb(null, itemData,cateData)
+		                    }
+            			}
+            		})
+	            }
 	        },
 	        (itemData,cateData, cb) => {
-	            let len = 31
+	            let len = 25
 	            let m = changeNumberToString(month)
-                Cook.fetch({ "domainlocal": domain}, function(err, cooks) {
-                	cooks.forEach(function(cook,j) {
-                		for (let i = 1; i <= len; i++) {
-			            	let day = changeNumberToString(i)
-			            	Item.fetch({ "name": cook.name, "year": year, "month": m, 'day': day }, function(err, items) {
-	                			if(items.length !== 0 ){
-	                				items.forEach(function(value, index) {
-				                    	let plus = 0
-				                    	if (value.total === 0) {
+
+        		for (let i = 1; i <= len; i++) {
+	            	let day = changeNumberToString(i)
+	            	Order.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, orders) {
+	            		
+                		if(orders.length !== 0 ){
+                			orders.forEach(function(order,j) {
+                				if(order.length !== 0){
+
+                					order.dish.forEach(function(value,k) {
+                						
+	                					let plus = 0
+	                					
+				                    	if (value.reducePrice === 0) {
 				                    		plus = value.price * value.number
 				                    	} else {
-				                    		plus =  value.total
+				                    		plus =  value.reducePrice * value.number
 				                    	}
 				                    	
 				                        let itemObj = {
-			                        		"时间": value.year + '-' + value.month + '-' + value.day,
-											"名称":value.name,
-											"数量":value.number,
-											"小计":plus,
-											"cate": cook.cate
+			                        		"时间": orders[j].year + '-' + orders[j].month + '-' + orders[j].day,
+											"名称": value.name,
+											"数量": value.number,
+											"小计": plus,
+											"cate": value.cate,
+											"name": value.name
 										}
 
 				                        itemData.push(itemObj)
 
 				                        total += plus
 			                            countTotal += value.number
-				                    })
-				                    
-	                			}
-	                			if (j === cooks.length - 1 && i === len) {
-			                        cb(null,itemData,cateData)
-			                    }
-	                		})
+			                            if (i === len && j === orders.length -1 && k === order.dish.length-1) {
+					                        cb(null, itemData,cateData)
+					                    }
+									})
 
-			            }
-                			                		
-                	})
-                	
-                })
-
+                				}
+							})
+            			}else {
+            				if (i === len) {
+		                        cb(null, itemData,cateData)
+		                    }
+            			}
+	                    	
+            		})
+            		
+	            }
 	        },
 	        (itemData,cateData,cb) => {
 	        	let newItemDate = []
+	        	let otherItemDate = []
 	        	itemData.sort((a,b) => {
-	        		return a.cate - b.cate
-	        	})
+				        if (a.cate == b.cate) {
+				        	return a.name.localeCompare(b.name)
+				        }
+				        return a.cate - b.cate
+
+				})
+	        	console.log(itemData)
 	        	itemData.forEach((value,index) => {
 	        		if (index === 0 || value.cate !== itemData[index-1].cate) {
 	        			let cate = {
@@ -348,6 +369,7 @@ var _ = require('underscore'),
 	        		}
 	        		newItemDate.push(value)        		
 	        	})
+
 	            cb(null, newItemDate)
 	        },
 	        (itemData,cb) => {
