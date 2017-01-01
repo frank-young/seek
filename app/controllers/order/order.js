@@ -11,13 +11,12 @@ var Order = require('../../models/order/order'),
 //订单列表页
 exports.list = function(req, res) {
     var user = req.session.user
-
     Order.fetch({ "domainlocal": user.domain }, function(err, orders) {
         res.json({
             msg: "请求成功",
             status: 1,
             orders: orders
-        })
+        }) 
     })
 }
 
