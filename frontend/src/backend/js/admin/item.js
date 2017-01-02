@@ -8,8 +8,7 @@ $(document).ready(function() {
         var need = hasFile(item)
         var shop = JSON.parse(localStorage.getItem(item))
 
-        console.log(name)
-        clearHtml()
+        clearHtml('#list')
         if(need){
             shop.forEach(function(value,index){
                 createFile(item,name,value.year,value.month)
@@ -55,18 +54,18 @@ function createFile(domain,name,year,month){
         url: '/manager/item/create?domain='+domain+'&name='+name+'&year='+year+'&month='+month,
         type: "get",
         beforeSend: function() {
-            $('#list').append(downloadTpls())
+            $('#load').append(downloadTpls())
         },
         success: function(data) {
-            clearHtml()
+            clearHtml('#load')
             addHtml(data.file,data.link)
         }
     })
 }
 
 //清除html
-function clearHtml(){
-    $('#list').html("")
+function clearHtml(id){
+    $(id).html("")
 }
 
 //添加html
