@@ -48,6 +48,13 @@ exports.item = function(req, res) {
     })
 }
 
+exports.itemDetail = function(req, res) {
+    var _admin = req.session.admin
+    res.render('admin/itemdetail', {
+        title: '品项详情报表',
+        name: _admin.name
+    })
+}
 
 //注册
 exports.ctrlaccountAdd = function(req, res) {

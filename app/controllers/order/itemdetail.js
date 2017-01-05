@@ -219,16 +219,6 @@ var _ = require('underscore'),
 
 	}
 
-	exports.downloadItemDetailMonth = function(req, res) {
-	    var year = req.query.year,
-	        month = req.query.month,
-	        domain = req.query.domain,
-	        name = req.query.name
-
-	    creatItemDetail(domain, name, year, month, res)
-
-	}
-
 	//报表生成
 	function creatItem(domain, name, year, month, res) {
 	    year = parseInt(year)
@@ -378,6 +368,8 @@ var _ = require('underscore'),
 			        return a.value - b.value
 				})
 
+	        	console.log(cateData)
+
 	        	cateData.forEach(function(v,i){
 	        		let plus = 0,
 	        			number = 0,
@@ -471,255 +463,6 @@ var _ = require('underscore'),
 	    })
 	}
 
-	//报表详情生成
-	function creatItemDetail(domain, name, year, month, res) {
-	    year = parseInt(year)
-	    month = parseInt(month)
-
-	    // let fields = ['序号','品项大类','折前销售金额', '折让金额','折后金额','销售数量']
-	    let fields = ['时间','名称','折前销售金额', '折让金额','折后金额','销售数量']
-
-	    let itemData = [],
-	    	cateData = [],
-	    	countTotal = 0,
-	        total = 0,
-	        oldTotal = 0
-
-	    async.waterfall([
-	    	 (cb) => {
-                Cate.fetch({ "domainlocal": domain}, function(err, cates) {
-
-                    cates.forEach(function(cate,i) {
-                    	cateData.push({
-                    		"value": cate.value,
-                    		"label": cate.label
-                    	})
-                    	if (i === cates.length - 1) {
-	                        
-	                        cb(null, cateData)
-	                    }
-                    })
-
-                })
-
-	        },
-	    	(cateData, cb) => {
-	            let len = getDaysInOneMonth(year, month - 1)
-	            let m = changeNumberToString(month - 1)
-	            let y = year
-
-	            if(month == 1){
-	            	y = year - 1
-	            	m = '12'
-	            }
-
-        		for (let i = 26; i <= len; i++) {
-	            	let day = changeNumberToString(i)
-	            	Order.fetch({ "domainlocal": domain, "year": y, "month": m, 'day': day }, function(err, orders) {
-	            		
-                		if(orders.length !== 0 ){
-                			orders.forEach(function(order,j) {
-                				if(order.length !== 0){
-
-                					order.dish.forEach(function(value,k) {
-                						
-	                					let plus = 0,
-	                						old = 0
-
-				                    	plus =  value.reducePrice * value.number
-				                    	
-				                    	old = value.price * value.number
-
-				                        let itemObj = {
-			                        		"时间": orders[j].year + '-' + orders[j].month + '-' + orders[j].day,
-											"名称": value.name,
-											"折前销售金额": t2(old),
-											"折让金额": t2(old - plus),
-											"折后金额": t2(plus),
-											"销售数量": value.number,
-											"name": value.name,
-											"cate":value.cate
-										}
-
-				                        itemData.push(itemObj)
-
-				                        total += plus
-				                        oldTotal += old
-			                            countTotal += value.number
-
-			                            if (i === len && j === orders.length -1 && k === order.dish.length-1) {
-					                        cb(null, itemData,cateData)
-					                    }
-									})
-
-                				}
-							})
-            			}else {
-            				if (i === len) {
-		                        cb(null, itemData,cateData)
-		                    }
-            			}
-            		})
-	            }
-	        },
-	        (itemData,cateData, cb) => {
-	            let len = 25
-	            let m = changeNumberToString(month)
-
-        		for (let i = 1; i <= len; i++) {
-	            	let day = changeNumberToString(i)
-	            	Order.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, orders) {
-	            		
-                		if(orders.length !== 0 ){
-                			orders.forEach(function(order,j) {
-                				if(order.length !== 0){
-
-                					order.dish.forEach(function(value,k) {
-                						
-	                					let plus = 0,
-	                						old = 0
-
-				                    	plus =  value.reducePrice * value.number
-
-				                    	old = value.price * value.number
-				                    	
-				                        let itemObj = {
-			                        		"时间": orders[j].year + '-' + orders[j].month + '-' + orders[j].day,
-											"名称": value.name,
-											"折前销售金额": t2(old),
-											"折让金额": t2(old - plus),
-											"折后金额": t2(plus),
-											"销售数量": value.number,
-											"name": value.name,
-											"cate":value.cate
-										}
-
-				                        itemData.push(itemObj)
-
-				                        total += plus
-				                        oldTotal += old
-			                            countTotal += value.number
-			                            if (i === len && j === orders.length -1 && k === order.dish.length-1) {
-					                        cb(null, itemData,cateData)
-					                    }
-									})
-
-                				}
-							})
-            			}else {
-            				if (i === len) {
-		                        cb(null, itemData,cateData)
-		                    }
-            			}
-	                    	
-            		})
-            		
-	            }
-	        },
-	   //      (itemData,cateData,cb) => {
-	   //      	let newItemDate = []
-	   //      	cateData.sort((a,b) => {
-			 //        return a.value - b.value
-				// })
-
-	   //      	console.log(cateData)
-
-	   //      	cateData.forEach(function(v,i){
-	   //      		let plus = 0,
-	   //      			number = 0,
-	   //      			old = 0
-
-	   //      		itemData.forEach(function(value,index){
-	   //      			if(v.value == value.cate){
-	   //      				number += value.number
-	   //      				plus += value.plus
-		  //       			old += value.old
-	   //      			}
-	   //      		})
-	   //      		newItemDate.push({
-	   //      			"序号":i+1,
-	   //      			"品项大类": v.label,
-	   //      			"折前销售金额": t2(old),
-	   //      			"折让金额": t2(old - plus),
-	   //      			"折后金额": t2(plus),
-	   //      			"销售数量": number
-
-	   //      		})
-	   //      	})
-
-	   //          cb(null, newItemDate)
-	   //      },
-	        (itemData,cateData,cb) => {
-	        	let newItemDate = []
-
-	        	itemData.sort((a,b) => {
-				        if (a.cate == b.cate) {
-				        	return a.name.localeCompare(b.name)
-				        }
-				        return a.cate - b.cate
-
-				})
-
-	        	itemData.forEach((value,index) => {
-	        		if (index === 0 || value.cate !== itemData[index-1].cate) {
-	        			let cate = {
-		            		"时间": getIndex(cateData,value.cate),
-							"名称": '-',
-							"折前销售金额": '-',
-							"折让金额": '-',
-							"折后金额": '-',
-							"销售数量": '-'
-						}
-		        		newItemDate.push(cate)
-	        		}
-	        		newItemDate.push(value)        		
-	        	})
-
-	            cb(null, newItemDate)
-	        },
-	        (newItemDate,cb) => {
-	            let itemTotal = {
-	            		"时间":'合计',
-	            		"名称": '-',
-						"折前销售金额": t2(oldTotal),
-						"折让金额": t2(oldTotal - total),
-						"折后金额": t2(total),
-						"销售数量": countTotal,
-						
-					}
-
-	            newItemDate.push(itemTotal)
-	            cb(null, newItemDate)
-	        },
-	        (newItemDate, cb) => {
-	            let csv = json2csv({ data: newItemDate, fields: fields })
-
-	            let file = name + year + '年' + month + '月品项详情.csv'
-	            let link = '/orderprint/item/' + file
-
-	            fs.writeFile('frontend/src' + link, csv, function(err) {
-	                if (err) throw err
-	                cb(null, file, link)
-	            })
-	        },
-	    ], (err, file, link) => {
-	        if (err) {
-	            res.json({
-	                errno: 1000,
-	                data: "发生错误"
-	            })
-	        } else {
-	            res.json({
-	                status: 1,
-	                msg: "生成文件成功！",
-	                link: link,
-	                file: file
-	            })
-
-	        }
-	    })
-	}
-
 	// 获取月份的天数
 	function getDaysInOneMonth(year, month) {
 	    month = parseInt(month, 10)
@@ -736,16 +479,6 @@ var _ = require('underscore'),
 	function t2(value){
 		let num = Number(value)
 		return num.toFixed(2)
-	}
-
-	function getIndex(cate,index){
-		var label
-		cate.forEach(function(c){
-			if (c.value == index) {
-				label = c.label
-			}
-		})
-		return label
 	}
 
 

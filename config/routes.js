@@ -52,6 +52,7 @@ module.exports = function(app){
   app.get('/manager/account/add', Admin.signinRequired,Admin.superRequired, Home.accountAdd)
   app.get('/manager/report', Admin.signinRequired, Home.report)
   app.get('/manager/item', Admin.signinRequired, Home.item)
+  app.get('/manager/itemdetail', Admin.signinRequired, Home.itemDetail)
   app.get('/manager/ctrl/account', Admin.signinRequired,Admin.superRequired, Home.ctrlaccount)
   app.post('/manager/ctrl/account/add', Admin.signinRequired,Admin.superRequired, Home.ctrlaccountAdd)
   app.post('/manager/ctrl/report', Admin.signinRequired, Home.ctrlreport)
@@ -59,6 +60,7 @@ module.exports = function(app){
   app.get('/manager/report/list', Admin.signinRequired, Order.monthListManager)
   app.get('/manager/report/create', Admin.signinRequired, Order.downloadMonthManager)
   app.get('/manager/item/create', Admin.signinRequired, Item.downloadItemMonth)
+  app.get('/manager/itemdetail/create', Admin.signinRequired, Item.downloadItemDetailMonth)
 
   // 用户信息
   app.post('/user/signup', User.signup)
