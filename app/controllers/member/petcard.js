@@ -190,6 +190,90 @@ exports.reduce = function(req, res) {
     }
 }
 
+//微信端储值卡消费
+exports.wechatReduce = function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*")
+    
+    var petcardObj = req.body.petcard
+    var _petcard
+    var rePhone = /^1[3|5|7|8]\d{9}$/
+    var old_petcard = null
+    var user = {}
+
+    user.name = ''
+    user.email = ''
+    user.domain = petcardObj.domain
+
+    petcardObj.edit_people = ""
+    petcardObj.domainlocal = petcardObj.domain
+
+    if (petcardObj.phone == "" || petcardObj.phone == null || petcardObj.phone == "undefined") {
+        res.json({
+            status: 0,
+            msg: "手机号不能为空！"
+        })
+    } else if (petcardObj.total_fee == "" || petcardObj.total_fee == null || petcardObj.total_fee == "undefined") {
+        res.json({
+            status: 0,
+            msg: "消费金额不能为空！"
+        })
+    } else if (rePhone.test(petcardObj.phone) == false) {
+        res.json({
+            status: 0,
+            msg: "手机号格式不正确！"
+        })
+    } else {
+        Petcard.findOne({ "phone": petcardObj.phone }, function(err, petcard) {
+            if (!petcard) {
+                res.json({ msg: "会员卡不存在", status: 0 })
+            } else {
+                if (err) {
+                    res.json({ msg: "系统错误，请联系管理员！", status: 0 })
+                } else {
+                    if (petcardObj.total_fee > petcard.balance) {
+                        res.json({
+                            status: 0,
+                            msg: "余额不足，请充值！"
+                        })
+                    } else {
+                        record_balance = '您的储值会员卡成功在Seek Cafe消费' + Math.round(petcardObj.total_fee * 100) / 100 + '元,欢迎下次光临！'
+                        record_bonus = ''
+
+                        petcardObj.balance = petcard.balance - Math.round(petcardObj.total_fee * 100) / 100
+                        petcardObj.int = petcard.int + petcardObj.total_fee
+
+                        _petcard = _.extend(petcard, petcardObj)
+                        _petcard.save(function(err, petcarddata) {
+                            if (err) {
+                                console.log(err)
+                            }
+
+                            var formdata = {
+                                "code": petcarddata.code,
+                                "card_id": petcarddata.cardid,
+                                "record_bonus": record_bonus,
+                                "bonus": parseInt(petcardObj.int),
+                                "balance": parseInt(petcarddata.balance * 100),
+                                "record_balance": record_balance,
+                                "notify_optional": {
+                                    "is_notify_bonus": true,
+                                    "is_notify_balance": true,
+                                    "is_notify_custom_field1": true
+                                }
+                            }
+
+                            updateMember(formdata, old_petcard, petcarddata, user, res)
+
+                        })
+                    }
+
+                }
+
+            }
+        })
+    }
+}
+
 exports.updateadmin = function(req, res) {
     var petcardObj = req.body.petcard
     var user = req.session.user

@@ -183,6 +183,7 @@ module.exports = function(app){
   app.post('/petcard/update', User.signinRequired, Petcard.update)
   app.post('/petcard/admin/update', User.signinRequired, Petcard.updateadmin)
   app.post('/petcard/reduce', User.signinRequired, Petcard.reduce)
+  app.post('/petcard/reduce/wechat', Petcard.wechatReduce)
   app.get('/petcard/detail/:id', User.signinRequired, Petcard.detail)
   app.get('/petcard/today',User.signinRequired, Petcard.petcardtoday)
   app.get('/petcard/some/:id', User.signinRequired, Petcard.petcardsome)
