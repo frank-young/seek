@@ -231,14 +231,16 @@ exports.wxpay = (req, res) => {
     res.header("X-Powered-By",' 3.2.1')
 
     let openid = req.query.openid
+    let ip = req.ip.match(/\d+\.\d+\.\d+\.\d+/)[0]
+    console.log(ip)
     wxpay.getBrandWCPayRequestParams({
         openid: openid,
         body: '公众号支付测试',
         detail: '公众号支付测试',
         out_trade_no: '20150331'+Math.random().toString().substr(2, 10),
         total_fee: 1,
-        spbill_create_ip: '192.168.31.217',
-        notify_url: 'http://192.168.31.217/wechat/init'
+        spbill_create_ip: ip,
+        notify_url: 'http://192.168.31.217:3000/wechat/init'
     }, function(err, result){
         // in express
         res.json({
@@ -246,6 +248,7 @@ exports.wxpay = (req, res) => {
             data: result
         })
     })
+
 }
 
 exports.ticket = (req, res) => {
@@ -275,18 +278,38 @@ exports.signa = (req, res) => {
     let jsapi_ticket = fs.readFileSync('./config/ticket').toString()
 
     let noncestr = (parseInt(Math.random() * new Date() - 0)).toString(32),
-        timestamp = new Date() - 0,
-        url = 'http://frank.d1.natapp.cc'
-    let signature =signjsapi(noncestr, jsapi_ticket, timestamp, url)
+        timestamp = Math.ceil((new Date() - 0)/1000),
+        url = 'http://frank.d1.natapp.cc/'
+
+    let signature = signjsapi(noncestr, jsapi_ticket, timestamp, url)
+    console.log(signature)
     res.json({
-        appId: 'wx782db8ee3e80c4aa',
-        timestamp: timestamp,
-        noncestr: noncestr,
-        signature: signature
+        status: 1,
+        data: {
+            'appId': 'wx782db8ee3e80c4aa',
+            'timestamp': timestamp,
+            'nonceStr': noncestr,
+            'signature': signature,
+            'jsapi_ticket': jsapi_ticket
+        }
     })
 }
 
-//签名算法
+//签名算法 - 支付
+// function signjsapi(timeStamp, nonceStr, package, signType) {
+//     var ret = {
+//         timeStamp: timeStamp,
+//         nonceStr: nonceStr,
+//         package: package,
+//         signType: signType
+//     }
+//     var string = raw1(ret)
+//     var crypto = require('crypto')
+//     console.log(string)
+//     return crypto.createHash('sha1').update(string, 'utf8').digest('hex').toLowerCase()
+// }
+
+//签名算法 - 验证
 function signjsapi(noncestr, jsapi_ticket, timestamp, url) {
     var ret = {
         noncestr: noncestr,
@@ -296,6 +319,7 @@ function signjsapi(noncestr, jsapi_ticket, timestamp, url) {
     }
     var string = raw1(ret)
     var crypto = require('crypto')
+    console.log(string)
     return crypto.createHash('sha1').update(string, 'utf8').digest('hex').toLowerCase()
 }
 
