@@ -1,6 +1,6 @@
 ﻿var express = require('express'),
 	path = require('path'),
-	mongoose = require('mongoose')	,
+	mongoose = require('mongoose'),
 	session = require('express-session'),
 	mongoStore = require('connect-mongo')(session),
 	bodyParser = require('body-parser'),
@@ -41,13 +41,18 @@ require('./config/routes')(app)
 
 function scheduleCancel(){
 
-    var j = schedule.scheduleJob('0 30 * * * *', function(){
+    var j = schedule.scheduleJob('0 22 * * * *', function(){
         var url = "http://127.0.0.1:3000/wechat/token"
+        var url_ticket = "http://127.0.0.1:3000/api/ticket"
 
         request(url, function (error, response, body) {
 			if (!error && response.statusCode == 200) {
 				console.log('获取access_token成功，时间：'+new Date())
-
+				request(url_ticket, function (error, response, body) {
+					if (!error && response.statusCode == 200) {
+						console.log('获取ticket成功，时间：'+new Date())
+					}
+				})
 			}
 		})
     })

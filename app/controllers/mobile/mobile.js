@@ -5,14 +5,22 @@ let Cook = require('../../models/dish/cook'),
     Item = require('../../models/order/item'),
     Order = require('../../models/order/order'),
     Domain = require('../../models/domain'),
+    request = require('request'),
     _ = require('underscore'),
     fs = require('fs'),
-    async = require('async')
+    async = require('async'),
+    WXPay = require('weixin-pay')
 
+let wxpay = WXPay({
+    appid: 'wx782db8ee3e80c4aa',
+    mch_id: '1295261101',
+    partner_key: 'seekbrandseekcafe521521521521521', //微信商户平台API密钥
+    pfx: fs.readFileSync('./rsa/wechat/apiclient_cert.p12'), //微信商户平台证书
+})
 
 //构建微信点餐数据
 exports.goods = (req, res) => {
-    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Origin", "*")
 
     const HOT_NUM = 10
     const HOT_NAME = '热销菜品'
@@ -212,10 +220,99 @@ exports.order = (req, res) => {
             } else {
                 res.json({ msg: "添加成功", status: 1 })
             }
-        })
-        
+        })   
     }
+}
 
+exports.wxpay = (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With")
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS")
+    res.header("X-Powered-By",' 3.2.1')
+
+    let openid = req.query.openid
+    wxpay.getBrandWCPayRequestParams({
+        openid: openid,
+        body: '公众号支付测试',
+        detail: '公众号支付测试',
+        out_trade_no: '20150331'+Math.random().toString().substr(2, 10),
+        total_fee: 1,
+        spbill_create_ip: '192.168.31.217',
+        notify_url: 'http://192.168.31.217/wechat/init'
+    }, function(err, result){
+        // in express
+        res.json({
+            status: 1,
+            data: result
+        })
+    })
+}
+
+exports.ticket = (req, res) => {
+    let access_token = fs.readFileSync('./config/token').toString()
+    let url = 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='+access_token+'&type=jsapi'
+
+    request(url, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            let ticket = JSON.parse(body).ticket
+            fs.writeFile('./config/ticket', ticket, function(err) {
+                res.json({
+                    status: 1,
+                    msg: '获取成功！',
+                    data: JSON.parse(body)
+                })
+            })
+        }
+    })
+}
+
+exports.signa = (req, res) => {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With")
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS")
+    res.header("X-Powered-By",' 3.2.1')
+
+    let jsapi_ticket = fs.readFileSync('./config/ticket').toString()
+
+    let noncestr = (parseInt(Math.random() * new Date() - 0)).toString(32),
+        timestamp = new Date() - 0,
+        url = 'http://frank.d1.natapp.cc'
+    let signature =signjsapi(noncestr, jsapi_ticket, timestamp, url)
+    res.json({
+        appId: 'wx782db8ee3e80c4aa',
+        timestamp: timestamp,
+        noncestr: noncestr,
+        signature: signature
+    })
+}
+
+//签名算法
+function signjsapi(noncestr, jsapi_ticket, timestamp, url) {
+    var ret = {
+        noncestr: noncestr,
+        jsapi_ticket: jsapi_ticket,
+        timestamp: timestamp,
+        url: url
+    }
+    var string = raw1(ret)
+    var crypto = require('crypto')
+    return crypto.createHash('sha1').update(string, 'utf8').digest('hex').toLowerCase()
+}
+
+//序列化
+function raw1(args) {
+    var keys = Object.keys(args);
+    keys = keys.sort()
+    var newArgs = {}
+    keys.forEach(function(key) {
+        newArgs[key] = args[key]
+    })
+    var string = ''
+    for (var k in newArgs) {
+        string += '&' + k + '=' + newArgs[k];
+    }
+    string = string.substr(1)
+    return string
 }
 
 

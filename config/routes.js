@@ -255,6 +255,9 @@ module.exports = function(app){
   //微信点餐
   app.get('/api/goods',Mobile.goods) 
   app.post('/api/order',Mobile.order) 
+  app.get('/api/wxpay',Mobile.wxpay)
+  app.get('/api/signa',Mobile.signa)
+  app.get('/api/ticket',Mobile.ticket)
 
 }
 

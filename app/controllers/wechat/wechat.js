@@ -159,7 +159,8 @@ exports.addmenu = function(req, res) {
 }
 
 // 微信授权登录
-// https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd95a4f3e82e0df64&redirect_uri=http%3A%2F%2Fy7gr8.ngrok.natapp.cn%2Fwechat%2Flogin&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
+// https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx782db8ee3e80c4aa&redirect_uri=http%3A%2F%2Ffrank.d1.natapp.cc%2Fmobile%2Fordering%2F58512475bfefa61c583e3132&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect
+
 exports.login = function(req, res) {
     var code = req.query.code
     // 用获取code换取token

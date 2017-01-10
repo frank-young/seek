@@ -1,8 +1,9 @@
 (function(){
 	var num = g('num').getAttribute('data-num'),
-		domain = g('domain').getAttribute('data-domain')
+		domain = g('domain').getAttribute('data-domain'),
+		openid = g('openid').getAttribute('data-openid')
 	num = encodeURI(num)
-	var url = 'http://127.0.0.1:8080/?num='+ num +'&domain='+domain
+	var url = 'http://192.168.31.217:8080/?num='+ num +'&domain='+ domain +'&openid=' + openid
 
 	window.location.href = url
 })()

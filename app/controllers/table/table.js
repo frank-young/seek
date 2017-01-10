@@ -2,6 +2,8 @@ var Table = require('../../models/table/table')
 var Tableorder = require('../../models/table/tableorder')
 var _ = require('underscore')
 var qr = require('qr-image')
+var request = require('request')
+var fs = require('fs')
 
 //储值卡规则列表页
 exports.list = function(req, res) {
@@ -90,30 +92,34 @@ exports.qrcode = function(req, res) {
 //模拟点餐首页
 exports.ordering = function(req, res) {
     var id = req.params.id
+    var appid = 'wx782db8ee3e80c4aa'
+    var appSecret = '07edc09a46dba2e8d0b1964b5aec3a46'
+    //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx782db8ee3e80c4aa&redirect_uri=http%3A%2F%2Ffrank.d1.natapp.cc%2Fmobile%2Fordering%2F58512475bfefa61c583e3132&response_type=code&scope=snsapi_userinfo&state=STATE&connect_redirect=1#wechat_redirect
 
-    // https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxd95a4f3e82e0df64&redirect_uri=http%3A%2F%2Fy7gr8.ngrok.natapp.cn%2Fmobile%2Fordering&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect
-
-    // var code = req.query.codeta
+    var code = req.query.code
     // 用获取code换取token
-    // var url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + config.wechat.appID + '&secret=' + config.wechat.appSecret + '&code=' + code + '&grant_type=authorization_code'
-    // var saveToken = function() {
-    //     request(url, function(error, response, body) {
-    //         if (!error && response.statusCode == 200) {
-    //             var data = JSON.parse(body)
-    //             var token = data.access_token
-    //             var refresh_token = data.refresh_token
-    //             var openid = data.openid
+    var url = 'https://api.weixin.qq.com/sns/oauth2/access_token?appid=' + appid + '&secret=' + appSecret + '&code=' + code + '&grant_type=authorization_code'
+    var saveToken = function() {
+        request(url, function(error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var data = JSON.parse(body)
+                var token = data.access_token
+                var refresh_token = data.refresh_token
+                var openid = data.openid
 
-    //             fs.writeFile('./config/web_token', token, function(err) {})
-    //             fs.writeFile('./config/refresh_token', refresh_token, function(err) {})
-    //             fs.writeFile('./config/openid', openid, function(err) {})
+                // fs.writeFile('./config/web_token', token, function(err) {})
+                // fs.writeFile('./config/refresh_token', refresh_token, function(err) {})
+                // fs.writeFile('./config/openid', openid, function(err) {})
 
+                req.session.openid = openid
+                console.log(req.session.openid)
                 Table.findById(id, function(err, table) {
                     if (table) {
-                        res.render('wechat/wxorder',{
+                        res.render('wechat/wxorder', {
                             status: 1,
                             num: table.num,
-                            domain: table.domainlocal
+                            domain: table.domainlocal,
+                            openid: openid
                         })
                     } else {
                         res.json({
@@ -123,17 +129,16 @@ exports.ordering = function(req, res) {
                     }
                 })
 
-    //         } else {
-    //             res.json({
-    //                 status: 0,
-    //                 msg: '已经授权过了'
-    //             })
+            } else {
+                res.json({
+                    status: 0,
+                    msg: '已经授权过了'
+                })
 
-    //         }
-    //     })
-    // }
-    // saveToken()
-
+            }
+        })
+    }
+    saveToken()
 }
 
 //查询是否有新订单
