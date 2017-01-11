@@ -234,9 +234,9 @@ exports.wxpay = (req, res) => {
     let ip = req.ip.match(/\d+\.\d+\.\d+\.\d+/)[0]
     wxpay.getBrandWCPayRequestParams({
         openid: openid,
-        body: '公众号支付测试',
-        detail: '公众号支付测试',
-        out_trade_no: '20150331'+Math.random().toString().substr(2, 10),
+        body: '西可咖啡微信点餐',
+        detail: '西可咖啡微信点餐',
+        out_trade_no: '20170101'+Math.random().toString().substr(2, 10),
         total_fee: 1,
         spbill_create_ip: ip,
         notify_url: 'http://139.129.239.39/wechat/init'
