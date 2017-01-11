@@ -232,7 +232,6 @@ exports.wxpay = (req, res) => {
 
     let openid = req.query.openid
     let ip = req.ip.match(/\d+\.\d+\.\d+\.\d+/)[0]
-    console.log(ip)
     wxpay.getBrandWCPayRequestParams({
         openid: openid,
         body: '公众号支付测试',
@@ -240,7 +239,7 @@ exports.wxpay = (req, res) => {
         out_trade_no: '20150331'+Math.random().toString().substr(2, 10),
         total_fee: 1,
         spbill_create_ip: ip,
-        notify_url: 'http://192.168.31.217:3000/wechat/init'
+        notify_url: 'http://139.129.239.39/wechat/init'
     }, function(err, result){
         // in express
         res.json({
@@ -282,7 +281,6 @@ exports.signa = (req, res) => {
         url = 'http://frank.d1.natapp.cc/'
 
     let signature = signjsapi(noncestr, jsapi_ticket, timestamp, url)
-    console.log(signature)
     res.json({
         status: 1,
         data: {
@@ -295,20 +293,6 @@ exports.signa = (req, res) => {
     })
 }
 
-//签名算法 - 支付
-// function signjsapi(timeStamp, nonceStr, package, signType) {
-//     var ret = {
-//         timeStamp: timeStamp,
-//         nonceStr: nonceStr,
-//         package: package,
-//         signType: signType
-//     }
-//     var string = raw1(ret)
-//     var crypto = require('crypto')
-//     console.log(string)
-//     return crypto.createHash('sha1').update(string, 'utf8').digest('hex').toLowerCase()
-// }
-
 //签名算法 - 验证
 function signjsapi(noncestr, jsapi_ticket, timestamp, url) {
     var ret = {
@@ -319,7 +303,6 @@ function signjsapi(noncestr, jsapi_ticket, timestamp, url) {
     }
     var string = raw1(ret)
     var crypto = require('crypto')
-    console.log(string)
     return crypto.createHash('sha1').update(string, 'utf8').digest('hex').toLowerCase()
 }
 
