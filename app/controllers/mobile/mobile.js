@@ -112,13 +112,11 @@ exports.order = (req, res) => {
     res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With")
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS")
     res.header("X-Powered-By",' 3.2.1')
+    let domain = req.body.order.domain
 
-    let domain = "seek02"
-
-    let orderObj = req.body.order,
+    let orderObj = req.body.order.order,
         _order,
         rePrice = /^\+?(?:[1-9]\d*(?:\.\d{1,2})?|0\.(?:\d[1-9]|[1-9]\d))$/
-
     let date = new Date(),
         Y = date.getFullYear(),
         M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1),

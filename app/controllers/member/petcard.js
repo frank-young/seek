@@ -193,6 +193,9 @@ exports.reduce = function(req, res) {
 //微信端储值卡消费
 exports.wechatReduce = function(req, res) {
     res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With")
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS")
+    res.header("X-Powered-By",' 3.2.1')
     
     var petcardObj = req.body.petcard
     var _petcard
@@ -206,7 +209,9 @@ exports.wechatReduce = function(req, res) {
 
     petcardObj.edit_people = ""
     petcardObj.domainlocal = petcardObj.domain
-
+    petcardObj.total_fee = Number(petcardObj.total_fee)
+    petcardObj.int = Number(petcardObj.int)
+    
     if (petcardObj.phone == "" || petcardObj.phone == null || petcardObj.phone == "undefined") {
         res.json({
             status: 0,
@@ -223,7 +228,7 @@ exports.wechatReduce = function(req, res) {
             msg: "手机号格式不正确！"
         })
     } else {
-        Petcard.findOne({ "phone": petcardObj.phone }, function(err, petcard) {
+        Petcard.findOne({ "phone": petcardObj.phone}, function(err, petcard) {
             if (!petcard) {
                 res.json({ msg: "会员卡不存在", status: 0 })
             } else {
@@ -247,7 +252,6 @@ exports.wechatReduce = function(req, res) {
                             if (err) {
                                 console.log(err)
                             }
-
                             var formdata = {
                                 "code": petcarddata.code,
                                 "card_id": petcarddata.cardid,
