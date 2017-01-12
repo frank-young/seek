@@ -239,7 +239,7 @@ exports.wxpay = (req, res) => {
         out_trade_no: '20170101'+Math.random().toString().substr(2, 10),
         total_fee: 1,
         spbill_create_ip: ip,
-        notify_url: 'http://139.129.239.39/wechat/init'
+        notify_url: 'http://frank.d1.natapp.cc/api/notify'
     }, function(err, result){
         // in express
         res.json({
