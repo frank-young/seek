@@ -188,7 +188,7 @@ exports.saveOrder = function(req, res) {
     res.header("X-Powered-By",' 3.2.1')
 
     var statusOrder = req.body.statusOrder
-
+    console.log(statusOrder)
     var _statusOrder
     _statusOrder = new Tableorder(statusOrder)
     _statusOrder.save(function(err, table) {

@@ -258,7 +258,8 @@ function customData(data, shopid){
             var obj = {
                 'city': list.base_info.city,
                 'district': list.base_info.district,
-                'address': list.base_info.address
+                'address': list.base_info.address,
+                'telephone': list.base_info.telephone,
             }
             shop_address.push(obj)
         })

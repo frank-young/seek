@@ -41,7 +41,7 @@ require('./config/routes')(app)
 
 function scheduleCancel(){
 
-    var j = schedule.scheduleJob('0 22 * * * *', function(){
+    var j = schedule.scheduleJob('0 52 * * * *', function(){
         var url = "http://127.0.0.1:3000/wechat/token"
         var url_ticket = "http://127.0.0.1:3000/api/ticket"
 

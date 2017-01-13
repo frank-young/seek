@@ -21,11 +21,10 @@ let wxpay = WXPay({
 //构建微信点餐数据
 exports.goods = (req, res) => {
     res.header("Access-Control-Allow-Origin", "*")
-
     const HOT_NUM = 10
     const HOT_NAME = '热销菜品'
 
-	let domain = "seek02"
+    let domain = req.params.id
 	let arr = []
     
     async.waterfall([
@@ -112,6 +111,7 @@ exports.order = (req, res) => {
     res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With")
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS")
     res.header("X-Powered-By",' 3.2.1')
+
     let domain = req.body.order.domain
 
     let orderObj = req.body.order.order,
@@ -319,6 +319,20 @@ function raw1(args) {
     return string
 }
 
+// 去除重复元素
+function distinct(arr) {
+    let ret = [],
+        length = arr.length;
+    for (let i = 0; i < length; i++) {
+        for (let j = i + 1; j < length; j++) {
+            if (arr[i].year === arr[j].year && arr[i].month === arr[j].month && arr[i].day === arr[j].day) {
+                j = ++i;
+            }
+        }
+        ret.push(arr[i]);
+    }
+    return ret;
+}
 
 
 

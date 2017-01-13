@@ -255,7 +255,7 @@ module.exports = function(app){
   app.get('/alipay/alipayorder/today/:id/:date',Alipayorder.someAlipayorder)  //按日期查询订单
 
   //微信点餐
-  app.get('/api/goods',Mobile.goods) 
+  app.get('/api/goods/:id',Mobile.goods) 
   app.post('/api/order',Mobile.order) 
   app.get('/api/wxpay',Mobile.wxpay)
   app.get('/api/signa',Mobile.signa)
