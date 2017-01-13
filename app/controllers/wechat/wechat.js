@@ -7,6 +7,7 @@ var jsSHA = require('jssha'),
 Member = require('../../models/wechat/member')
 Payorder = require('../../models/wechat/payorder')
 Petcard = require('../../models/member/petcard')
+Domain = require('../../models/domain')
 
 
 // 暂时用的第一张卡： pV8Fpwyw7-wnfqRIIIQjZwWrBhuU   -> 747522939375  
@@ -193,11 +194,77 @@ exports.login = function(req, res) {
 
 }
 
-// 用户信息
-exports.userinfo = function(req, res) {
-    res.render('wechat/userinfo', {
-        title: 'SEEK CAFE',
+// 查询门店信息
+exports.shopinfo = function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With")
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS")
+    res.header("X-Powered-By",' 3.2.1')
+
+    var _domain = req.params.id
+    var access_token = fs.readFileSync('./config/token').toString()
+    var url = 'https://api.weixin.qq.com/cgi-bin/poi/getpoilist?access_token=' + access_token
+
+    var formdata = {
+                "begin":0,
+                "limit":10
+            }
+    var options = {
+        url: url,
+        form: JSON.stringify(formdata),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }
+
+    Domain.findOne({name:_domain},function(err,domain){
+        if(err){
+            console.log(err)
+        }
+        if(domain) {
+            request.post(options, function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    var data = JSON.parse(body)
+                    var one = customData(data, domain.shopid)
+                    res.json({
+                        errno: 0,
+                        msg: '查询成功',
+                        data: one
+                    })
+                }
+            })
+        }else {
+            res.json({
+                errno: 500,
+                msg: '没有门店信息'
+            })
+        }
     })
+
+    
+}
+
+// 返回单个门店信息数据
+function customData(data, shopid){
+    var oneData = {}
+    var shop_address = []
+    if (data.business_list.length !== 0) {
+        data.business_list.forEach(function(list,i) {
+            if(list.base_info.poi_id === shopid) {
+                    oneData = list.base_info
+                }
+        })
+        data.business_list.forEach(function(list) {
+            var obj = {
+                'city': list.base_info.city,
+                'district': list.base_info.district,
+                'address': list.base_info.address
+            }
+            shop_address.push(obj)
+        })
+    }
+    oneData.shop_address = shop_address
+    return oneData
 
 }
 

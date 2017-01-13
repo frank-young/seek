@@ -221,7 +221,7 @@ module.exports = function(app){
   app.get('/wechat/login',Wechat.login)
   app.get('/wechat/getcgi',Wechat.getcgi) //获取自动回复规则
 
-  app.get('/wechat/userinfo',Wechat.userinfo)
+  app.get('/wechat/shopinfo/:id',Wechat.shopinfo) //门店信息查询
 
   app.get('/wechat/member_appaly',Wechat.memberAppaly)
   app.get('/wechat/upload/image',Wechat.uploadImage)

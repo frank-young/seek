@@ -142,7 +142,7 @@ exports.ordering = function(req, res) {
 
 //查询是否有新订单
 exports.query = function(req, res) {
-    var domain = req.params.id
+    var domain = req.session.user.domain
     Tableorder.fetch({ 'domainlocal': domain, 'status': 1 }, function(err, orders) {
         console.log(orders)
         if (orders.length !== 0) {

@@ -35,7 +35,7 @@ angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope', '$rootScope',
         var audio = document.getElementById("msg-music")
         
         setInterval(function() {
-            tableData.getData('seek02').then(function(data) {
+            tableData.getData('seek').then(function(data) {
                 if (data.status === 1) {
                     $scope.wxOrderingShow = true
                     $scope.wxOrdering = data.number
