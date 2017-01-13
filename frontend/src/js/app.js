@@ -11,6 +11,7 @@ var app = angular.module('app', [
         'selectMoudle',
         'billMoudle',
         'billlistMoudle',
+        'wxbilllistMoudle',
         'memberMoudle',
         'petcardMoudle',
         'pendingMoudle'
@@ -58,6 +59,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
             templateUrl: 'tpls/bill/billlist.html',
             data:{
                 title:"订单列表"
+            }
+        })
+        .state('web.wxbilllist', {
+            url: '/wxbilllist',
+            templateUrl: 'tpls/bill/wxbilllist.html',
+            data:{
+                title:"微信点餐订单"
             }
         })
         .state('web.pending', {

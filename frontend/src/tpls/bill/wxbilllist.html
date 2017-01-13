@@ -1,4 +1,4 @@
-<div ng-controller="BilllistCtrl" class="row billlist">
+<div ng-controller="WxbilllistCtrl" class="row billlist">
     <div class="two-thirds column main">
         <h4>今日订单</h4>
         <h5>
@@ -20,7 +20,6 @@
                     <th>订单编号</th>
                     <th>金额</th>
                     <th>时间</th>
-                    <th>操作人</th>
                     <th style="text-align:center">操作</th>
                 </tr>
             </thead>
@@ -31,11 +30,11 @@
                     </td>
                     <td ng-bind="o.realTotal | currency:'¥' "></td>
                     <td ng-bind="o.time | onlytime"></td>
-                    <td ng-bind="o.editPeople"></td>
                     <td>
-                        <button style="padding: 0 10px;" class="button button-primary" ng-click="lookAll(o._id)">详情</button>
-                        <button style="padding: 0 10px;" class="button " ng-click="printRec('print-rec')">打印</button>
-                        <button ng-if="role == 10 || shopid=='464246789'" style="padding: 0 10px;" class="button " data-animation="am-fade-and-scale" placement="center" data-template-url="warning.tpl.html" bs-modal>反位</button>
+                        <button style="padding: 0 10px;" class="button button-danger" ng-if="!o.acceptStatus" ng-click="lookAll(o._id)">接单</button>
+                        <button style="padding: 0 10px;" disabled="" class="button" ng-if="o.acceptStatus">已接单</button>
+                        <button style="padding: 0 10px;" class="button button-primary" ng-click="readDetail(o._id)">详情</button>
+                        <button style="padding: 0 10px;" class="button " ng-click="printRec('print-rec', o._id)">打印</button>
                     </td>
                 </tr>
             </tbody>
@@ -166,20 +165,3 @@
     -->
     </div>
 </div>
-<script type="text/ng-template" id="warning.tpl.html">
-    <div class="modal modal-warning" tabindex="-1" role="dialog">
-        <div class="modal-dialog" style="width:500px;">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" ng-click="$hide()">&times;</button>
-                    <h5 class="modal-title" style="color:#fff; margin-bottom: 0">提示框</h5>
-                </div>
-                <div class="modal-body" style="height:160px;padding-top: 50px;">
-                    <h5 style="color:#333; font-size:22px;">反位结算将会彻底删除此订单，是否继续？</h5>
-                    <button class="button button p-sure" ng-click="$hide()" style="color:#333;margin-right:30px;">取消</button>
-                    <button class="button button-primary p-sure" ui-sref="web.select" ng-click="againAccount(o);$hide()">确认</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</script>

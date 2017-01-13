@@ -203,6 +203,7 @@ exports.save = function(req, res) {
                     memberPhone: orderObj.memberPhone,
                     memberPetcard: orderObj.memberPetcard,
                     time: orderObj.time,
+                    // wx: false,
                     year: Y,
                     month: M,
                     day: D,
@@ -226,41 +227,61 @@ exports.save = function(req, res) {
 
 //订单更新、新建
 exports.update = function(req, res) {
-        var id = req.body.order._id,
-            orderObj = req.body.order, //从路由传过来的 order对象
-            user = req.session.user,
-            _order,
-            rePrice = /^\+?(?:[1-9]\d*(?:\.\d{1,2})?|0\.(?:\d[1-9]|[1-9]\d))$/
+    var id = req.body.order._id,
+        orderObj = req.body.order, //从路由传过来的 order对象
+        user = req.session.user,
+        _order,
+        rePrice = /^\+?(?:[1-9]\d*(?:\.\d{1,2})?|0\.(?:\d[1-9]|[1-9]\d))$/
 
-        orderObj.people = user.name
+    orderObj.people = user.name
 
-        if (orderObj.total == "" || orderObj.total == null) {
-            res.json({
-                status: 0,
-                msg: "总价格有问题！"
-            })
-        } else if (rePrice.test(orderObj.total) == false) {
-            res.json({
-                status: 0,
-                msg: "总价格式不正确！"
-            })
-        } else {
-            if (id !== "undefined") {
-                Order.findById(id, function(err, order) {
+    if (orderObj.total == "" || orderObj.total == null) {
+        res.json({
+            status: 0,
+            msg: "总价格有问题！"
+        })
+    } else if (rePrice.test(orderObj.total) == false) {
+        res.json({
+            status: 0,
+            msg: "总价格式不正确！"
+        })
+    } else {
+        if (id !== "undefined") {
+            Order.findById(id, function(err, order) {
 
-                    _order = _.extend(order, orderObj) //复制对象的所有属性到目标对象上，覆盖已有属性 ,用来覆盖以前的数据，起到更新作用
-                    _order.save(function(err, order) {
-                        if (err) {
-                            console.log(err)
-                        }
+                _order = _.extend(order, orderObj) //复制对象的所有属性到目标对象上，覆盖已有属性 ,用来覆盖以前的数据，起到更新作用
+                _order.save(function(err, order) {
+                    if (err) {
+                        console.log(err)
+                    }
 
-                        res.json({ msg: "更新成功", status: 1 })
-                    })
+                    res.json({ msg: "更新成功", status: 1 })
                 })
-            }
+            })
         }
-
     }
+
+}
+
+exports.updateWxorder = function(req, res) {
+    var id = req.body.order._id
+
+    Order.findById(id, function(err, order) {
+        var orderObj = order
+        var _order
+
+        orderObj.acceptStatus = true
+        _order = _.extend(order, orderObj)
+        _order.save(function(err, order) {
+            if (err) {
+                console.log(err)
+            }
+
+            res.json({ msg: "更新成功", status: 1 })
+        })
+    })
+}
+
     //订单详情页
 exports.detail = function(req, res) {
         var id = req.params.id

@@ -47,6 +47,26 @@ angular.module('serviceData', [])
                 });
                 return defer.promise;
             },
+            updatewxorderData: function (value) {
+                var defer = $q.defer();
+                $http({
+                    method: 'POST',
+                    url: '/order/updatewxorder',
+                    dataType: "json",
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        order:value
+                    }
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
             addData: function (value) {
                 var defer = $q.defer();
                 $http({

@@ -178,22 +178,21 @@ exports.order = (req, res) => {
 
                 for(let i = 0; i< len; i++){
                     let itemObj = {
-                        isTop:false,
-                        isChecked:false,
-                        name: dish[i].name,
-                        cate: dish[i].cate,
-                        price: Math.round(dish[i].price*100)/100,
-                        reducePrice: Math.round(dish[i].reducePrice*100)/100,
-                        number: dish[i].number, 
-                        dishArr: dish[i].dishArr,
-                        total:Math.round(dish[i].number * dish[i].reducePrice*100)/100,
-                        time:Date.now(),
-                        year: Y,
-                        month: M,
-                        day: D,
-                        orderNum:orderObj.orderNum
-                    }
-                    
+                            isTop:false,
+                            isChecked:false,
+                            name: dish[i].name,
+                            cate: dish[i].cate,
+                            price: Math.round(dish[i].price*100)/100,
+                            reducePrice: Math.round(dish[i].reducePrice*100)/100,
+                            number: dish[i].number, 
+                            dishArr: dish[i].dishArr,
+                            total:Math.round(dish[i].number * dish[i].reducePrice*100)/100,
+                            time:Date.now(),
+                            year: Y,
+                            month: M,
+                            day: D,
+                            orderNum:orderObj.orderNum
+                        }
 
                     let _item = new Item(itemObj)
 

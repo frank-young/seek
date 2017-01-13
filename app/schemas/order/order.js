@@ -48,6 +48,8 @@ var OrderSchema = new mongoose.Schema({
 	year:String,
 	month:String,
 	day:String,
+	acceptStatus: Boolean,
+	wx: Boolean,
 	meta:{
 		createAt:{
 			type:Number,

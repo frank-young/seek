@@ -134,7 +134,6 @@ exports.ordering = function(req, res) {
                     status: 0,
                     msg: '已经授权过了'
                 })
-
             }
         })
     }
@@ -145,7 +144,9 @@ exports.ordering = function(req, res) {
 exports.query = function(req, res) {
     var domain = req.params.id
     Tableorder.fetch({ 'domainlocal': domain, 'status': 1 }, function(err, orders) {
+        console.log(orders)
         if (orders.length !== 0) {
+            console.log('查询到了数据')
             res.json({
                 status: 1,
                 number: orders.length,
@@ -178,6 +179,25 @@ exports.edit = function(req, res) {
             res.json({ msg: "更新成功", status: 1 })
         })
     })
+}
+
+exports.saveOrder = function(req, res) {
+    res.header("Access-Control-Allow-Origin", "*")
+    res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With")
+    res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS")
+    res.header("X-Powered-By",' 3.2.1')
+
+    var statusOrder = req.body.statusOrder
+
+    var _statusOrder
+    _statusOrder = new Tableorder(statusOrder)
+    _statusOrder.save(function(err, table) {
+        if (err) {
+            console.log(err)
+        }
+        res.json({ msg: "添加成功", status: 1 })
+    })
+
 }
 
 

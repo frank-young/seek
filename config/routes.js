@@ -109,6 +109,7 @@ module.exports = function(app){
   app.get('/order/day',User.signinRequired, Order.dayList)
   app.post('/order/add',User.signinRequired, Order.save )
   app.post('/order/update', User.signinRequired, Order.update)
+  app.post('/order/updatewxorder', User.signinRequired, Order.updateWxorder)
   app.get('/order/detail/:id', User.signinRequired, Order.detail)
   app.get('/order/query/:id', User.signinRequired, Order.query)
   app.delete('/order/delete',User.signinRequired, User.superRequired, Order.del)
@@ -206,6 +207,7 @@ module.exports = function(app){
   app.get('/table/qrcode', Table.qrcode)
   app.get('/table/query/:id',User.signinRequired, Table.query)
   app.get('/table/edit/:id',User.signinRequired, Table.edit)
+  app.post('/table/save/order', Table.saveOrder)
 
   //模拟点餐页面
   app.get('/mobile/ordering/:id', Table.ordering)
