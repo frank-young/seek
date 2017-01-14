@@ -398,7 +398,7 @@ function saveOrder(old_petcard, petcarddata, user, res) {
         if (err) {
             console.log(err)
         } else {
-            res.json({ msg: "充值成功！", status: 1 })
+            res.json({ msg: "成功！", status: 1 })
         }
     })
 
