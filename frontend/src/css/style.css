@@ -445,7 +445,6 @@ button[disabled]:focus {
 
 
 /* 模态弹窗 */
-
 .modal-open {
     overflow: hidden;
 }
@@ -579,26 +578,42 @@ button[disabled]:focus {
     margin-top: 20px;
 }
 
-
 /*打印部分样式*/
 
 @media print {
+    html{
+        height: auto !important;
+        max-height: auto !important;
+    }
+    body {
+        height: 100% !important;
+        max-height: 100% !important;
+        // border: 1px solid #333;
+    }
     .no-print {
-        display: none;
+        display: none !important;
+        height: 1px !important;
+        width: 0 !important;
+        
     }
     .print-view {
-        display: block !important;
+        // display: block !important;
+        border: 1px solid #000;
     }
     .detail {
         display: block !important;
-        padding: 0;
-        margin: 0;
-        width: 180px;
-        height: inherit;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 200px;
+        height: 100% !important;
+        max-height: 100% !important;
         color: #000;
         font-family: '微软雅黑';
-        font-weight: 300;
-        font-size: 13px;
+        font-weight: 300 !important;
+        font-size: 13px !important;
+        page-break-after: avoid;
+        page-break-inside:avoid;
+        // border: 1px solid #000;
     }
     .detail h5 {
         text-align: center;
@@ -607,10 +622,14 @@ button[disabled]:focus {
         font-weight: 300;
     }
     #print-content {
-        display: block !important;
-        position: absolute;
-        top: 0;
-        z-index: 100;
+        // display: block !important;
+        // position: absolute;
+        // top: 0;
+        // z-index: 100;
+        // overflow: hidden;
+        width: 100%; 
+        margin: 0; 
+        float: none;
     }
     .now-time {
         display: block;
@@ -624,10 +643,10 @@ button[disabled]:focus {
     }
 }
 
-@page: first {
-    margin: 0;
+@page {
+    // size: 5.8cm 5cm;
+    margin: 8px;
 }
-
 
 /*首页*/
 

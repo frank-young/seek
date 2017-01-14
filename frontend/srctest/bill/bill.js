@@ -845,7 +845,6 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.totalReal = 0
 			}
 			refresh()
-
 		}
 
 		// 打印函数
@@ -859,9 +858,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			content.appendChild(ele)
 			window.print() 
 			content.innerHTML = ""
-
-		} 
-
+		}
 	}
 ])
 
