@@ -597,8 +597,7 @@ button[disabled]:focus {
         
     }
     .print-view {
-        // display: block !important;
-        border: 1px solid #000;
+        display: block !important;
     }
     .detail {
         display: block !important;
@@ -622,11 +621,11 @@ button[disabled]:focus {
         font-weight: 300;
     }
     #print-content {
-        // display: block !important;
-        // position: absolute;
-        // top: 0;
-        // z-index: 100;
-        // overflow: hidden;
+        display: block !important;
+        position: absolute;
+        top: 0;
+        z-index: 100;
+        overflow: hidden;
         width: 100%; 
         margin: 0; 
         float: none;
