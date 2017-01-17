@@ -848,16 +848,26 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		}
 
 		// 打印函数
-		function printFunc(){
-			
+		function printFunc(){			
 			var ele = document.getElementById('print')
 			var content = document.getElementById('print-content')
 
 			//打印
 			content.innerHTML = ""
-			content.appendChild(ele)
+			if ($scope.shopid == '279080129') {
+				content.innerHTML =  '<div class="detail">' + ele.innerHTML + '</div>' + '<hr>' + '<div class="detail">' + ele.innerHTML + '</div>'
+			} else {
+				content.appendChild(ele)
+			}
 			window.print() 
 			content.innerHTML = ""
+		}
+
+		function parseDom(arg) {
+		　　 var objE = document.createElement("div")
+		　　 objE.innerHTML = arg
+		　　 return objE.childNodes
+
 		}
 	}
 ])
