@@ -202,7 +202,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.outwrap = false
 				$scope.panels = -1
 				$scope.order.schoolincome = $scope.order.realTotal  // 计入校园卡收入
-			}else if(value == "会员卡"){
+			}else if(value == "会员卡" || value == "会"){
 				$scope.outwrap = false
 				$scope.panels = 1
 				$scope.changeAlert("请在左侧栏目选择会员卡付款方式！")
