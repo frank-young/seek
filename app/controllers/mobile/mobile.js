@@ -48,8 +48,7 @@ exports.goods = (req, res) => {
                 arr.unshift(hotObj)
 				cb(null, arr)
 			})
-        },
-        (arr, cb) => {
+        }, (arr, cb) => {
             let date = new Date(),
                 Y = date.getFullYear(),
                 M = (date.getMonth() + 1 < 10 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1)
@@ -103,7 +102,6 @@ exports.goods = (req, res) => {
                 errno: 0,
                 data:result
             })
-
         }
     })
     
