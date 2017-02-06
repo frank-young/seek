@@ -284,7 +284,6 @@ var _ = require('underscore'),
 	                						old = 0
 
 				                    	plus =  value.reducePrice * value.number
-				                    	
 				                    	old = value.price * value.number
 
 				                        let itemObj = {
@@ -301,7 +300,7 @@ var _ = require('underscore'),
 
 				                        total += plus
 				                        oldTotal += old
-			                            countTotal += value.number
+			                            countTotal += Number(value.number)
 
 			                            if (i === len && j === orders.length -1 && k === order.dish.length-1) {
 					                        cb(null, itemData,cateData)
@@ -336,8 +335,6 @@ var _ = require('underscore'),
 	                						old = 0
 
 				                    	plus =  value.reducePrice * value.number
-			                    	
-
 				                    	old = value.price * value.number
 				                    	
 				                        let itemObj = {
@@ -354,7 +351,7 @@ var _ = require('underscore'),
 
 				                        total += plus
 				                        oldTotal += old
-			                            countTotal += value.number
+			                            countTotal += Number(value.number)
 			                            if (i === len && j === orders.length -1 && k === order.dish.length-1) {
 					                        cb(null, itemData,cateData)
 					                    }
@@ -385,7 +382,7 @@ var _ = require('underscore'),
 
 	        		itemData.forEach(function(value,index){
 	        			if(v.value == value.cate){
-	        				number += value.number
+	        				number += Number(value.number)
 	        				plus += value.plus
 		        			old += value.old
 	        			}
@@ -436,7 +433,7 @@ var _ = require('underscore'),
 						"折前销售金额": t2(oldTotal),
 						"折让金额": t2(oldTotal - total),
 						"折后金额":t2(total),
-						"销售数量": t2(countTotal)
+						"销售数量": parseInt(countTotal)
 					}
 
 	            newItemDate.push(itemTotal)
@@ -499,9 +496,7 @@ var _ = require('underscore'),
 	                        cb(null, cateData)
 	                    }
                     })
-
                 })
-
 	        },
 	    	(cateData, cb) => {
 	            let len = getDaysInOneMonth(year, month - 1)
@@ -545,7 +540,7 @@ var _ = require('underscore'),
 
 				                        total += plus
 				                        oldTotal += old
-			                            countTotal += value.number
+			                            countTotal += Number(value.number)
 
 			                            if (i === len && j === orders.length -1 && k === order.dish.length-1) {
 					                        cb(null, itemData,cateData)
@@ -569,7 +564,6 @@ var _ = require('underscore'),
         		for (let i = 1; i <= len; i++) {
 	            	let day = changeNumberToString(i)
 	            	Order.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, orders) {
-	            		
                 		if(orders.length !== 0 ){
                 			orders.forEach(function(order,j) {
                 				if(order.length !== 0){
@@ -598,7 +592,7 @@ var _ = require('underscore'),
 
 				                        total += plus
 				                        oldTotal += old
-			                            countTotal += value.number
+			                            countTotal += Number(value.number)
 			                            if (i === len && j === orders.length -1 && k === order.dish.length-1) {
 					                        cb(null, itemData,cateData)
 					                    }
@@ -684,7 +678,7 @@ var _ = require('underscore'),
 						"折前销售金额": t2(oldTotal),
 						"折让金额": t2(oldTotal - total),
 						"折后金额": t2(total),
-						"销售数量": countTotal,
+						"销售数量": parseInt(countTotal),
 						
 					}
 
