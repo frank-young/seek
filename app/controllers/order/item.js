@@ -285,7 +285,12 @@ var _ = require('underscore'),
 
 				                    	plus =  value.reducePrice * value.number
 				                    	old = value.price * value.number
-
+				                    	// if (isNaN(plus) === true) {
+				                    	// 	plus = 0
+				                    	// }
+				                    	// if (isNaN(old) === true) {
+				                    	// 	old = 0
+				                    	// }
 				                        let itemObj = {
 			                        		// "时间": orders[j].year + '-' + orders[j].month + '-' + orders[j].day,
 											// "名称": value.name,
@@ -336,7 +341,12 @@ var _ = require('underscore'),
 
 				                    	plus =  value.reducePrice * value.number
 				                    	old = value.price * value.number
-				                    	
+				                    	// if (isNaN(plus) === true) {
+				                    	// 	plus = 0
+				                    	// }
+				                    	// if (isNaN(old) === true) {
+				                    	// 	old = 0
+				                    	// }
 				                        let itemObj = {
 			                        		// "时间": orders[j].year + '-' + orders[j].month + '-' + orders[j].day,
 											// "名称": value.name,
@@ -363,10 +373,8 @@ var _ = require('underscore'),
             				if (i === len) {
 		                        cb(null, itemData,cateData)
 		                    }
-            			}
-	                    	
+            			}  	
             		})
-            		
 	            }
 	        },
 	        (itemData,cateData,cb) => {
@@ -522,8 +530,17 @@ var _ = require('underscore'),
 	                						old = 0
 
 				                    	plus =  value.reducePrice * value.number
-				                    	
 				                    	old = value.price * value.number
+
+				                    	// if (isNaN(plus) === true) {
+				                    	// 	plus = 0
+				                    	// }
+				                    	// if (isNaN(old) === true) {
+				                    	// 	old = 0
+				                    	// }
+				      //               	if (isNaN(Number(value.number)) === true) {
+										// 	value.number = 0
+										// }
 
 				                        let itemObj = {
 			                        		"时间": orders[j].year + '-' + orders[j].month + '-' + orders[j].day,
@@ -574,9 +591,17 @@ var _ = require('underscore'),
 	                						old = 0
 
 				                    	plus =  value.reducePrice * value.number
-
 				                    	old = value.price * value.number
-				                    	
+				                    	// if (isNaN(plus) === true) {
+				                    	// 	plus = 0
+				                    	// }
+				                    	// if (isNaN(old) === true) {
+				                    	// 	old = 0
+				                    	// }
+				                    	// if (isNaN(Number(value.number)) === true) {
+				                    	// 	value.number = 0
+				                    	// }
+
 				                        let itemObj = {
 			                        		"时间": orders[j].year + '-' + orders[j].month + '-' + orders[j].day,
 											"名称": value.name,
@@ -659,10 +684,10 @@ var _ = require('underscore'),
 	        			let cate = {
 		            		"时间": getIndex(cateData,value.cate),
 							"名称": '-',
-							"折前销售金额": '-',
-							"折让金额": '-',
-							"折后金额": '-',
-							"销售数量": '-'
+							"折前销售金额": '0',
+							"折让金额": '0',
+							"折后金额": '0',
+							"销售数量": '0'
 						}
 		        		newItemDate.push(cate)
 	        		}
@@ -679,7 +704,6 @@ var _ = require('underscore'),
 						"折让金额": t2(oldTotal - total),
 						"折后金额": t2(total),
 						"销售数量": parseInt(countTotal),
-						
 					}
 
 	            newItemDate.push(itemTotal)
