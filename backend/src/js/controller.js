@@ -1539,7 +1539,7 @@ angular.module("setMoudle", []).controller('SetCtrl',
  ;/********************************************************************************************************************
  *                                                      餐桌管理
  ********************************************************************************************************************/
-// http://frankyoung.s1.natapp.link
+// http://wn50.cn
 angular.module("tableMoudle", []).controller('TableCtrl', 
     ['$scope','$window', '$http', '$state','$alert','tableData',
     function($scope,$window, $http, $state,$alert,tableData) {

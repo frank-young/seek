@@ -245,7 +245,6 @@ var _ = require('underscore'),
 	    async.waterfall([
 	    	 (cb) => {
                 Cate.fetch({ "domainlocal": domain}, function(err, cates) {
-
                     cates.forEach(function(cate,i) {
                     	cateData.push({
                     		"value": cate.value,
@@ -256,11 +255,11 @@ var _ = require('underscore'),
 	                        cb(null, cateData)
 	                    }
                     })
-
                 })
 
 	        },
 	    	(cateData, cb) => {
+	    		
 	            let len = getDaysInOneMonth(year, month - 1)
 	            let m = changeNumberToString(month - 1)
 	            let y = year
@@ -285,18 +284,18 @@ var _ = require('underscore'),
 
 				                    	plus =  value.reducePrice * value.number
 				                    	old = value.price * value.number
-				                    	// if (isNaN(plus) === true) {
-				                    	// 	plus = 0
-				                    	// }
-				                    	// if (isNaN(old) === true) {
-				                    	// 	old = 0
-				                    	// }
+				                    	if (isNaN(plus) === true) {
+				                    		plus = 0
+				                    	}
+				                    	if (isNaN(old) === true) {
+				                    		old = 0
+				                    	}
 				                        let itemObj = {
 			                        		// "时间": orders[j].year + '-' + orders[j].month + '-' + orders[j].day,
 											// "名称": value.name,
 											"number": value.number,
 											"plus": plus,
-											"cate": value.cate,
+											"cate": value.cate || 0,
 											"name": value.name,
 											"old": old
 										}
@@ -329,7 +328,6 @@ var _ = require('underscore'),
         		for (let i = 1; i <= len; i++) {
 	            	let day = changeNumberToString(i)
 	            	Order.fetch({ "domainlocal": domain, "year": year, "month": m, 'day': day }, function(err, orders) {
-	            		
                 		if(orders.length !== 0 ){
                 			orders.forEach(function(order,j) {
                 				if(order.length !== 0){
@@ -341,18 +339,18 @@ var _ = require('underscore'),
 
 				                    	plus =  value.reducePrice * value.number
 				                    	old = value.price * value.number
-				                    	// if (isNaN(plus) === true) {
-				                    	// 	plus = 0
-				                    	// }
-				                    	// if (isNaN(old) === true) {
-				                    	// 	old = 0
-				                    	// }
+				                    	if (isNaN(plus) === true) {
+				                    		plus = 0
+				                    	}
+				                    	if (isNaN(old) === true) {
+				                    		old = 0
+				                    	}
 				                        let itemObj = {
 			                        		// "时间": orders[j].year + '-' + orders[j].month + '-' + orders[j].day,
 											// "名称": value.name,
 											"number": value.number,
 											"plus": plus,
-											"cate": value.cate,
+											"cate": value.cate || 0,
 											"name": value.name,
 											"old": old
 										}
@@ -382,7 +380,6 @@ var _ = require('underscore'),
 	        	cateData.sort((a,b) => {
 			        return a.value - b.value
 				})
-
 	        	cateData.forEach(function(v,i){
 	        		let plus = 0,
 	        			number = 0,
@@ -481,8 +478,7 @@ var _ = require('underscore'),
 	    year = parseInt(year)
 	    month = parseInt(month)
 
-	    // let fields = ['序号','品项大类','折前销售金额', '折让金额','折后金额','销售数量']
-	    let fields = ['时间','名称','折前销售金额', '折让金额','折后金额','销售数量']
+	    let fields = ['时间','名称','折前销售金额', '折让金额','折后金额','销售数量', '分类']
 
 	    let itemData = [],
 	    	cateData = [],
@@ -532,15 +528,12 @@ var _ = require('underscore'),
 				                    	plus =  value.reducePrice * value.number
 				                    	old = value.price * value.number
 
-				                    	// if (isNaN(plus) === true) {
-				                    	// 	plus = 0
-				                    	// }
-				                    	// if (isNaN(old) === true) {
-				                    	// 	old = 0
-				                    	// }
-				      //               	if (isNaN(Number(value.number)) === true) {
-										// 	value.number = 0
-										// }
+				                    	if (isNaN(plus) === true) {
+				                    		plus = 0
+				                    	}
+				                    	if (isNaN(old) === true) {
+				                    		old = 0
+				                    	}
 
 				                        let itemObj = {
 			                        		"时间": orders[j].year + '-' + orders[j].month + '-' + orders[j].day,
@@ -549,8 +542,9 @@ var _ = require('underscore'),
 											"折让金额": t2(old - plus),
 											"折后金额": t2(plus),
 											"销售数量": value.number,
+											"分类": value.cate || 0,
 											"name": value.name,
-											"cate":value.cate
+											"cate":value.cate || 0
 										}
 
 				                        itemData.push(itemObj)
@@ -592,15 +586,12 @@ var _ = require('underscore'),
 
 				                    	plus =  value.reducePrice * value.number
 				                    	old = value.price * value.number
-				                    	// if (isNaN(plus) === true) {
-				                    	// 	plus = 0
-				                    	// }
-				                    	// if (isNaN(old) === true) {
-				                    	// 	old = 0
-				                    	// }
-				                    	// if (isNaN(Number(value.number)) === true) {
-				                    	// 	value.number = 0
-				                    	// }
+				                    	if (isNaN(plus) === true) {
+				                    		plus = 0
+				                    	}
+				                    	if (isNaN(old) === true) {
+				                    		old = 0
+				                    	}
 
 				                        let itemObj = {
 			                        		"时间": orders[j].year + '-' + orders[j].month + '-' + orders[j].day,
@@ -609,8 +600,9 @@ var _ = require('underscore'),
 											"折让金额": t2(old - plus),
 											"折后金额": t2(plus),
 											"销售数量": value.number,
+											"分类": value.cate || 0,
 											"name": value.name,
-											"cate":value.cate
+											"cate":value.cate || 0
 										}
 
 				                        itemData.push(itemObj)
@@ -673,7 +665,9 @@ var _ = require('underscore'),
 
 	        	itemData.sort((a,b) => {
 				        if (a.cate == b.cate) {
-				        	return a.name.localeCompare(b.name)
+				        	if(a.name) {
+				        		return a.name.localeCompare(b.name)
+				        	} 
 				        }
 				        return a.cate - b.cate
 
@@ -684,10 +678,10 @@ var _ = require('underscore'),
 	        			let cate = {
 		            		"时间": getIndex(cateData,value.cate),
 							"名称": '-',
-							"折前销售金额": '0',
-							"折让金额": '0',
-							"折后金额": '0',
-							"销售数量": '0'
+							"折前销售金额": '-',
+							"折让金额": '-',
+							"折后金额": '-',
+							"销售数量": '-'
 						}
 		        		newItemDate.push(cate)
 	        		}
