@@ -202,7 +202,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.outwrap = false
 				$scope.panels = -1
 				$scope.order.schoolincome = $scope.order.realTotal  // 计入校园卡收入
-			}else if(value == "会员卡"){
+			}else if(value == "会员卡" || value == "会"){
 				$scope.outwrap = false
 				$scope.panels = 1
 				$scope.changeAlert("请在左侧栏目选择会员卡付款方式！")
@@ -1276,6 +1276,7 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope', '$rootS
 
         // 搜索储值卡用户
         $scope.search = ""
+        $scope.petcardNum = null
         $scope.sexes = ['男', '女']
         $scope.payTypeArr = ['现金', '微信', '支付宝']
         $scope.petcard = {
@@ -1348,6 +1349,18 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope', '$rootS
             petcardData.getIdData(id).then(function(data) {
                 $scope.petcard = data.petcard
             })
+        }
+
+        // 添加会员卡 ->  领卡错误时候，通过手动添加  * 2017-03-02 frankyoung  bug repair
+        $scope.addPetcard = function(value) {
+            petcardData.addPetcard(value).then(function(data) {
+                $scope.changeAlert(data.msg)
+                if (data.status == 1) {
+                    updateCombo()
+                    getData()
+                }
+            })
+
         }
 
         $scope.outwrap = false

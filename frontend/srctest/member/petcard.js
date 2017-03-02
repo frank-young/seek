@@ -7,6 +7,7 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope', '$rootS
 
         // 搜索储值卡用户
         $scope.search = ""
+        $scope.petcardNum = null
         $scope.sexes = ['男', '女']
         $scope.payTypeArr = ['现金', '微信', '支付宝']
         $scope.petcard = {
@@ -79,6 +80,18 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope', '$rootS
             petcardData.getIdData(id).then(function(data) {
                 $scope.petcard = data.petcard
             })
+        }
+
+        // 添加会员卡 ->  领卡错误时候，通过手动添加  * 2017-03-02 frankyoung  bug repair
+        $scope.addPetcard = function(value) {
+            petcardData.addPetcard(value).then(function(data) {
+                $scope.changeAlert(data.msg)
+                if (data.status == 1) {
+                    updateCombo()
+                    getData()
+                }
+            })
+
         }
 
         $scope.outwrap = false

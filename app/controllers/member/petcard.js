@@ -4,7 +4,8 @@ var Petcard = require('../../models/member/petcard'),
     _ = require('underscore'),
     https = require('https'),
     request = require('request'),
-    fs = require('fs')
+    fs = require('fs'),
+    card = "pQw7gv4tnvAt_M2avr2JW_Zog8Bw"
 
 //储值卡列表页
 exports.list = function(req, res) {
@@ -35,6 +36,124 @@ exports.save = function(req, res) {
             res.json({ msg: "添加成功", status: 1 })
         })
     }
+
+// 添加单独会员卡，在领取会员卡失败时，手动添加
+exports.addpetcard = function(req, res) {
+    var code = req.body.code
+    var access_token = fs.readFileSync('./config/token').toString();
+    var url = 'https://api.weixin.qq.com/card/membercard/userinfo/get?access_token=' + access_token
+
+    var formdata = {
+        "card_id": card,
+        "code": code
+    }
+
+    var options = {
+        url: url,
+        form: JSON.stringify(formdata),
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        }
+    }
+
+    request.post(options, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var data = JSON.parse(body)
+            if (data.errcode == 0) {
+                var mobile = "",
+                    name = "",
+                    birthday = "",
+                    location = ""
+                if (data.user_info) {
+                    data.user_info.common_field_list.forEach(function(v, i) {
+                        if (v.name == "USER_FORM_INFO_FLAG_MOBILE") {
+                            mobile = v.value
+                        } else if (v.name == "USER_FORM_INFO_FLAG_BIRTHDAY") {
+                            birthday = v.value
+                        } else if (v.name == "USER_FORM_INFO_FLAG_NAME") {
+                            name = v.value
+                        } else if (v.name == "USER_FORM_INFO_FLAG_LOCATION") {
+                            location = v.value
+                        }
+
+                    })
+
+                    data= {
+                        "res": data,
+                        "mobile": mobile,
+                        "name": name,
+                        "birthday": birthday
+                    }
+                    addPetcardFunc(code, data, res)
+                }
+            } else if (data.errcode == 40056) {
+                res.json({
+                    status: 0,
+                    msg: '会员卡号不存在！'
+                })
+
+            } else {
+                res.json({
+                    status: 0,
+                    msg: '发生一些错误',
+                    data: data.errcode
+                })
+            }
+        }
+    })
+}
+
+function addPetcardFunc(code, data, res) {
+    Petcard.findOne({ "code": code }, function(err, petcard) {
+
+        var petcardObj = {
+            "has_active": true,
+            "type": '会员卡',
+            "username": data.name,
+            "nickname": data.nickname,
+            "discount": 5,
+            "sex": data.res.sex,
+            "phone": data.mobile,
+            "birthday": data.birthday,
+            "location": data.location,
+            "bonus": data.res.bonus,
+            "fee": 0,
+            "card_grade" : 0,
+            "balance": data.res.balance/100,
+            "createtime": new Date() - 0,
+            "domainlocal" : "seek01", 
+            "edit_people" : "管理员", 
+            "pay_type" : 2, 
+            "position" : "天软微吧店"
+        }
+        if(petcard) {
+            var _petcard
+            _petcard = _.extend(petcard, petcardObj)
+            _petcard.save(function(err, petcarddata) {
+                if (err) {
+                    res.json({ msg: "发生错误，请联系管理员！", status: 0 })
+                } else{
+                    res.json({ msg: "添加成功！", status: 1 })
+                }
+
+            })
+        } else {
+            petcardObj.openid = data.res.openid
+            petcardObj.cardid = card
+            petcardObj.code = code
+            var _petcard
+            _petcard = new Petcard(petcardObj)
+            _petcard.save(function(err, petcard){
+                   res.json({ msg: "添加成功！", status: 1, data: petcardObj}) 
+            })
+
+        }
+        
+    })
+}
+
+
+
     //储值卡充值
 exports.update = function(req, res) {
     var petcardObj = req.body.petcard,

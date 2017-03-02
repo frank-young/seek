@@ -181,6 +181,7 @@ module.exports = function(app){
   // 储值卡信息
   app.get('/petcard',User.signinRequired, Petcard.list)
   app.post('/petcard/add',User.signinRequired, Petcard.save)
+  app.post('/petcard/add/one',User.signinRequired, Petcard.addpetcard)
   app.post('/petcard/update', User.signinRequired, Petcard.update)
   app.post('/petcard/admin/update', User.signinRequired, Petcard.updateadmin)
   app.post('/petcard/reduce', User.signinRequired, Petcard.reduce)

@@ -72,6 +72,19 @@
             <button class="button button-primary block" ng-click="saveFunc()" >确认充值</button>
             <a class="button cash-box" ng-hide="cashboxHide" href="cashbox:">弹出钱箱</a>
         </div>
+        <hr>
+        <h6>输入会员卡号添加</h6>
+        <div class="row petcard-box">
+            <label for="" class="one-third column">
+                会员卡号 
+            </label>
+            <div class="two-thirds column">
+                <input class="block" type="text" placeholder="会员卡号（必填）" ng-model="petcardNum">
+            </div>
+        </div>
+         <div class="row">
+            <button class="button button-primary block" ng-click="addPetcard(petcardNum)" >确认添加</button>
+        </div>
     </div>
 </div>
 

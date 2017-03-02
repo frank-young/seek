@@ -734,7 +734,28 @@ angular.module('serviceData', [])
                     defer.reject(msg);
                 });
                 return defer.promise;
-            }
+            },
+            // 添加会员卡 ->  领卡错误时候，通过手动添加  * 2017-03-02 frankyoung  bug repair
+            addPetcard: function (value) {
+                var defer = $q.defer();
+                $http({
+                    method: 'POST',
+                    url: '/petcard/add/one',
+                    dataType: "json",
+                    headers: {
+                        'Content-Type': 'application/json; charset=utf-8'
+                    },
+                    data: {
+                        code:value
+                    }
+                })
+                .success(function (data, status, headers, config) {
+                    defer.resolve(data);
+                }).error(function (msg) {
+                    defer.reject(msg);
+                });
+                return defer.promise;
+            },
         }
     }])
     .factory('petruleData', ['$q','$http',function($q,$http){
