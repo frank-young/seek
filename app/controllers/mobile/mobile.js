@@ -40,12 +40,12 @@ exports.goods = (req, res) => {
         			obj.foods = []
         			arr.push(obj)
         		})
-                let hotObj = {
-                    "name": HOT_NAME,
-                    "type": 2,
-                    "foods": []
-                }
-                arr.unshift(hotObj)
+                // let hotObj = {
+                //     "name": HOT_NAME,
+                //     "type": 2,
+                //     "foods": []
+                // }
+                // arr.unshift(hotObj)
 				cb(null, arr)
 			})
         }, (arr, cb) => {
@@ -61,26 +61,27 @@ exports.goods = (req, res) => {
                         Item.fetch({ "domainlocal": domain,"name": goods[i].name, "year": Y, "month":M}, (err, items) => {
                             let itemsLen = items.length,
                                 count = 0
-                            for(let j = 0;j < itemsLen; j++) {
-                                count += items[j].number
+                            // for(let j = 0;j < itemsLen; j++) {
+                            //     count += items[j].number
 
-                                if(count >= HOT_NUM) {
-                                    let hotGoods = {
-                                        "name": items[j].name,
-                                        "price": items[j].price,
-                                        "sellCount": count,
-                                        "description": ""
-                                    }
-                                    arr[0].foods.push(hotGoods)
-                                }
-                            }
+                            //     if(count >= HOT_NUM) {
+                            //         let hotGoods = {
+                            //             "name": items[j].name,
+                            //             "price": items[j].price,
+                            //             "sellCount": count,
+                            //             "description": ""
+                            //         }
+                            //         arr[0].foods.push(hotGoods)
+                            //     }
+                            // }
 
                             let obj = {}
-                            let cateNum = parseInt(goods[i].cate) + 1
+                            let cateNum = parseInt(goods[i].cate)
                             obj.name = goods[i].name
                             obj.price = goods[i].price
                             obj.sellCount = count
                             obj.description = goods[i].description
+                            obj.cate = goods[i].cate
                             arr[cateNum].foods.push(obj)
 
                             if(i === len - 1) {
