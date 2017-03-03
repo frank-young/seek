@@ -155,12 +155,15 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.creditShow = false
 		$scope.outwrap = false
 		$scope.pendingShow = true
+		$scope.memberShow = false //会员卡左侧支付方式
 		// 选择付款方式 统一
 		$scope.selectType = function(value,index){
+
 			resetIncome()
 			$scope.wechatHide = false
 			$scope.pendingShow = true
 			$scope.creditShow = false
+			$scope.memberShow = false
 			$scope.auth_code = ""
 			$scope.alipay_auth_code = ""
 			$scope.cookCart.forEach(function(ele,i){
@@ -203,6 +206,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 				$scope.panels = -1
 				$scope.order.schoolincome = $scope.order.realTotal  // 计入校园卡收入
 			}else if(value == "会员卡" || value == "会"){
+				$scope.memberShow = true
 				$scope.outwrap = false
 				$scope.panels = 1
 				$scope.changeAlert("请在左侧栏目选择会员卡付款方式！")
@@ -551,10 +555,12 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		// 会员卡微信支付
 		$scope.wechatTag = false
 		$scope.gaptag = false
+		$scope.consoleCtrl = false
 		$scope.wechatPay = function(){
 			$scope.wechatTag = true
 			$scope.wechatHide = true
 			$scope.changeAlert("用户付款成功后，系统将自动结算")
+			$scope.consoleCtrl = true
 
 			// 取得shopid
 			domainData.getShopidData().then(function(data){
@@ -581,7 +587,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 								$scope.discountFunc(dis)
 								selectMemberFunc(true,data.member.username,data.member.code,data.member.phone,data.member.fee/100)
 								
-								if($scope.order.reduceAfter - data.member.fee/100 - localStorage.localcash/100 <=0){
+								if($scope.order.reduceAfter - data.member.fee/100 - localStorage.localcash/100 <=0.1){
 									$interval.cancel($scope.stop)
 									$scope.wechatTag = false
 									$scope.gaptag = false
@@ -742,6 +748,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 			// $scope.wechatHide = false
 			$scope.changeAlert("已取消操作！")
 			$interval.cancel($scope.stop)
+			$scope.consoleCtrl = false
 
 		}
 

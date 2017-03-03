@@ -35,7 +35,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="panel panel-default pay-item">
+                <div class="panel panel-default pay-item" ng-show="memberShow">
                     <div class="panel-heading" role="tab">
                         <h4 class="panel-title">
                 <a bs-collapse-toggle>
@@ -47,30 +47,6 @@
                         <div class="panel-body">
                             <table class="u-full-width">
                                 <tbody>
-                                    <!-- <tr>
-                        <td><h6>实体会员卡</h6><p>
-                          请将会员卡放入感应区
-                        </p></td>
-                        <td><button class="button button-primary">读卡</button></td>
-                      </tr>
-                      <tr>
-                        <td><h6>微信会员识别</h6><p>
-                          顾客微信扫码
-                        </p></td>
-                        <td><button class="button button-primary">扫码</button></td>
-                      </tr>
-                      <tr>
-                        <td><h6>会员支付码</h6><p>
-                          扫顾客的会员支付码
-                        </p></td>
-                        <td><button class="button button-primary">扫码</button></td>
-                      </tr>
-                      <tr>
-                        <td><h6>会员搜索</h6><p>
-                          姓名/手机/会员号
-                        </p></td>
-                        <td><button type="button" ng-click="" class="button button-primary" data-animation="am-fade-and-scale" placement="center" data-template-url="member.tpl.html" bs-modal>搜索</button></td>
-                      </tr> -->
                                     <tr>
                                         <td>
                                             <h6>储值卡</h6>
@@ -244,9 +220,10 @@
     <div class="one-third column main bill-main">
         <h4>支付方式</h4>
         <div class="row">
+            <!-- <div style="position: absolute;width: 100%;height: 100%; z-index:10;background-color: rgba(0,0,0,0.3)"></div> -->
             <div class="one-third column pay-type" ng-repeat="p in payTypeArr">
                 <div class="p-radio">
-                    <input class="p-radio-i" type="radio" name="type" ng-click="selectType(p,$index)"><span>{{p}}</span>
+                    <input class="p-radio-i" type="radio" name="type" ng-click="selectType(p,$index)" ng-disabled="consoleCtrl"><span>{{p}}</span>
                 </div>
             </div>
         </div>
@@ -442,6 +419,13 @@
               减免金额：
             </span>
                 <span ng-bind="order.reduce | currency:'¥' ">
+            </span>
+            </div>
+            <div class="detail-item">
+                <span>
+              折扣：
+            </span>
+                <span ng-show="order.dish[0].reduceNum != null && order.dish[0].reduceNum !=100 && order.dish[0].reduceNum !=0" class="pill">{{order.dish[0].reduceNum}}折</span>
             </span>
             </div>
             <div class="detail-item">
