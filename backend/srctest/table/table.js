@@ -1,7 +1,6 @@
 /********************************************************************************************************************
  *                                                      餐桌管理
  ********************************************************************************************************************/
-// http://wn50.cn
 angular.module("tableMoudle", []).controller('TableCtrl', 
     ['$scope','$window', '$http', '$state','$alert','tableData',
     function($scope,$window, $http, $state,$alert,tableData) {
@@ -17,7 +16,7 @@ angular.module("tableMoudle", []).controller('TableCtrl',
 	    })
 
 	    /*分页*/
-	    $scope.itemsPerPage = 8;
+	    $scope.itemsPerPage = 30;
 	    $scope.currentPage = 1;
 
 	}

@@ -24,15 +24,15 @@ exports.goods = (req, res) => {
     res.header("Access-Control-Allow-Headers", "Content-Type,Content-Length, Authorization, Accept,X-Requested-With")
     res.header("Access-Control-Allow-Methods","PUT,POST,GET,DELETE,OPTIONS")
     res.header("X-Powered-By",' 3.2.1')
-    const HOT_NUM = 10
-    const HOT_NAME = '热销菜品'
+    // const HOT_NUM = 10
+    // const HOT_NAME = '热销菜品'
 
     let domain = req.params.id
-	let arr = []
     
     async.waterfall([
         (cb) => {
         	Cate.fetch({"domainlocal": domain},(err,cates) => {
+                let arr = []
         		cates.forEach((cate) => {
         			let obj = {}
         			obj.name = cate.label
@@ -76,14 +76,17 @@ exports.goods = (req, res) => {
                             // }
 
                             let obj = {}
+
                             let cateNum = parseInt(goods[i].cate)
                             obj.name = goods[i].name
                             obj.price = goods[i].price
                             obj.sellCount = count
                             obj.description = goods[i].description
                             obj.cate = goods[i].cate
-                            arr[cateNum].foods.push(obj)
-
+                            console.log(arr[cateNum])
+                            if(arr[cateNum]){
+                                arr[cateNum].foods.push(obj)
+                            }
                             if(i === len - 1) {
                                 cb(null, arr)
                             }
