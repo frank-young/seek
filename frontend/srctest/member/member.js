@@ -12,12 +12,14 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
 			$scope.memberAll = data.members
 			$scope.member = $scope.memberAll
 		})
-		
+
 		$scope.searchMember = function(value){
 			$scope.member = $scope.memberAll.filter(function(ele){
-				if(ele.phone.indexOf(value)>=0){
-					return ele
-				}
+        if (ele.phone) {
+          if(ele.phone.indexOf(value)>=0){
+  					return ele
+  				}
+        }
 			})
 		}
 
@@ -31,12 +33,3 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
 		}
 	}
 ])
-
-
-
-
-
-
-
-
-

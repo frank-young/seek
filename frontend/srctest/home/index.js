@@ -33,7 +33,7 @@ angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope', '$rootScope',
         })
         // 操作了一次 dom
         var audio = document.getElementById("msg-music")
-        
+
         setInterval(function() {
             tableData.getData('seek').then(function(data) {
                 if (data.status === 1) {
@@ -58,20 +58,3 @@ angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope', '$rootScope',
         }
     }
 ])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -56,9 +56,11 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope', '$rootS
         //搜索
         $scope.searchPetcard = function(value) {
             $scope.petcards = $scope.petcardall.filter(function(ele) {
-                if (ele.phone.indexOf(value) >= 0) {
-                    return ele
+              if (ele.phone) {
+                if(ele.phone.indexOf(value)>=0){
+                  return ele
                 }
+              }
             })
         }
         //变化监测

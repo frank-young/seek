@@ -1190,7 +1190,7 @@ angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope', '$rootScope',
         })
         // 操作了一次 dom
         var audio = document.getElementById("msg-music")
-        
+
         setInterval(function() {
             tableData.getData('seek').then(function(data) {
                 if (data.status === 1) {
@@ -1215,23 +1215,6 @@ angular.module("homeMoudle", []).controller('HomeCtrl', ['$scope', '$rootScope',
         }
     }
 ])
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 ;/********************************************************************************************************************
  *                                                     会员信息
  ********************************************************************************************************************/
@@ -1246,12 +1229,14 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
 			$scope.memberAll = data.members
 			$scope.member = $scope.memberAll
 		})
-		
+
 		$scope.searchMember = function(value){
 			$scope.member = $scope.memberAll.filter(function(ele){
-				if(ele.phone.indexOf(value)>=0){
-					return ele
-				}
+        if (ele.phone) {
+          if(ele.phone.indexOf(value)>=0){
+  					return ele
+  				}
+        }
 			})
 		}
 
@@ -1265,15 +1250,6 @@ angular.module("memberMoudle", []).controller('MemberCtrl', ['$scope','$rootScop
 		}
 	}
 ])
-
-
-
-
-
-
-
-
-
 ;/********************************************************************************************************************
  *                                                     储值卡信息
  ********************************************************************************************************************/
@@ -1332,9 +1308,11 @@ angular.module("petcardMoudle", []).controller('PetcardCtrl', ['$scope', '$rootS
         //搜索
         $scope.searchPetcard = function(value) {
             $scope.petcards = $scope.petcardall.filter(function(ele) {
-                if (ele.phone.indexOf(value) >= 0) {
-                    return ele
+              if (ele.phone) {
+                if(ele.phone.indexOf(value)>=0){
+                  return ele
                 }
+              }
             })
         }
         //变化监测
