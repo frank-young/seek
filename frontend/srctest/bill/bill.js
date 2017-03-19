@@ -556,6 +556,8 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 		$scope.wechatTag = false
 		$scope.gaptag = false
 		$scope.consoleCtrl = false
+		$scope.wxtag = ''
+
 		$scope.wechatPay = function(){
 			$scope.wechatTag = true
 			$scope.wechatHide = true
@@ -592,6 +594,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 									$scope.wechatTag = false
 									$scope.gaptag = false
 									$scope.changeAlert("付款成功！")
+									$scope.wxtag = '（微信）'
 									localStorage.member = JSON.stringify(data.member)
 									localStorage.removeItem('localcash')
 									document.getElementById('bill').click()

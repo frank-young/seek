@@ -369,7 +369,7 @@
                 <span>
               支付方式：
             </span>
-                <span ng-repeat="pt in order.payType" ng-bind="payTypeArr[pt]+' ' ">           
+                <span ng-repeat="pt in order.payType" ng-bind="payTypeArr[pt]+' ' "><span ng-bind="wxtag"></span>          
             </span>
             </div>
             <div class="detail-item" ng-show="creditShow">
