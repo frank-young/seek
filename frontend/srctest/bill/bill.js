@@ -657,6 +657,7 @@ angular.module("billMoudle", []).controller('BillCtrl', ['$scope','$alert','$win
 
 								if($scope.order.reduceAfter - data.member.fee/100 - localStorage.localyhq/100 <=0){
 									$interval.cancel($scope.stop)
+									$scope.order.wxincome = $scope.order.reduceAfter
 									$scope.wechatTag = false
 									$scope.gaptag = false
 									$scope.changeAlert("付款成功！")

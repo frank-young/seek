@@ -82,11 +82,14 @@ module.exports = function(app){
   app.get('/user/getphone', User.signinRequired, User.getphone)
   
   // 门店信息设置
-  app.get('/domain/add',User.signinRequired,Domain.domainRequired, Domain.add )
-  app.post('/domain/addctrl',User.signinRequired,Domain.domainRequired, Domain.addctrl )
+  // app.get('/domain/add',User.signinRequired,Domain.domainRequired, Domain.add )
+  // app.post('/domain/addctrl',User.signinRequired,Domain.domainRequired, Domain.addctrl )
   app.post('/domain/update', User.signinRequired, Domain.update)
   app.get('/domain/detail', User.signinRequired, Domain.detail)
   app.get('/domain/shopid', User.signinRequired, Domain.shopid)
+
+  app.get('/domain/add',User.signinRequired, Domain.add )
+  app.post('/domain/addctrl',User.signinRequired, Domain.addctrl )
 
   // 菜品信息
   app.get('/dish',User.signinRequired, Dish.list)
