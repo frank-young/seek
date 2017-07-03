@@ -253,7 +253,7 @@
                     <td class="show-pill">
                         <span ng-bind="cc.reducePrice*cc.number | currency:'¥' "></span>
                         <span ng-show="cc.reduceNum != null && cc.reduceNum !=100 && cc.reduceNum !=0" class="pill">{{cc.reduceNum}}折</span></td>
-                    <!-- <td> 
+                    <!-- <td>
                   <button ng-disabled="true" style="padding: 0 10px;width:72px;font-size:16px;margin-bottom:0" type="button" class="button" bs-dropdown aria-haspopup="true" aria-expanded="false" placement="bottom" >{{payTypeArr[cc.payType]}}</button>
                     <ul class="dropdown-menu" role="menu">
                         <li ng-repeat="p in payTypeArr">
@@ -265,11 +265,11 @@
             </tbody>
         </table>
         <div>
-            <h4>减免： 
+            <h4>减免：
             <span ng-bind="order.reduce | currency:'¥' "></span>
             <button ng-click="discountFunc(100)" class="button " style="padding: 0 10px;float:right">取消减免</button>
           </h4>
-            <h4>合计： 
+            <h4>合计：
             <span ng-bind="order.realTotal | currency:'¥' "></span>
             <span ng-show="gaptag" class="f-cash-tag">金额不足，还差 <i ng-bind="gap | currency:'¥'"></i></span>
             <button ng-click="roundFunc(order)" class="button " style="padding: 0 10px;float:right"  ng-show="order.payType==0">抹零</button>
@@ -281,7 +281,7 @@
     <div class="one-third column side print-view bill-side">
         <!--startprintbill-->
         <div class="detail" id="print">
-            <h5 class="center" style="margin-bottom:20px;">SEEK CAFE 结账单</h5>
+            <h5 class="center" style="margin-bottom:20px;">来盆虾 结账单</h5>
             <div class="detail-item" ng-if="shopid!='279080129'">
                 <span>
               店铺名称：
@@ -313,7 +313,7 @@
             </div>
             <div class="detail-item" ng-if="shopid!='279080129'">
                 <span>
-              
+
             </span>
                 <span ng-bind="order.time | datetime" class="f12"></span>
             </div>
@@ -369,42 +369,42 @@
                 <span>
               支付方式：
             </span>
-                <span ng-repeat="pt in order.payType" ng-bind="payTypeArr[pt]+' ' "><span ng-bind="wxtag"></span>          
+                <span ng-repeat="pt in order.payType" ng-bind="payTypeArr[pt]+' ' "><span ng-bind="wxtag"></span>
             </span>
             </div>
             <div class="detail-item" ng-show="creditShow">
                 <span>
               挂账人：
             </span>
-                <span ng-bind="order.creditPeople">           
+                <span ng-bind="order.creditPeople">
             </span>
             </div>
             <div class="detail-item" ng-show="order.isMember">
                 <span>
               会员姓名：
             </span>
-                <span ng-bind="order.memberName">              
+                <span ng-bind="order.memberName">
             </span>
             </div>
             <div class="detail-item" ng-show="order.isMember">
                 <span>
               会员手机：
             </span>
-                <span ng-bind="order.memberPhone">             
+                <span ng-bind="order.memberPhone">
             </span>
             </div>
             <!--     <div class="detail-item" ng-show="order.isMember">
                 <span>
               会员卡号：
             </span>
-                <span ng-bind="order.memberNum">             
+                <span ng-bind="order.memberNum">
             </span>
             </div> -->
             <div class="detail-item" ng-show="order.isPetcard">
                 <span>
               储值卡余额：
             </span>
-                <span ng-bind="order.memberBalance | currency:'¥' ">             
+                <span ng-bind="order.memberBalance | currency:'¥' ">
             </span>
             </div>
             <div class="detail-item">
@@ -513,7 +513,7 @@
                             <option value="外带">外带</option>
                         </select>
                         <input type="text" name="dishnum" ng-model="dishNum" autofocus style="padding:24px 10px;width:120px;font-size:24px;margin-right:20px;vertical-align: sub;">
-                        
+
                         <button class="button button-primary p-sure" ng-disabled="dishnumForm.dishnum.$invalid" ng-click="billing(dishNum)">确认</button>
                     </form>
                     <div ng-show="order.payType==0">
@@ -546,7 +546,7 @@
                     <h5>挂单已经成功，请设置餐桌！</h5>
                     <form name="tableForm">
                         <input type="text" name="dishnum" ng-model="dishnum" autofocus style="padding:24px 10px;width:120px;font-size:24px;margin-right:20px;vertical-align: sub;" required>
-                        
+
                         <button class="button button-primary p-sure" ng-disabled="tableForm.dishnum.$invalid" ng-click="pending(dishnum)">确认</button>
                     </form>
                 </div>

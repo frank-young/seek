@@ -1,8 +1,8 @@
-doctype 
+doctype
 html
 html
   head
-      title SEEK CAFE 点餐系统-注册
+      title 来盆虾 点餐系统-注册
       meta(charset='utf-8')
       meta(name='viewport', content='width=device-width, initial-scale=1')
       meta(http-equiv='x-ua-compatible', content='ie=edge')
@@ -14,23 +14,23 @@ html
         .row
           .sign-wrap
             //- method="POST", action="/user/signup",
-            form(id="f-signup") 
-              h2 SEEK CAFE 点餐系统                    
+            form(id="f-signup")
+              h2 来盆虾 点餐系统
               .form-group
-                label.sr-only(for='inputName') 姓名                     
+                label.sr-only(for='inputName') 姓名
                 input#inputName.form-control(name="user[name]",type='text', placeholder='姓名', required='', autofocus='')
-                span.name                  
+                span.name
               .form-group
-                label.sr-only(for='inputPhone') 手机号                      
-                input#inputPhone.form-control(name="user[phone]",type='text', placeholder='手机号', required='')                      
-                span.phone                   
+                label.sr-only(for='inputPhone') 手机号
+                input#inputPhone.form-control(name="user[phone]",type='text', placeholder='手机号', required='')
+                span.phone
               .form-group
-                label.sr-only(for='inputEmail') 邮箱                     
-                input#inputEmail.form-control(name="user[email]",type='email', placeholder='邮箱地址', required='')                       
-                span.email                
+                label.sr-only(for='inputEmail') 邮箱
+                input#inputEmail.form-control(name="user[email]",type='email', placeholder='邮箱地址', required='')
+                span.email
               .form-group
-                label.sr-only(for='inputPassword') 密码                   
-                input#inputPassword.form-control(name="user[password]",type="password", placeholder='密码', required='')                     
+                label.sr-only(for='inputPassword') 密码
+                input#inputPassword.form-control(name="user[password]",type="password", placeholder='密码', required='')
                 span.password
               .form-group
                 .l-captcha(data-site-key="c49666894bc768a0d7c42957ccbad9f4",data-width="360",data-callback="getResponse")
@@ -48,4 +48,3 @@ html
       script(src="http://captcha.luosimao.com/static/js/api.js")
       script(src="backend/libs/jquery/dist/jquery.min.js")
       script(src='backend/js/verify.js')
-

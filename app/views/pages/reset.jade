@@ -1,15 +1,15 @@
-doctype 
+doctype
 html
 head
-    title SEEK CAFE 点餐系统-重置密码
+    title 来盆虾 点餐系统-重置密码
     meta(charset='utf-8')
-    |     
+    |
     meta(name='viewport', content='width=device-width, initial-scale=1')
-    |     
+    |
     meta(http-equiv='x-ua-compatible', content='ie=edge')
-    |     
+    |
     link(rel='stylesheet', href='../backend/libs/bootstrap/dist/css/bootstrap.min.css')
-    |     
+    |
     link(rel='stylesheet', href='../backend/css/signup.css')
   body
     canvas#Mycanvas
@@ -17,10 +17,10 @@ head
       .row
         .sign-wrap
           form(id="f-reset")
-              h2 重置密码                                
+              h2 重置密码
               .form-group
                 label.sr-only(for='inputPassword') 密码
-                input#inputPassword.form-control(name="user[password]",type='password', placeholder='请输入您的密码（并牢记）', required='', autofocus='')           
+                input#inputPassword.form-control(name="user[password]",type='password', placeholder='请输入您的密码（并牢记）', required='', autofocus='')
                 span.password
                 input(type="hidden",name="user[verify]" value="#{verify}")
               .form-group
@@ -30,9 +30,7 @@ head
               .form-group.mt-20.text-center
                 a(href="/signin") 登录
       .footer
-        .text-center © 2016 呐呐科技 
+        .text-center © 2016 呐呐科技
     script(src='../backend/js/line.js')
     script(src="../backend/libs/jquery/dist/jquery.min.js")
     script(src='../backend/js/reset.js')
-
-

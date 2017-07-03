@@ -2,19 +2,19 @@ include ./includes/header
 .container
   .row
     .sign-wrap
-      form(id="f-signup") 
-        h2 SEEK CAFE 点餐系统         
+      form(id="f-signup")
+        h2 来盆虾 点餐系统         
         .form-group
-          label.sr-only(for='inputName') 姓名                     
+          label.sr-only(for='inputName') 姓名
           input#inputName.form-control(name="admin[name]",type='text', placeholder='姓名', autofocus='')
-          span.name                  
+          span.name
         .form-group
-          label.sr-only(for='inputPhone') 手机号                      
-          input#inputPhone.form-control(name="admin[phone]",type='text', placeholder='手机号')                      
-          span.phone     
+          label.sr-only(for='inputPhone') 手机号
+          input#inputPhone.form-control(name="admin[phone]",type='text', placeholder='手机号')
+          span.phone
         .form-group
-          label.sr-only(for='inputPassword') 密码                   
-          input#inputPassword.form-control(name="admin[password]",type="password", placeholder='密码', required='')                     
+          label.sr-only(for='inputPassword') 密码
+          input#inputPassword.form-control(name="admin[password]",type="password", placeholder='密码', required='')
           span.password
         .form-group
           div#f-alert.alert.alert-danger(role="alert")
@@ -26,4 +26,3 @@ include ./includes/header
   .footer
     .text-center © 2016 呐呐科技
 include ./includes/footer
-

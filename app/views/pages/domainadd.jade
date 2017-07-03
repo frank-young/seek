@@ -1,7 +1,7 @@
 doctype
 html
   head
-      title SEEK CAFE 点餐系统-添加门店
+      title 来盆虾 点餐系统-添加门店
       meta(charset='utf-8')
       meta(name='viewport', content='width=device-width, initial-scale=1')
       meta(http-equiv='x-ua-compatible', content='ie=edge')
@@ -15,22 +15,22 @@ html
             form#f-domain
               //- method="POST", action="/domain/addctrl"
               h2 添加门店
-              .form-group.add-input(style="margin-bottom:25px;")             
+              .form-group.add-input(style="margin-bottom:25px;")
                 input#inputEmail.form-control(name="domain[name]",type='text', placeholder='门店编号', required='', autofocus='')
-              .form-group.add-input(style="margin-bottom:25px;")             
+              .form-group.add-input(style="margin-bottom:25px;")
                 input#inputEmail.form-control(name="domain[shopid]",type='text', placeholder='门店id(微信端)', required='', autofocus='')
-              .form-group.add-input(style="margin-bottom:25px;")             
+              .form-group.add-input(style="margin-bottom:25px;")
                 input#inputEmail.form-control(name="domain[pname]",type='text', placeholder='门店名称', required='', autofocus='')
-              .form-group.add-input(style="margin-bottom:25px;")             
+              .form-group.add-input(style="margin-bottom:25px;")
                 input#inputEmail.form-control(name="domain[address]",type='text', placeholder='门店地址', required='', autofocus='')
-              .form-group.add-input(style="margin-bottom:50px;")             
-                input#inputEmail.form-control(name="domain[tel]",type='text', placeholder='门店电话', required='', autofocus='')                    
+              .form-group.add-input(style="margin-bottom:50px;")
+                input#inputEmail.form-control(name="domain[tel]",type='text', placeholder='门店电话', required='', autofocus='')
               .form-group
-                div#f-alert.alert.alert-danger(role="alert")            
+                div#f-alert.alert.alert-danger(role="alert")
               .form-group.mt-20
                 button.btn.btn-lg.btn-primary.btn-block(type='submit') 添加
         .footer
-          .text-center © 2016 呐呐科技 
+          .text-center © 2016 呐呐科技
       script(src='../backend/js/line.js')
       script(src="../backend/libs/jquery/dist/jquery.min.js")
       script(src='../backend/js/domainverify.js')
